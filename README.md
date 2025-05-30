@@ -16,7 +16,7 @@ Currently, we have one fully implemented algorithm (Divide-and-Choose) with plan
 - Mobile-responsive design
 
 **In Progress**:
-- Additional algorithms (Last Diminisher, Selfridge-Conway)
+- Additional algorithms (Austin's, etc)
 - Exercise problems and solutions
 - Reference materials and citations
 
@@ -40,7 +40,7 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Visit `http://localhost:4000` to see the site.
+Visit `http:127.0.0.1:4000` to see the site.
 
 ### Deployment
 The site is built for GitHub Pages. Enable Pages in your repository settings and it will deploy automatically from the main branch.
