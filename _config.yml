@@ -1,0 +1,23 @@
+﻿title: Fair Division Algorithms
+description: Interactive educational platform for fair division algorithms
+
+markdown: kramdown
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - .vs/
+  - .vscode/
+  - .git/
+  - .gitignore
+  - node_modules/
+  - vendor/
+  - .bundle/
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
