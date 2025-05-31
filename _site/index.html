@@ -1,14 +1,61 @@
-﻿---
-layout: default
-title: Home
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
 
-<!-- Hero Section -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Jekyll's processed CSS -->
+    <link rel="stylesheet" href="/assets/main.css">
+
+    <!-- SEO tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Home" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Interactive educational platform for fair division algorithms" />
+<meta property="og:description" content="Interactive educational platform for fair division algorithms" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Interactive educational platform for fair division algorithms","headline":"Home","name":"Fair Division Algorithms","url":"http://localhost:4000/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="/" class="site-title">Fair Division Algorithms</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link active">Home</a></li>
+                    <li><a href="/foundations/" class="nav-link ">Foundations</a></li>
+                    <li><a href="/algorithms/" class="nav-link ">Algorithms</a></li>
+                    <li><a href="/exercises/" class="nav-link ">Exercises</a></li>
+                    <li><a href="/references/books" class="nav-link ">References</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
         <h1 class="serif">Fair Division Algorithms</h1>
         <p class="hero-subtitle">An interactive educational platform for exploring mathematical procedures that divide resources fairly among multiple parties</p>
-        <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="cta-button">
+        <a href="/algorithms/divide-and-choose/" class="cta-button">
             Explore Algorithms →
         </a>
     </div>
@@ -39,7 +86,7 @@ title: Home
                     <span class="meta-label">Type:</span> Discrete
                 </div>
             </div>
-            <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="learn-button">
+            <a href="/algorithms/divide-and-choose/" class="learn-button">
                 Study Algorithm →
             </a>
         </article>
@@ -114,3 +161,50 @@ title: Home
         </div>
     </div>
 </section>
+</div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <h3 class="footer-title serif">Fair Division Algorithms</h3>
+            <p class="footer-description">Interactive educational platform for fair division algorithms</p>
+
+            <div class="footer-credits">
+                A collaborative research and teaching project by
+                <strong>Amaan Khan</strong> and <strong>Dr. Ron Cytron</strong>,
+                supported by Mozilla.
+            </div>
+
+            <div class="footer-links">
+                <a href="/" class="footer-link">Home</a>
+                <a href="/algorithms/" class="footer-link">Algorithms</a>
+                <a href="/exercises/" class="footer-link">Exercises</a>
+                <a href="/references/books" class="footer-link">References</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple fade-in animation script -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
