@@ -24,14 +24,20 @@ This project teaches fair division theory—the mathematical study of dividing r
 
 ## Quick Start
 
+### Local Development
 ```bash
 git clone [repository-url]
 cd fair-division-algorithms
 bundle install
 bundle exec jekyll serve --livereload
 ```
-
 Visit `http://127.0.0.1:4000`
+
+### GitHub Pages Deployment
+1. Fork this repository
+2. Enable GitHub Pages in repository settings
+3. Select "Deploy from a branch" and choose `main`
+4. Your site will be available at `https://username.github.io/fair-division-algorithms`
 
 ## Coming Soon
 
@@ -55,5 +61,7 @@ Visit `http://127.0.0.1:4000`
 ## License
 
 Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+---
 
 *An educational project exploring interactive approaches to teaching mathematical algorithms.*
