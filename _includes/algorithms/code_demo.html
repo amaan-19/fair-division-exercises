@@ -1,0 +1,18 @@
+<!-- Usage: {% include algorithms/code_demo.html title="Demo Title" description="Demo description" %} -->
+
+<section class="demo-section fade-in">
+    <h3 class="demo-title serif">{{ include.title | default: 'Code Demonstration' }}</h3>
+    {% if include.description %}
+    <p class="demo-description">{{ include.description }}</p>
+    {% endif %}
+
+    <div class="code-block">
+        {{ include.code }}
+    </div>
+
+    {% if include.output %}
+    <div class="code-output">
+        {{ include.output }}
+    </div>
+    {% endif %}
+</section>
