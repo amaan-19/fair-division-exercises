@@ -1,81 +1,59 @@
 # Fair Division Algorithms
 
-An educational platform for learning fair division algorithms through interactive demonstrations. A collaborative project by Amaan Khan and Dr. Ron Cytron, with support from Mozilla.
+An interactive educational platform for learning fair division algorithms through hands-on demonstrations and mathematical analysis.
 
-## What This Is
+## About
 
-This site teaches fair division algorithms—mathematical procedures for dividing resources fairly among multiple parties. Instead of just reading about these algorithms, you can run them in your browser and see how they work with real examples.
+This project teaches fair division theory—the mathematical study of dividing resources fairly among multiple parties. Students can run algorithms directly in their browser and explore the mathematical properties through interactive examples.
 
-Currently, we have one fully implemented algorithm (Divide-and-Choose) with plans to add more.
+**Status:** Early development with one complete algorithm
 
-## Current Status
+## Current Features
 
-**Working**: 
-- Divide-and-Choose algorithm with interactive Python demo
-- Basic site structure and navigation
-- Mobile-responsive design
+- **Divide-and-Choose Algorithm** - Complete with interactive Python demo
+- **Live code execution** - Python runs directly in browser via Pyodide
+- **Mathematical rigor** - Formal definitions, theorems, and proofs
+- **Responsive design** - Works on desktop and mobile
 
-**In Progress**:
-- Additional algorithms (Austin's, etc)
-- Exercise problems and solutions
-- Reference materials and citations
+## Technology
 
-**Not Yet Started**:
-- Comprehensive fairness criteria explanations
-- Advanced algorithms
-- Educational assessment tools
+- Jekyll static site generator
+- Pyodide for browser-based Python
+- Matplotlib for visualizations
+- GitHub Pages hosting
 
-## Technical Setup
+## Quick Start
 
-### Requirements
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- No installation needed—everything runs in your browser using Pyodide
-
-### Local Development
 ```bash
 git clone [repository-url]
 cd fair-division-algorithms
-gem install bundler jekyll
 bundle install
-bundle exec jekyll serve
+bundle exec jekyll serve --livereload
 ```
 
-Visit `http:127.0.0.1:4000` to see the site.
+Visit `http://127.0.0.1:4000`
 
-### Deployment
-The site is built for GitHub Pages. Enable Pages in your repository settings and it will deploy automatically from the main branch.
+## Coming Soon
 
-## How It Works
+- Austin's Moving-Knife Procedure
+- Selfridge-Conway Algorithm
+- Exercise problems and solutions
+- Enhanced visualizations
 
-The site uses:
-- **Jekyll** for static site generation
-- **Pyodide** to run Python code in the browser
-- **Matplotlib** for visualizations
-- **GitHub Pages** for hosting
+## Browser Requirements
 
-When you visit an algorithm page, it loads a Python environment and runs the algorithm code live. This takes a few seconds on first load but is cached afterward.
+- Modern browser with WebAssembly support
+- JavaScript enabled
+- Note: Python environment takes 5-10 seconds to load initially
 
-### Key References
-- Brams & Taylor (1996). *Fair Division: From Cake-Cutting to Dispute Resolution*
+## Team
+
+- **Amaan Khan** - Development
+- **Dr. Ron Cytron** - Academic guidance
+- **Mozilla** - Project support
 
 ## License
 
 Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 
-You can use, share, and adapt this work for any purpose, including commercial use, as long as you provide attribution and share derivatives under the same license.
-
-## Team
-
-- **Amaan Khan** - Development and implementation
-- **Dr. Ron Cytron** - Academic guidance
-- **Mozilla** - Project support
-
-## Contact
-
-- Technical issues: GitHub Issues
-- Academic inquiries: Through Washington University channels
-- General questions: amaan@wustl.edu
-
----
-
-This is an early-stage educational project. Content and features will expand based on development progress and user feedback.
+*An educational project exploring interactive approaches to teaching mathematical algorithms.*
