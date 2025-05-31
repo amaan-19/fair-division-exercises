@@ -1,0 +1,69 @@
+- title: "Fairness Criteria"
+  url: "/foundations/fairness-criteria/"
+  difficulty: "fundamental"
+  status: "complete"
+  description: "Mathematical definitions of what makes a division fair"
+  topics:
+    - "Proportional allocations"
+    - "Envy-free divisions"
+    - "Pareto efficiency"
+    - "Strategy-proof mechanisms"
+    - "Trade-offs between criteria"
+  applications:
+    - "Legal settlements"
+    - "Resource allocation"
+    - "Game theory"
+  prerequisites: []
+
+- title: "Mathematical Models"
+  url: "/foundations/mathematical-models/"
+  difficulty: "intermediate"
+  status: "coming_soon"
+  description: "Different mathematical models for representing resources and preferences"
+  topics:
+    - "Continuous vs. discrete models"
+    - "Preference representation"
+    - "Valuation functions"
+    - "Resource types and constraints"
+    - "Complexity analysis"
+  applications:
+    - "Algorithm design"
+    - "Computational complexity"
+  prerequisites:
+    - "Fairness Criteria"
+
+- title: "Game Theory Foundations"
+  url: "/foundations/game-theory/"
+  difficulty: "advanced"
+  status: "coming_soon"
+  description: "Fair division through cooperative and non-cooperative game theory"
+  topics:
+    - "Nash equilibria in division"
+    - "Mechanism design principles"
+    - "Incentive compatibility"
+    - "Coalition formation"
+    - "Strategic behavior"
+  applications:
+    - "Auction design"
+    - "Negotiation theory"
+  prerequisites:
+    - "Fairness Criteria"
+    - "Mathematical Models"
+
+- title: "Computational Complexity"
+  url: "/foundations/computational-complexity/"
+  difficulty: "advanced"
+  status: "coming_soon"
+  description: "Computational requirements of fair division algorithms"
+  topics:
+    - "Time and space complexity"
+    - "Query complexity bounds"
+    - "Approximation algorithms"
+    - "Hardness results"
+    - "Practical efficiency"
+  applications:
+    - "Algorithm optimization"
+    - "Implementation"
+  prerequisites:
+    - "Fairness Criteria"
+    - "Mathematical Models"
