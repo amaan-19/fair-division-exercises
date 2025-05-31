@@ -2,6 +2,7 @@
 description: Interactive educational platform for fair division algorithms
 
 markdown: kramdown
+highlighter: rouge
 theme: minima
 
 plugins:
@@ -9,9 +10,11 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
 
+# Build settings
+sass:
+  style: compressed
+  
 exclude:
-  - .vs/
-  - .vscode/
   - .git/
   - .gitignore
   - node_modules/
@@ -21,3 +24,5 @@ exclude:
   - Gemfile.lock
   - README.md
   - LICENSE
+  - .vscode/
+  - .idea/

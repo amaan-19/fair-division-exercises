@@ -845,3 +845,56 @@ blockquote {
         justify-content: center;
     }
 }
+
+.python-output {
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--border-light);
+    background: var(--bg-white);
+
+    pre {
+        background: linear-gradient(135deg, #f8fafc, #ffffff);
+        padding: 20px;
+        margin: 0;
+        overflow-x: auto;
+        border-left: 4px solid var(--primary-blue);
+        font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--text-primary);
+        font-feature-settings: "liga" 1, "calt" 1;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+}
+
+.python-error {
+    background: linear-gradient(135deg, #fef2f2, #ffffff);
+    color: #dc2626;
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 4px solid #ef4444;
+    margin: 1rem 0;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-feature-settings: "liga" 1, "calt" 1;
+}
+
+#python-loading {
+    background: linear-gradient(135deg, #eef2ff, #ffffff);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    color: var(--primary-blue);
+    margin: 20px 0;
+    font-weight: 500;
+}
