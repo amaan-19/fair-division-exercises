@@ -8,9 +8,6 @@ title: Home
     <div class="hero-content">
         <h1 class="serif">Fair Division Algorithms</h1>
         <p class="hero-subtitle">An interactive educational platform for exploring mathematical procedures that divide resources fairly among multiple parties</p>
-        <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="cta-button">
-            Explore Algorithms →
-        </a>
     </div>
 </section>
 

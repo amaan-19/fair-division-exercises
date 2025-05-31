@@ -38,13 +38,13 @@ permalink: /algorithms/
                 </div>
             </div>
             <div class="algorithm-footer">
-                <a href="/algorithms/divide-and-choose/" class="try-algorithm-btn">Try Interactive Demo</a>
+                <a href="/algorithms/divide-and-choose/" class="try-algorithm-btn">Explore Algorithms →</a>
             </div>
         </div>
 
         <div class="algorithm-card coming-soon">
             <div class="algorithm-header">
-                <h3>Last Diminisher</h3>
+                <h3>Austin's Moving Knife</h3>
                 <div class="algorithm-badges">
                     <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
                     <span class="players-badge">n Players</span>
@@ -52,46 +52,16 @@ permalink: /algorithms/
                 </div>
             </div>
             <div class="algorithm-content">
-                <p>Extends divide-and-choose to multiple players using a sequential diminishing process. Each player can reduce the current piece size.</p>
+                <p>Extends divide-and-choose with a moving-knife mechanism.</p>
                 
                 <div class="algorithm-properties">
                     <h4>Properties:</h4>
                     <ul>
-                        <li>✓ Proportional</li>
-                        <li>? Envy-free</li>
-                        <li>✓ Finite procedure</li>
+                       
                     </ul>
                 </div>
 
                 <div class="algorithm-complexity">
-                    <strong>Time:</strong> O(n²) cuts • <strong>Space:</strong> O(n)
-                </div>
-            </div>
-        </div>
-
-        <div class="algorithm-card coming-soon">
-            <div class="algorithm-header">
-                <h3>Selfridge-Conway</h3>
-                <div class="algorithm-badges">
-                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
-                    <span class="players-badge">3 Players</span>
-                    <span class="coming-soon-badge">Coming Soon</span>
-                </div>
-            </div>
-            <div class="algorithm-content">
-                <p>First discrete algorithm to achieve envy-freeness for 3 players. Uses a sophisticated trimming and allocation strategy.</p>
-                
-                <div class="algorithm-properties">
-                    <h4>Properties:</h4>
-                    <ul>
-                        <li>✓ Proportional</li>
-                        <li>✓ Envy-free</li>
-                        <li>✓ Finite cuts</li>
-                    </ul>
-                </div>
-
-                <div class="algorithm-complexity">
-                    <strong>Time:</strong> O(1) cuts • <strong>Space:</strong> O(1)
                 </div>
             </div>
         </div>
@@ -121,20 +91,7 @@ permalink: /algorithms/
                         <td><span class="difficulty-beginner">Beginner</span></td>
                     </tr>
                     <tr class="coming-soon-row">
-                        <td><strong>Last Diminisher</strong></td>
-                        <td>n</td>
-                        <td><span class="property-yes">✓</span></td>
-                        <td><span class="property-no">✗</span></td>
-                        <td>≤ n(n-1)/2</td>
-                        <td><span class="difficulty-intermediate">Intermediate</span></td>
-                    </tr>
-                    <tr class="coming-soon-row">
-                        <td><strong>Selfridge-Conway</strong></td>
-                        <td>3</td>
-                        <td><span class="property-yes">✓</span></td>
-                        <td><span class="property-yes">✓</span></td>
-                        <td>≤ 5</td>
-                        <td><span class="difficulty-advanced">Advanced</span></td>
+                        <td><strong>Austin's Moving Knife</strong></td>
                     </tr>
                 </tbody>
             </table>

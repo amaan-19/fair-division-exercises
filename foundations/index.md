@@ -27,8 +27,10 @@ permalink: /foundations/
                     <div class="topic-highlights">
                         <h4>Key Concepts:</h4>
                         <ul>
-                            <li>Proportional allocations (1/n guarantee)</li>
-                            <li>Envy-free divisions (no jealousy)</li>
+                            <li>Proportional allocations</li>
+                            <li>Envy-free divisions</li>
+                            <li>Stability</li>
+                            <li>Equitability</li>
                             <li>Pareto efficiency (no waste)</li>
                             <li>Strategy-proof mechanisms</li>
                             <li>Trade-offs between criteria</li>
@@ -36,7 +38,7 @@ permalink: /foundations/
                     </div>
 
                     <div class="topic-applications">
-                        <strong>Applications:</strong> Legal settlements, resource allocation, game theory
+                        <strong>Applications:</strong>
                     </div>
                 </div>
                 <div class="topic-footer">
