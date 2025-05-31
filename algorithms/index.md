@@ -140,40 +140,6 @@ permalink: /algorithms/
             </table>
         </div>
     </div>
-
-    <div class="learning-path">
-        <h2>Recommended Learning Path</h2>
-        <div class="path-steps">
-            <div class="path-step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>Start with Foundations</h3>
-                    <p>Learn about <a href="/foundations/fairness-criteria">fairness criteria</a> and basic concepts.</p>
-                </div>
-            </div>
-            <div class="path-step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>Master Divide-and-Choose</h3>
-                    <p>Understand the fundamental two-player algorithm and its properties.</p>
-                </div>
-            </div>
-            <div class="path-step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>Practice with Exercises</h3>
-                    <p>Solve problems to reinforce your understanding.</p>
-                </div>
-            </div>
-            <div class="path-step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h3>Explore Advanced Algorithms</h3>
-                    <p>Tackle multi-player procedures and complex fairness guarantees.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <style>

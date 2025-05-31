@@ -12,10 +12,6 @@ next_page:
 ---
 
 <div class="foundations-page">
-    <header class="page-header">
-        <h1 class="serif">Fairness Criteria</h1>
-        <p class="page-subtitle">Understanding the mathematical definitions that determine when a resource allocation is considered "fair"</p>
-    </header>
 
     <div class="foundations-content">
         <section class="intro-section fade-in">

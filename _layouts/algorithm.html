@@ -13,27 +13,6 @@ layout: default
         {% if page.subtitle %}
         <p class="algorithm-subtitle">{{ page.subtitle }}</p>
         {% endif %}
-
-        <!-- Algorithm Metadata -->
-        <div class="algorithm-meta">
-            {% if page.players %}
-            <div class="meta-item">
-                <span class="meta-label">Players:</span> {{ page.players }}
-            </div>
-            {% endif %}
-
-            {% if page.properties %}
-            <div class="meta-item">
-                <span class="meta-label">Properties:</span> {{ page.properties | join: ', ' }}
-            </div>
-            {% endif %}
-
-            {% if page.algorithm_type %}
-            <div class="meta-item">
-                <span class="meta-label">Type:</span> {{ page.algorithm_type }}
-            </div>
-            {% endif %}
-        </div>
     </header>
 
     <!-- Main Algorithm Content -->
