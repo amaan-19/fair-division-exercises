@@ -1,0 +1,8 @@
+<!-- Usage: {% include algorithms/definition.html term="Term" content="Definition content" %} -->
+
+<div class="definition">
+    {% if include.term %}
+    <strong>{{ include.term }}:</strong>
+    {% endif %}
+    {{ include.content }}
+</div>

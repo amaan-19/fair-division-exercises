@@ -1,30 +1,58 @@
 ﻿---
-layout: default
+layout: algorithm
 title: "Divide-and-Choose Algorithm"
+subtitle: "The fundamental fair division procedure for two players"
 permalink: /algorithms/divide-and-choose/
+
+# Algorithm Metadata
+difficulty: beginner
+players: 2
+properties: ["Proportional", "Envy-free", "Strategy-proof"]
+algorithm_type: "Discrete"
+
+# Demo Configuration
+has_demo: true
+demo_description: "Explore the algorithm with concrete examples and see fairness properties in action"
+
+# Navigation
+next_algorithm:
+  title: "Austin's Moving-Knife"
+  url: "/algorithms/austins-moving-knife/"
 ---
 
-<div class="algorithm-page">
-    <header class="algorithm-header">
-        <h1 class="algorithm-title">{{ page.title }}</h1>
-        <div class="algorithm-meta">
-            <span class="difficulty-badge difficulty-beginner">Beginner</span>
-        </div>
-    </header>
+## Overview
 
-    <div class="algorithm-content">
-        <p>The <strong>divide-and-choose</strong> algorithm is the most fundamental fair division procedure for two-player scenarios.</p>
+The **divide-and-choose** algorithm is the most fundamental fair division procedure for two-player scenarios. Despite its simplicity, it guarantees both proportionality and envy-freeness through an elegant mechanism design.
 
-        <h2>Interactive Demonstration</h2>
+### How It Works
 
-        <p>Let's explore the algorithm with a concrete example:</p>
+1. **Player 1 (Divider)** cuts the resource into two pieces that they value equally
+2. **Player 2 (Chooser)** selects their preferred piece  
+3. **Player 1** receives the remaining piece
 
-        <div id="python-loading" style="display: none;">
-            Loading Python environment...
-        </div>
+## Mathematical Analysis
 
-        <py-script>
+<div class="definition">
+    <strong>Proportional Allocation:</strong> Each player receives at least 1/n of their subjective valuation of the total resource, where n is the number of players.
+</div>
 
+<div class="definition">
+    <strong>Envy-Free Allocation:</strong> No player prefers another player's allocation to their own.
+</div>
+
+<div class="theorem">
+    <strong>Proportionality Guarantee:</strong> The divide-and-choose algorithm ensures both players receive at least 50% of their subjective valuation.
+    <br><em>Proof sketch:</em> Player 1 cuts to create two equally-valued pieces (≥50% each). Player 2 chooses their preferred piece (≥50% by choice).
+</div>
+
+<div class="theorem">
+    <strong>Envy-Freeness Guarantee:</strong> Neither player envies the other's allocation.
+    <br><em>Proof sketch:</em> Player 1 values both pieces equally, so cannot envy Player 2. Player 2 chose their preferred piece, so cannot envy Player 1.
+</div>
+
+## Interactive Demonstration
+
+<py-script>
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -58,124 +86,58 @@ is_proportional = p1_final_value >= 0.5 and p2_final_value >= 0.5
 print(f"\nFairness Properties:")
 print(f"  ✓ Proportional (both ≥50%): {is_proportional}")
 print(f"  ✓ Envy-free: By construction")
-        </py-script>
 
-        <h2>Key Properties</h2>
+# Create visualization
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 
-        <div class="theorem">
-            <strong>Proportionality Guarantee:</strong> The divide-and-choose algorithm ensures both players receive at least 50% of their subjective valuation.
-            <br><em>Proof sketch:</em> Player 1 cuts to create two equally-valued pieces (≥50% each). Player 2 chooses their preferred piece (≥50% by choice).
-        </div>
+# Player 1's perspective
+ax1.bar(['Left Piece', 'Right Piece'], [player1_values['left'], player1_values['right']], 
+        color=['lightblue', 'lightcoral'], alpha=0.7)
+ax1.axhline(y=0.5, color='red', linestyle='--', label='Fair share (50%)')
+ax1.set_title("Player 1's Valuation", fontweight='bold')
+ax1.set_ylabel('Subjective Value')
+ax1.set_ylim(0, 1)
+ax1.legend()
 
-        <div class="theorem">
-            <strong>Envy-Freeness:</strong> Neither player envies the other's allocation.
-            <br><em>Proof sketch:</em> Player 1 values both pieces equally, so cannot envy Player 2. Player 2 chose their preferred piece, so cannot envy Player 1.
-        </div>
+# Player 2's perspective  
+ax2.bar(['Left Piece', 'Right Piece'], [player2_values['left'], player2_values['right']], 
+        color=['lightblue', 'lightcoral'], alpha=0.7)
+ax2.axhline(y=0.5, color='red', linestyle='--', label='Fair share (50%)')
+ax2.set_title("Player 2's Valuation", fontweight='bold')
+ax2.set_ylabel('Subjective Value')
+ax2.set_ylim(0, 1)
+ax2.legend()
 
-        <h2>Extensions</h2>
+plt.tight_layout()
+plt.show()
+</py-script>
 
-        <p>This simple algorithm forms the basis for more complex multi-player fair division procedures like:</p>
-        <ul>
-            <li>Austin's Moving-Knife Procedure</li>
-            <li>Selfridge-Conway Algorithm</li>
-            <li>Brams-Taylor Procedures</li>
-        </ul>
-    </div>
+## Strategic Considerations
 
-    <footer class="algorithm-footer">
-        <nav class="algorithm-nav">
-            <a href="{{ '/' | relative_url }}" class="nav-link">← Back to Home</a>
-        </nav>
-    </footer>
-</div>
+The algorithm is **strategy-proof** for both players:
 
-<!-- Pyodide Integration -->
-<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
-<script>
-let pyodide = null;
+- **Player 1** has no incentive to deviate from cutting equally, as any unequal cut risks losing the more valuable piece
+- **Player 2** should always choose their preferred piece, making truth-telling optimal
 
-async function initPyodide() {
-    if (pyodide) return pyodide;
-    
-    const loadingEl = document.getElementById('python-loading');
-    if (loadingEl) loadingEl.style.display = 'block';
-    
-    try {
-        pyodide = await loadPyodide();
-        await pyodide.loadPackage(['matplotlib', 'numpy']);
-        
-        pyodide.runPython(`
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-import io
-import base64
+## Extensions and Generalizations
 
-def show_plot():
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format='png', bbox_inches='tight', dpi=100)
-    buffer.seek(0)
-    img_str = base64.b64encode(buffer.getvalue()).decode()
-    print(f'<img src="data:image/png;base64,{img_str}">')
-    plt.close()
+This simple two-player algorithm forms the foundation for more complex multi-player procedures:
 
-plt.show = show_plot
-        `);
-        
-        if (loadingEl) loadingEl.style.display = 'none';
-        
-        const pyScriptBlocks = document.querySelectorAll('py-script');
-        for (const block of pyScriptBlocks) {
-            await processPythonBlock(block);
-        }
-        
-    } catch (error) {
-        console.error('Pyodide error:', error);
-        if (loadingEl) {
-            loadingEl.innerHTML = '<div style="color: red;">Error loading Python: ' + error.message + '</div>';
-        }
-    }
-}
+- **Austin's Moving-Knife Procedure** - Extends to three players using continuous cuts
+- **Selfridge-Conway Algorithm** - Achieves envy-freeness for three players with discrete cuts  
+- **Brams-Taylor Procedures** - Generalize to n players with complex trimming mechanisms
 
-async function processPythonBlock(block) {
-    try {
-        const code = block.textContent.trim();
-        if (!code) return;
-        
-        const outputDiv = document.createElement('div');
-        outputDiv.className = 'python-output';
-        
-        let output = '';
-        const originalLog = console.log;
-        console.log = (...args) => {
-            output += args.join(' ') + '\n';
-            originalLog(...args);
-        };
-        
-        pyodide.runPython(code);
-        console.log = originalLog;
-        
-        if (output.trim()) {
-            outputDiv.innerHTML = '<pre>' + output + '</pre>';
-        } else {
-            outputDiv.innerHTML = '<pre><em>Code executed successfully</em></pre>';
-        }
-        
-        block.parentNode.replaceChild(outputDiv, block);
-        
-    } catch (error) {
-        console.error('Python error:', error);
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'python-error';
-        errorDiv.innerHTML = '<strong>Python Error:</strong><br>' + error.message;
-        block.parentNode.replaceChild(errorDiv, block);
-    }
-}
+## Real-World Applications
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelectorAll('py-script').length > 0) {
-        initPyodide();
-    }
-});
-</script>
+The divide-and-choose principle appears in many contexts:
+
+- **Legal settlements** - Dividing assets between parties
+- **International negotiations** - Territory or resource allocation
+- **Family disputes** - Inheritance or property division
+- **Business partnerships** - Splitting company assets or responsibilities
+
+## Further Reading
+
+- Brams, S. J., & Taylor, A. D. (1996). *Fair Division: From Cake-Cutting to Dispute Resolution*
+- Robertson, J., & Webb, W. (1998). *Cake-Cutting Algorithms: Be Fair if You Can*
+- Moulin, H. (2003). *Fair Division and Collective Welfare*

@@ -1,0 +1,26 @@
+- title: "Divide-and-Choose Algorithm"
+  url: "/algorithms/divide-and-choose/"
+  difficulty: "beginner"
+  players: 2
+  properties: ["Proportional", "Envy-free", "Strategy-proof"]
+  algorithm_type: "Discrete"
+  description: "The fundamental fair division procedure for two players. One player divides, the other chooses."
+  status: "complete"
+
+- title: "Austin's Moving-Knife"
+  url: "/algorithms/austins-moving-knife/"
+  difficulty: "intermediate"
+  players: 3
+  properties: ["Proportional"]
+  algorithm_type: "Continuous"
+  description: "An elegant continuous procedure using a moving knife for three players."
+  status: "coming_soon"
+
+- title: "Selfridge-Conway Algorithm"
+  url: "/algorithms/selfridge-conway/"
+  difficulty: "advanced"
+  players: 3
+  properties: ["Envy-free"]
+  algorithm_type: "Discrete, Finite"
+  description: "The first discrete algorithm to achieve envy-free division among three players."
+  status: "coming_soon"
