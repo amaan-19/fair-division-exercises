@@ -65,75 +65,7 @@ title: Home
                 Coming Soon
             </a>
         </article>
-
-        <article class="algorithm-card fade-in" style="animation-delay: 0.2s;">
-            <div class="difficulty-badge difficulty-intermediate">Advanced</div>
-            <h3 class="algorithm-title serif">Selfridge-Conway Algorithm</h3>
-            <p class="algorithm-description">
-                The first discrete algorithm to achieve envy-free division among three players, featuring the ingenious "trimming" technique for handling complex preference structures.
-            </p>
-            <div class="algorithm-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Players:</span> 3
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Properties:</span> Envy-free
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Type:</span> Discrete, Finite
-                </div>
-            </div>
-            <a href="#" class="learn-button" style="background: var(--text-muted); cursor: not-allowed;">
-                Coming Soon
-            </a>
-        </article>
     </div>
-
-    <!-- Demo Section -->
-    <section class="demo-section fade-in" style="animation-delay: 0.3s;">
-        <h3 class="demo-title serif">Interactive Demonstration</h3>
-        <p class="demo-description">
-            See the Divide-and-Choose algorithm in action with live Python execution
-        </p>
-
-        <div class="code-block">
-<span style="color: #6b7280;"># Define player preferences</span>
-<span style="color: #4f46e5;">player1_values</span> = {"left": 0.45, "right": 0.55}
-<span style="color: #4f46e5;">player2_values</span> = {"left": 0.75, "right": 0.25}
-
-<span style="color: #6b7280;"># Player 1 cuts at midpoint</span>
-<span style="color: #4f46e5;">cut_point</span> = 0.5
-
-<span style="color: #6b7280;"># Player 2 chooses preferred piece</span>
-<span style="color: #f59e0b;">if</span> player2_values["left"] >= player2_values["right"]:
-    choice = "left"
-        </div>
-
-        <div class="code-output">
-=== Divide-and-Choose Simulation ===
-
-Player 1 valuations: Left = 0.45, Right = 0.55
-Player 2 valuations: Left = 0.75, Right = 0.25
-
-Player 1 cuts at position 0.5
-Player 2 chooses the left piece
-
-Final allocation:
-  Player 1 receives: 55.0% of total value
-  Player 2 receives: 75.0% of total value
-
-Fairness Properties:
-  ✓ Proportional (both ≥50%): True
-  ✓ Envy-free: By construction
-        </div>
-
-        <div style="text-align: center; margin-top: 1.5rem;">
-            <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="cta-button">
-                Try Interactive Demo →
-            </a>
-        </div>
-    </section>
-</div>
 
 <!-- Features Section -->
 <section class="features-section">
