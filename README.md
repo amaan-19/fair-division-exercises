@@ -37,7 +37,7 @@ Visit `http://127.0.0.1:4000`
 1. Fork this repository
 2. Enable GitHub Pages in repository settings
 3. Select "Deploy from a branch" and choose `main`
-4. Your site will be available at `https://username.github.io/fair-division-algorithms`
+4. Your site will be available at `https://username.github.io/fair-division-exercises/`
 
 ## Coming Soon
 
