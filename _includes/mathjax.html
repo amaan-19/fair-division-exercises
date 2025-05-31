@@ -1,0 +1,64 @@
+<!-- _includes/mathjax.html -->
+<!-- MathJax configuration and loading for LaTeX math rendering -->
+
+<script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            tags: 'ams',
+            autoload: {
+                color: [],
+                colorv2: ['color']
+            },
+            packages: { '[+]': ['noerrors'] }
+        },
+        options: {
+            ignoreHtmlClass: 'tex2jax_ignore',
+            processHtmlClass: 'tex2jax_process'
+        },
+        loader: {
+            load: ['[tex]/noerrors']
+        }
+    };
+</script>
+
+<script async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+    /* Ensure math renders properly in different contexts */
+    .MathJax {
+        outline: 0;
+    }
+
+    /* Style for display math */
+    .MathJax_Display {
+        text-align: center !important;
+        margin: 1.5rem 0 !important;
+    }
+
+    /* Ensure inline math doesn't break line spacing */
+    .MathJax_SVG {
+        vertical-align: middle;
+    }
+
+    /* Custom styling for formula blocks */
+    .formula .MathJax_Display {
+        margin: 0.5rem 0 !important;
+    }
+
+    /* Ensure math renders properly in criterion cards */
+    .criterion-content .MathJax {
+        font-size: inherit;
+    }
+
+    /* Handle dark mode if needed */
+    @media (prefers-color-scheme: dark) {
+        .MathJax {
+            color: inherit;
+        }
+    }
+</style>

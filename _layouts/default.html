@@ -10,6 +10,11 @@
     <!-- Jekyll's processed CSS -->
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
 
+    <!-- MathJax for LaTeX rendering -->
+    {% if page.math or page.layout == 'foundation' or page.layout == 'algorithm' %}
+    {% include mathjax.html %}
+    {% endif %}
+
     <!-- SEO tags -->
     {% seo %}
 </head>

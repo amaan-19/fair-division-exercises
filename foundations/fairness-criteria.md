@@ -3,6 +3,7 @@ layout: foundation
 title: "Fairness Criteria"
 subtitle: "Mathematical definitions of what makes a division fair"
 permalink: /foundations/fairness-criteria/
+math: true
 
 # Page metadata
 section: foundations
@@ -30,13 +31,13 @@ next_page:
                 </div>
                 <div class="criterion-content">
                     <div class="definition">
-                        <strong>Proportional Allocation:</strong> Each player receives at least 1/n of their subjective valuation of the total resource, where n is the number of players.
+                        <strong>Proportional Allocation:</strong> Each player receives at least $\frac{1}{n}$ of their subjective valuation of the total resource, where n is the number of players.
                     </div>
                     
-                    <p><strong>Mathematical formulation:</strong> For player i, let v_i(X) denote their valuation of piece X. An allocation (X₁, X₂, ..., Xₙ) is proportional if:</p>
-                    
+                    <p><strong>Mathematical formulation:</strong> For player $i$, let $v_i(X)$ denote their valuation of piece $X$. An allocation $(X_1, X_2, \ldots, X_n)$ is proportional if:</p>
+
                     <div class="formula">
-                        v_i(X_i) ≥ (1/n) × v_i(total resource) for all i ∈ {1,2,...,n}
+                        $$v_i(X_i) \geq \frac{1}{n} \times v_i(\text{total resource}) \quad \forall i \in \{1,2,\ldots,n\}$$
                     </div>
 
                     <div class="criterion-examples">
@@ -51,16 +52,16 @@ next_page:
                     <div class="criterion-properties">
                         <h4>Key Properties:</h4>
                         <ul>
-                            <li>✓ Guarantees minimum acceptable share</li>
-                            <li>✓ Achievable for any number of players</li>
-                            <li>✓ Relatively easy to implement</li>
-                            <li>⚠ Does not prevent envy between players</li>
+                            <li> Guarantees minimum acceptable share</li>
+                            <li> Achievable for any number of players</li>
+                            <li> Relatively easy to implement</li>
+                            <li> Does NOT prevent envy between players</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="criterion-card">
+           <div class="criterion-card">
                 <div class="criterion-header">
                     <h3>Envy-Freeness</h3>
                     <span class="criterion-badge strong">Strong</span>
@@ -69,11 +70,11 @@ next_page:
                     <div class="definition">
                         <strong>Envy-Free Allocation:</strong> No player prefers another player's allocation to their own.
                     </div>
-                    
-                    <p><strong>Mathematical formulation:</strong> An allocation (X₁, X₂, ..., Xₙ) is envy-free if:</p>
+        
+                    <p><strong>Mathematical formulation:</strong> An allocation $(X_1, X_2, \ldots, X_n)$ is envy-free if:</p>
                     
                     <div class="formula">
-                        v_i(X_i) ≥ v_i(X_j) for all i,j ∈ {1,2,...,n}
+                        $$v_i(X_i) \geq v_i(X_j) \quad \text{for all } i,j \in \{1,2,\ldots,n\}$$
                     </div>
 
                     <div class="criterion-examples">
@@ -103,10 +104,10 @@ next_page:
                         <strong>Pareto Efficient Allocation:</strong> No alternative allocation exists where at least one player is better off and no player is worse off.
                     </div>
                     
-                    <p><strong>Mathematical formulation:</strong> An allocation X is Pareto efficient if there is no allocation Y such that:</p>
+                    <p><strong>Mathematical formulation:</strong> An allocation $X$ is Pareto efficient if there is no allocation $Y$ such that:</p>
                     
                     <div class="formula">
-                        v_i(Y_i) ≥ v_i(X_i) for all i, and v_j(Y_j) > v_j(X_j) for some j
+                        $$v_i(Y_i) \geq v_i(X_i) \text{ for all } i, \text{ and } v_j(Y_j) > v_j(X_j) \text{ for some } j$$
                     </div>
 
                     <div class="criterion-examples">
@@ -161,12 +162,12 @@ next_page:
             
             <div class="relationship-diagram">
                 <div class="relationship-item">
-                    <h4>Envy-Free ⟹ Proportional</h4>
+                    <h4>Envy-Free $\Rightarrow$ Proportional</h4>
                     <p>Any envy-free allocation is automatically proportional, but not vice versa.</p>
                 </div>
                 
                 <div class="relationship-item">
-                    <h4>Fairness ⟷ Efficiency Trade-offs</h4>
+                    <h4>Fairness $\leftrightarrow$ Efficiency Trade-offs</h4>
                     <p>Pareto efficiency may conflict with envy-freeness or proportionality.</p>
                 </div>
                 
@@ -177,8 +178,10 @@ next_page:
             </div>
 
             <div class="theorem">
-                <strong>Envy-Free Implies Proportional:</strong> If an allocation is envy-free, then it is also proportional.
-                <br><em>Proof sketch:</em> Suppose allocation X is envy-free. For any player i, we have v_i(X_i) ≥ v_i(X_j) for all j. In particular, v_i(X_i) ≥ (1/n)∑_j v_i(X_j) = (1/n)v_i(total), establishing proportionality.
+                <strong>Theorem (Envy-Free Implies Proportional):</strong> If an allocation is envy-free, then it is also proportional.
+                <br><br><em>Proof sketch:</em> Suppose allocation $X$ is envy-free. For any player $i$, we have $v_i(X_i) \geq v_i(X_j)$ for all $j$. In particular, 
+                $$v_i(X_i) \geq \frac{1}{n}\sum_{j=1}^n v_i(X_j) = \frac{1}{n}v_i(\text{total resource})$$
+                establishing proportionality. $\square$
             </div>
         </section>
 
@@ -203,20 +206,6 @@ next_page:
                             <td><span class="status-yes">✓</span></td>
                             <td><span class="status-maybe">?</span></td>
                             <td><span class="status-partial">Partial</span></td>
-                        </tr>
-                        <tr class="coming-soon">
-                            <td><strong>Last Diminisher</strong></td>
-                            <td><span class="status-yes">✓</span></td>
-                            <td><span class="status-no">✗</span></td>
-                            <td><span class="status-maybe">?</span></td>
-                            <td><span class="status-no">✗</span></td>
-                        </tr>
-                        <tr class="coming-soon">
-                            <td><strong>Selfridge-Conway</strong></td>
-                            <td><span class="status-yes">✓</span></td>
-                            <td><span class="status-yes">✓</span></td>
-                            <td><span class="status-maybe">?</span></td>
-                            <td><span class="status-no">✗</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -272,31 +261,6 @@ next_page:
                         <span class="criterion-tag">Envy-Free</span>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="next-steps fade-in">
-            <h2>Next Steps</h2>
-            <p>Now that you understand the mathematical foundations of fairness, explore how these criteria are achieved in practice:</p>
-            
-            <div class="next-steps-grid">
-                <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="next-step-card">
-                    <h4>Start with Divide-and-Choose</h4>
-                    <p>See how the simplest algorithm achieves both proportionality and envy-freeness</p>
-                    <span class="next-step-arrow">→</span>
-                </a>
-                
-                <a href="{{ '/algorithms/' | relative_url }}" class="next-step-card">
-                    <h4>Browse All Algorithms</h4>
-                    <p>Compare how different approaches satisfy various fairness criteria</p>
-                    <span class="next-step-arrow">→</span>
-                </a>
-                
-                <a href="{{ '/exercises/' | relative_url }}" class="next-step-card">
-                    <h4>Practice Problems</h4>
-                    <p>Test your understanding with carefully designed exercises</p>
-                    <span class="next-step-arrow">→</span>
-                </a>
             </div>
         </section>
     </div>
@@ -402,9 +366,6 @@ next_page:
     padding: 1.5rem;
     margin: 1.5rem 0;
     text-align: center;
-    font-family: 'Times New Roman', serif;
-    font-size: 1.1rem;
-    font-style: italic;
 }
 
 .criterion-examples, .criterion-properties {
@@ -448,8 +409,6 @@ next_page:
 .relationship-item h4 {
     color: #4338ca;
     margin-bottom: 1rem;
-    font-family: 'Times New Roman', serif;
-    font-style: italic;
 }
 
 .algorithms-preview {

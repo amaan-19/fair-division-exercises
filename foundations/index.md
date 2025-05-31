@@ -18,27 +18,20 @@ permalink: /foundations/
                     <h3><a href="{{ '/foundations/fairness-criteria/' | relative_url }}">Fairness Criteria</a></h3>
                     <div class="topic-badges">
                         <span class="difficulty-badge difficulty-fundamental">Fundamental</span>
-                        <span class="status-badge status-complete">Available</span>
                     </div>
                 </div>
                 <div class="topic-content">
-                    <p>Learn the mathematical definitions of proportionality, envy-freeness, Pareto efficiency, and strategy-proofness. Understand how these criteria relate to each other and why they matter in practice.</p>
+                    <p>Learn the mathematical definitions of proportionality, envy-freeness, stability, equitability, and more. Understand how these criteria relate to each other and why they matter in practice.</p>
                     
                     <div class="topic-highlights">
                         <h4>Key Concepts:</h4>
                         <ul>
                             <li>Proportional allocations</li>
                             <li>Envy-free divisions</li>
-                            <li>Stability</li>
-                            <li>Equitability</li>
-                            <li>Pareto efficiency (no waste)</li>
+                            <li>Pareto efficiency</li>
                             <li>Strategy-proof mechanisms</li>
                             <li>Trade-offs between criteria</li>
                         </ul>
-                    </div>
-
-                    <div class="topic-applications">
-                        <strong>Applications:</strong>
                     </div>
                 </div>
                 <div class="topic-footer">
@@ -48,29 +41,14 @@ permalink: /foundations/
 
             <article class="topic-card fade-in coming-soon" style="animation-delay: 0.1s;">
                 <div class="topic-header">
-                    <h3>Mathematical Models</h3>
+                    <h3>Rationality</h3>
                     <div class="topic-badges">
-                        <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                        <span class="difficulty-badge difficulty-fundamental">Fundamental</span>
                         <span class="status-badge status-coming">Coming Soon</span>
                     </div>
                 </div>
                 <div class="topic-content">
-                    <p>Explore different mathematical models for representing resources and preferences, including divisible vs. indivisible goods, continuous vs. discrete models, and preference structures.</p>
-                    
-                    <div class="topic-highlights">
-                        <h4>Key Concepts:</h4>
-                        <ul>
-                            <li>Continuous vs. discrete models</li>
-                            <li>Preference representation</li>
-                            <li>Valuation functions</li>
-                            <li>Resource types and constraints</li>
-                            <li>Complexity analysis</li>
-                        </ul>
-                    </div>
-
-                    <div class="topic-applications">
-                        <strong>Applications:</strong> Algorithm design, computational complexity
-                    </div>
+                    <p>What does it mean to act rationally in fair-division contexts? Why does it matter?</p>
                 </div>
             </article>
     </div>

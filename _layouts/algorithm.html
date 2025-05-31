@@ -62,19 +62,19 @@ layout: default
 {% if page.has_demo %}
 <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script>
-let pyodide = null;
+    let pyodide = null;
 
-async function initPyodide() {
-    if (pyodide) return pyodide;
+    async function initPyodide() {
+        if (pyodide) return pyodide;
 
-    const loadingEl = document.getElementById('python-loading');
-    if (loadingEl) loadingEl.style.display = 'block';
+        const loadingEl = document.getElementById('python-loading');
+        if (loadingEl) loadingEl.style.display = 'block';
 
-    try {
-        pyodide = await loadPyodide();
-        await pyodide.loadPackage(['matplotlib', 'numpy']);
+        try {
+            pyodide = await loadPyodide();
+            await pyodide.loadPackage(['matplotlib', 'numpy']);
 
-        pyodide.runPython(`
+            pyodide.runPython(`
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -93,60 +93,60 @@ def show_plot():
 plt.show = show_plot
         `);
 
-        if (loadingEl) loadingEl.style.display = 'none';
+            if (loadingEl) loadingEl.style.display = 'none';
 
-        const pyScriptBlocks = document.querySelectorAll('py-script');
-        for (const block of pyScriptBlocks) {
-            await processPythonBlock(block);
-        }
+            const pyScriptBlocks = document.querySelectorAll('py-script');
+            for (const block of pyScriptBlocks) {
+                await processPythonBlock(block);
+            }
 
-    } catch (error) {
-        console.error('Pyodide error:', error);
-        if (loadingEl) {
-            loadingEl.innerHTML = '<div style="color: red;">Error loading Python: ' + error.message + '</div>';
+        } catch (error) {
+            console.error('Pyodide error:', error);
+            if (loadingEl) {
+                loadingEl.innerHTML = '<div style="color: red;">Error loading Python: ' + error.message + '</div>';
+            }
         }
     }
-}
 
-async function processPythonBlock(block) {
-    try {
-        const code = block.textContent.trim();
-        if (!code) return;
+    async function processPythonBlock(block) {
+        try {
+            const code = block.textContent.trim();
+            if (!code) return;
 
-        const outputDiv = document.createElement('div');
-        outputDiv.className = 'python-output';
+            const outputDiv = document.createElement('div');
+            outputDiv.className = 'python-output';
 
-        let output = '';
-        const originalLog = console.log;
-        console.log = (...args) => {
-            output += args.join(' ') + '\n';
-            originalLog(...args);
-        };
+            let output = '';
+            const originalLog = console.log;
+            console.log = (...args) => {
+                output += args.join(' ') + '\n';
+                originalLog(...args);
+            };
 
-        pyodide.runPython(code);
-        console.log = originalLog;
+            pyodide.runPython(code);
+            console.log = originalLog;
 
-        if (output.trim()) {
-            outputDiv.innerHTML = '<pre>' + output + '</pre>';
-        } else {
-            outputDiv.innerHTML = '<pre><em>Code executed successfully</em></pre>';
+            if (output.trim()) {
+                outputDiv.innerHTML = '<pre>' + output + '</pre>';
+            } else {
+                outputDiv.innerHTML = '<pre><em>Code executed successfully</em></pre>';
+            }
+
+            block.parentNode.replaceChild(outputDiv, block);
+
+        } catch (error) {
+            console.error('Python error:', error);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'python-error';
+            errorDiv.innerHTML = '<strong>Python Error:</strong><br>' + error.message;
+            block.parentNode.replaceChild(errorDiv, block);
         }
-
-        block.parentNode.replaceChild(outputDiv, block);
-
-    } catch (error) {
-        console.error('Python error:', error);
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'python-error';
-        errorDiv.innerHTML = '<strong>Python Error:</strong><br>' + error.message;
-        block.parentNode.replaceChild(errorDiv, block);
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelectorAll('py-script').length > 0) {
-        initPyodide();
-    }
-});
+    document.addEventListener('DOMContentLoaded', () => {
+        if (document.querySelectorAll('py-script').length > 0) {
+            initPyodide();
+        }
+    });
 </script>
 {% endif %}
