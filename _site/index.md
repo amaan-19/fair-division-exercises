@@ -3,53 +3,182 @@ layout: default
 title: Home
 ---
 
-# Fair Division Algorithms
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="serif">Fair Division Algorithms</h1>
+        <p class="hero-subtitle">An interactive educational platform for exploring mathematical procedures that divide resources fairly among multiple parties</p>
+        <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="cta-button">
+            Explore Algorithms →
+        </a>
+    </div>
+</section>
 
-Welcome to our interactive platform for exploring fair division algorithms!
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section-header">
+        <h2 class="section-title serif">Available Algorithms</h2>
+        <p class="section-subtitle">Learn about different fair division procedures through interactive demonstrations and mathematical analysis</p>
+    </section>
 
-## Available Algorithms
+    <div class="algorithm-grid">
+        <article class="algorithm-card fade-in">
+            <div class="difficulty-badge difficulty-beginner">Beginner</div>
+            <h3 class="algorithm-title serif">Divide-and-Choose Algorithm</h3>
+            <p class="algorithm-description">
+                The fundamental fair division procedure for two players. One player divides the resource into two pieces they value equally, and the other player chooses their preferred piece.
+            </p>
+            <div class="algorithm-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Players:</span> 2
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Properties:</span> Proportional, Envy-free
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span> Discrete
+                </div>
+            </div>
+            <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="learn-button">
+                Study Algorithm →
+            </a>
+        </article>
 
-### [Divide-and-Choose Algorithm](/algorithms/divide-and-choose/)
+        <article class="algorithm-card fade-in" style="animation-delay: 0.1s;">
+            <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+            <h3 class="algorithm-title serif">Austin's Moving-Knife</h3>
+            <p class="algorithm-description">
+                An elegant continuous procedure for three players using a moving knife. Players strategically call "stop" when they believe they can secure a fair share.
+            </p>
+            <div class="algorithm-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Players:</span> 3
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Properties:</span> Proportional
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span> Continuous
+                </div>
+            </div>
+            <a href="#" class="learn-button" style="background: var(--text-muted); cursor: not-allowed;">
+                Coming Soon
+            </a>
+        </article>
 
-The most fundamental fair division procedure for two players. Learn how simple rules can guarantee fairness!
+        <article class="algorithm-card fade-in" style="animation-delay: 0.2s;">
+            <div class="difficulty-badge difficulty-intermediate">Advanced</div>
+            <h3 class="algorithm-title serif">Selfridge-Conway Algorithm</h3>
+            <p class="algorithm-description">
+                The first discrete algorithm to achieve envy-free division among three players, featuring the ingenious "trimming" technique for handling complex preference structures.
+            </p>
+            <div class="algorithm-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Players:</span> 3
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Properties:</span> Envy-free
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span> Discrete, Finite
+                </div>
+            </div>
+            <a href="#" class="learn-button" style="background: var(--text-muted); cursor: not-allowed;">
+                Coming Soon
+            </a>
+        </article>
+    </div>
 
-- **Difficulty**: Beginner  
-- **Players**: 2  
-- **Properties**: Proportional, Envy-free
+    <!-- Demo Section -->
+    <section class="demo-section fade-in" style="animation-delay: 0.3s;">
+        <h3 class="demo-title serif">Interactive Demonstration</h3>
+        <p class="demo-description">
+            See the Divide-and-Choose algorithm in action with live Python execution
+        </p>
 
----
+        <div class="code-block">
+<span style="color: #6b7280;"># Define player preferences</span>
+<span style="color: #4f46e5;">player1_values</span> = {"left": 0.45, "right": 0.55}
+<span style="color: #4f46e5;">player2_values</span> = {"left": 0.75, "right": 0.25}
 
-## Getting Started
+<span style="color: #6b7280;"># Player 1 cuts at midpoint</span>
+<span style="color: #4f46e5;">cut_point</span> = 0.5
 
-Click on any algorithm above to learn about it with detailed explanations and interactive examples.
+<span style="color: #6b7280;"># Player 2 chooses preferred piece</span>
+<span style="color: #f59e0b;">if</span> player2_values["left"] >= player2_values["right"]:
+    choice = "left"
+        </div>
 
-### About This Site
+        <div class="code-output">
+=== Divide-and-Choose Simulation ===
 
-This site provides educational content on algorithmic approaches to fair division problems, covering both theoretical foundations and practical applications.
+Player 1 valuations: Left = 0.45, Right = 0.55
+Player 2 valuations: Left = 0.75, Right = 0.25
 
-### What You'll Find Here
+Player 1 cuts at position 0.5
+Player 2 chooses the left piece
 
-- **Interactive Python Demonstrations** - Run algorithms directly in your browser
-- **Mathematical Proofs** - Understand why these algorithms work
-- **Real-World Applications** - See how fair division applies to everyday problems
-- **Educational Exercises** - Test your understanding with practice problems
+Final allocation:
+  Player 1 receives: 55.0% of total value
+  Player 2 receives: 75.0% of total value
 
-### Key Concepts
+Fairness Properties:
+  ✓ Proportional (both ≥50%): True
+  ✓ Envy-free: By construction
+        </div>
 
-**Fair Division** is the problem of dividing resources among multiple parties in a way that satisfies certain fairness criteria:
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="cta-button">
+                Try Interactive Demo →
+            </a>
+        </div>
+    </section>
+</div>
 
-- **Proportionality**: Each player receives at least 1/n of their subjective value
-- **Envy-freeness**: No player prefers another player's allocation to their own
-- **Strategy-proofness**: Players have no incentive to misrepresent their preferences
+<!-- Features Section -->
+<section class="features-section">
+    <div class="features-container">
+        <div class="section-header">
+            <h2 class="section-title serif">Educational Approach</h2>
+            <p class="section-subtitle">Multiple learning modalities for comprehensive understanding</p>
+        </div>
 
-### Featured Algorithm
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Interactive Python</h3>
+                <p class="feature-description">Execute algorithms directly in your browser with Pyodide. Experiment with parameters and see real-time results.</p>
+            </div>
 
-The **Divide-and-Choose** algorithm demonstrates these concepts beautifully:
+            <div class="feature-card fade-in" style="animation-delay: 0.1s;">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Visual Analysis</h3>
+                <p class="feature-description">Dynamic visualizations and step-by-step breakdowns make complex algorithms accessible and intuitive.</p>
+            </div>
 
-1. One player divides the resource
-2. The other player chooses their preferred piece
-3. The divider gets the remaining piece
+            <div class="feature-card fade-in" style="animation-delay: 0.2s;">
+                <div class="feature-icon">📐</div>
+                <h3 class="feature-title">Mathematical Rigor</h3>
+                <p class="feature-description">Detailed proofs of fairness properties and algorithmic guarantees provide theoretical foundation.</p>
+            </div>
 
-This simple procedure guarantees both proportionality and envy-freeness for two players!
+            <div class="feature-card fade-in" style="animation-delay: 0.3s;">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Practice Problems</h3>
+                <p class="feature-description">Carefully designed exercises with step-by-step solutions reinforce learning and build intuition.</p>
+            </div>
 
----
+            <div class="feature-card fade-in" style="animation-delay: 0.4s;">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">Academic References</h3>
+                <p class="feature-description">Curated bibliography linking to seminal papers and current research in fair division theory.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.5s;">
+                <div class="feature-icon">🌍</div>
+                <h3 class="feature-title">Real Applications</h3>
+                <p class="feature-description">Explore connections to estate division, resource allocation, and dispute resolution in practice.</p>
+            </div>
+        </div>
+    </div>
+</section>

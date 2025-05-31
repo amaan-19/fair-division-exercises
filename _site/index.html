@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+
     <!-- Jekyll's processed CSS -->
     <link rel="stylesheet" href="/assets/main.css">
-
-    <!-- Additional fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- SEO tags -->
     <!-- Begin Jekyll SEO tag v2.8.0 -->
@@ -31,404 +32,246 @@
 
 </head>
 <body>
-    <!-- Include header -->
-    <header class="site-header" role="banner">
-    <div class="wrapper">
-        <a class="site-title" rel="author" href="/">
-            Fair Division Algorithms
-        </a>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="/" class="site-title">Fair Division Algorithms</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link active">Home</a></li>
+                    <li><a href="/foundations/fairness-criteria" class="nav-link ">Foundations</a></li>
+                    <li><a href="/algorithms/" class="nav-link ">Algorithms</a></li>
+                    <li><a href="/exercises/" class="nav-link ">Exercises</a></li>
+                    <li><a href="/references/books" class="nav-link ">References</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        <nav class="site-nav">
-            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-            <label for="nav-trigger">
-                <span class="menu-icon">
-                    <svg viewBox="0 0 18 15" width="18px" height="15px">
-                        <path d="m18,1.484c0,0.82-0.665,1.484-1.484,1.484h-15.032c-0.82,0-1.484-0.665-1.484-1.484s0.665-1.484,1.484-1.484h15.032c0.82,0,1.484,0.665,1.484,1.484zm0,5.16c0,0.82-0.665,1.484-1.484,1.484h-15.032c-0.82,0-1.484-0.665-1.484-1.484s0.665-1.484,1.484-1.484h15.032c0.82,0,1.484,0.665,1.484,1.484zm0,5.158c0,0.82-0.665,1.484-1.484,1.484h-15.032c-0.82,0-1.484-0.665-1.484-1.484s0.665-1.484,1.484-1.484h15.032c0.82,0,1.484,0.665,1.484,1.484z" />
-                    </svg>
-                </span>
-            </label>
-
-            <div class="trigger">
-                <a class="page-link" href="/">Home</a>
-                <a class="page-link" href="/foundations/fairness-criteria">Foundations</a>
-                <a class="page-link" href="/algorithms/">Algorithms</a>
-                <a class="page-link" href="/exercises/">Exercises</a>
-                <a class="page-link" href="/references/books">References</a>
-            </div>
-        </nav>
-    </div>
-</header>
-
-<style>
-    .site-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-        .site-header .wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-    .site-title {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: white;
-        text-decoration: none;
-        transition: transform 0.2s ease;
-    }
-
-        .site-title:hover {
-            transform: scale(1.02);
-        }
-
-    .site-logo {
-        font-size: 1.75rem;
-    }
-
-    .site-nav {
-        position: relative;
-    }
-
-    .nav-trigger {
-        display: none;
-    }
-
-    .menu-icon {
-        display: none;
-        flex-direction: column;
-        cursor: pointer;
-        padding: 0.5rem;
-    }
-
-        .menu-icon span {
-            width: 24px;
-            height: 2px;
-            background: white;
-            margin: 3px 0;
-            transition: all 0.3s ease;
-        }
-
-    .trigger {
-        display: flex;
-        gap: 2rem;
-    }
-
-    .page-link {
-        color: rgba(255, 255, 255, 0.9);
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        transition: all 0.2s ease;
-        position: relative;
-    }
-
-        .page-link:hover,
-        .page-link.active {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-            .page-link.active::after {
-                content: '';
-                position: absolute;
-                bottom: -2px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 60%;
-                height: 2px;
-                background: white;
-                border-radius: 1px;
-            }
-
-    /* Mobile Navigation */
-    @media (max-width: 768px) {
-        .site-header .wrapper {
-            padding: 1rem;
-        }
-
-        .menu-icon {
-            display: flex;
-        }
-
-        .trigger {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 0 0 0.5rem 0.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            flex-direction: column;
-            padding: 1rem;
-            min-width: 200px;
-            transform: translateY(-10px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .nav-trigger:checked ~ .trigger {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .nav-trigger:checked ~ .menu-icon span:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-
-        .nav-trigger:checked ~ .menu-icon span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .nav-trigger:checked ~ .menu-icon span:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
-        }
-
-        .page-link {
-            display: block;
-            padding: 0.75rem 1rem;
-            margin: 0.25rem 0;
-        }
-    }
-</style>
-
+    <!-- Main Content -->
     <main>
-        <h1 id="fair-division-algorithms">Fair Division Algorithms</h1>
+        <!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="serif">Fair Division Algorithms</h1>
+        <p class="hero-subtitle">An interactive educational platform for exploring mathematical procedures that divide resources fairly among multiple parties</p>
+        <a href="/algorithms/divide-and-choose/" class="cta-button">
+            Explore Algorithms →
+        </a>
+    </div>
+</section>
 
-<p>Welcome to our interactive platform for exploring fair division algorithms!</p>
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section-header">
+        <h2 class="section-title serif">Available Algorithms</h2>
+        <p class="section-subtitle">Learn about different fair division procedures through interactive demonstrations and mathematical analysis</p>
+    </section>
 
-<h2 id="available-algorithms">Available Algorithms</h2>
+    <div class="algorithm-grid">
+        <article class="algorithm-card fade-in">
+            <div class="difficulty-badge difficulty-beginner">Beginner</div>
+            <h3 class="algorithm-title serif">Divide-and-Choose Algorithm</h3>
+            <p class="algorithm-description">
+                The fundamental fair division procedure for two players. One player divides the resource into two pieces they value equally, and the other player chooses their preferred piece.
+            </p>
+            <div class="algorithm-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Players:</span> 2
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Properties:</span> Proportional, Envy-free
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span> Discrete
+                </div>
+            </div>
+            <a href="/algorithms/divide-and-choose/" class="learn-button">
+                Study Algorithm →
+            </a>
+        </article>
 
-<h3 id="divide-and-choose-algorithm"><a href="/algorithms/divide-and-choose/">Divide-and-Choose Algorithm</a></h3>
+        <article class="algorithm-card fade-in" style="animation-delay: 0.1s;">
+            <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+            <h3 class="algorithm-title serif">Austin's Moving-Knife</h3>
+            <p class="algorithm-description">
+                An elegant continuous procedure for three players using a moving knife. Players strategically call "stop" when they believe they can secure a fair share.
+            </p>
+            <div class="algorithm-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Players:</span> 3
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Properties:</span> Proportional
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span> Continuous
+                </div>
+            </div>
+            <a href="#" class="learn-button" style="background: var(--text-muted); cursor: not-allowed;">
+                Coming Soon
+            </a>
+        </article>
 
-<p>The most fundamental fair division procedure for two players. Learn how simple rules can guarantee fairness!</p>
+        <article class="algorithm-card fade-in" style="animation-delay: 0.2s;">
+            <div class="difficulty-badge difficulty-intermediate">Advanced</div>
+            <h3 class="algorithm-title serif">Selfridge-Conway Algorithm</h3>
+            <p class="algorithm-description">
+                The first discrete algorithm to achieve envy-free division among three players, featuring the ingenious "trimming" technique for handling complex preference structures.
+            </p>
+            <div class="algorithm-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Players:</span> 3
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Properties:</span> Envy-free
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span> Discrete, Finite
+                </div>
+            </div>
+            <a href="#" class="learn-button" style="background: var(--text-muted); cursor: not-allowed;">
+                Coming Soon
+            </a>
+        </article>
+    </div>
 
-<ul>
-  <li><strong>Difficulty</strong>: Beginner</li>
-  <li><strong>Players</strong>: 2</li>
-  <li><strong>Properties</strong>: Proportional, Envy-free</li>
-</ul>
+    <!-- Demo Section -->
+    <section class="demo-section fade-in" style="animation-delay: 0.3s;">
+        <h3 class="demo-title serif">Interactive Demonstration</h3>
+        <p class="demo-description">
+            See the Divide-and-Choose algorithm in action with live Python execution
+        </p>
 
-<hr />
+        <div class="code-block">
+<span style="color: #6b7280;"># Define player preferences</span>
+<span style="color: #4f46e5;">player1_values</span> = {"left": 0.45, "right": 0.55}
+<span style="color: #4f46e5;">player2_values</span> = {"left": 0.75, "right": 0.25}
 
-<h2 id="getting-started">Getting Started</h2>
+<span style="color: #6b7280;"># Player 1 cuts at midpoint</span>
+<span style="color: #4f46e5;">cut_point</span> = 0.5
 
-<p>Click on any algorithm above to learn about it with detailed explanations and interactive examples.</p>
+<span style="color: #6b7280;"># Player 2 chooses preferred piece</span>
+<span style="color: #f59e0b;">if</span> player2_values["left"] &gt;= player2_values["right"]:
+    choice = "left"
+        </div>
 
-<h3 id="about-this-site">About This Site</h3>
+        <div class="code-output">
+=== Divide-and-Choose Simulation ===
 
-<p>This site provides educational content on algorithmic approaches to fair division problems, covering both theoretical foundations and practical applications.</p>
+Player 1 valuations: Left = 0.45, Right = 0.55
+Player 2 valuations: Left = 0.75, Right = 0.25
 
-<h3 id="what-youll-find-here">What You’ll Find Here</h3>
+Player 1 cuts at position 0.5
+Player 2 chooses the left piece
 
-<ul>
-  <li><strong>Interactive Python Demonstrations</strong> - Run algorithms directly in your browser</li>
-  <li><strong>Mathematical Proofs</strong> - Understand why these algorithms work</li>
-  <li><strong>Real-World Applications</strong> - See how fair division applies to everyday problems</li>
-  <li><strong>Educational Exercises</strong> - Test your understanding with practice problems</li>
-</ul>
+Final allocation:
+  Player 1 receives: 55.0% of total value
+  Player 2 receives: 75.0% of total value
 
-<h3 id="key-concepts">Key Concepts</h3>
+Fairness Properties:
+  ✓ Proportional (both ≥50%): True
+  ✓ Envy-free: By construction
+        </div>
 
-<p><strong>Fair Division</strong> is the problem of dividing resources among multiple parties in a way that satisfies certain fairness criteria:</p>
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="/algorithms/divide-and-choose/" class="cta-button">
+                Try Interactive Demo →
+            </a>
+        </div>
+    </section>
+</div>
 
-<ul>
-  <li><strong>Proportionality</strong>: Each player receives at least 1/n of their subjective value</li>
-  <li><strong>Envy-freeness</strong>: No player prefers another player’s allocation to their own</li>
-  <li><strong>Strategy-proofness</strong>: Players have no incentive to misrepresent their preferences</li>
-</ul>
+<!-- Features Section -->
+<section class="features-section">
+    <div class="features-container">
+        <div class="section-header">
+            <h2 class="section-title serif">Educational Approach</h2>
+            <p class="section-subtitle">Multiple learning modalities for comprehensive understanding</p>
+        </div>
 
-<h3 id="featured-algorithm">Featured Algorithm</h3>
-
-<p>The <strong>Divide-and-Choose</strong> algorithm demonstrates these concepts beautifully:</p>
-
-<ol>
-  <li>One player divides the resource</li>
-  <li>The other player chooses their preferred piece</li>
-  <li>The divider gets the remaining piece</li>
-</ol>
-
-<p>This simple procedure guarantees both proportionality and envy-freeness for two players!</p>
-
-<hr />
-
-    </main>
-
-    <!-- Include footer -->
-    <footer class="site-footer h-card">
-    <data class="u-url" href="/"></data>
-    <div class="wrapper">
-        <div class="footer-content-centered">
-            <h3>Fair Division Algorithms</h3>
-            <p>Interactive educational platform for fair division algorithms</p>
-
-            <div class="footer-meta">
-                <p>
-                    <i class="italic">
-                        A collaborative research and teaching project by
-                        <strong>Amaan Khan</strong> and <strong>Dr. Ron Cytron</strong>,
-                        supported by Mozilla.
-                    </i>
-                </p>
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Interactive Python</h3>
+                <p class="feature-description">Execute algorithms directly in your browser with Pyodide. Experiment with parameters and see real-time results.</p>
             </div>
 
-            <div class="footer-links">
-                <a href="/">Home</a> |
-                <a href="/algorithms/">Algorithms</a> |
-                <a href="/exercises/">Exercises</a> |
-                <a href="/references/books">References</a>
+            <div class="feature-card fade-in" style="animation-delay: 0.1s;">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Visual Analysis</h3>
+                <p class="feature-description">Dynamic visualizations and step-by-step breakdowns make complex algorithms accessible and intuitive.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.2s;">
+                <div class="feature-icon">📐</div>
+                <h3 class="feature-title">Mathematical Rigor</h3>
+                <p class="feature-description">Detailed proofs of fairness properties and algorithmic guarantees provide theoretical foundation.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.3s;">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Practice Problems</h3>
+                <p class="feature-description">Carefully designed exercises with step-by-step solutions reinforce learning and build intuition.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.4s;">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">Academic References</h3>
+                <p class="feature-description">Curated bibliography linking to seminal papers and current research in fair division theory.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.5s;">
+                <div class="feature-icon">🌍</div>
+                <h3 class="feature-title">Real Applications</h3>
+                <p class="feature-description">Explore connections to estate division, resource allocation, and dispute resolution in practice.</p>
             </div>
         </div>
     </div>
-</footer>
+</section>
 
-<style>
-    .site-footer {
-        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-        color: #e2e8f0;
-        margin-top: 4rem;
-    }
+    </main>
 
-        .site-footer .wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem 1.5rem;
-        }
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <h3 class="footer-title serif">Fair Division Algorithms</h3>
+            <p class="footer-description">Interactive educational platform for fair division algorithms</p>
 
-    .footer-content {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 3rem;
-        margin-bottom: 2rem;
-    }
+            <div class="footer-credits">
+                A collaborative research and teaching project by
+                <strong>Amaan Khan</strong> and <strong>Dr. Ron Cytron</strong>,
+                supported by Mozilla.
+            </div>
 
-    .footer-main {
-        max-width: 500px;
-    }
+            <div class="footer-links">
+                <a href="/" class="footer-link">Home</a>
+                <a href="/algorithms/" class="footer-link">Algorithms</a>
+                <a href="/exercises/" class="footer-link">Exercises</a>
+                <a href="/references/books" class="footer-link">References</a>
+            </div>
+        </div>
+    </footer>
 
-    .footer-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 1rem;
-    }
+    <!-- Simple fade-in animation script -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-    .footer-description {
-        font-size: 1.125rem;
-        line-height: 1.6;
-        color: #cbd5e0;
-        margin-bottom: 1.5rem;
-    }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
 
-    .footer-credits {
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 0.5rem;
-        border-left: 3px solid #667eea;
-    }
-
-        .footer-credits p {
-            margin: 0;
-            font-style: italic;
-            color: #cbd5e0;
-        }
-
-        .footer-credits strong {
-            color: white;
-        }
-
-    .footer-links {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-    }
-
-    .link-group h4 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: white;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .link-group a {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #cbd5e0;
-        text-decoration: none;
-        padding: 0.25rem 0;
-        transition: color 0.2s ease;
-    }
-
-        .link-group a:hover {
-            color: white;
-        }
-
-    .footer-bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 2rem;
-        border-top: 1px solid #4a5568;
-        font-size: 0.875rem;
-        color: #a0aec0;
-    }
-
-    .footer-tech {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-        .footer-tech a {
-            color: #cbd5e0;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-            .footer-tech a:hover {
-                color: white;
-            }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .site-footer .wrapper {
-            padding: 2rem 1rem 1rem;
-        }
-
-        .footer-content {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        .footer-links {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .footer-bottom {
-            flex-direction: column;
-            gap: 1rem;
-            text-align: center;
-        }
-    }
-</style>
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
