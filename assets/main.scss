@@ -59,6 +59,8 @@ h2 {
 h3 {
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
     font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .serif {
@@ -261,6 +263,7 @@ code, pre, .code-block, .code-output {
 .algorithm-title {
     font-size: 1.5rem;
     color: var(--text-primary);
+    margin-top: 1rem;
     margin-bottom: 1rem;
 }
 

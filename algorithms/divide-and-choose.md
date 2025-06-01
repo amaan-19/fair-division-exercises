@@ -64,65 +64,7 @@ where $A, B$ are the pieces created by Player 1's cut.
 
 ## Interactive Demonstration
 
-<py-script>
-import matplotlib.pyplot as plt
-import numpy as np
-
-print("=== Divide-and-Choose Simulation ===")
-
-# Define player preferences
-player1_values = {"left": 0.45, "right": 0.55}  
-player2_values = {"left": 0.75, "right": 0.25}  
-
-print(f"Player 1 valuations: Left = {player1_values['left']:.2f}, Right = {player1_values['right']:.2f}")
-print(f"Player 2 valuations: Left = {player2_values['left']:.2f}, Right = {player2_values['right']:.2f}")
-
-cut_point = 0.5
-print(f"\nPlayer 1 cuts at position {cut_point}")
-
-if player2_values["left"] >= player2_values["right"]:
-    p2_choice = "left"
-    p2_final_value = player2_values["left"]
-    p1_final_value = player1_values["right"]
-else:
-    p2_choice = "right" 
-    p2_final_value = player2_values["right"]
-    p1_final_value = player1_values["left"]
-
-print(f"\nPlayer 2 chooses the {p2_choice} piece")
-print(f"\nFinal allocation:")
-print(f"  Player 1 receives: {p1_final_value:.1%} of total value")
-print(f"  Player 2 receives: {p2_final_value:.1%} of total value")
-
-is_proportional = p1_final_value >= 0.5 and p2_final_value >= 0.5
-print(f"\nFairness Properties:")
-print(f"  ✓ Proportional (both ≥50%): {is_proportional}")
-print(f"  ✓ Envy-free: By construction")
-
-# Create visualization
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-
-# Player 1's perspective
-ax1.bar(['Left Piece', 'Right Piece'], [player1_values['left'], player1_values['right']], 
-        color=['lightblue', 'lightcoral'], alpha=0.7)
-ax1.axhline(y=0.5, color='red', linestyle='--', label='Fair share (50%)')
-ax1.set_title("Player 1's Valuation", fontweight='bold')
-ax1.set_ylabel('Subjective Value')
-ax1.set_ylim(0, 1)
-ax1.legend()
-
-# Player 2's perspective  
-ax2.bar(['Left Piece', 'Right Piece'], [player2_values['left'], player2_values['right']], 
-        color=['lightblue', 'lightcoral'], alpha=0.7)
-ax2.axhline(y=0.5, color='red', linestyle='--', label='Fair share (50%)')
-ax2.set_title("Player 2's Valuation", fontweight='bold')
-ax2.set_ylabel('Subjective Value')
-ax2.set_ylim(0, 1)
-ax2.legend()
-
-plt.tight_layout()
-plt.show()
-</py-script>
+In development...
 
 ## Strategic Considerations
 
@@ -147,15 +89,6 @@ This simple two-player algorithm forms the foundation for more complex multi-pla
 - **Selfridge-Conway Algorithm** - Achieves envy-freeness for three players with discrete cuts  
 - **Brams-Taylor Procedures** - Generalize to $n$ players with complex trimming mechanisms
 
-## Real-World Applications
-
-The divide-and-choose principle appears in many contexts:
-
-- **Legal settlements** - Dividing assets between parties
-- **International negotiations** - Territory or resource allocation
-- **Family disputes** - Inheritance or property division
-- **Business partnerships** - Splitting company assets or responsibilities
-
 ## Limitations
 
 While elegant, divide-and-choose has several limitations:
@@ -164,9 +97,3 @@ While elegant, divide-and-choose has several limitations:
 2. **May not be Pareto efficient** - Total welfare might not be maximized
 3. **Requires divisible goods** - Cannot handle discrete items directly
 4. **Assumes honest preferences** - Players must accurately assess values
-
-## Further Reading
-
-- Brams, S. J., & Taylor, A. D. (1996). *Fair Division: From Cake-Cutting to Dispute Resolution*
-- Robertson, J., & Webb, W. (1998). *Cake-Cutting Algorithms: Be Fair if You Can*
-- Moulin, H. (2003). *Fair Division and Collective Welfare*

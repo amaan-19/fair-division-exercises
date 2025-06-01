@@ -237,7 +237,7 @@ permalink: /algorithms/
 
 .try-algorithm-btn {
     display: inline-block;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
     color: white;
     text-decoration: none;
     padding: 0.75rem 1.5rem;

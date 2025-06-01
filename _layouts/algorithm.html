@@ -20,22 +20,6 @@ layout: default
         {{ content }}
     </div>
 
-    <!-- Interactive Demo Section (if enabled) -->
-    {% if page.has_demo %}
-    <section class="demo-section fade-in">
-        <h3 class="demo-title serif">Interactive Demonstration</h3>
-        <p class="demo-description">{{ page.demo_description | default: 'See the algorithm in action with live Python execution' }}</p>
-
-        <!-- Python Loading Indicator -->
-        <div id="python-loading" style="display: none;">
-            Loading Python environment...
-        </div>
-
-        <!-- Demo content will be inserted here by Python scripts -->
-        <div id="demo-container"></div>
-    </section>
-    {% endif %}
-
     <!-- Navigation Footer -->
     <footer class="algorithm-footer">
         <nav class="algorithm-nav">
