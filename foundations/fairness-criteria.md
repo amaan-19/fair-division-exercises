@@ -40,7 +40,7 @@ next_page:
                         $$v_i(X_i) \geq \frac{1}{n} \times v_i(\text{total resource}) \quad \forall i \in \{1,2,\ldots,n\}$$
                     </div>
 
-                    {% include foundations/proportionality_interactive.html %}
+                    {% include foundations/proportionality_visualization.html %}
 
                     <div class="criterion-examples">
                         <h4>Examples:</h4>
