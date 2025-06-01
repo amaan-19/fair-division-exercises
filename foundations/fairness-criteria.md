@@ -79,8 +79,6 @@ next_page:
                         $$v_i(X_i) \geq v_i(X_j) \quad \text{for all } i,j \in \{1,2,\ldots,n\}$$
                     </div>
 
-                    {% include foundations/envy_freeness_interactive.html %}
-
                     <div class="criterion-examples">
                         <h4>Intuition:</h4>
                         <p>Each player is satisfied with their piece and wouldn't want to trade with anyone else. This is a stronger condition than proportionality.</p>
