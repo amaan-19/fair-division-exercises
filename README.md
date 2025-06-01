@@ -93,21 +93,12 @@ Visit `http://127.0.0.1:4000`
 
 ### ✅ Complete
 - **Fairness Criteria**: Comprehensive mathematical foundations
-- **Divide-and-Choose Algorithm**: Full implementation with interactive demo
 - **Site Infrastructure**: Layouts, styling, navigation, and responsive design
 - **Mathematical Rendering**: LaTeX support throughout
 
 ### 🚧 In Development
+- **Divide-and-Choose Algorithm**: Full implementation with interactive demo
 - **Austin's Moving-Knife Procedure**: Algorithm page structure exists
-- **Selfridge-Conway Algorithm**: Metadata configured
-- **Exercise System**: Planned for interactive practice problems
-
-### 📋 Planned
-- **Mathematical Models**: Formal preference representation theory
-- **Game Theory Foundations**: Strategic aspects of fair division
-- **Computational Complexity**: Algorithmic efficiency analysis
-- **Interactive Exercises**: Practice problems with step-by-step solutions
-- **Enhanced Visualizations**: Dynamic algorithm demonstrations
 
 ## Educational Approach
 
