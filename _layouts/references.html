@@ -1,0 +1,598 @@
+﻿---
+layout: default
+---
+
+<div class="references-page">
+    <!-- References Header -->
+    <header class="references-header">
+        <div class="breadcrumb">
+            <a href="{{ '/' | relative_url }}">Home</a> /
+            <span>References</span>
+        </div>
+
+        <h1 class="references-title serif">{{ page.title }}</h1>
+
+        {% if page.subtitle %}
+        <p class="references-subtitle">{{ page.subtitle }}</p>
+        {% endif %}
+    </header>
+
+    <!-- Main References Content -->
+    <div class="references-content">
+        {{ content }}
+    </div>
+</div>
+
+<style>
+    .references-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .references-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .breadcrumb {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+    .references-title {
+        color: var(--text-primary);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .references-subtitle {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-style: italic;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .references-nav {
+        margin-top: 2rem;
+    }
+
+    .nav-categories {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .category-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--bg-white);
+        border: 1px solid var(--border-light);
+        border-radius: 25px;
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-weight: 500;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow-sm);
+    }
+
+        .category-link:hover {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+    .category-icon {
+        font-size: 1.2rem;
+    }
+
+    .references-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        padding: 1.5rem;
+        background: var(--bg-white);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-light);
+    }
+
+    .search-container {
+        position: relative;
+        flex: 1;
+        max-width: 400px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border: 1px solid var(--border-medium);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+    }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+
+    .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+    }
+
+    .filter-container {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .filter-select {
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border-medium);
+        border-radius: 8px;
+        background: var(--bg-white);
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+
+    .reference-category {
+        margin: 4rem 0;
+    }
+
+    .category-header {
+        margin-bottom: 2rem;
+    }
+
+    .category-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-primary);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .category-description {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        max-width: 700px;
+    }
+
+    .references-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 2rem;
+    }
+
+    .reference-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-sm);
+    }
+
+        .reference-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-blue);
+        }
+
+    .reference-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, var(--bg-light), var(--bg-white));
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .reference-type-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .type-book {
+        background: #e0f2fe;
+        color: #0277bd;
+    }
+
+    .type-paper {
+        background: #e8f5e8;
+        color: #2e7d32;
+    }
+
+    .type-article {
+        background: #fff3e0;
+        color: #ef6c00;
+    }
+
+    .type-thesis {
+        background: #f3e5f5;
+        color: #7b1fa2;
+    }
+
+    .type-online {
+        background: #e1f5fe;
+        color: #0288d1;
+    }
+
+    .reference-year {
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .reference-content {
+        padding: 1.5rem;
+    }
+
+    .reference-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+
+        .reference-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+            .reference-title a:hover {
+                color: var(--primary-blue);
+            }
+
+    .reference-authors {
+        font-weight: 500;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .reference-publication {
+        font-style: italic;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .reference-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .reference-topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .topic-tag {
+        background: var(--light-blue);
+        color: var(--primary-blue);
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .reference-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid var(--border-light);
+        background: var(--bg-light);
+    }
+
+    .reference-links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .reference-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        color: var(--primary-blue);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+    }
+
+        .reference-link:hover {
+            color: var(--secondary-blue);
+            text-decoration: none;
+        }
+
+    .reference-isbn {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-family: 'Fira Code', monospace;
+    }
+
+    .citation-guide {
+        margin: 4rem 0;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--bg-light), var(--bg-white));
+        border-radius: 12px;
+        border: 1px solid var(--border-light);
+    }
+
+        .citation-guide h2 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+    .citation-formats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .citation-format {
+        text-align: center;
+        padding: 1.5rem;
+        background: var(--bg-white);
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+    }
+
+        .citation-format h4 {
+            color: var(--primary-blue);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .citation-format p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .references-page {
+            padding: 1rem;
+        }
+
+        .references-title {
+            font-size: 2rem;
+        }
+
+        .nav-categories {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .references-controls {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-container {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .references-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .reference-header {
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .citation-formats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Search and Filter Functionality */
+    .reference-card.hidden {
+        display: none;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-muted);
+        font-style: italic;
+        grid-column: 1 / -1;
+    }
+
+    /* Smooth scrolling for category navigation */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Highlight active category link */
+    .category-link.active {
+        background: var(--primary-blue);
+        color: white;
+        border-color: var(--primary-blue);
+    }
+
+    /* Enhanced visual feedback */
+    .reference-card:focus-within {
+        outline: 2px solid var(--primary-blue);
+        outline-offset: 2px;
+    }
+
+    /* Print styles */
+    @media print {
+        .references-controls,
+        .references-nav {
+            display: none;
+        }
+
+        .reference-card {
+            break-inside: avoid;
+            border: 1px solid #ccc;
+            box-shadow: none;
+        }
+
+        .references-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality
+    const searchInput = document.getElementById('reference-search');
+    const yearFilter = document.getElementById('year-filter');
+    const typeFilter = document.getElementById('type-filter');
+    const referenceCards = document.querySelectorAll('.reference-card');
+
+    // Populate year filter
+    if (yearFilter) {
+        const years = new Set();
+        referenceCards.forEach(card => {
+            const year = card.dataset.year;
+            if (year) years.add(year);
+        });
+
+        Array.from(years).sort((a, b) => b - a).forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearFilter.appendChild(option);
+        });
+    }
+
+    // Filter function
+    function filterReferences() {
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        const selectedYear = yearFilter ? yearFilter.value : '';
+        const selectedType = typeFilter ? typeFilter.value : '';
+
+        let visibleCount = 0;
+
+        referenceCards.forEach(card => {
+            const title = card.querySelector('.reference-title').textContent.toLowerCase();
+            const authors = card.querySelector('.reference-authors')?.textContent.toLowerCase() || '';
+            const description = card.querySelector('.reference-description')?.textContent.toLowerCase() || '';
+            const year = card.dataset.year || '';
+            const type = card.dataset.type || '';
+
+            const matchesSearch = !searchTerm ||
+                title.includes(searchTerm) ||
+                authors.includes(searchTerm) ||
+                description.includes(searchTerm);
+            const matchesYear = !selectedYear || year === selectedYear;
+            const matchesType = !selectedType || type === selectedType;
+
+            if (matchesSearch && matchesYear && matchesType) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // Show/hide no results message
+        updateNoResultsMessage(visibleCount);
+    }
+
+    function updateNoResultsMessage(visibleCount) {
+        // Remove existing no-results message
+        const existingMessage = document.querySelector('.no-results');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+
+        if (visibleCount === 0) {
+            const grids = document.querySelectorAll('.references-grid');
+            grids.forEach(grid => {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.textContent = 'No references match your search criteria.';
+                grid.appendChild(noResults);
+            });
+        }
+    }
+
+    // Event listeners
+    if (searchInput) {
+        searchInput.addEventListener('input', filterReferences);
+    }
+    if (yearFilter) {
+        yearFilter.addEventListener('change', filterReferences);
+    }
+    if (typeFilter) {
+        typeFilter.addEventListener('change', filterReferences);
+    }
+
+    // Category navigation highlighting
+    const categoryLinks = document.querySelectorAll('.category-link');
+    const categories = document.querySelectorAll('.reference-category');
+
+    function updateActiveCategory() {
+        const scrollPosition = window.scrollY + 200;
+
+        let currentCategory = '';
+        categories.forEach(category => {
+            const categoryTop = category.offsetTop;
+            const categoryBottom = categoryTop + category.offsetHeight;
+
+            if (scrollPosition >= categoryTop && scrollPosition <= categoryBottom) {
+                currentCategory = category.id;
+            }
+        });
+
+        categoryLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentCategory}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveCategory);
+    updateActiveCategory(); // Initial call
+});
+</script>

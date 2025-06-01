@@ -17,9 +17,10 @@
 
             <div class="footer-links">
                 <a href="{{ '/' | relative_url }}">Home</a> |
+                <a href="{{ '/foundations/' | relative_url }}">Foundations</a> |
                 <a href="{{ '/algorithms/' | relative_url }}">Algorithms</a> |
                 <a href="{{ '/exercises/' | relative_url }}">Exercises</a> |
-                <a href="{{ '/references/books' | relative_url }}">References</a>
+                <a href="{{ '/references/' | relative_url }}">References</a>
             </div>
         </div>
     </div>
@@ -45,6 +46,26 @@
         margin-bottom: 2rem;
     }
 
+    .footer-content-centered {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+        .footer-content-centered h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-content-centered p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: #cbd5e0;
+            margin-bottom: 1.5rem;
+        }
+
     .footer-main {
         max-width: 500px;
     }
@@ -63,51 +84,68 @@
         margin-bottom: 1.5rem;
     }
 
-    .footer-credits {
+    .footer-meta {
         padding: 1rem;
         background: rgba(255, 255, 255, 0.05);
         border-radius: 0.5rem;
         border-left: 3px solid #667eea;
+        margin-bottom: 2rem;
     }
 
-        .footer-credits p {
+        .footer-meta p {
             margin: 0;
             font-style: italic;
             color: #cbd5e0;
         }
 
-        .footer-credits strong {
+        .footer-meta strong {
             color: white;
         }
 
     .footer-links {
+        font-size: 1rem;
+        line-height: 2;
+    }
+
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+            .footer-links a:hover {
+                color: white;
+                text-decoration: underline;
+            }
+
+    .link-group {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
     }
 
-    .link-group h4 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: white;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
-
-    .link-group a {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #cbd5e0;
-        text-decoration: none;
-        padding: 0.25rem 0;
-        transition: color 0.2s ease;
-    }
-
-        .link-group a:hover {
+        .link-group h4 {
+            font-size: 1rem;
+            font-weight: 600;
             color: white;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
+
+        .link-group a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #cbd5e0;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            transition: color 0.2s ease;
+        }
+
+            .link-group a:hover {
+                color: white;
+            }
 
     .footer-bottom {
         display: flex;

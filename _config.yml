@@ -13,6 +13,27 @@ plugins:
 # Build settings
 sass:
   style: compressed
+
+# Collections for references (optional, if you want to use collections instead of data files)
+collections:
+  references:
+    output: true
+    permalink: /:collection/:name/
+
+# References configuration
+references:
+  # Default view settings
+  default_sort: "year"
+  show_search: true
+  show_filters: true
+  show_categories: true
+  
+  # Citation formats supported
+  citation_formats:
+    - "APA"
+    - "IEEE" 
+    - "Chicago"
+    - "MLA"
   
 exclude:
   - .git/

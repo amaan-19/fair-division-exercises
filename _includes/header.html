@@ -15,11 +15,11 @@
             </label>
 
             <div class="trigger">
-                <a class="page-link" href="{{ '/' | relative_url }}">Home</a>
-                <a class="page-link" href="{{ '/foundations/' | relative_url }}">Foundations</a>
-                <a class="page-link" href="{{ '/algorithms/' | relative_url }}">Algorithms</a>
-                <a class="page-link" href="{{ '/exercises/' | relative_url }}">Exercises</a>
-                <a class="page-link" href="{{ '/references/books' | relative_url }}">References</a>
+                <a class="page-link {% if page.url == '/' %}active{% endif %}" href="{{ '/' | relative_url }}">Home</a>
+                <a class="page-link {% if page.url contains '/foundations/' %}active{% endif %}" href="{{ '/foundations/' | relative_url }}">Foundations</a>
+                <a class="page-link {% if page.url contains '/algorithms/' %}active{% endif %}" href="{{ '/algorithms/' | relative_url }}">Algorithms</a>
+                <a class="page-link {% if page.url contains '/exercises/' %}active{% endif %}" href="{{ '/exercises/' | relative_url }}">Exercises</a>
+                <a class="page-link {% if page.url contains '/references/' %}active{% endif %}" href="{{ '/references/' | relative_url }}">References</a>
             </div>
         </nav>
     </div>

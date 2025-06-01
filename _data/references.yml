@@ -1,0 +1,37 @@
+﻿categories:
+  - id: foundational-books
+    title: "Foundational Books"
+    description: "Essential textbooks and comprehensive treatments of fair division theory"
+    references:
+      # Ready to add foundational books
+      # Example structure:
+      # - title: "Fair Division: From Cake-Cutting to Dispute Resolution"
+      #   authors: "Steven J. Brams, Alan D. Taylor"
+      #   year: 1996
+      #   type: "book"
+      #   publication: "Cambridge University Press"
+      #   isbn: "978-0521556446"
+      #   description: "The definitive introduction to fair division theory, covering both theoretical foundations and practical applications."
+      #   topics: ["Cake-cutting", "Envy-freeness", "Proportionality", "Moving knife procedures"]
+      #   url: "https://example.com"
+
+  - id: papers
+    title: "Papers"
+    description: "Landmark research papers that established key concepts and algorithms"
+    references:
+      # Ready to add papers
+      # Example structure:
+      # - title: "The Knife-Edge Procedure for Fair Division"
+      #   authors: "Austin, A. K."
+      #   year: 1982
+      #   type: "paper"
+      #   publication: "Proceedings of the American Mathematical Society"
+      #   doi: "10.1090/S0002-9939-1982-0643747-2"
+      #   description: "Introduces the moving-knife procedure for proportional division among any number of players."
+      #   topics: ["Moving knife", "Proportional division", "Continuous procedures"]
+
+  - id: recent-research
+    title: "Recent Research"
+    description: "Current developments and modern approaches to fair division problems"
+    references:
+      # Ready to add recent research papers
