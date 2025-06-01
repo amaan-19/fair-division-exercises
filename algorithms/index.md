@@ -15,12 +15,15 @@ permalink: /algorithms/
     <div class="algorithms-grid">
         <div class="algorithm-card">
             <div class="algorithm-header">
+
                 <h3><a href="/algorithms/divide-and-choose/">Divide-and-Choose</a></h3>
                 <div class="algorithm-badges">
                     <span class="difficulty-badge difficulty-beginner">Beginner</span>
                     <span class="players-badge">2 Players</span>
                 </div>
+
             </div>
+
             <div class="algorithm-content">
                 <p>The most fundamental fair division procedure. One player divides, the other chooses. Guarantees both proportionality and envy-freeness.</p>
                 
@@ -32,11 +35,12 @@ permalink: /algorithms/
                         <li>✓ Strategy-proof for divider</li>
                     </ul>
                 </div>
-
                 <div class="algorithm-complexity">
+                    <h4>Complexity:</h4>
                     <strong>Time:</strong> O(1) cuts • <strong>Space:</strong> O(1)
                 </div>
             </div>
+
             <div class="algorithm-footer">
                 <a href="/algorithms/divide-and-choose/" class="try-algorithm-btn">Explore Algorithms →</a>
             </div>

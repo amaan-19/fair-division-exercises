@@ -12,7 +12,6 @@ algorithm_type: "Discrete"
 
 # Demo Configuration
 has_demo: true
-demo_description: "Explore the algorithm with concrete examples and see fairness properties in action"
 
 # Navigation
 next_algorithm:

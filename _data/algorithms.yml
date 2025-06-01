@@ -16,11 +16,3 @@
   description: "An elegant continuous procedure using a moving knife for three players."
   status: "coming_soon"
 
-- title: "Selfridge-Conway Algorithm"
-  url: "/algorithms/selfridge-conway/"
-  difficulty: "advanced"
-  players: 3
-  properties: ["Envy-free"]
-  algorithm_type: "Discrete, Finite"
-  description: "The first discrete algorithm to achieve envy-free division among three players."
-  status: "coming_soon"

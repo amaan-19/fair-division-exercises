@@ -8,8 +8,8 @@ math: true
 # Page metadata
 section: foundations
 next_page:
-  title: "Divide-and-Choose Algorithm"
-  url: "/algorithms/divide-and-choose/"
+title: "Divide-and-Choose Algorithm"
+url: "/algorithms/divide-and-choose/"
 ---
 
 <div class="foundations-page">
