@@ -68,7 +68,7 @@ title: Home
 <section class="features-section">
     <div class="features-container">
         <div class="section-header">
-            <h2 class="section-title serif">Educational Approach</h2>
+            <h2 class="section-title serif">Long-Term Educational Approach</h2>
             <p class="section-subtitle">Multiple learning modalities for comprehensive understanding</p>
         </div>
 
@@ -100,7 +100,7 @@ title: Home
             <div class="feature-card fade-in" style="animation-delay: 0.4s;">
                 <div class="feature-icon">📚</div>
                 <h3 class="feature-title">Academic References</h3>
-                <p class="feature-description">Curated bibliography linking to seminal papers and current research in fair division theory.</p>
+                <p class="feature-description">Curated bibliography linking to referenced literature and current research in fair division theory.</p>
             </div>
 
             <div class="feature-card fade-in" style="animation-delay: 0.5s;">
