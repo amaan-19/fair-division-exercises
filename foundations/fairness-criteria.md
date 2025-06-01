@@ -42,15 +42,6 @@ next_page:
 
                     {% include foundations/proportionality_visualization.html %}
 
-                    <div class="criterion-examples">
-                        <h4>Examples:</h4>
-                        <ul>
-                            <li><strong>Two players:</strong> Each must receive ≥50% of their subjective value</li>
-                            <li><strong>Three players:</strong> Each must receive ≥33.3% of their subjective value</li>
-                            <li><strong>n players:</strong> Each must receive ≥(100/n)% of their subjective value</li>
-                        </ul>
-                    </div>
-
                     <div class="criterion-properties">
                         <h4>Key Properties:</h4>
                         <ul>
@@ -87,10 +78,10 @@ next_page:
                     <div class="criterion-properties">
                         <h4>Key Properties:</h4>
                         <ul>
-                            <li>✓ Eliminates jealousy between players</li>
-                            <li>✓ Automatically implies proportionality</li>
-                            <li>⚠ More difficult to achieve than proportionality</li>
-                            <li>⚠ May require complex algorithms for n ≥ 3</li>
+                            <li> Eliminates jealousy between players</li>
+                            <li> Automatically implies proportionality</li>
+                            <li> More difficult to achieve than proportionality</li>
+                            <li> May require complex algorithms for n ≥ 3</li>
                         </ul>
                     </div>
                 </div>
@@ -120,10 +111,10 @@ next_page:
                     <div class="criterion-properties">
                         <h4>Key Properties:</h4>
                         <ul>
-                            <li>✓ Maximizes overall satisfaction</li>
-                            <li>✓ Prevents wasteful allocations</li>
-                            <li>⚠ May conflict with fairness criteria</li>
-                            <li>⚠ Does not address distribution of benefits</li>
+                            <li> Maximizes overall satisfaction</li>
+                            <li> Prevents wasteful allocations</li>
+                            <li> May conflict with fairness criteria</li>
+                            <li> Does not address distribution of benefits</li>
                         </ul>
                     </div>
                 </div>
@@ -149,10 +140,10 @@ next_page:
                     <div class="criterion-properties">
                         <h4>Key Properties:</h4>
                         <ul>
-                            <li>✓ Encourages honest behavior</li>
-                            <li>✓ Simplifies decision-making for players</li>
-                            <li>✓ Robust against strategic manipulation</li>
-                            <li>⚠ Often conflicts with other desirable properties</li>
+                            <li> Encourages honest behavior</li>
+                            <li> Simplifies decision-making for players</li>
+                            <li> Robust against strategic manipulation</li>
+                            <li> Often conflicts with other desirable properties</li>
                         </ul>
                     </div>
                 </div>
@@ -177,13 +168,6 @@ next_page:
                     <h4>Strategy-Proofness Constraints</h4>
                     <p>Achieving strategy-proofness often limits the fairness criteria that can be satisfied.</p>
                 </div>
-            </div>
-
-            <div class="theorem">
-                <strong>Theorem (Envy-Free Implies Proportional):</strong> If an allocation is envy-free, then it is also proportional.
-                <br><br><em>Proof sketch:</em> Suppose allocation $X$ is envy-free. For any player $i$, we have $v_i(X_i) \geq v_i(X_j)$ for all $j$. In particular, 
-                $$v_i(X_i) \geq \frac{1}{n}\sum_{j=1}^n v_i(X_j) = \frac{1}{n}v_i(\text{total resource})$$
-                establishing proportionality. $\square$
             </div>
         </section>
 
@@ -221,48 +205,6 @@ next_page:
                     <li><span class="status-maybe">?</span> - Depends on player preferences</li>
                     <li><span class="status-partial">Partial</span> - Satisfied for some players</li>
                 </ul>
-            </div>
-        </section>
-
-        <section class="real-world-section fade-in">
-            <h2>Real-World Applications</h2>
-            
-            <div class="application-grid">
-                <div class="application-card">
-                    <h4>Legal Settlements</h4>
-                    <p>Courts use fairness criteria when dividing assets in divorce proceedings or inheritance disputes.</p>
-                    <div class="application-criteria">
-                        <span class="criterion-tag">Proportional</span>
-                        <span class="criterion-tag">Envy-Free</span>
-                    </div>
-                </div>
-                
-                <div class="application-card">
-                    <h4>International Negotiations</h4>
-                    <p>Territory divisions and resource allocations between nations must satisfy multiple fairness constraints.</p>
-                    <div class="application-criteria">
-                        <span class="criterion-tag">Proportional</span>
-                        <span class="criterion-tag">Strategy-Proof</span>
-                    </div>
-                </div>
-                
-                <div class="application-card">
-                    <h4>Corporate Restructuring</h4>
-                    <p>When companies split or merge, asset division must be fair to all stakeholders.</p>
-                    <div class="application-criteria">
-                        <span class="criterion-tag">Pareto Efficient</span>
-                        <span class="criterion-tag">Proportional</span>
-                    </div>
-                </div>
-                
-                <div class="application-card">
-                    <h4>Public Resource Allocation</h4>
-                    <p>Governments divide budgets and resources among different constituencies and programs.</p>
-                    <div class="application-criteria">
-                        <span class="criterion-tag">Proportional</span>
-                        <span class="criterion-tag">Envy-Free</span>
-                    </div>
-                </div>
             </div>
         </section>
     </div>
