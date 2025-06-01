@@ -40,6 +40,8 @@ next_page:
                         $$v_i(X_i) \geq \frac{1}{n} \times v_i(\text{total resource}) \quad \forall i \in \{1,2,\ldots,n\}$$
                     </div>
 
+                    {% include foundations/proportionality_interactive.html %}
+
                     <div class="criterion-examples">
                         <h4>Examples:</h4>
                         <ul>
@@ -76,6 +78,8 @@ next_page:
                     <div class="formula">
                         $$v_i(X_i) \geq v_i(X_j) \quad \text{for all } i,j \in \{1,2,\ldots,n\}$$
                     </div>
+
+                    {% include foundations/envy_freeness_interactive.html %}
 
                     <div class="criterion-examples">
                         <h4>Intuition:</h4>

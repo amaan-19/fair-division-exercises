@@ -1,0 +1,622 @@
+﻿<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proportionality Interactive Demo</title>
+    <style>
+        :root {
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border-light: #e5e7eb;
+            --border-medium: #d1d5db;
+            --light-blue: #eff6ff;
+            --primary-blue: #3b82f6;
+            --bg-white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f9fafb;
+        }
+
+        .demo-section {
+            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-md);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .demo-explanation {
+            background: var(--light-blue);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--primary-blue);
+        }
+
+            .demo-explanation p {
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+
+        .demo-controls {
+            background: var(--bg-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .demo-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-medium);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+            .demo-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: var(--primary-blue);
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
+                transition: all 0.2s ease;
+            }
+
+                .demo-slider::-webkit-slider-thumb:hover {
+                    transform: scale(1.1);
+                }
+
+        .demo-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-medium);
+            border-radius: 6px;
+            background: var(--bg-white);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .value-display {
+            font-weight: 600;
+            color: var(--primary-blue);
+            min-width: 60px;
+            text-align: right;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .threshold-info {
+            background: var(--light-blue);
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .visualization-container {
+            background: var(--bg-white);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-light);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #propVisualization {
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+            position: relative;
+            background: linear-gradient(45deg, #f0f9ff 25%, transparent 25%), linear-gradient(-45deg, #f0f9ff 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f0f9ff 75%), linear-gradient(-45deg, transparent 75%, #f0f9ff 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        .resource-area {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .preference-region {
+            position: absolute;
+            border: 2px dashed;
+            border-radius: 8px;
+            opacity: 0.3;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .player-result-card {
+            background: var(--bg-white);
+            border-radius: 8px;
+            padding: 1.25rem;
+            border-left: 4px solid var(--primary-blue);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+            .player-result-card:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+        .player-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .player-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-family: 'Courier New', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .proportional-status {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .proportional-yes {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+        }
+
+        .proportional-no {
+            background: linear-gradient(135deg, #fecaca, #fca5a5);
+            color: #991b1b;
+        }
+
+        .summary-container {
+            background: var(--light-blue);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .demo-section {
+                padding: 1.5rem;
+            }
+
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+
+            .player-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-section" id="proportionalityDemo">
+        <h4>Interactive Proportionality Exploration</h4>
+
+        <div class="demo-explanation">
+            <p>
+                Visualize how different players value overlapping regions of a resource.
+                Adjust the division to see if each player receives at least 1/n of their total valuation.
+            </p>
+        </div>
+
+        <div class="demo-controls">
+            <div class="control-group">
+                <label class="control-label">Number of Players:</label>
+                <div class="slider-container">
+                    <input type="range" id="propPlayerCount" class="demo-slider" min="2" max="4" value="3">
+                    <span id="propPlayerValue" class="value-display">3</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Division Style:</label>
+                <select id="propDivisionType" class="demo-select">
+                    <option value="vertical">Vertical Strips</option>
+                    <option value="horizontal">Horizontal Strips</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Division Points:</label>
+                <div id="propDivisionControls"></div>
+            </div>
+
+            <div class="threshold-info">
+                Each player needs ≥ <span id="propThreshold">33.3%</span> of their valuation to be proportional
+            </div>
+        </div>
+
+        <div class="visualization-container">
+            <div id="propVisualization"></div>
+        </div>
+
+        <div id="propResults" class="results-container"></div>
+
+        <div id="propSummary" class="summary-container">
+            Adjust the controls above to explore different resource divisions and see how proportionality is affected.
+        </div>
+    </div>
+
+    <script>
+        class ProportionalityVisualizer {
+            constructor() {
+                this.playerCount = 3;
+                this.divisionType = 'vertical';
+                this.divisionPoints = [];
+                this.colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b'];
+                this.playerNames = ['Red', 'Blue', 'Green', 'Orange'];
+                this.players = [];
+                this.setupPlayers();
+                this.setupDivisions();
+            }
+
+            setupPlayers() {
+                this.players = [];
+
+                // Define preference patterns for each player
+                const patterns = [
+                    // Red: Top region + center area
+                    [
+                        { type: 'rect', x: 10, y: 70, width: 80, height: 20, value: 60 },
+                        { type: 'rect', x: 20, y: 30, width: 60, height: 30, value: 40 }
+                    ],
+                    // Blue: Left side + bottom right
+                    [
+                        { type: 'rect', x: 5, y: 10, width: 30, height: 80, value: 70 },
+                        { type: 'rect', x: 60, y: 10, width: 30, height: 25, value: 30 }
+                    ],
+                    // Green: Center + right edge
+                    [
+                        { type: 'rect', x: 30, y: 40, width: 40, height: 30, value: 50 },
+                        { type: 'rect', x: 75, y: 20, width: 20, height: 60, value: 50 }
+                    ],
+                    // Orange: Bottom band + top corner
+                    [
+                        { type: 'rect', x: 10, y: 5, width: 80, height: 25, value: 55 },
+                        { type: 'rect', x: 70, y: 60, width: 25, height: 25, value: 45 }
+                    ]
+                ];
+
+                for (let i = 0; i < this.playerCount; i++) {
+                    this.players.push({
+                        name: this.playerNames[i],
+                        color: this.colors[i],
+                        regions: patterns[i]
+                    });
+                }
+            }
+
+            setupDivisions() {
+                this.divisionPoints = [];
+                for (let i = 0; i < this.playerCount - 1; i++) {
+                    this.divisionPoints.push(100 * (i + 1) / this.playerCount);
+                }
+            }
+
+            calculateOverlap(allocation, region) {
+                const left = Math.max(allocation.x, region.x);
+                const right = Math.min(allocation.x + allocation.width, region.x + region.width);
+                const top = Math.max(allocation.y, region.y);
+                const bottom = Math.min(allocation.y + allocation.height, region.y + region.height);
+
+                if (left < right && top < bottom) {
+                    return (right - left) * (bottom - top);
+                }
+                return 0;
+            }
+
+            getPlayerAllocations() {
+                const allocations = [];
+
+                if (this.divisionType === 'vertical') {
+                    let prevX = 0;
+                    for (let i = 0; i < this.playerCount; i++) {
+                        const nextX = i < this.divisionPoints.length ? this.divisionPoints[i] : 100;
+                        allocations.push({
+                            x: prevX, y: 0,
+                            width: nextX - prevX, height: 100
+                        });
+                        prevX = nextX;
+                    }
+                } else {
+                    let prevY = 0;
+                    for (let i = 0; i < this.playerCount; i++) {
+                        const nextY = i < this.divisionPoints.length ? this.divisionPoints[i] : 100;
+                        allocations.push({
+                            x: 0, y: prevY,
+                            width: 100, height: nextY - prevY
+                        });
+                        prevY = nextY;
+                    }
+                }
+
+                return allocations;
+            }
+
+            calculateResults() {
+                const allocations = this.getPlayerAllocations();
+                const results = [];
+
+                for (let i = 0; i < this.players.length; i++) {
+                    const player = this.players[i];
+                    const allocation = allocations[i];
+
+                    const totalValue = player.regions.reduce((sum, region) => sum + region.value, 0);
+
+                    let receivedValue = 0;
+                    for (const region of player.regions) {
+                        const regionArea = region.width * region.height;
+                        const overlap = this.calculateOverlap(allocation, region);
+                        const overlapRatio = regionArea > 0 ? overlap / regionArea : 0;
+                        receivedValue += overlapRatio * region.value;
+                    }
+
+                    const valuePercentage = totalValue > 0 ? (receivedValue / totalValue) * 100 : 0;
+                    const requiredPercentage = 100 / this.playerCount;
+                    const isProportional = valuePercentage >= requiredPercentage - 1;
+
+                    results.push({
+                        player: player.name,
+                        received: valuePercentage,
+                        required: requiredPercentage,
+                        proportional: isProportional,
+                        color: player.color
+                    });
+                }
+
+                return results;
+            }
+
+            createVisualization() {
+                const container = document.getElementById('propVisualization');
+                container.innerHTML = '';
+
+                const allocations = this.getPlayerAllocations();
+
+                // Draw preference regions (behind)
+                for (let i = 0; i < this.players.length; i++) {
+                    const player = this.players[i];
+                    for (const region of player.regions) {
+                        const div = document.createElement('div');
+                        div.className = 'preference-region';
+                        div.style.left = region.x + '%';
+                        div.style.top = region.y + '%';
+                        div.style.width = region.width + '%';
+                        div.style.height = region.height + '%';
+                        div.style.borderColor = player.color;
+                        div.style.backgroundColor = player.color;
+                        container.appendChild(div);
+                    }
+                }
+
+                // Draw player allocations
+                for (let i = 0; i < this.players.length; i++) {
+                    const player = this.players[i];
+                    const allocation = allocations[i];
+
+                    const div = document.createElement('div');
+                    div.className = 'resource-area';
+                    div.style.left = allocation.x + '%';
+                    div.style.top = allocation.y + '%';
+                    div.style.width = allocation.width + '%';
+                    div.style.height = allocation.height + '%';
+                    div.style.borderColor = player.color;
+                    div.style.backgroundColor = player.color + '40';
+                    div.textContent = player.name;
+                    container.appendChild(div);
+                }
+            }
+
+            updateResults() {
+                const results = this.calculateResults();
+
+                // Update results display
+                const container = document.getElementById('propResults');
+                container.innerHTML = '';
+
+                results.forEach(result => {
+                    const card = document.createElement('div');
+                    card.className = 'player-result-card';
+                    card.style.borderLeftColor = result.color;
+
+                    card.innerHTML = `
+                            <div class="player-name">${result.player}</div>
+                            <div class="player-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${result.received.toFixed(1)}%</div>
+                                    <div class="stat-label">Received</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${result.required.toFixed(1)}%</div>
+                                    <div class="stat-label">Required</div>
+                                </div>
+                            </div>
+                            <div class="proportional-status ${result.proportional ? 'proportional-yes' : 'proportional-no'}">
+                                ${result.proportional ? '✓ Proportional' : '✗ Not Proportional'}
+                            </div>
+                        `;
+
+                    container.appendChild(card);
+                });
+
+                // Update summary
+                const proportionalCount = results.filter(r => r.proportional).length;
+                const summary = document.getElementById('propSummary');
+
+                if (proportionalCount === results.length) {
+                    summary.innerHTML = `🎉 <strong>Perfect!</strong> All ${results.length} players receive at least their proportional share. This division satisfies the proportionality criterion.`;
+                } else {
+                    summary.innerHTML = `⚠️ <strong>Not Proportional:</strong> ${results.length - proportionalCount} out of ${results.length} players receive less than their required share.`;
+                }
+            }
+
+            update() {
+                this.createVisualization();
+                this.updateResults();
+            }
+        }
+
+        // Global visualizer instance
+        const propViz = new ProportionalityVisualizer();
+
+        // Control handlers
+        function updateThreshold() {
+            const threshold = (100 / propViz.playerCount).toFixed(1);
+            document.getElementById('propThreshold').textContent = threshold + '%';
+        }
+
+        function updateDivisionControls() {
+            const container = document.getElementById('propDivisionControls');
+            container.innerHTML = '';
+
+            const numControls = propViz.playerCount - 1;
+            for (let i = 0; i < numControls; i++) {
+                const div = document.createElement('div');
+                div.className = 'slider-container';
+
+                const defaultValue = 100 * (i + 1) / propViz.playerCount;
+                if (!propViz.divisionPoints[i]) {
+                    propViz.divisionPoints[i] = defaultValue;
+                }
+
+                div.innerHTML = `
+                        <label style="min-width: 80px; font-size: 0.9rem; color: var(--text-secondary);">
+                            ${propViz.divisionType === 'vertical' ? 'Vertical' : 'Horizontal'} ${i + 1}:
+                        </label>
+                        <input type="range" class="demo-slider" min="10" max="90" step="1"
+                               value="${propViz.divisionPoints[i]}"
+                               oninput="updateDivisionPoint(${i}, this.value)">
+                        <span class="value-display">${propViz.divisionPoints[i].toFixed(0)}%</span>
+                    `;
+                container.appendChild(div);
+            }
+        }
+
+        function updateDivisionPoint(index, value) {
+            propViz.divisionPoints[index] = parseFloat(value);
+            updateDivisionControls();
+            propViz.update();
+        }
+
+        // Event listeners
+        document.getElementById('propPlayerCount').addEventListener('input', function () {
+            propViz.playerCount = parseInt(this.value);
+            document.getElementById('propPlayerValue').textContent = propViz.playerCount;
+
+            propViz.setupPlayers();
+            propViz.setupDivisions();
+            updateThreshold();
+            updateDivisionControls();
+            propViz.update();
+        });
+
+        document.getElementById('propDivisionType').addEventListener('change', function () {
+            propViz.divisionType = this.value;
+            propViz.setupDivisions();
+            updateDivisionControls();
+            propViz.update();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            updateThreshold();
+            updateDivisionControls();
+            propViz.update();
+        });
+    </script>
+</body>
+</html>
