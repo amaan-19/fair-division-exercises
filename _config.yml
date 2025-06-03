@@ -1,40 +1,24 @@
-﻿title: Fair Division Algorithms
+﻿# The issue: Jekyll isn't compiling SCSS to CSS
+
+# Fix 1: Check your _config.yml
+# Make sure it has proper SASS configuration:
+
+title: Fair Division Algorithms
 description: Interactive educational platform for fair division algorithms
 
 markdown: kramdown
 highlighter: rouge
-theme: minima
+
+# Add/fix SASS configuration
+sass:
+  sass_dir: _sass
+  style: compressed
 
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
 
-# Build settings
-sass:
-  style: compressed
-
-# Collections for references (optional, if you want to use collections instead of data files)
-collections:
-  references:
-    output: true
-    permalink: /:collection/:name/
-
-# References configuration
-references:
-  # Default view settings
-  default_sort: "year"
-  show_search: true
-  show_filters: true
-  show_categories: true
-  
-  # Citation formats supported
-  citation_formats:
-    - "APA"
-    - "IEEE" 
-    - "Chicago"
-    - "MLA"
-  
 exclude:
   - .git/
   - .gitignore
@@ -45,5 +29,3 @@ exclude:
   - Gemfile.lock
   - README.md
   - LICENSE
-  - .vscode/
-  - .idea/

@@ -3,80 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title | default: site.title }}</title>
-
-    {% include fonts.html %}
-
-    <!-- Jekyll's processed CSS -->
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
-
-    <!-- MathJax for LaTeX rendering -->
-    {% if page.math or page.layout == 'foundation' or page.layout == 'algorithm' %}
-    {% include mathjax.html %}
-    {% endif %}
-
-    <!-- SEO tags -->
     {% seo %}
 </head>
 <body>
-    <!-- Header -->
     <header class="site-header">
-        <div class="header-container">
+        <div class="container">
             <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a></li>
-                    <li><a href="{{ '/foundations/' | relative_url }}" class="nav-link {% if page.url contains '/foundations/' %}active{% endif %}">Foundations</a></li>
-                    <li><a href="{{ '/algorithms/' | relative_url }}" class="nav-link {% if page.url contains '/algorithms/' %}active{% endif %}">Algorithms</a></li>
-                    <li><a href="{{ '/exercises/' | relative_url }}" class="nav-link {% if page.url contains '/exercises/' %}active{% endif %}">Exercises</a></li>
-                    <li><a href="{{ '/references/' | relative_url }}" class="nav-link {% if page.url contains '/references/' %}active{% endif %}">References</a></li>
-                </ul>
+            <nav class="site-nav">
+                <a href="{{ '/references/' | relative_url }}" {% if page.url contains '/references/' %}class="active" {% endif %}>References</a>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        {{ content }}
+    <main class="main-content">
+        <div class="container">
+            {{ content }}
+        </div>
     </main>
 
-    <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-content">
-            <h3 class="footer-title serif">{{ site.title }}</h3>
+        <div class="container">
+            <h3 class="footer-title">{{ site.title }}</h3>
             <p class="footer-description">{{ site.description }}</p>
-            <div class="footer-credits">
-                Washington University received financial support for Responsible Computer Science from Mozilla.
-            </div>
-            <div class="footer-links">
-                <a href="{{ '/' | relative_url }}" class="footer-link">Home</a>
-                <a href="{{ '/foundations/' | relative_url }}" class="footer-link">Foundations</a>
-                <a href="{{ '/algorithms/' | relative_url }}" class="footer-link">Algorithms</a>
-                <a href="{{ '/exercises/' | relative_url }}" class="footer-link">Exercises</a>
-                <a href="{{ '/references/' | relative_url }}" class="footer-link">References</a>
-            </div>
+            <p class="footer-credits">Washington University received financial support for Responsible Computer Science from Mozilla.</p>
         </div>
     </footer>
-
-    <!-- Simple fade-in animation script -->
-    <script>
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.animationPlayState = 'paused';
-            observer.observe(el);
-        });
-    </script>
 </body>
 </html>

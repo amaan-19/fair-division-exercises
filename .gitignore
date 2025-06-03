@@ -1,4 +1,4 @@
-# Jekyll build files
+﻿# Jekyll build files
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
@@ -22,7 +22,15 @@ Thumbs.db
 *.swp
 *.swo
 
-# Node modules (if using any Node.js tools)
+# Visual Studio files - ADD THESE
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Node modules
 node_modules/
 
 # Backup files
@@ -60,4 +68,3 @@ _config_local.yml
 /assets/images/temp/
 /test/
 /experiments/
-.vs/
