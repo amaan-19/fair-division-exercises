@@ -33,9 +33,6 @@ title: Fair Division Algorithms
           <div class="detail-item">
             <strong>Time Complexity:</strong> O(1)
           </div>
-          <div class="detail-item">
-            <strong>Type:</strong> Discrete
-          </div>
         </div>
       </div>
       
