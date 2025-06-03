@@ -1,163 +1,54 @@
-# Fair Division Algorithms
+# Fair Division Algorithms: Interactive Research Platform
 
-An interactive educational platform for learning fair division algorithms through hands-on demonstrations and mathematical analysis.
+An academic project developing interactive educational resources for fair division theory research and pedagogy.
 
-## About
+## Overview
 
-This project teaches fair division theory—the mathematical study of dividing resources fairly among multiple parties. Students can explore algorithms through interactive Python demonstrations, rigorous mathematical proofs, and practical applications.
+Fair division theory studies algorithmic mechanisms for equitably allocating resources among multiple agents. This project creates an interactive web platform to enhance comprehension of fair division algorithms while maintaining mathematical rigor.
 
-**Status:** Active development with foundational content complete
+**Status**: In-development
 
-## Current Features
+## Quick Start
 
-### 🎯 **Foundations**
-- **Fairness Criteria** - Complete mathematical treatment of proportionality, envy-freeness, Pareto efficiency, and strategy-proofness
-- Formal definitions with LaTeX mathematical notation
-- Real-world applications and examples
-- Interactive criterion comparison tables
+```bash
+git clone [repository-url]
+cd fair-division-algorithms
+bundle install
+bundle exec jekyll serve
+```
 
-### 🔬 **Algorithms**
-- **Divide-and-Choose Algorithm** - Complete with interactive Python demo
-  - Live code execution via Pyodide
-  - Step-by-step mathematical analysis
-  - Visualization of fairness properties
-  - Formal proofs and complexity analysis
-
-### 💻 **Interactive Features**
-- **Browser-based Python** - Execute algorithms directly with Pyodide
-- **Mathematical rendering** - LaTeX support via MathJax
-- **Responsive design** - Optimized for desktop and mobile
-- **Progressive enhancement** - Works without JavaScript for core content
-
-### 🎨 **Educational Design**
-- **Structured learning path** - From foundations to advanced algorithms
-- **Visual hierarchy** - Clean, academic styling with serif headings
-- **Accessibility features** - Proper contrast, semantic markup, and responsive layouts
-- **Academic references** - Curated bibliography for further study
-
-## Technology Stack
-
-- **Jekyll** - Static site generator
-- **Pyodide** - Browser-based Python environment
-- **MathJax** - LaTeX mathematical notation rendering
-- **Matplotlib** - Python visualizations in browser
-- **GitHub Pages** - Hosting and deployment
-- **Custom CSS** - Modern responsive design with CSS Grid
+Visit `http://127.0.0.1:4000`
 
 ## Project Structure
 
 ```
 ├── _config.yml                    # Jekyll configuration
-├── _data/
-│   ├── algorithms.yml             # Algorithm metadata
-│   └── foundations.yml            # Foundation topic metadata
-├── _includes/
-│   ├── algorithms/                # Algorithm-specific components
-│   ├── foundations/               # Foundation-specific components
-│   ├── header.html               # Site navigation
-│   ├── footer.html               # Site footer
-│   └── mathjax.html              # Mathematical notation setup
-├── _layouts/
-│   ├── default.html              # Base page layout
-│   ├── algorithm.html            # Algorithm page layout
-│   └── foundation.html           # Foundation page layout
+├── _layouts/default.html          # Academic page template
 ├── algorithms/
-│   ├── index.md                  # Algorithm listing page
-│   └── divide-and-choose.md      # Complete algorithm implementation
-├── foundations/
-│   ├── index.md                  # Foundation topics overview
-│   └── fairness-criteria.md     # Complete fairness criteria guide
-├── assets/
-│   └── main.scss                 # Comprehensive styling
-└── index.md                      # Homepage
+│   └── divide-and-choose.md       # Complete algorithm analysis
+├── assets/main.css                # Academic design system
+├── index.md                       # Platform homepage
+└── references/index.md            # Academic bibliography
 ```
 
-## Quick Start
+## Technology Stack
 
-### Local Development
-```bash
-git clone [repository-url]
-cd fair-division-algorithms
-bundle install
-bundle exec jekyll serve --livereload
-```
-Visit `http://127.0.0.1:4000`
+- **Jekyll** - Static site generator for academic content
+- **GitHub Pages** - Deployment and hosting
+- **Custom CSS** - Responsive design with academic typography
 
-### GitHub Pages Deployment
-1. Fork this repository
-2. Enable GitHub Pages in repository settings
-3. Select "Deploy from a branch" and choose `main`
-4. Your site will be available at `https://username.github.io/fair-division-algorithms/`
+## Research Team
 
-## Content Status
-
-### ✅ Complete
-- **Fairness Criteria**: Comprehensive mathematical foundations
-- **Site Infrastructure**: Layouts, styling, navigation, and responsive design
-- **Mathematical Rendering**: LaTeX support throughout
-
-### 🚧 In Development
-- **Divide-and-Choose Algorithm**: Full implementation with interactive demo
-- **Austin's Moving-Knife Procedure**: Algorithm page structure exists
-
-## Educational Approach
-
-### **Multiple Learning Modalities**
-- **Visual**: Step-by-step algorithm demonstrations
-- **Mathematical**: Formal proofs and theoretical analysis
-- **Interactive**: Hands-on Python coding and experimentation
-- **Applied**: Real-world examples and case studies
-
-### **Progressive Complexity**
-- **Foundations**: Core mathematical concepts
-- **Basic Algorithms**: Two-player procedures
-- **Advanced Algorithms**: Multi-player mechanisms
-- **Research Topics**: Current developments in the field
-
-### **Academic Rigor**
-- Formal mathematical definitions and notation
-- Complete proofs of algorithmic properties
-- References to seminal papers and current research
-- Connection to broader game theory and mechanism design
-
-## Browser Requirements
-
-- **Modern browser** with WebAssembly support (Chrome, Firefox, Safari, Edge)
-- **JavaScript enabled** for interactive Python demonstrations
-- **Note**: Python environment takes 5-10 seconds to initialize on first load
-
-## Contributing
-
-This is an educational project focused on clear, rigorous exposition of fair division theory. Contributions should maintain the academic tone and mathematical precision.
-
-### Content Guidelines
-- Use formal mathematical notation with LaTeX
-- Include complete proofs or proof sketches for theoretical claims
-- Provide concrete examples alongside abstract concepts
-- Maintain consistent styling and layout patterns
-
-### Technical Guidelines
-- Follow Jekyll conventions for layouts and includes
-- Use semantic HTML and accessible design patterns
-- Test responsive design across device sizes
-- Ensure mathematical notation renders correctly
-
-## Team
-
-- **Amaan Khan** - Development and content creation
-- **Dr. Ron Cytron** - Academic guidance and theoretical oversight
-- **Mozilla** - Project support and educational initiative funding
+- **Amaan Khan** - Primary investigator and developer
+- **Dr. Ron Cytron** - Faculty advisor and theoretical oversight
+- **Washington University in St. Louis** - Institutional support
 
 ## License
 
 Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 
-This allows for free use, modification, and distribution with proper attribution and same license for derivative works.
+## Funding
 
-## Acknowledgments
-
-Built with support from Mozilla's educational initiatives. Special thanks to the fair division research community for the theoretical foundations that make this educational resource possible.
+Supported by Mozilla Educational Initiatives for responsible computer science education.
 
 ---
-
-*An interactive educational platform exploring mathematical approaches to fair resource allocation.*
