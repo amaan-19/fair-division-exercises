@@ -4,9 +4,6 @@ title: Fair Division Algorithms
 ---
 
 <div class="algorithms-section">
-  <h2>Algorithms</h2>
-  <p class="section-description">Explore different algorithmic approaches to fair division, each with unique properties and applications.</p>
-  
   <div class="algorithm-grid">
     <!-- Divide-and-Choose Algorithm Card -->
     <div class="algorithm-card">
@@ -14,6 +11,7 @@ title: Fair Division Algorithms
         <h3 class="algorithm-title">Divide-and-Choose</h3>
         <div class="algorithm-meta">
           <span class="players-badge">2 Players</span>
+          <span class="type-badge">Discrete</span>
         </div>
       </div>
       

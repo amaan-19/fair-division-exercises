@@ -9,7 +9,7 @@ permalink: /algorithms/divide-and-choose/
   <!-- Algorithm Header -->
   <header class="algorithm-header">
     <div class="header-content">
-      <h1 class="algorithm-title">Divide-and-Choose Algorithm</h1>
+      <h1>Divide-and-Choose</h1>
       <p class="algorithm-subtitle">The fundamental fair division procedure for two players</p>
       
       <div class="algorithm-meta-bar">
@@ -23,6 +23,7 @@ permalink: /algorithms/divide-and-choose/
   <section class="content-block">
     <h2>Overview</h2>
     <p>The divide-and-choose algorithm is the most basic and intuitive fair division procedure. Despite its simplicity, it provides strong mathematical guarantees about fairness for two-player scenarios.</p>
+    <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
     
     <div class="procedure-steps">
       <h3>How It Works</h3>
@@ -305,46 +306,13 @@ permalink: /algorithms/divide-and-choose/
         <h2 class="simulation-title">Interactive Demo</h2>
         
         <div class="step-indicator" id="stepIndicator">
-            Step 1: Player 1 (Divider) cuts the geometric pattern
+            Step 1: Player 1 (Divider) draws a cutting line
         </div>
         
         <div class="instructions" id="instructions">
-            <strong>Instructions:</strong> Use the slider below to place a vertical cut through the geometric pattern. Each colored region has different values for each player.
+            <strong>Instructions:</strong> Player 1, draw a line through the resource to divide it.
         </div>
-        
-        <div class="color-legend">
-            <div class="color-item">
-                <div class="color-swatch" style="background: #0066ff;"></div>
-                <span>Blue</span>
-            </div>
-            <div class="color-item">
-                <div class="color-swatch" style="background: #ff3366;"></div>
-                <span>Red</span>
-            </div>
-            <div class="color-item">
-                <div class="color-swatch" style="background: #66ff66;"></div>
-                <span>Green</span>
-            </div>
-            <div class="color-item">
-                <div class="color-swatch" style="background: #ff6600;"></div>
-                <span>Orange</span>
-            </div>
-            <div class="color-item">
-                <div class="color-swatch" style="background: #ff66ff;"></div>
-                <span>Pink</span>
-            </div>
-            <div class="color-item">
-                <div class="color-swatch" style="background: #9966ff;"></div>
-                <span>Purple</span>
-            </div>
-        </div>
-        
-        <div class="slider-container" id="sliderContainer">
-            <label for="cutSlider"><strong>Cut Position:</strong></label><br>
-            <input type="range" id="cutSlider" class="slider" min="10" max="90" value="50">
-            <div>Cut at: <span id="cutPercent">50</span>%</div>
-        </div>
-        
+
         <div class="geometric-container" id="geometricContainer">
             <svg class="geometric-svg" id="geometricSvg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
                 <!-- Background -->
@@ -352,59 +320,76 @@ permalink: /algorithms/divide-and-choose/
                 
                 <!-- Blue region (top) -->
                 <polygon points="0,0 800,0 800,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2"/>
-                <text x="400" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Blue</text>
+                <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Blue</text>
 
                 <!-- Red region (top right) -->
-                <polygon points="600,0 800,0 800,300 600,300" fill="#ff3366" stroke="#2d3748" stroke-width="2"/>
-                <text x="700" y="80" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Red</text>
+                <polygon points="600,0 800,0 800,250 600,250" fill="#ff3366" stroke="#2d3748" stroke-width="2"/>
+                <text x="700" y="125" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Red</text>
                 
                 <!-- Orange region (right) -->
-                <polygon points="800,300 600,300 600,500 800,500" fill="#ff6600" stroke="#2d3748" stroke-width="2"/>
-                <text x="700" y="280" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Orange</text>
+                <polygon points="600,250 800,250 800,350 600,350" fill="#ff6600" stroke="#2d3748" stroke-width="2"/>
+                <text x="700" y="310" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Orange</text>
 
-                <!-- Purple region (bottom) -->
-                <polygon points="170,350 530,350 800,400 0,400" fill="#9966ff" stroke="#2d3748" stroke-width="2"/>
-                <text x="400" y="380" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Purple</text>
+                <!-- Purple region (bottom right) -->
+                <polygon points="150,350 800,350 800,400 0,400" fill="#9966ff" stroke="#2d3748" stroke-width="2"/>
+                <text x="500" y="380" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Purple</text>
 
                 <!-- Pink region (bottom left) -->
-                <polygon points="0,150 200,150 170,250 170,350 0,400 0,150" fill="#ff66ff" stroke="#2d3748" stroke-width="2"/>
-                <text x="85" y="280" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Pink</text>
+                <polygon points="0,150 150,150 150,400 0,400" fill="#ff66ff" stroke="#2d3748" stroke-width="2"/>
+                <text x="80" y="280" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Pink</text>
                 
                 <!-- Green region (bottom center) -->
-                <polygon points="200,150 600,150 630,250 530,350 270,350 170,250" fill="#66ff66" stroke="#2d3748" stroke-width="2"/>
-                <text x="400" y="280" text-anchor="middle" font-size="32" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Green</text>
-                
-                
-                
-                
-                
+                <polygon points="150,150 600,150 600,350 150,350" fill="#66ff66" stroke="#2d3748" stroke-width="2"/>
+                <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Green</text>
+        
                 <!-- Cut line -->
                 <line id="cutLine" class="cut-line" x1="400" y1="0" x2="400" y2="400"/>
             </svg>
+
+            <!-- Drawing Canvas -->
+            <canvas id="drawingCanvas" width="800" height="400"></canvas>
             
             <!-- Piece overlays -->
-            <div class="piece-overlay" id="leftPiece">
-                <div class="piece-label">Left Piece</div>
-            </div>
-            <div class="piece-overlay" id="rightPiece">
-                <div class="piece-label">Right Piece</div>
-            </div>
-        </div>
-        
-        <div class="controls">
-            <button class="button" id="cutButton" onclick="makeCut()">Make Cut</button>
-            <button class="button" id="resetButton" onclick="resetSimulation()" style="display: none;">Reset</button>
+            <div class="piece-overlay" id="leftPiece"></div>
+            <div class="piece-overlay" id="rightPiece"></div>
         </div>
         
         <div class="player-info">
-            <div class="player-card player-1">
-                <div class="player-title">Player 1 (Divider)</div>
-                <div class="player-value" id="player1Value">Ready to cut</div>
+            <div class="player-card player1">
+                <h3>Player 1 (Divider)</h3>
+                <div class="color-legend">
+                    <div class="color-item"><div class="color-swatch" style="background: #0066ff;"></div>Blue: 20pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #ff3366;"></div>Red: 15pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #66ff66;"></div>Green: 25pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #ff6600;"></div>Orange: 10pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #ff66ff;"></div>Pink: 15pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #9966ff;"></div>Purple: 15pts</div>
+                </div>
+                <div><strong>Values:</strong> <span id="player1Value">Ready to draw</span></div>
             </div>
-            <div class="player-card player-2">
-                <div class="player-title">Player 2 (Chooser)</div>
-                <div class="player-value" id="player2Value">Waiting...</div>
+
+            <div class="player-card player2">
+                <h3>Player 2 (Chooser)</h3>
+                <div class="color-legend">
+                    <div class="color-item"><div class="color-swatch" style="background: #0066ff;"></div>Blue: 15pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #ff3366;"></div>Red: 25pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #66ff66;"></div>Green: 20pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #ff6600;"></div>Orange: 20pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #ff66ff;"></div>Pink: 10pts</div>
+                    <div class="color-item"><div class="color-swatch" style="background: #9966ff;"></div>Purple: 10pts</div>
+                </div>
+                <div><strong>Values:</strong> <span id="player1Value">Ready to draw</span></div>
             </div>
+        </div>
+
+        <div class="warning" id="warning">
+            <strong>Note:</strong> This cut may create very unequal distributions!
+        </div>
+
+        <div class="controls">
+            <button id="makeCutButton" onclick="makeCut()" disabled>Make Cut</button>
+            <button id="clearButton" onclick="clearDrawing()">Clear Line</button>
+            <button id="resetButton" onclick="resetSimulation()" style="display: none;">Reset Game</button>
         </div>
         
         <div class="results" id="results">
@@ -416,15 +401,13 @@ permalink: /algorithms/divide-and-choose/
             </ul>
         </div>
         
-        <div class="warning" id="warning">
-            <strong>Note:</strong> This cut may create very unequal distributions!
-        </div>
     </div>
 
     <script>
+
         let gameState = {
             step: 1,
-            cutPosition: 50,
+            cutPosition: null,
             selectedPiece: null,
             player1Piece: null,
             player2Piece: null
@@ -436,9 +419,174 @@ permalink: /algorithms/divide-and-choose/
             player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 }
         };
 
+        // Line drawing class
+        class CakeDrawer {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.isDrawing = false;
+                this.startX = 0;
+                this.startY = 0;
+                this.lines = [];
+                
+                this.setupEventListeners();
+                
+                // Set drawing properties
+                this.ctx.lineCap = 'round';
+                this.ctx.lineJoin = 'round';
+                this.ctx.strokeStyle = '#dc3545';
+                this.ctx.lineWidth = 4;
+            }
+
+            setupEventListeners() {
+                this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+                this.canvas.addEventListener('mousemove', (e) => this.draw(e));
+                this.canvas.addEventListener('mouseup', () => this.stopDrawing());
+                this.canvas.addEventListener('mouseout', () => this.stopDrawing());
+                
+                // Touch events
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    this.canvas.dispatchEvent(mouseEvent);
+                });
+                
+                this.canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    this.canvas.dispatchEvent(mouseEvent);
+                });
+                
+                this.canvas.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    this.canvas.dispatchEvent(new MouseEvent('mouseup', {}));
+                });
+            }
+
+            getMousePos(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                return {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+            }
+
+            startDrawing(e) {
+                if (gameState.step !== 1) return;
+                
+                this.isDrawing = true;
+                const pos = this.getMousePos(e);
+                this.startX = pos.x;
+                this.startY = pos.y;
+                
+                this.currentLine = {
+                    startX: this.startX,
+                    startY: this.startY,
+                    endX: this.startX,
+                    endY: this.startY,
+                    color: this.ctx.strokeStyle,
+                    width: this.ctx.lineWidth
+                };
+                
+                // Clear previous lines for single cut
+                this.lines = [];
+            }
+
+            draw(e) {
+                if (!this.isDrawing || gameState.step !== 1) return;
+                
+                const pos = this.getMousePos(e);
+                this.currentLine.endX = pos.x;
+                this.currentLine.endY = pos.y;
+                
+                this.redrawCanvas();
+                this.drawLine(this.currentLine);
+                
+                // Update game values in real-time
+                this.updateGameValues();
+            }
+            
+            stopDrawing() {
+                if (!this.isDrawing || gameState.step !== 1) return;
+                
+                this.isDrawing = false;
+                this.lines.push({...this.currentLine});
+                gameState.cutLine = {...this.currentLine};
+                this.currentLine = null;
+                
+                // Enable make cut button
+                document.getElementById('makeCutButton').disabled = false;
+                
+                this.updateGameValues();
+            }
+            
+            drawLine(line) {
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = line.color;
+                this.ctx.lineWidth = line.width;
+                this.ctx.moveTo(line.startX, line.startY);
+                this.ctx.lineTo(line.endX, line.endY);
+                this.ctx.stroke();
+            }
+            
+            redrawCanvas() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.lines.forEach(line => this.drawLine(line));
+            }
+
+            updateGameValues() {
+                if (!gameState.cutLine) return;
+                
+                // Calculate average X position of the cut line for simplicity
+                const cutX = (gameState.cutLine.startX + gameState.cutLine.endX) / 2;
+                const cutPercent = (cutX / this.canvas.width) * 100;
+                gameState.cutPosition = cutPercent;
+                
+                // Calculate region values
+                const regionValues = calculateRegionValues(cutPercent);
+                const p1Left = calculatePlayerValue(regionValues.left, 'player1');
+                const p1Right = calculatePlayerValue(regionValues.right, 'player1');
+                const p2Left = calculatePlayerValue(regionValues.left, 'player2');
+                const p2Right = calculatePlayerValue(regionValues.right, 'player2');
+                
+                document.getElementById('player1Value').textContent = 
+                    `Left: ${p1Left.toFixed(1)} | Right: ${p1Right.toFixed(1)}`;
+                document.getElementById('player2Value').textContent = 
+                    `Left: ${p2Left.toFixed(1)} | Right: ${p2Right.toFixed(1)}`;
+                
+                // Show warning if very unequal for player 1
+                const warning = document.getElementById('warning');
+                if (Math.abs(p1Left - p1Right) > 15) {
+                    warning.style.display = 'block';
+                } else {
+                    warning.style.display = 'none';
+                }
+            }
+            
+            clearCanvas() {
+                this.lines = [];
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                gameState.cutLine = null;
+                gameState.cutPosition = null;
+                
+                // Reset UI
+                document.getElementById('makeCutButton').disabled = true;
+                document.getElementById('player1Value').textContent = 'Ready to draw';
+                document.getElementById('player2Value').textContent = 'Waiting...';
+                document.getElementById('warning').style.display = 'none';
+            }
+        }
+
+        // Game logic functions
         function calculateRegionValues(cutPercent) {
-            // Simplified calculation based on cut position
-            // In reality, you'd calculate exact polygon intersections
             const cutX = cutPercent / 100;
             
             let leftValues = { blue: 0, red: 0, green: 0, orange: 0, pink: 0, purple: 0 };
@@ -510,47 +658,14 @@ permalink: /algorithms/divide-and-choose/
             return total;
         }
 
-        function updateSlider() {
-            const slider = document.getElementById('cutSlider');
-            const cutPercent = parseInt(slider.value);
-            
-            document.getElementById('cutPercent').textContent = cutPercent;
-            gameState.cutPosition = cutPercent;
-            
-            // Update cut line position
-            const cutLine = document.getElementById('cutLine');
-            const cutX = (cutPercent / 100) * 800;
-            cutLine.setAttribute('x1', cutX);
-            cutLine.setAttribute('x2', cutX);
-            cutLine.classList.add('visible');
-            
-            // Calculate and display values
-            const regionValues = calculateRegionValues(cutPercent);
-            const p1Left = calculatePlayerValue(regionValues.left, 'player1');
-            const p1Right = calculatePlayerValue(regionValues.right, 'player1');
-            const p2Left = calculatePlayerValue(regionValues.left, 'player2');
-            const p2Right = calculatePlayerValue(regionValues.right, 'player2');
-            
-            document.getElementById('player1Value').textContent = 
-                `Left: ${p1Left.toFixed(1)} | Right: ${p1Right.toFixed(1)}`;
-            document.getElementById('player2Value').textContent = 
-                `Left: ${p2Left.toFixed(1)} | Right: ${p2Right.toFixed(1)}`;
-            
-            // Show warning if very unequal for player 1
-            const warning = document.getElementById('warning');
-            if (Math.abs(p1Left - p1Right) > 15) {
-                warning.style.display = 'block';
-            } else {
-                warning.style.display = 'none';
-            }
-        }
-
         function makeCut() {
+            if (!gameState.cutLine || gameState.step !== 1) return;
+            
             const cutPercent = gameState.cutPosition;
             
-            // Hide slider and cut button
-            document.getElementById('sliderContainer').style.display = 'none';
-            document.getElementById('cutButton').style.display = 'none';
+            // Hide controls
+            document.getElementById('makeCutButton').style.display = 'none';
+            document.getElementById('clearButton').style.display = 'none';
             document.getElementById('warning').style.display = 'none';
             
             // Show piece overlays
@@ -575,6 +690,9 @@ permalink: /algorithms/divide-and-choose/
                 'Step 2: Player 2 (Chooser) selects their preferred piece';
             document.getElementById('instructions').innerHTML = 
                 '<strong>Instructions:</strong> Player 2, click on the piece you prefer based on the color values!';
+            
+            // Disable canvas drawing
+            drawer.canvas.style.pointerEvents = 'none';
         }
 
         function selectPiece(side) {
@@ -600,7 +718,7 @@ permalink: /algorithms/divide-and-choose/
                 gameState.player1Piece = 'left';
             }
             
-            // Show results after a short delay
+            // Show results after delay
             setTimeout(showResults, 1000);
         }
 
@@ -627,7 +745,7 @@ permalink: /algorithms/divide-and-choose/
                 `Player 1 gets the ${gameState.player1Piece} piece (value: ${p1Final.toFixed(1)})<br>` +
                 `Player 2 gets the ${gameState.player2Piece} piece (value: ${p2Final.toFixed(1)})`;
             
-            // Check properties (using total possible value of 100 as baseline)
+            // Check properties
             const proportional = p1Final >= 50 && p2Final >= 50;
             
             document.getElementById('proportionalResult').textContent = 
@@ -641,11 +759,16 @@ permalink: /algorithms/divide-and-choose/
             document.getElementById('resetButton').style.display = 'inline-block';
         }
 
+        function clearDrawing() {
+            drawer.clearCanvas();
+        }
+
         function resetSimulation() {
             // Reset game state
             gameState = {
                 step: 1,
-                cutPosition: 50,
+                cutPosition: null,
+                cutLine: null,
                 selectedPiece: null,
                 player1Piece: null,
                 player2Piece: null
@@ -653,13 +776,14 @@ permalink: /algorithms/divide-and-choose/
             
             // Reset UI
             document.getElementById('stepIndicator').textContent = 
-                'Step 1: Player 1 (Divider) cuts the geometric pattern';
+                'Step 1: Player 1 (Divider) draws a cutting line';
             document.getElementById('instructions').style.display = 'block';
             document.getElementById('instructions').innerHTML = 
-                '<strong>Instructions:</strong> Use the slider below to place a vertical cut through the geometric pattern. Each colored region has different values for each player.';
+                '<strong>Instructions:</strong> Player 1, draw a vertical line through the geometric pattern to divide it. Each colored region has different values for each player.';
             
-            document.getElementById('sliderContainer').style.display = 'block';
-            document.getElementById('cutButton').style.display = 'inline-block';
+            document.getElementById('makeCutButton').style.display = 'inline-block';
+            document.getElementById('makeCutButton').disabled = true;
+            document.getElementById('clearButton').style.display = 'inline-block';
             document.getElementById('resetButton').style.display = 'none';
             
             document.getElementById('leftPiece').style.display = 'none';
@@ -669,19 +793,16 @@ permalink: /algorithms/divide-and-choose/
             document.getElementById('results').style.display = 'none';
             document.getElementById('warning').style.display = 'none';
             
-            // Reset slider and cut line
-            document.getElementById('cutSlider').value = 50;
-            document.getElementById('cutLine').classList.remove('visible');
-            updateSlider();
-            
-            // Reset player info
-            document.getElementById('player1Value').textContent = 'Ready to cut';
-            document.getElementById('player2Value').textContent = 'Waiting...';
+            // Re-enable canvas
+            drawer.canvas.style.pointerEvents = 'auto';
+            drawer.clearCanvas();
         }
 
-        // Initialize
-        document.getElementById('cutSlider').addEventListener('input', updateSlider);
-        updateSlider();
+        // Initialize the game
+        let drawer;
+        document.addEventListener('DOMContentLoaded', () => {
+            drawer = new CakeDrawer('drawingCanvas');
+        });
     </script>
 </body>
 </html>
