@@ -289,6 +289,7 @@ blockquote {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     margin: 2rem 0;
+    align-items: stretch;
 }
 
 /* Algorithm Card */
@@ -299,6 +300,8 @@ blockquote {
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
 }
 
     .algorithm-card:hover:not(.coming-soon) {
@@ -353,6 +356,9 @@ blockquote {
 /* Algorithm Content */
 .algorithm-content {
     padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .algorithm-description {
@@ -406,6 +412,7 @@ blockquote {
     padding: 1rem 1.5rem;
     background: #f8f9fa;
     border-top: 1px solid #e2e8f0;
+    margin-top: auto;
 }
 
 .algorithm-link {

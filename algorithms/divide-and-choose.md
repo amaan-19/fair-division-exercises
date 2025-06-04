@@ -6,7 +6,7 @@ permalink: /algorithms/divide-and-choose/
 
 <div class="algorithm-page">
 
-  <!-- Algorithm Header Card - Fixed Structure -->
+  <!-- Algorithm Header Card -->
   <div class="algorithm-header-card">
     <div class="algorithm-header-content">
       <h1 class="algorithm-title">Divide-and-Choose</h1>
