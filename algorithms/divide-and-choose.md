@@ -6,18 +6,34 @@ permalink: /algorithms/divide-and-choose/
 
 <div class="algorithm-page">
 
-  <!-- Algorithm Header -->
-  <header class="algorithm-header">
-    <div class="header-content">
-      <h1>Divide-and-Choose</h1>
+  <!-- Algorithm Header Card - Fixed Structure -->
+  <div class="algorithm-header-card">
+    <div class="algorithm-header-content">
+      <h1 class="algorithm-title">Divide-and-Choose</h1>
       <p class="algorithm-subtitle">The fundamental fair division procedure for two players</p>
       
-      <div class="algorithm-meta-bar">
-        <span class="players-badge">2 Players</span>
-        <span class="type-badge">Discrete</span>
+      <div class="algorithm-meta">
+        <span class="meta-badge players-badge">2 Players</span>
+        <span class="meta-badge type-badge">Discrete</span>
+        <span class="meta-badge difficulty-badge">Quick-learn</span>
+      </div>
+
+      <div class="algorithm-stats">
+        <div class="stat-item">
+          <span class="stat-value">O(1)</span>
+          <span class="stat-label">Time Complexity</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Proportional</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">✓</span>
+          <span class="stat-label">Envy-Free</span>
+        </div>
       </div>
     </div>
-  </header>
+  </div>
 
   <!-- Overview -->
   <section class="content-block">
@@ -55,13 +71,14 @@ permalink: /algorithms/divide-and-choose/
     <h2>Interactive Demo</h2>
     <p>Try the algorithm yourself! Draw a line to divide the geometric pattern, then see how Player 2 responds.</p>
     
-    <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 20px 0;">
+    <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 20px 0; min-height: 800px;">
       <iframe 
         src="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}" 
         width="100%" 
         height="800" 
         frameborder="0"
-        style="display: block;">
+        style="display: block; border: none;">
+        <p>Your browser does not support iframes. <a href="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}">View the demo directly</a>.</p>
       </iframe>
     </div>
   </section>
@@ -95,17 +112,6 @@ permalink: /algorithms/divide-and-choose/
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Applications -->
-  <section class="content-block">
-    <h2>Real-World Applications</h2>
-    <ul>
-      <li><strong>Legal settlements:</strong> Dividing disputed assets between two parties</li>
-      <li><strong>Estate division:</strong> Splitting inheritance between two heirs</li>
-      <li><strong>Resource allocation:</strong> Distributing time, space, or materials</li>
-      <li><strong>Conflict resolution:</strong> Fair compromise in disputes</li>
-    </ul>
   </section>
 
   <!-- Limitations -->

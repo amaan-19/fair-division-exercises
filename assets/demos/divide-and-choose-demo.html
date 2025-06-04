@@ -224,30 +224,30 @@
 
         <div class="game-area" id="gameArea">
             <!-- Background with colored regions -->
-            <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="none">
+            <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
                 <!-- Blue region (top) -->
                 <polygon points="0,0 800,0 800,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2" />
-                <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Blue</text>
+                <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Blue</text>
 
                 <!-- Red region (top right) -->
                 <polygon points="600,0 800,0 800,250 600,250" fill="#ff3366" stroke="#2d3748" stroke-width="2" />
-                <text x="700" y="125" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Red</text>
+                <text x="700" y="125" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Red</text>
 
                 <!-- Orange region (right) -->
                 <polygon points="600,250 800,250 800,350 600,350" fill="#ff6600" stroke="#2d3748" stroke-width="2" />
-                <text x="700" y="310" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Orange</text>
+                <text x="700" y="310" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Orange</text>
 
                 <!-- Purple region (bottom) -->
                 <polygon points="150,350 800,350 800,400 0,400" fill="#9966ff" stroke="#2d3748" stroke-width="2" />
-                <text x="500" y="380" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Purple</text>
+                <text x="500" y="380" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Purple</text>
 
                 <!-- Pink region (bottom left) -->
                 <polygon points="0,150 150,150 150,400 0,400" fill="#ff66ff" stroke="#2d3748" stroke-width="2" />
-                <text x="80" y="280" text-anchor="middle" font-size="24" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Pink</text>
+                <text x="80" y="280" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Pink</text>
 
                 <!-- Green region (center) -->
                 <polygon points="150,150 600,150 600,350 150,350" fill="#66ff66" stroke="#2d3748" stroke-width="2" />
-                <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white" text-shadow="1px 1px 2px rgba(0,0,0,0.5)">Green</text>
+                <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Green</text>
             </svg>
 
             <!-- Drawing Canvas -->
@@ -336,7 +336,7 @@
                 };
             }
 
-            canvas.addEventListener('mousedown', function (e) {
+            canvas.addEventListener('mousedown', function(e) {
                 if (gameState.step !== 1) return;
 
                 isDrawing = true;
@@ -344,21 +344,18 @@
                 startX = coords.x;
                 startY = coords.y;
 
-                // Clear previous line
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
             });
 
-            canvas.addEventListener('mousemove', function (e) {
+            canvas.addEventListener('mousemove', function(e) {
                 if (!isDrawing || gameState.step !== 1) return;
 
                 const coords = getCanvasCoords(e);
                 endX = coords.x;
                 endY = coords.y;
 
-                // Clear and redraw
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // Draw line
                 ctx.beginPath();
                 ctx.moveTo(startX, startY);
                 ctx.lineTo(endX, endY);
@@ -367,23 +364,18 @@
                 ctx.lineCap = 'round';
                 ctx.stroke();
 
-                // Update values
                 updateGameValues();
             });
 
-            canvas.addEventListener('mouseup', function (e) {
+            canvas.addEventListener('mouseup', function(e) {
                 if (!isDrawing || gameState.step !== 1) return;
 
                 isDrawing = false;
-
-                // Store the cut line
                 gameState.cutLine = { startX, startY, endX, endY };
-
-                // Enable make cut button
                 document.getElementById('makeCutButton').disabled = false;
             });
 
-            canvas.addEventListener('mouseleave', function (e) {
+            canvas.addEventListener('mouseleave', function(e) {
                 if (isDrawing) {
                     isDrawing = false;
                 }
@@ -393,12 +385,10 @@
         function updateGameValues() {
             if (!startX || !endX) return;
 
-            // Calculate cut position as average X coordinate
             const cutX = (startX + endX) / 2;
             const cutPercent = (cutX / 800) * 100;
             gameState.cutPosition = cutPercent;
 
-            // Calculate values for each region
             const regionValues = calculateRegionValues(cutPercent);
             const p1Left = calculatePlayerValue(regionValues.left, 'player1');
             const p1Right = calculatePlayerValue(regionValues.right, 'player1');
@@ -410,7 +400,6 @@
             document.getElementById('player2Value').textContent =
                 `Left: ${p2Left.toFixed(1)} | Right: ${p2Right.toFixed(1)}`;
 
-            // Show warning if very unequal for player 1
             const warning = document.getElementById('warning');
             if (Math.abs(p1Left - p1Right) > 15) {
                 warning.style.display = 'block';
@@ -425,11 +414,9 @@
             let leftValues = { blue: 0, red: 0, green: 0, orange: 0, pink: 0, purple: 0 };
             let rightValues = { blue: 0, red: 0, green: 0, orange: 0, pink: 0, purple: 0 };
 
-            // Blue region (full width, top)
             leftValues.blue = cutX * 100;
             rightValues.blue = (1 - cutX) * 100;
 
-            // Red region (right side only, x: 0.75-1.0)
             if (cutX <= 0.75) {
                 leftValues.red = 0;
                 rightValues.red = 100;
@@ -438,7 +425,6 @@
                 rightValues.red = (1 - cutX) / 0.25 * 100;
             }
 
-            // Green region (center, x: 0.1875-0.75)
             if (cutX <= 0.1875) {
                 leftValues.green = cutX / 0.1875 * 30;
                 rightValues.green = 70 + (0.1875 - cutX) / 0.1875 * 30;
@@ -450,7 +436,6 @@
                 rightValues.green = (1 - cutX) / 0.25 * 30;
             }
 
-            // Orange region (right side, x: 0.75-1.0)
             if (cutX <= 0.75) {
                 leftValues.orange = 0;
                 rightValues.orange = 100;
@@ -459,7 +444,6 @@
                 rightValues.orange = (1 - cutX) / 0.25 * 100;
             }
 
-            // Pink region (left side, x: 0-0.1875)
             if (cutX >= 0.1875) {
                 leftValues.pink = 100;
                 rightValues.pink = 0;
@@ -468,7 +452,6 @@
                 rightValues.pink = (0.1875 - cutX) / 0.1875 * 100;
             }
 
-            // Purple region (bottom, x: 0.1875-1.0)
             if (cutX <= 0.1875) {
                 leftValues.purple = 0;
                 rightValues.purple = 100;
@@ -496,12 +479,10 @@
 
             const cutPercent = gameState.cutPosition;
 
-            // Hide drawing controls
             document.getElementById('makeCutButton').style.display = 'none';
             document.getElementById('clearButton').style.display = 'none';
             document.getElementById('warning').style.display = 'none';
 
-            // Show piece overlays
             const leftPiece = document.getElementById('leftPiece');
             const rightPiece = document.getElementById('rightPiece');
 
@@ -513,28 +494,23 @@
             rightPiece.style.width = (100 - cutPercent) + '%';
             rightPiece.style.right = '0';
 
-            // Add click events
             leftPiece.onclick = () => selectPiece('left');
             rightPiece.onclick = () => selectPiece('right');
 
-            // Update game state
             gameState.step = 2;
             document.getElementById('stepIndicator').textContent =
                 'Step 2: Player 2 (Chooser) selects their preferred piece';
             document.getElementById('instructions').innerHTML =
                 '<strong>Instructions:</strong> Player 2, click on the piece you prefer!';
 
-            // Disable canvas
             document.getElementById('drawingCanvas').style.pointerEvents = 'none';
         }
 
         function selectPiece(side) {
             if (gameState.step !== 2) return;
 
-            // Remove previous selection
             document.querySelectorAll('.piece-overlay').forEach(p => p.classList.remove('selected'));
 
-            // Select piece
             const selectedElement = side === 'left' ?
                 document.getElementById('leftPiece') :
                 document.getElementById('rightPiece');
@@ -542,7 +518,6 @@
 
             gameState.selectedPiece = side;
 
-            // Assign pieces
             if (side === 'left') {
                 gameState.player2Piece = 'left';
                 gameState.player1Piece = 'right';
@@ -551,7 +526,6 @@
                 gameState.player1Piece = 'left';
             }
 
-            // Show results after delay
             setTimeout(showResults, 1000);
         }
 
@@ -560,7 +534,6 @@
             document.getElementById('stepIndicator').textContent = 'Results: Algorithm Complete!';
             document.getElementById('instructions').style.display = 'none';
 
-            // Calculate final values
             const regionValues = calculateRegionValues(gameState.cutPosition);
 
             const p1Final = calculatePlayerValue(
@@ -570,7 +543,6 @@
                 regionValues[gameState.player2Piece], 'player2'
             );
 
-            // Show results
             const results = document.getElementById('results');
             results.style.display = 'block';
 
@@ -578,7 +550,6 @@
                 `Player 1 gets the ${gameState.player1Piece} piece (value: ${p1Final.toFixed(1)})<br>` +
                 `Player 2 gets the ${gameState.player2Piece} piece (value: ${p2Final.toFixed(1)})`;
 
-            // Check properties
             const proportional = p1Final >= 50 && p2Final >= 50;
 
             document.getElementById('proportionalResult').textContent =
@@ -588,7 +559,6 @@
             document.getElementById('envyResult').textContent = '✅ Neither player envies the other';
             document.getElementById('envyResult').style.color = '#38a169';
 
-            // Show reset button
             document.getElementById('resetButton').style.display = 'inline-block';
         }
 
@@ -597,12 +567,10 @@
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Reset state
             gameState.cutLine = null;
             gameState.cutPosition = null;
             startX = startY = endX = endY = null;
 
-            // Reset UI
             document.getElementById('makeCutButton').disabled = true;
             document.getElementById('player1Value').textContent = 'Ready to draw';
             document.getElementById('player2Value').textContent = 'Waiting...';
@@ -610,7 +578,6 @@
         }
 
         function resetSimulation() {
-            // Reset game state
             gameState = {
                 step: 1,
                 cutPosition: null,
@@ -620,10 +587,8 @@
                 player2Piece: null
             };
 
-            // Clear canvas
             clearCanvas();
 
-            // Reset UI
             document.getElementById('stepIndicator').textContent =
                 'Step 1: Player 1 (Divider) draws a cutting line';
             document.getElementById('instructions').style.display = 'block';
@@ -640,15 +605,12 @@
 
             document.getElementById('results').style.display = 'none';
 
-            // Re-enable canvas
             document.getElementById('drawingCanvas').style.pointerEvents = 'auto';
         }
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             initDrawing();
 
-            // Add button event listeners
             document.getElementById('makeCutButton').addEventListener('click', makeCut);
             document.getElementById('clearButton').addEventListener('click', clearCanvas);
             document.getElementById('resetButton').addEventListener('click', resetSimulation);
