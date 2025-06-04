@@ -1,12 +1,11 @@
-﻿# The issue: Jekyll isn't compiling SCSS to CSS
-
-# Fix 1: Check your _config.yml
-# Make sure it has proper SASS configuration:
-
-title: Fair Division Algorithms
-description: Interactive educational platform for fair division algorithms
+﻿title: Fair Division Algorithms
+description: Interactive educational platform developed by Amaan Khan with guidance from Dr. Ron Cytron
 
 markdown: kramdown
+kramdown:
+  math_engine: mathjax
+  math_engine_opts:
+    preview: true
 highlighter: rouge
 
 # Add/fix SASS configuration

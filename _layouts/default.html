@@ -26,9 +26,20 @@
     <footer class="site-footer">
         <div class="container">
             <h3 class="footer-title">{{ site.title }}</h3>
-            <p class="footer-description">{{ site.description }}</p>
-            <p class="footer-credits">Washington University received financial support for Responsible Computer Science from Mozilla.</p>
+            <p class="footer-description">{{ site.description }}.</p>
+            <p class="footer-credits">Washington University received financial support for Responsible Computer Science from Mozilla</p>
         </div>
     </footer>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
 </body>
 </html>

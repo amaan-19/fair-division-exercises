@@ -26,12 +26,6 @@ title: Fair Division Algorithms
             <span class="property-tag">Strategy-proof</span>
           </div>
         </div>
-        
-        <div class="algorithm-details">
-          <div class="detail-item">
-            <strong>Time Complexity:</strong> O(1)
-          </div>
-        </div>
       </div>
       
       <div class="algorithm-footer">
