@@ -41,5 +41,133 @@
         }
       };
     </script>
+
+    <script>
+        // Initialize collapsible proof sketches after MathJax is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Wait for MathJax to finish rendering before initializing proof sketches
+            if (window.MathJax && window.MathJax.startup) {
+                window.MathJax.startup.promise.then(() => {
+                    initializeProofSketches();
+                });
+            } else {
+                // Fallback if MathJax isn't loaded
+                setTimeout(initializeProofSketches, 500);
+            }
+        });
+
+        function initializeProofSketches() {
+            // Find all existing proof-sketch divs and convert them
+            const proofSketches = document.querySelectorAll('.proof-sketch');
+
+            proofSketches.forEach(function (proofSketch, index) {
+                // Skip if already initialized
+                if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                    return;
+                }
+
+                // Get the current content (preserving MathJax rendering)
+                const originalContent = proofSketch.innerHTML;
+
+                // Create the new structure
+                const proofId = `proof-sketch-${index}`;
+
+                // Create header element
+                const header = document.createElement('div');
+                header.className = 'proof-sketch-header';
+                header.setAttribute('role', 'button');
+                header.setAttribute('tabindex', '0');
+                header.setAttribute('aria-expanded', 'false');
+                header.setAttribute('aria-controls', `${proofId}-content`);
+                header.setAttribute('data-proof-toggle', '');
+
+                header.innerHTML = `
+                    <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
+                    <span class="proof-sketch-toggle">▼</span>
+                `;
+
+                // Create content wrapper
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'proof-sketch-content';
+                contentWrapper.id = `${proofId}-content`;
+                contentWrapper.setAttribute('role', 'region');
+                contentWrapper.setAttribute('aria-hidden', 'true');
+                contentWrapper.innerHTML = originalContent;
+
+                // Clear the original content and add new structure
+                proofSketch.innerHTML = '';
+                proofSketch.appendChild(header);
+                proofSketch.appendChild(contentWrapper);
+
+                // Mark as initialized
+                proofSketch.classList.add('proof-sketch-initialized');
+
+                // Add click event listener
+                header.addEventListener('click', function () {
+                    toggleProofSketch(proofSketch);
+                });
+
+                // Add keyboard support (Enter and Space)
+                header.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleProofSketch(proofSketch);
+                    }
+                });
+            });
+        }
+
+        function toggleProofSketch(proofSketch) {
+            const header = proofSketch.querySelector('.proof-sketch-header');
+            const content = proofSketch.querySelector('.proof-sketch-content');
+            const title = proofSketch.querySelector('.proof-sketch-title');
+
+            const isExpanded = proofSketch.classList.contains('expanded');
+
+            if (isExpanded) {
+                // Collapse
+                proofSketch.classList.remove('expanded');
+                header.setAttribute('aria-expanded', 'false');
+                content.setAttribute('aria-hidden', 'true');
+                title.textContent = 'Show Proof';
+
+                // Reset max-height to 0 for smooth collapse
+                content.style.maxHeight = '0px';
+
+                // Reset padding after animation completes
+                setTimeout(() => {
+                    if (!proofSketch.classList.contains('expanded')) {
+                        content.style.padding = '0';
+                    }
+                }, 400);
+
+            } else {
+                // Expand
+                proofSketch.classList.add('expanded');
+                header.setAttribute('aria-expanded', 'true');
+                content.setAttribute('aria-hidden', 'false');
+                title.textContent = 'Hide Proof';
+
+                // Set padding first
+                content.style.padding = '1rem';
+
+                // Calculate proper max-height based on content (with some buffer)
+                const contentHeight = content.scrollHeight;
+                const bufferHeight = 50; // Add buffer for safety
+                content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+                // Optional: Scroll the proof into view if it's partially hidden
+                setTimeout(() => {
+                    const rect = proofSketch.getBoundingClientRect();
+                    if (rect.bottom > window.innerHeight) {
+                        proofSketch.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest'
+                        });
+                    }
+                }, 300);
+            }
+        }
+    </script>
 </body>
 </html>

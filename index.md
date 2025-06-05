@@ -41,7 +41,7 @@ title: Fair Division Algorithms
         </div>
       </div>
       <div class="algorithm-content">
-        <p class="algorithm-description"> An elegant extension of "Divide-and-Choose" which relies on a moving knife mechanism. </p>
+        <p class="algorithm-description">hmmm</p>
         <div class="algorithm-properties">
           <h4>Properties</h4>
           <div class="property-tags">

@@ -10,7 +10,7 @@ permalink: /algorithms/austins-moving-knife/
   <div class="algorithm-header-card">
     <div class="algorithm-header-content">
       <h1 class="algorithm-title">Austin's Moving Knife</h1>
-      <p class="algorithm-subtitle">An elegant extension of Divide-and-Choose</p>
+      <p class="algorithm-subtitle">hmmmm</p>
       
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
@@ -27,26 +27,6 @@ permalink: /algorithms/austins-moving-knife/
     
     <div class="procedure-steps">
       <h3>How It Works</h3>
-      <div class="step-list">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <strong>Player 1 (Divider)</strong> cuts the resource into two pieces that they value equally
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <strong>Player 2 (Chooser)</strong> selects their preferred piece from the two options
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <strong>Player 1</strong> receives the remaining piece
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 

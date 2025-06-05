@@ -138,6 +138,6 @@ permalink: /algorithms/divide-and-choose/
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/' | relative_url }}" class="nav-button secondary">← Back to Algorithms</a>
-    <a href="{{ '/algorithms/austins-moving-knife/' | relative_url }}" class="nav-button primary disabled">Next: Austin's Moving-Knife →</a>
+    <a href="{{ '/algorithms/austins-moving-knife/' | relative_url }}" class="nav-button primary">Next: Austin's Moving-Knife →</a>
   </footer>
 </div>
