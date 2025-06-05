@@ -27,8 +27,8 @@ An academic Jekyll website developing interactive educational resources for fair
 
 ### Installation
 ```bash
-git clone [your-repository-url]
-cd fair-division-algorithms
+git clone https://github.com/amaan-19/fair-division-exercises
+cd fair-division-exercises
 bundle install
 bundle exec jekyll serve --livereload
 ```
