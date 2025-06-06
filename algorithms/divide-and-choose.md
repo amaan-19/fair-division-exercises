@@ -10,11 +10,9 @@ permalink: /algorithms/divide-and-choose/
   <div class="algorithm-header-card">
     <div class="algorithm-header-content">
       <h1 class="algorithm-title">Divide-and-Choose</h1>
-      <p class="algorithm-subtitle">The fundamental fair division procedure for two players</p>
-      
+      <p class="algorithm-subtitle">The fundamental fair division procedure</p>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
-        <span class="meta-badge type-badge">Discrete</span>
         <span class="meta-badge difficulty-badge">Quick-learn</span>
       </div>
     </div>
@@ -25,7 +23,6 @@ permalink: /algorithms/divide-and-choose/
     <h2>Overview</h2>
     <p>The divide-and-choose algorithm is the most basic and intuitive fair division procedure. Despite its simplicity, it provides strong mathematical guarantees about fairness for two-player scenarios.</p>
     <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
-    
     <div class="procedure-steps">
       <h3>How It Works</h3>
       <div class="step-list">
@@ -55,7 +52,6 @@ permalink: /algorithms/divide-and-choose/
   <section class="content-block">
     <h2>Interactive Demo</h2>
     <p>Try the algorithm yourself! Draw a line to divide the geometric pattern, then see how Player 2 responds.</p>
-    
     <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 20px 0; min-height: 800px;">
       <iframe 
         src="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}" 

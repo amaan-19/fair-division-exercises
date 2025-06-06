@@ -318,7 +318,7 @@ blockquote {
     }
 
 /* Badges */
-.difficulty-badge,
+.complexity-badge,
 .players-badge,
 .type-badge {
     padding: 0.25rem 0.75rem;
@@ -330,20 +330,10 @@ blockquote {
     font-family: 'Inter', sans-serif;
 }
 
-    .difficulty-badge.beginner {
-        background: #d1fae5;
-        color: #065f46;
-    }
-
-    .difficulty-badge.intermediate {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .difficulty-badge.advanced {
-        background: #fce7f3;
-        color: #be185d;
-    }
+.complexity-badge {
+    background: #fef3c7;
+    color: #92400e;
+}
 
 .players-badge {
     background: #dbeafe;
@@ -1117,14 +1107,9 @@ blockquote {
         color: #1e40af;
     }
 
-    .meta-badge.type-badge {
+    .meta-badge.complexity-badge {
         background: #f3e8ff;
         color: #6b21a8;
-    }
-
-    .meta-badge.difficulty-badge {
-        background: #d1fae5;
-        color: #065f46;
     }
 
 /* Quick Stats */
