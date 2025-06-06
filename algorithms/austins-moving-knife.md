@@ -14,7 +14,6 @@ permalink: /algorithms/austins-moving-knife/
       
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
-        <span class="meta-badge difficulty-badge">Quick-learn</span>
       </div>
     </div>
   </div>
@@ -82,6 +81,22 @@ permalink: /algorithms/austins-moving-knife/
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Animated Visual -->
+  <section class="content-block">
+    <h2>Animated Demo</h2>
+    <p>Let's visualize this algorithm! Click play to see the algorithm in action.</p>
+    <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 20px 0; min-height: 800px;">
+      <iframe 
+        src="{{ '/assets/demos/austins-demo.html' | relative_url }}" 
+        width="100%" 
+        height="1550" 
+        frameborder="0"
+        style="display: block; border: none;">
+        <p>Your browser does not support iframes. <a href="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}">View the demo directly</a>.</p>
+      </iframe>
     </div>
   </section>
 

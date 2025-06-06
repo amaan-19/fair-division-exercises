@@ -12,13 +12,12 @@ title: Fair Division Algorithms
         <h3 class="algorithm-title">Divide-and-Choose</h3>
         <div class="algorithm-meta">
           <span class="meta-badge players-badge">2 Players</span>
-          <span class="meta-badge complexity-badge">O(1)</span>
         </div>
       </div>
       <div class="algorithm-content">
         <p class="algorithm-description">The fundamental fair division procedure for two players. One player divides the resource into pieces they value equally, while the other player chooses their preferred piece.</p>
         <div class="algorithm-properties">
-          <h4>Properties</h4>
+          <h4>Fairness Properties</h4>
           <div class="property-tags">
             <span class="property-tag">Proportional</span>
             <span class="property-tag">Envy-free</span>
@@ -36,15 +35,15 @@ title: Fair Division Algorithms
       <div class="algorithm-header">
         <h3 class="algorithm-title">Austin's Moving Knife</h3>
         <div class="algorithm-meta">
-          <span class="players-badge">2 Players</span>
+          <span class="meta-badge players-badge">2 Players</span>
         </div>
       </div>
       <div class="algorithm-content">
         <p class="algorithm-description">A simple but powerful extension of Divide-and-Choose introducing a referee and a continuous, moving-knife mechanism.</p>
         <div class="algorithm-properties">
-          <h4>Properties</h4>
+          <h4>Fairness Properties</h4>
           <div class="property-tags">
-            <span class="property-tag">Equitable</span>
+            <span class="property-tag">Proportional</span>
             <span class="property-tag">Exact</span>
             <span class="property-tag">Envy-free</span>
           </div>

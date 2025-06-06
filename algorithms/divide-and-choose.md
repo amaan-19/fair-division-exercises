@@ -13,7 +13,6 @@ permalink: /algorithms/divide-and-choose/
       <p class="algorithm-subtitle">The fundamental fair division procedure</p>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
-        <span class="meta-badge difficulty-badge">Quick-learn</span>
       </div>
     </div>
   </div>
