@@ -63,11 +63,6 @@
             z-index: 3;
         }
 
-            .piece-overlay:hover {
-                fill-opacity: 0.4 !important;
-                transform: scale(1.02);
-            }
-
             .piece-overlay.selected {
                 fill-opacity: 0.5 !important;
                 stroke-width: 6 !important;
@@ -139,18 +134,22 @@
 
         .player-card {
             background: #f8f9fa;
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
-            text-align: center;
         }
 
+            .player-card h3 {
+                margin: 0 0 12px 0;
+                font-size: 16px;
+                text-align: center;
+                color: #2d3748;
+            }
+
         .player-1 {
-            
         }
 
         .player-2 {
-            
         }
 
         .instructions {
@@ -187,27 +186,33 @@
         .color-legend {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-            padding: 15px;
+            gap: 8px;
+            margin: 12px 0;
+            padding: 12px;
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .color-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 4px;
-            font-size: 14px;
-            text-align: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
         }
 
+            .color-item:hover {
+                background: rgba(255, 255, 255, 0.6);
+            }
+
         .color-swatch {
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
             border: 1px solid #ccc;
+            flex-shrink: 0;
         }
 
         @media (max-width: 768px) {
@@ -227,18 +232,41 @@
         }
 
         .valuation-input {
-            width: 40px;
+            width: 32px;
             padding: 2px 4px;
-            border: 1px solid #ccc;
+            border: 1px solid #d2d6dc;
             border-radius: 3px;
             text-align: center;
             font-size: 12px;
+            background: white;
+            margin-left: 4px;
         }
 
+            .valuation-input:focus {
+                outline: none;
+                border-color: #3182ce;
+                box-shadow: 0 0 0 1px #3182ce;
+            }
+
         .valuation-total {
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 14px;
+            margin-top: 8px;
+            padding: 6px 8px;
+            font-weight: 600;
+            font-size: 13px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .player-values {
+            margin-top: 8px;
+            padding: 6px 8px;
+            font-size: 12px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
         }
 
         .error {
@@ -301,8 +329,13 @@
 
         <div class="slider-container" id="sliderContainer">
             <label for="cutSlider"><strong>Cut Position:</strong></label><br>
-            <input type="range" id="cutSlider" class="slider" min="50" max="750" value="400" step="10">
+            <input type="range" id="cutSlider" class="slider" min="0" max="800" value="400" step="1">
             <div>Position: <span id="cutPosition">50%</span></div>
+        </div>
+
+        <div class="controls">
+            <button id="makeCutButton" class="button">Make Cut</button>
+            <button id="resetButton" class="button" style="display: none;">Reset Game</button>
         </div>
 
         <div class="player-info">
@@ -335,7 +368,7 @@
                     </div>
                 </div>
                 <div class="valuation-total" id="p1-total">Total: <span class="valid">100</span></div>
-                <div><strong>Values:</strong> <span id="player1Value">Left: 50.0 | Right: 50.0</span></div>
+                <div class="player-values"><strong>Values:</strong> <span id="player1Value">Left: 0 | Right: 0</span></div>
             </div>
 
             <div class="player-card player-2">
@@ -367,17 +400,12 @@
                     </div>
                 </div>
                 <div class="valuation-total" id="p2-total">Total: <span class="valid">100</span></div>
-                <div><strong>Values:</strong> <span id="player2Value">Left: 50.0 | Right: 50.0</span></div>
+                <div class="player-values"><strong>Values:</strong> <span id="player2Value">Left: 0 | Right: 0</span></div>
             </div>
         </div>
 
         <div class="warning" id="warning">
             <strong>Note:</strong> This cut creates very unequal distributions!
-        </div>
-
-        <div class="controls">
-            <button id="makeCutButton" class="button">Make Cut</button>
-            <button id="resetButton" class="button" style="display: none;">Reset Game</button>
         </div>
 
         <div class="results" id="results">
@@ -391,6 +419,7 @@
     </div>
 
     <script>
+        // define game state variables
         let gameState = {
             step: 1,
             cutPosition: 50,
@@ -399,11 +428,13 @@
             player2Piece: null
         };
 
+        // define color values for each player
         const colorValues = {
             player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
             player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 }
         };
 
+        // function that updates color values based on user input
         function updateColorValues() {
             colorValues.player1 = {
                 blue: parseInt(document.getElementById('p1-blue').value) || 0,
@@ -424,6 +455,7 @@
             };
         }
 
+        // function that validates whether user-inputted values add up to 100
         function validateTotals() {
             const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
             const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
@@ -440,6 +472,7 @@
             return isValid;
         }
 
+        // helper to update values
         function handleValuationChange() {
             updateColorValues();
             validateTotals();
@@ -450,14 +483,15 @@
 
         // Region boundaries for vertical cuts (x-coordinates)
         const regions = {
-            blue: { start: 0, end: 600 },      
-            pink: { start: 0, end: 150 },     
-            green: { start: 150, end: 600 },  
-            red: { start: 600, end: 800 },    
+            blue: { start: 0, end: 600 },
+            pink: { start: 0, end: 150 },
+            green: { start: 150, end: 600 },
+            red: { start: 600, end: 800 },
             orange: { start: 600, end: 800 },
-            purple: { start: 150, end: 800 } 
+            purple: { start: 150, end: 800 }
         };
 
+        // function to calculate region valuations
         function calculateRegionValues(cutX) {
             const leftValues = {};
             const rightValues = {};
@@ -474,7 +508,7 @@
                     leftValues[color] = 100;
                     rightValues[color] = 0;
                 } else {
-                    // Cut goes through this region
+                    // Cut goes through this region (find what percent of the region is cut and store respective percentages)
                     const leftWidth = cutX - bounds.start;
                     const leftPercent = (leftWidth / regionWidth) * 100;
                     leftValues[color] = leftPercent;
@@ -485,6 +519,7 @@
             return { left: leftValues, right: rightValues };
         }
 
+        // use region values to calculate how much a player values that section
         function calculatePlayerValue(regionValues, player) {
             let total = 0;
             const prefs = colorValues[player];
@@ -498,7 +533,7 @@
 
         function updateGameValues() {
             const cutX = parseFloat(document.getElementById('cutSlider').value);
-            const cutPercent = ((cutX - 50) / 700) * 100; // Convert slider value to percentage
+            const cutPercent = (cutX / 800) * 100; // Convert slider value to percentage
             gameState.cutPosition = cutPercent;
 
             // Update cut line position
@@ -519,14 +554,6 @@
                 `Left: ${p1Left.toFixed(1)} | Right: ${p1Right.toFixed(1)}`;
             document.getElementById('player2Value').textContent =
                 `Left: ${p2Left.toFixed(1)} | Right: ${p2Right.toFixed(1)}`;
-
-            // Show warning for very unequal distributions
-            const warning = document.getElementById('warning');
-            if (Math.abs(p1Left - p1Right) > 15) {
-                warning.style.display = 'block';
-            } else {
-                warning.style.display = 'none';
-            }
         }
 
         function makeCut() {

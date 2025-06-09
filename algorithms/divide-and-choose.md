@@ -20,7 +20,7 @@ permalink: /algorithms/divide-and-choose/
   <!-- Overview -->
   <section class="content-block">
     <h2>Overview</h2>
-    <p>The divide-and-choose algorithm is the most basic and intuitive fair division procedure. Despite its simplicity, it provides strong mathematical guarantees about fairness for two-player scenarios.</p>
+    <p>The divide-and-choose algorithm is the most basic fair division procedure. Despite its simplicity, it mathematically guarantees a few essential fairness properties. This procedure assumes that the resource in question is continuous, divisible, and heterogeneous.</p>
     <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
     <div class="procedure-steps">
       <h3>How It Works</h3>
@@ -55,7 +55,7 @@ permalink: /algorithms/divide-and-choose/
       <iframe 
         src="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}" 
         width="100%" 
-        height="1550" 
+        height="1300" 
         frameborder="0"
         style="display: block; border: none;">
         <p>Your browser does not support iframes. <a href="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}">View the demo directly</a>.</p>
@@ -63,9 +63,9 @@ permalink: /algorithms/divide-and-choose/
     </div>
   </section>
 
-  <!-- Mathematical Properties -->
+  <!-- Fairness Properties -->
   <section class="content-block">
-    <h2>Mathematical Properties</h2>
+    <h2>Fairness Properties</h2>
     <p>The divide-and-choose algorithm satisfies three fundamental fairness properties, each with rigorous mathematical guarantees.</p>
   </section>
 
@@ -126,7 +126,7 @@ permalink: /algorithms/divide-and-choose/
       <li>Limited to exactly two players</li>
       <li>May not achieve Pareto efficiency</li>
       <li>Requires divisible resources</li>
-      <li>Assumes players can accurately assess values</li>
+      <li>Fairness may not be guaranteed in cases where one party hopes to minimize the other's value. (Explore why this is the case with the demo!)</li>
     </ul>
   </section>
 

@@ -1,4 +1,4 @@
-﻿/* Styling Accredited to Claude LLM*/
+﻿/* Styling assistance provided by Claude Sonnet 4*/
 
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
@@ -46,7 +46,6 @@ h1 {
 
 h2 {
     font-size: 2.25rem;
-    margin-top: 2rem;
     font-weight: 600;
 }
 
@@ -1090,7 +1089,6 @@ blockquote {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 1.5rem;
 }
 
 .meta-badge {

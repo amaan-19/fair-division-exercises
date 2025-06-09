@@ -39,7 +39,7 @@ title: Fair Division Algorithms
         </div>
       </div>
       <div class="algorithm-content">
-        <p class="algorithm-description">A simple but powerful extension of Divide-and-Choose introducing a referee and a continuous, moving-knife mechanism.</p>
+        <p class="algorithm-description">An extension of "Divide-and-Choose" introducing a referee and a continuous, moving-knife mechanism.</p>
         <div class="algorithm-properties">
           <h4>Fairness Properties</h4>
           <div class="property-tags">
