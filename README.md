@@ -1,4 +1,4 @@
-# Fair Division Algorithms: Interactive Research Platform
+﻿# Fair Division Algorithms: Interactive Research Platform
 
 An academic Jekyll website developing interactive educational resources for fair division theory research and pedagogy.
 

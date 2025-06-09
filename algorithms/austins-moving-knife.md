@@ -53,7 +53,7 @@ permalink: /algorithms/austins-moving-knife/
         <div class="step">
           <div class="step-number">5</div>
           <div class="step-content">
-            While <strong>Player 1</strong> moves the knives, <strong>Player 2</strong> requests the knives to "stop" at the point where they believe the division is exactly $\frac{1}{2}$. Once the knives have stopped, <strong>Player 2</strong> has the option of choosing either piece while the remaining piece is given to <strong>Player 1</strong>.
+            While <strong>Player 1</strong> moves the knives, <strong>Player 2</strong> requests the knives to "stop" at the point where they believe the division is exactly $\frac{1}{2}$. Pieces are then randomly assigned to the players.
           </div>
         </div>
       </div>
