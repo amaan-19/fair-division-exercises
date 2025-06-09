@@ -33,7 +33,7 @@ bundle install
 bundle exec jekyll serve --livereload
 ```
 
-Visit `http://127.0.0.1:4000` to view the site locally.
+Visit `https://amaan-19.github.io/fair-division-exercises/` to view the site locally.
 
 ## Project Structure
 
