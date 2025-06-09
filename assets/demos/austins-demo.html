@@ -288,7 +288,7 @@
         </div>
 
         <div class="animation-controls">
-            <button id="startButton" class="button">Start Animation</button>
+            <button id="startButton" class="button">Play</button>
             <button id="pauseButton" class="button" style="display: none;">Pause</button>
             <button id="player1StopButton" class="button danger" style="display: none;">Player 1: STOP!</button>
             <button id="player2StopButton" class="button danger" style="display: none;">Player 2: STOP!</button>
@@ -323,13 +323,13 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p1-purple" value="15" min="0" max="100">pts</span>
                     </div>
                 </div>
-                <div class="utility-bar">
-                    <div class="utility-fill" id="p1-utility-fill"></div>
-                    <div class="utility-text" id="p1-utility-text">0%</div>
-                </div>
                 <div class="current-values" id="p1-values">
                     <div><strong>Current Piece Value:</strong></div>
                     <div id="player1Value">Left: 0.0</div>
+                </div>
+                <div class="utility-bar">
+                    <div class="utility-fill" id="p1-utility-fill"></div>
+                    <div class="utility-text" id="p1-utility-text">0%</div>
                 </div>
             </div>
 
@@ -361,14 +361,15 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p2-purple" value="10" min="0" max="100">pts</span>
                     </div>
                 </div>
-                <div class="utility-bar">
-                    <div class="utility-fill" id="p2-utility-fill"></div>
-                    <div class="utility-text" id="p2-utility-text">0%</div>
-                </div>
                 <div class="current-values" id="p2-values">
                     <div><strong>Current Piece Value:</strong></div>
                     <div id="player2Value">Left: 0.0</div>
                 </div>
+                <div class="utility-bar">
+                    <div class="utility-fill" id="p2-utility-fill"></div>
+                    <div class="utility-text" id="p2-utility-text">0%</div>
+                </div>
+                
             </div>
         </div>
 
