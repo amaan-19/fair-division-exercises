@@ -268,11 +268,11 @@
                 <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" stroke="#2d3748" stroke-width="2" />
                 <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Green</text>
 
-                <!-- Moving knife -->
-                <line id="movingKnife" x1="0" y1="0" x2="0" y2="400" class="knife-line" />
+                <!-- Right knife -->
+                <line id="rightKnife" x="0"  class="knife-line" />
 
                 <!-- Second knife (hidden initially) -->
-                <line id="leftKnife" x1="0" y1="0" x2="0" y2="400" class="knife-line left-knife" style="display: none;" />
+                <line id="leftKnife" x="0" class="knife-line left-knife" style="display: none;" />
 
                 <!-- Piece overlays for selection -->
                 <rect id="leftPiece" x="0" y="0" width="400" height="400"
@@ -325,7 +325,9 @@
                 </div>
                 <div class="current-values" id="p1-values">
                     <div><strong>Current Piece Value:</strong></div>
-                    <div id="player1Value">Left: 0.0</div>
+                    <div id="player1LeftValue">Left: 0.0</div>
+                    <div id="player1CenterValue" style="display: none;">Center: 0.0</div>
+                    <div id="player1FlankValue" style="display: none;">Flank: 0.0</div>
                 </div>
                 <div class="utility-bar">
                     <div class="utility-fill" id="p1-utility-fill"></div>
@@ -363,7 +365,9 @@
                 </div>
                 <div class="current-values" id="p2-values">
                     <div><strong>Current Piece Value:</strong></div>
-                    <div id="player2Value">Left: 0.0</div>
+                    <div id="player2LeftValue">Left: 0.0</div>
+                    <div id="player2CenterValue" style="display: none;">Center: 0.0</div>
+                    <div id="player2FlankValue" style="display: none;">Flank: 0.0</div>
                 </div>
                 <div class="utility-bar">
                     <div class="utility-fill" id="p2-utility-fill"></div>
@@ -390,7 +394,7 @@
             controllingPlayer: null,
             animationSpeed: 0.5,
             animationId: null,
-            targetMiddleValue: null
+            targetMiddleValue: null,
         };
 
         const colorValues = {
@@ -407,26 +411,24 @@
             green: { x1: 150, y1: 150, x2: 600, y2: 350 }
         };
 
-        // Core calculation functions
-        function calculateRegionValues(cutX) {
+        // CORE CALCULATION FUNCTIONS
+
+        // returns an object with the values of the left and the right regions (called each frame)
+        function calculatePhase1RegionValues() {
             const leftValues = {};
             const rightValues = {};
 
             // For each color region, calculate 2D intersection
             for (const [color, bounds] of Object.entries(regions)) {
-                const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
-
-                if (cutX <= bounds.x1) {
-                    // Cut is entirely to the left, region is entirely in the right
+                if (gameState.rightKnifePosition <= bounds.x1) { // knife is entirely to the left, region is entirely in the right
                     leftValues[color] = 0;
                     rightValues[color] = 100;
-                } else if (cutX >= bounds.x2) {
-                    // Cut is entirely to the right, region is entirely in the left
+                } else if (gameState.rightKnifePosition >= bounds.x2) { // knife is entirely to the right, region is entirely in the left
                     leftValues[color] = 100;
                     rightValues[color] = 0;
-                } else {
-                    // Cut intersects the region
-                    const leftArea = (cutX - bounds.x1) * (bounds.y2 - bounds.y1);
+                } else { // knife intersects the region
+                    const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
+                    const leftArea = (gameState.rightKnifePosition - bounds.x1) * (bounds.y2 - bounds.y1);
                     const leftPercent = (leftArea / totalArea) * 100;
                     leftValues[color] = leftPercent;
                     rightValues[color] = 100 - leftPercent;
@@ -436,7 +438,45 @@
             return { left: leftValues, right: rightValues };
         }
 
-        // given a region value, determine how much a specific player values it
+        // returns an object with the values of the middle and flank regions in phase 2 (called each frame)
+        function calculatePhase2RegionValues() {
+            const middleValues = {};
+            const flankValues = {};
+
+            for (const [color, bounds] of Object.entries(regions)) {
+                const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
+
+                if (gameState.leftKnifePosition <= bounds.x1 && gameState.rightKnifePosition >= bounds.x2) {
+                    // Color region is completely between both knives
+                    middleValues[color] = 100;
+                    flankValues[color] = 0;
+                } else if (gameState.leftKnifePosition >= bounds.x2 || gameState.rightKnifePosition <= bounds.x1) {
+                    // Color region is completely outside both knives
+                    middleValues[color] = 0;
+                    flankValues[color] = 100;
+                } else {
+                    // Knives intersect the region - calculate actual overlap
+                    const leftBound = Math.max(gameState.leftKnifePosition, bounds.x1);
+                    const rightBound = Math.min(gameState.rightKnifePosition, bounds.x2);
+
+                    if (leftBound < rightBound) {
+                        // There is overlap between knives within this region
+                        const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
+                        const middlePercent = (middleArea / totalArea) * 100;
+                        middleValues[color] = middlePercent;
+                        flankValues[color] = 100 - middlePercent;
+                    } else {
+                        // No overlap - region is entirely in flank
+                        middleValues[color] = 0;
+                        flankValues[color] = 100;
+                    }
+                }
+            }
+
+            return { middle: middleValues, flank: flankValues };
+        }
+
+        // returns how much a specific player values a region
         function calculatePlayerValue(regionValues, player) {
             let total = 0;
             const prefs = colorValues[player];
@@ -448,22 +488,9 @@
             return total;
         }
 
-        function validateConstraintPossible(targetValue, player, leftPos) {
-            // Check if target value is reasonable
-            if (targetValue < 0 || targetValue > 100) {
-                return false;
-            }
+        // UTILITY AND VALIDATION FUNCTIONS
 
-            // Test if we can achieve this value with any right position
-            const testRight1 = findRightKnifePosition(leftPos, targetValue, player);
-            const testMiddle = calculateMiddleRegionValues(leftPos, testRight1);
-            const actualValue = calculatePlayerValue(testMiddle, player);
-
-            // If we're within reasonable tolerance, it's possible
-            return Math.abs(actualValue - targetValue) < 5; // 5% tolerance
-        }
-
-        // Utility and validation functions
+        // function that updates color valuations based on what is currently inputted
         function updateColorValues() {
             colorValues.player1 = {
                 blue: parseInt(document.getElementById('p1-blue').value) || 0,
@@ -484,6 +511,7 @@
             };
         }
 
+        // function that updates validation status of valuations
         function updateValidationStatus() {
             const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
             const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
@@ -493,6 +521,7 @@
             updatePlayerValidation('player2', p2Total);
         }
 
+        // helper function called in updateValidationStatus() for both players
         function updatePlayerValidation(player, total) {
             const playerCard = document.getElementById(`${player}Card`);
             const cardNumber = player === 'player1' ? '1' : '2';
@@ -516,13 +545,13 @@
             `;
 
             if (total === 100) {
-                indicator.textContent = `✓ Total: ${total} points`;
+                indicator.textContent = `Total: ${total} points`;
                 indicator.style.background = '#f0fff4';
                 indicator.style.color = '#38a169';
                 indicator.style.border = '1px solid #68d391';
                 playerCard.classList.remove('invalid');
             } else {
-                indicator.textContent = `⚠ Total: ${total} points (needs 100)`;
+                indicator.textContent = `Total: ${total} points (needs 100)`;
                 indicator.style.background = '#fff5f5';
                 indicator.style.color = '#e53e3e';
                 indicator.style.border = '1px solid #fc8181';
@@ -534,12 +563,7 @@
             colorLegend.insertAdjacentElement('afterend', indicator);
         }
 
-        function validateTotals() {
-            const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
-            const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
-            return p1Total === 100 && p2Total === 100;
-        }
-
+        // updates utility bars based on value information
         function updateUtilityBars(p1Value, p2Value) {
             const p1Fill = document.getElementById('p1-utility-fill');
             const p1Text = document.getElementById('p1-utility-text');
@@ -553,6 +577,7 @@
             p2Text.textContent = `${Math.round(p2Value)}%`;
         }
 
+        // updates state of start button based on whether all information is valid
         function updateStartButtonState() {
             const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
             const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
@@ -564,6 +589,7 @@
             startButton.textContent = isValid ? 'Start Animation' : 'Fix Valuations First';
         }
 
+        // handles changes in valuations (calls helper functions)
         function handleValuationChange() {
             updateColorValues();
             updateValidationStatus();
@@ -574,47 +600,33 @@
             }
         }
 
-        // Animation functions
+        // function that validates current color values
+        function validateTotals() {
+            const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
+            const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
+            return p1Total === 100 && p2Total === 100;
+        }
 
-        // update the position of a knife given its current position
-        // update the position of a knife given its current position
-        function updateKnifePosition(position) {
-            const knife = document.getElementById('movingKnife');
-            knife.setAttribute('x1', position);
-            knife.setAttribute('x2', position);
+        // ANIMATION FUNCTIONS
+
+        // Update the position of a knife (phase 1)
+        function updateKnifePosition(newPosition) {
+            gameState.rightKnifePosition += newPosition;
+            const knife = document.getElementById('rightKnife');
+            knife.setAttribute('x1', gameState.rightKnifePosition);
+            knife.setAttribute('y1', 0);
+            knife.setAttribute('x2', gameState.rightKnifePosition);
+            knife.setAttribute('y2', 400);
 
             // Calculate and update values
-            const regionValues = calculateRegionValues(position);
+            const regionValues = calculatePhase1RegionValues();
             const p1Left = calculatePlayerValue(regionValues.left, 'player1');
             const p2Left = calculatePlayerValue(regionValues.left, 'player2');
 
-            document.getElementById('player1Value').textContent = `Left: ${Math.round(p1Left)}`;
-            document.getElementById('player2Value').textContent = `Left: ${Math.round(p2Left)}`;
+            document.getElementById('player1LeftValue').textContent = `Left: ${Math.round(p1Left)}`;
+            document.getElementById('player2LeftValue').textContent = `Left: ${Math.round(p2Left)}`;
 
             updateUtilityBars(p1Left, p2Left);
-        }
-
-        // Update knife positions in Phase 2
-        function updateKnifePositions() {
-            const leftKnife = document.getElementById('leftKnife');
-            const rightKnife = document.getElementById('movingKnife');
-
-            leftKnife.setAttribute('x1', gameState.leftKnifePosition);
-            leftKnife.setAttribute('x2', gameState.leftKnifePosition);
-            rightKnife.setAttribute('x1', gameState.rightKnifePosition);
-            rightKnife.setAttribute('x2', gameState.rightKnifePosition);
-        }
-
-        // Update value displays for Phase 2
-        function updateValueDisplays() {
-            const middleValues = calculateMiddleRegionValues(gameState.leftKnifePosition, gameState.rightKnifePosition);
-            const p1Middle = calculatePlayerValue(middleValues, 'player1');
-            const p2Middle = calculatePlayerValue(middleValues, 'player2');
-
-            document.getElementById('player1Value').textContent = `Middle: ${Math.round(p1Middle)}`;
-            document.getElementById('player2Value').textContent = `Middle: ${Math.round(p2Middle)}`;
-
-            updateUtilityBars(p1Middle, p2Middle);
         }
 
         function showStopPosition() {
@@ -642,6 +654,7 @@
             svg.appendChild(indicator);
         }
 
+        // functions starts the demo
         function startAnimation() {
             updateColorValues();
 
@@ -669,9 +682,14 @@
             if (!gameState.isAnimating || gameState.isPaused) return;
 
             // Calculate current values for both players
-            const regionValues = calculateRegionValues(gameState.rightKnifePosition);
+            const regionValues = calculatePhase1RegionValues();
             const p1Left = calculatePlayerValue(regionValues.left, 'player1');
             const p2Left = calculatePlayerValue(regionValues.left, 'player2');
+
+            // check if knife has reached end of the cake
+            if (gameState.rightKnifePosition >= 800) {
+                gameState.rightKnifePosition = 0; // Reset to start
+            }
 
             // Calculate how close each player is to 50%
             const p1Distance = Math.abs(p1Left - 50);
@@ -679,7 +697,16 @@
 
             // Use the minimum distance (closest player to 50%)
             const minDistance = Math.min(p1Distance, p2Distance);
+            const speedMultiplier = calculateSpeedMultiplier(minDistance);
 
+            // Calculate new position based on speed multiplier
+            const posToAdd = gameState.animationSpeed * 0.5 * speedMultiplier;
+
+            updateKnifePosition(posToAdd);
+            gameState.animationId = requestAnimationFrame(animateKnife);
+        }
+
+        function calculateSpeedMultiplier(minDistance) {
             // Calculate speed multiplier based on distance
             // When very close (distance < 2): slow down to 0.1x speed
             // When far (distance > 20): speed up to 2x speed
@@ -698,18 +725,7 @@
                 // Very far - maximum speed
                 speedMultiplier = 2.0;
             }
-
-            // Apply the dynamic speed
-            const dynamicSpeed = gameState.animationSpeed * 0.5 * speedMultiplier;
-            gameState.rightKnifePosition += dynamicSpeed;
-
-            if (gameState.rightKnifePosition >= 800) {
-                gameState.rightKnifePosition = 0; // Reset to start
-            }
-
-            updateKnifePosition(gameState.rightKnifePosition);
-
-            gameState.animationId = requestAnimationFrame(animateKnife);
+            return speedMultiplier;
         }
 
         function pauseAnimation() {
@@ -724,78 +740,16 @@
             }
         }
 
-        function calculateMiddleRegionValues(leftCut, rightCut) {
-            const middleValues = {};
-
-            for (const [color, bounds] of Object.entries(regions)) {
-                const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
-
-                // Find the intersection of the middle section with this region
-                const leftBound = Math.max(bounds.x1, leftCut);
-                const rightBound = Math.min(bounds.x2, rightCut);
-
-                if (rightBound > leftBound) {
-                    const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
-                    middleValues[color] = (middleArea / totalArea) * 100;
-                } else {
-                    middleValues[color] = 0;
-                }
-            }
-
-            return middleValues;
-        }
-
-        function findRightKnifePosition(leftPos, targetValue, player) {
-            // Validate inputs
-            if (leftPos < 0 || leftPos > 800 || targetValue < 0 || targetValue > 100) {
-                console.warn(`Invalid inputs: leftPos=${leftPos}, targetValue=${targetValue}`);
-                return Math.min(leftPos + 100, 800);
-            }
-
-            let low = leftPos + 1; // Ensure some middle section exists
-            let high = 800;
-            const tolerance = 0.5; // Increased tolerance for edge cases
-            let iterations = 0;
-            const maxIterations = 200; // Increased iterations
-
-            while (high - low > 1 && iterations < maxIterations) {
-                const mid = (low + high) / 2;
-                const middleValues = calculateMiddleRegionValues(leftPos, mid);
-                const currentValue = calculatePlayerValue(middleValues, player);
-
-                if (Math.abs(currentValue - targetValue) < tolerance) {
-                    return mid;
-                }
-
-                if (currentValue < targetValue) {
-                    low = mid;
-                } else {
-                    high = mid;
-                }
-                iterations++;
-            }
-
-            // If no exact solution found, return best approximation
-            const finalPos = (low + high) / 2;
-
-            // Validate the result makes sense
-            if (finalPos <= leftPos || finalPos > 800) {
-                console.warn(`Binary search failed for leftPos=${leftPos}, targetValue=${targetValue}. Using fallback.`);
-                return Math.min(leftPos + 100, 800);
-            }
-
-            return finalPos;
-        }
-
         function stopPhase1(player) {
             gameState.isAnimating = false;
             gameState.controllingPlayer = player;
             gameState.stopPosition = gameState.rightKnifePosition;
 
-            // Calculate the value to the left of the cut for the controlling player
-            const regionValues = calculateRegionValues(gameState.rightKnifePosition);
+            // Calculate what the middle piece would be worth if it matched their 50% assessment
+            const regionValues = calculatePhase1RegionValues();
             const controllingPlayerKey = `player${player}`;
-            gameState.targetMiddleValue = calculatePlayerValue(regionValues.left, controllingPlayerKey);
+            const leftPieceValue = calculatePlayerValue(regionValues.left, controllingPlayerKey);
+            gameState.targetMiddleValue = leftPieceValue;
 
             gameState.phase = 2;
 
@@ -814,6 +768,39 @@
             startPhase2();
         }
 
+        function updateKnifePositions(newLeftPosition, newRightPosition) {
+            gameState.leftKnifePosition = newLeftPosition;  
+            gameState.rightKnifePosition = newRightPosition; 
+
+            const leftKnife = document.getElementById('leftKnife');
+            const rightKnife = document.getElementById('rightKnife');
+
+            // Set the knife line positions
+            leftKnife.setAttribute('x1', newLeftPosition);
+            leftKnife.setAttribute('y1', 0);
+            leftKnife.setAttribute('x2', newLeftPosition);
+            leftKnife.setAttribute('y2', 400);
+
+            rightKnife.setAttribute('x1', newRightPosition);
+            rightKnife.setAttribute('y1', 0);
+            rightKnife.setAttribute('x2', newRightPosition);
+            rightKnife.setAttribute('y2', 400);
+
+            // Calculate and update values
+            const regionValues = calculatePhase2RegionValues();
+            const p1Middle = calculatePlayerValue(regionValues.middle, 'player1');
+            const p1Flank = calculatePlayerValue(regionValues.flank, 'player1');
+            const p2Middle = calculatePlayerValue(regionValues.middle, 'player2');
+            const p2Flank = calculatePlayerValue(regionValues.flank, 'player2');
+
+            document.getElementById('player1CenterValue').textContent = `Center: ${Math.round(p1Middle)}`;
+            document.getElementById('player1FlankValue').textContent = `Flank: ${Math.round(p1Flank)}`;
+            document.getElementById('player2CenterValue').textContent = `Center: ${Math.round(p2Middle)}`;
+            document.getElementById('player2FlankValue').textContent = `Flank: ${Math.round(p2Flank)}`;
+
+            updateUtilityBars(p1Middle, p2Middle); // Show middle values during phase 2
+        }
+
         function startPhase2() {
             // Show both knives
             const leftKnife = document.getElementById('leftKnife');
@@ -824,34 +811,24 @@
             document.getElementById('instructions').innerHTML =
                 '<strong>Phase 2:</strong> The controlling player\'s knives move automatically. The left knife (green) must reach the orange dashed line by the time the right knife (red) reaches the end, while maintaining the exact middle piece value.';
 
-            // Initialize positions - left knife starts at beginning
+            // Initialize positions - left knife starts at beginning, right knife at stop position
             gameState.leftKnifePosition = 0;
 
-            // Calculate initial right knife position to maintain the target value
-            // Calculate initial right knife position to maintain the target value
-            const controllingPlayerKey = `player${gameState.controllingPlayer}`;
+            // Calculate where right knife should start so middle piece has correct value
+            gameState.rightKnifePosition = findRightKnifePosition(0, gameState.targetMiddleValue, `player${gameState.controllingPlayer}`);
 
-            // Validate that the constraint is achievable
-            if (!validateConstraintPossible(gameState.targetMiddleValue, controllingPlayerKey, gameState.leftKnifePosition)) {
-                console.warn(`Target value ${gameState.targetMiddleValue} may not be perfectly achievable. Proceeding with best approximation.`);
-            }
+            // Show center and flank value displays
+            document.getElementById('player1CenterValue').style.display = 'block';
+            document.getElementById('player1FlankValue').style.display = 'block';
+            document.getElementById('player2CenterValue').style.display = 'block';
+            document.getElementById('player2FlankValue').style.display = 'block';
 
-            gameState.rightKnifePosition = findRightKnifePosition(
-                gameState.leftKnifePosition,
-                gameState.targetMiddleValue,
-                controllingPlayerKey
-            );
-
-            // Ensure valid positioning
-            if (gameState.rightKnifePosition <= gameState.leftKnifePosition) {
-                gameState.rightKnifePosition = gameState.leftKnifePosition + 50;
-            }
-
-            leftKnife.setAttribute('x1', gameState.leftKnifePosition);
-            leftKnife.setAttribute('x2', gameState.leftKnifePosition);
+            // Hide left value displays
+            document.getElementById('player1LeftValue').style.display = 'none';
+            document.getElementById('player2LeftValue').style.display = 'none';
 
             // Update knife positions
-            updateKnifePositions();
+            updateKnifePositions(gameState.leftKnifePosition, gameState.rightKnifePosition);
 
             // Add stop button for the other player
             const otherPlayer = gameState.controllingPlayer === 1 ? 2 : 1;
@@ -869,99 +846,184 @@
             }, 1000);
         }
 
-        function findLeftKnifePosition(rightPos, targetValue, player) {
-            let low = 0;
-            let high = rightPos;
-            const tolerance = 0.01;
-
-            while (high - low > 0.1) {
-                const mid = (low + high) / 2;
-                const middleValues = calculateMiddleRegionValues(mid, rightPos);
-                const currentValue = calculatePlayerValue(middleValues, player);
-
-                if (Math.abs(currentValue - targetValue) < tolerance) {
-                    return mid;
-                }
-
-                if (currentValue < targetValue) {
-                    high = mid;
-                } else {
-                    low = mid;
-                }
+        function calculatePhase2SpeedMultiplier(valueDistance) {
+            // Similar logic to Phase 1 but adjusted for value constraints
+            let speedMultiplier;
+            if (valueDistance < 1) {
+                // Very close to target value - slow way down
+                speedMultiplier = 0.1 + (valueDistance / 1) * 0.4; // 0.1x to 0.5x speed
+            } else if (valueDistance < 5) {
+                // Somewhat close - moderate speed
+                speedMultiplier = 0.5 + ((valueDistance - 1) / 4) * 0.5; // 0.5x to 1.0x speed
+            } else if (valueDistance < 10) {
+                // Not close - normal to fast speed
+                speedMultiplier = 1.0 + ((valueDistance - 5) / 5) * 1.0; // 1.0x to 2.0x speed
+            } else {
+                // Very far - maximum speed
+                speedMultiplier = 2.0;
             }
-
-            return (low + high) / 2;
+            return speedMultiplier;
         }
 
         function animateDualKnives() {
             if (!gameState.isAnimating || gameState.isPaused) return;
 
-            const speed = gameState.animationSpeed * 0.3;
+            const leftTarget = gameState.stopPosition;
+            const rightTarget = 800;
             const controllingPlayerKey = `player${gameState.controllingPlayer}`;
 
-            // Calculate targets
-            const leftKnifeTarget = gameState.stopPosition; // Must reach original stop position
-            const rightKnifeTarget = 800; // Must reach end of cake
+            // Move left knife steadily toward target
+            const leftRemaining = leftTarget - gameState.leftKnifePosition;
+            const baseSpeed = 1.5;
 
-            // Calculate remaining distances
-            const leftRemaining = leftKnifeTarget - gameState.leftKnifePosition;
-            const rightRemaining = rightKnifeTarget - gameState.rightKnifePosition;
+            // Calculate current middle value and distance from target
+            const currentRegionValues = calculatePhase2RegionValues();
+            const currentMiddleValue = calculatePlayerValue(currentRegionValues.middle, controllingPlayerKey);
+            const valueDistance = Math.abs(currentMiddleValue - gameState.targetMiddleValue);
 
-            // Check if right knife has reached the end - this ends the phase
-            if (rightRemaining <= 0) {
-                // Right knife reached end, reset both and start over
-                gameState.leftKnifePosition = 0;
-                gameState.rightKnifePosition = findRightKnifePosition(0, gameState.targetMiddleValue, controllingPlayerKey);
+            // Convert value distance to a percentage-like scale for speed calculation
+            const percentageDistance = (valueDistance / gameState.targetMiddleValue) * 50; // Scale to 0-50 range
+            const speedMultiplier = calculatePhase2SpeedMultiplier(percentageDistance);
+            const adjustedSpeed = baseSpeed * speedMultiplier;
 
-                // Validate reset position
-                if (gameState.rightKnifePosition <= 0 || gameState.rightKnifePosition > 800) {
-                    gameState.rightKnifePosition = 100;
+            // Move left knife steadily toward target (only if not already there)
+            let newLeftPosition = gameState.leftKnifePosition;
+            if (Math.abs(leftRemaining) > 1) {
+                const leftStep = Math.sign(leftRemaining) * Math.min(Math.abs(leftRemaining), adjustedSpeed);
+                newLeftPosition = gameState.leftKnifePosition + leftStep;
+            } else {
+                newLeftPosition = leftTarget; // Snap to target and stop moving
+            }
+
+            // Calculate right knife position that maintains the target value
+            let newRightPosition;
+            if (Math.abs(leftTarget - newLeftPosition) < 1) {
+                // Left knife has reached target, right knife can move freely toward end
+                const rightRemaining = rightTarget - gameState.rightKnifePosition;
+                if (Math.abs(rightRemaining) > 1) {
+                    newRightPosition = gameState.rightKnifePosition + Math.sign(rightRemaining) * Math.min(Math.abs(rightRemaining), adjustedSpeed);
+                } else {
+                    newRightPosition = rightTarget;
                 }
             } else {
-                // Move left knife toward stop position (but don't go past it)
-                if (leftRemaining > 0) {
-                    const leftStep = Math.min(speed, leftRemaining);
-                    gameState.leftKnifePosition += leftStep;
+                // Left knife still moving, maintain value constraint
+                newRightPosition = findRightKnifePosition(newLeftPosition, gameState.targetMiddleValue, controllingPlayerKey);
+            }
+
+            // Ensure right knife doesn't go beyond bounds or past left knife
+            newRightPosition = Math.max(newLeftPosition + 10, Math.min(newRightPosition, rightTarget));
+
+            // Update positions
+            updateKnifePositions(newLeftPosition, newRightPosition);
+
+            // Check if left knife has reached its target
+            let leftKnifeComplete = Math.abs(leftTarget - newLeftPosition) < 1;
+            if (leftKnifeComplete) {
+                newLeftPosition = leftTarget; // Lock left knife at target position
+            }
+
+            // Check if right knife has reached the end
+            let rightKnifeComplete = Math.abs(rightTarget - newRightPosition) < 1;
+            if (rightKnifeComplete) {
+                newRightPosition = rightTarget; // Lock right knife at end
+            }
+
+            // Update positions
+            updateKnifePositions(newLeftPosition, newRightPosition);
+
+            // Only end animation when BOTH knives have reached their targets
+            if (leftKnifeComplete && rightKnifeComplete) {
+                setTimeout(() => startPhase3(), 500);
+                return;
+            }
+
+            // Continue animation
+            gameState.animationId = requestAnimationFrame(animateDualKnives);
+        }
+
+        // New helper function to find the right knife position
+        function findRightKnifePosition(leftPos, targetValue, controllingPlayerKey) {
+            // Binary search for the correct right knife position
+            let minRight = leftPos + 1;
+            let maxRight = 800;
+            let bestRightPos = (minRight + maxRight) / 2;
+            let bestValueDiff = Infinity;
+
+            // Convergence threshold
+            const tolerance = 0.1;
+            const maxIterations = 50;
+
+            for (let iterations = 0; iterations < maxIterations; iterations++) {
+                const testRightPos = (minRight + maxRight) / 2;
+
+                // Bounds check
+                if (testRightPos <= leftPos || testRightPos > 800) {
+                    break;
                 }
-                // If leftRemaining <= 0, left knife stays at target position
 
-                // Always try to move right knife forward
-                const rightStep = speed;
-                let newRightPosition = gameState.rightKnifePosition + rightStep;
+                const testMiddleValues = calculateTestMiddleValues(leftPos, testRightPos);
+                const testValue = calculatePlayerValue(testMiddleValues, controllingPlayerKey);
+                const valueDiff = testValue - targetValue;
 
-                // Calculate required right position to maintain constraint
-                let requiredRightPosition = findRightKnifePosition(
-                    gameState.leftKnifePosition,
-                    gameState.targetMiddleValue,
-                    controllingPlayerKey
-                );
+                // Check for convergence
+                if (Math.abs(valueDiff) < tolerance) {
+                    return testRightPos;
+                }
 
-                // Use whichever is further right: the natural progression or constraint requirement
-                // This allows right knife to continue moving even when left knife is stuck
-                const finalRightPosition = Math.max(newRightPosition, requiredRightPosition);
-
-                // Check if final position is valid
-                if (finalRightPosition > gameState.leftKnifePosition && finalRightPosition <= 800) {
-                    gameState.rightKnifePosition = finalRightPosition;
-                } else if (finalRightPosition > 800) {
-                    // Right knife would go past end, so it's reached the target
-                    gameState.rightKnifePosition = 800;
+                // Update search bounds
+                if (valueDiff < 0) {
+                    // Middle piece value too low, need to expand (move right knife right)
+                    minRight = testRightPos;
                 } else {
-                    // Something went wrong, reset
-                    gameState.leftKnifePosition = 0;
-                    gameState.rightKnifePosition = findRightKnifePosition(0, gameState.targetMiddleValue, controllingPlayerKey);
+                    // Middle piece value too high, need to contract (move right knife left)
+                    maxRight = testRightPos;
+                }
 
-                    if (gameState.rightKnifePosition <= 0) {
-                        gameState.rightKnifePosition = 100;
+                // Track best position found so far
+                if (Math.abs(valueDiff) < Math.abs(bestValueDiff)) {
+                    bestValueDiff = valueDiff;
+                    bestRightPos = testRightPos;
+                }
+
+                // Check if search space collapsed
+                if (maxRight - minRight < 0.1) {
+                    break;
+                }
+            }
+
+            // Ensure returned position is within valid bounds
+            return Math.max(leftPos + 1, Math.min(bestRightPos, 800));
+        }
+
+        // Helper function to calculate middle values for test positions
+        function calculateTestMiddleValues(leftPos, rightPos) {
+            const middleValues = {};
+
+            for (const [color, bounds] of Object.entries(regions)) {
+                const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
+
+                if (leftPos <= bounds.x1 && rightPos >= bounds.x2) {
+                    // Color region is completely between both knives
+                    middleValues[color] = 100;
+                } else if (leftPos >= bounds.x2 || rightPos <= bounds.x1) {
+                    // Color region is completely outside both knives
+                    middleValues[color] = 0;
+                } else {
+                    // Calculate actual overlap
+                    const leftBound = Math.max(leftPos, bounds.x1);
+                    const rightBound = Math.min(rightPos, bounds.x2);
+
+                    if (leftBound < rightBound) {
+                        const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
+                        const middlePercent = (middleArea / totalArea) * 100;
+                        middleValues[color] = middlePercent;
+                    } else {
+                        middleValues[color] = 0;
                     }
                 }
             }
 
-            // Update visual positions and displays
-            updateKnifePositions();
-            updateValueDisplays();
-
-            gameState.animationId = requestAnimationFrame(animateDualKnives);
+            return middleValues;
         }
 
         function startPhase3() {
@@ -1038,23 +1100,15 @@
             gameState.isAnimating = false;
 
             // Calculate final values for the two actual pieces
-            const middleValues = calculateMiddleRegionValues(gameState.leftKnifePosition, gameState.rightKnifePosition);
-
-            // Calculate outside piece (left + right combined)
-            const leftValues = calculateRegionValues(gameState.leftKnifePosition).left;
-            const rightValues = calculateRegionValues(gameState.rightKnifePosition).right;
-
-            // Combine left and right for outside piece
-            const outsideValues = {};
-            for (const color in leftValues) {
-                outsideValues[color] = leftValues[color] + rightValues[color];
-            }
+            const regionValues = calculatePhase2RegionValues();
+            const middleValues = regionValues.middle;
+            const flankValues = regionValues.flank;
 
             const p1Inside = calculatePlayerValue(middleValues, 'player1');
-            const p1Outside = calculatePlayerValue(outsideValues, 'player1');
+            const p1Outside = calculatePlayerValue(flankValues, 'player1');
 
             const p2Inside = calculatePlayerValue(middleValues, 'player2');
-            const p2Outside = calculatePlayerValue(outsideValues, 'player2');
+            const p2Outside = calculatePlayerValue(flankValues, 'player2');
 
             const controllingPlayer = gameState.controllingPlayer;
 

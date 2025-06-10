@@ -76,6 +76,16 @@ permalink: /algorithms/austins-moving-knife/
     </div>
   </section>
 
+  <!-- Mathematical Analysis -->
+  <section class="content-block">
+    <h2>Mathematical Insight</h2>
+  </section>
+
+  <section class="content-block">
+    <h2>Fairness Properties</h2>
+    <p>Austin's procedure satisfies three fundamental fairness properties:</p>
+  </section>
+
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="nav-button secondary">← Back to Divide-and-Choose</a>

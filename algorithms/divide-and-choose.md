@@ -10,9 +10,9 @@ permalink: /algorithms/divide-and-choose/
   <div class="algorithm-header-card">
     <div class="algorithm-header-content">
       <h1 class="algorithm-title">Divide-and-Choose</h1>
-      <p class="algorithm-subtitle">The fundamental fair division procedure</p>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
+        <span class="meta-badge complexity-badge">$O(1)$</span>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@ permalink: /algorithms/divide-and-choose/
   <!-- Overview -->
   <section class="content-block">
     <h2>Overview</h2>
-    <p>The divide-and-choose algorithm is the most basic fair division procedure. Despite its simplicity, it mathematically guarantees a few essential fairness properties. This procedure assumes that the resource in question is continuous, divisible, and heterogeneous.</p>
+    <p>The divide-and-choose algorithm is the most basic fair division procedure. This procedure assumes that the resource in question is continuous, divisible, and heterogeneous.</p>
     <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
     <div class="procedure-steps">
       <h3>How It Works</h3>
@@ -63,10 +63,19 @@ permalink: /algorithms/divide-and-choose/
     </div>
   </section>
 
-  <!-- Fairness Properties -->
+  <!-- Mathematical Analysis -->
+  <section class="content-block">
+    <h2>Mathematical Insight</h2>
+    <p>The algorithm exploits the <strong>zero-sum nature</strong> of the division problem. Let $S$ be the total resource and $v_i(S) = 100$ for each player $i$. For any partition $\{A, B\}$ where $A \cup B = S$ and $A \cap B = \emptyset$:</p>
+  
+    $$v_i(A) + v_i(B) = v_i(S) = 100$$
+  
+    <p>Player 1 uses this constraint by creating pieces such that $v_1(A) \approx v_1(B) \approx 50$, guaranteeing they cannot receive less than 50% regardless of Player 2's choice. Player 2 then optimizes: $v_2(\text{chosen piece}) = \max(v_2(A), v_2(B)) \geq 50$.</p>
+  </section>
+
   <section class="content-block">
     <h2>Fairness Properties</h2>
-    <p>The divide-and-choose algorithm satisfies three fundamental fairness properties, each with rigorous mathematical guarantees.</p>
+    <p>The divide-and-choose algorithm satisfies three fundamental fairness properties:</p>
   </section>
 
   <section class="content-block">
@@ -110,14 +119,7 @@ permalink: /algorithms/divide-and-choose/
     </div>
   </section>
 
-  <section class="content-block">
-    <h3>Key Mathematical Insight</h3>
-    <p>The algorithm exploits the <strong>zero-sum nature</strong> of the division problem. Let $S$ be the total resource and $v_i(S) = 100$ for each player $i$. For any partition $\{A, B\}$ where $A \cup B = S$ and $A \cap B = \emptyset$:</p>
   
-    $$v_i(A) + v_i(B) = v_i(S) = 100$$
-  
-    <p>Player 1 uses this constraint by creating pieces such that $v_1(A) \approx v_1(B) \approx 50$, guaranteeing they cannot receive less than 50% regardless of Player 2's choice. Player 2 then optimizes: $v_2(\text{chosen piece}) = \max(v_2(A), v_2(B)) \geq 50$.</p>
-  </section>
 
   <!-- Limitations -->
   <section class="content-block">
