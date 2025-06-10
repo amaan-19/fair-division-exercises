@@ -21,12 +21,7 @@ An academic Jekyll website developing interactive educational resources for fair
 
 ## Quick Start
 
-### Prerequisites
-- Ruby 2.7+ with bundler
-- Git
-
-### Installation
-Visit `https://amaan-19.github.io/fair-division-exercises/` to view the site.
+Click [here](https://amaan-19.github.io/fair-division-exercises/) to view the site!
 
 ## Project Structure
 
