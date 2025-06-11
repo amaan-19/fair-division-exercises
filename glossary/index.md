@@ -60,6 +60,21 @@ permalink: /glossary/
     </p>
   </div>
 
+  <div class="term-card">
+    <h3 class="term-name">Discrete</h3>
+    <p class="term-definition">
+      A cake-cutting algorithm is discrete when it operates through a finite sequence of predetermined steps, where cuts are made at specific moments based on fixed rules or player decisions. In discrete algorithms, the cutting process is not real-time or continuous—instead, players make cuts, evaluate pieces, and select allocations in distinct phases.
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Continuous</h3>
+    <p class="term-definition">
+      
+A cake-cutting algorithm is continuous when it involves moving knives or dynamic cutting processes that can theoretically be stopped at any infinitesimal moment. In continuous algorithms, cuts evolve smoothly over time, and players can call "stop" at any point when they perceive the current division as fair according to their preferences.
+    </p>
+  </div>
+
 </div>
 
 <script>

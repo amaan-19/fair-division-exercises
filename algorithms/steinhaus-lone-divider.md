@@ -51,7 +51,7 @@ permalink: /algorithms/steinhaus-lone-divider/
         <div class="step">
           <div class="step-number">3b</div>
           <div class="step-content">
-            In the second case, the piece the <strong>non-dividers</strong> believe is not proportional is given to the <strong>divider</strong>. The rest of the cake is reassembled and the <strong>non-dividers</strong> then perform the standard Divide-and-Choose procedure on the remaining cake.
+            In the second case, a piece the <strong>non-dividers</strong> believe is not proportional is given to the <strong>divider</strong>. The rest of the cake is reassembled and the <strong>non-dividers</strong> then perform the standard Divide-and-Choose procedure on the remaining cake.
           </div>
         </div>
 
@@ -74,5 +74,10 @@ permalink: /algorithms/steinhaus-lone-divider/
       </iframe>
     </div>
   </section>
+
+  <!-- Navigation -->
+  <footer class="algorithm-navigation">
+    <a href="{{ '/algorithms/austins-moving-knife/' | relative_url }}" class="nav-button secondary">← Back to Austin's Procedure</a>
+  </footer>
 
 </div>
