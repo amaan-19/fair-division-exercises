@@ -21,19 +21,7 @@ An academic Jekyll website developing interactive educational resources for fair
 
 ## Quick Start
 
-### Prerequisites
-- Ruby 2.7+ with bundler
-- Git
-
-### Installation
-```bash
-git clone https://github.com/amaan-19/fair-division-exercises
-cd fair-division-exercises
-bundle install
-bundle exec jekyll serve --livereload
-```
-
-Visit `https://amaan-19.github.io/fair-division-exercises/` to view the site locally.
+Click [here](https://amaan-19.github.io/fair-division-exercises/) to view the site!
 
 ## Project Structure
 
@@ -89,6 +77,7 @@ Visit `https://amaan-19.github.io/fair-division-exercises/` to view the site loc
 - Custom CSS design system in `assets/main.css`
 - Academic color palette with blue/gray scheme
 - Responsive grid layouts for algorithm cards
+- CSS assistance provided by Claude Sonnet 4
 
 ## Research Context
 
