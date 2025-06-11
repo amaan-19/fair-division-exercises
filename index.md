@@ -16,7 +16,7 @@ title: Fair Division Algorithms
         </div>
       </div>
       <div class="algorithm-content">
-        <p class="algorithm-description">The fundamental fair division procedure for two players. One player divides the resource into pieces they value equally, while the other player chooses their preferred piece.</p>
+        <p class="algorithm-description">The fundamental fair division procedure for two players.</p>
         <div class="algorithm-properties">
           <h4>Fairness Properties</h4>
           <div class="property-tags">
@@ -41,7 +41,7 @@ title: Fair Division Algorithms
         </div>
       </div>
       <div class="algorithm-content">
-        <p class="algorithm-description">An extension of "Divide-and-Choose" introducing a referee and a continuous, moving-knife mechanism.</p>
+        <p class="algorithm-description">Introduces a referee and a continuous, moving-knife mechanism for stronger fairness guarantees.</p>
         <div class="algorithm-properties">
           <h4>Fairness Properties</h4>
           <div class="property-tags">
@@ -67,7 +67,7 @@ title: Fair Division Algorithms
         </div>
       </div>
       <div class="algorithm-content">
-        <p class="algorithm-description">An alternative extension of "Divide-and-Choose" enabling fair division among three parties.</p>
+        <p class="algorithm-description">Rudimentary procedure enabling basic fair division among three players.</p>
         <div class="algorithm-properties">
           <h4>Fairness Properties</h4>
           <div class="property-tags">

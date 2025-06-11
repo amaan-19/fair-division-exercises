@@ -10,6 +10,7 @@ permalink: /references/
 </div>
 
 <div class="references-grid">
+
   <div class="reference-card">
     <div class="reference-header">
       <h3 class="reference-title">Fair Division: From Cake-Cutting to Dispute Resolution</h3>
@@ -21,20 +22,29 @@ permalink: /references/
     <div class="reference-content">
       <p class="reference-authors">Steven J. Brams, Alan D. Taylor</p>
       <p class="reference-publication">Cambridge University Press</p>
-      <p class="reference-description">The definitive text on fair division algorithms, covering everything from classical cake-cutting procedures to modern applications in dispute resolution. Provides rigorous mathematical analysis of proportionality, envy-freeness, and efficiency properties across discrete and continuous fair division problems.</p>
-      <div class="reference-tags">
-        <span class="reference-tag">Cake-Cutting</span>
-        <span class="reference-tag">Divide-and-Choose</span>
-        <span class="reference-tag">Envy-Free</span>
-        <span class="reference-tag">Proportional</span>
-        <span class="reference-tag">Foundational</span>
-      </div>
     </div>
     <div class="reference-footer">
-      <a href="https://www.cambridge.org/core/books/fair-division/0C2A8FD1F92BE8DE0B8DA23C5C5F6A6B" class="reference-link" target="_blank">View Book →</a>
       <span class="citation-note" onclick="copyCitation(this)" data-citation="Brams, S. J., & Taylor, A. D. (1996). Fair Division: From Cake-Cutting to Dispute Resolution. Cambridge University Press.">Click to copy citation</span>
     </div>
   </div>
+
+  <div class="reference-card">
+    <div class="reference-header">
+      <h3 class="reference-title">Cake-Cutting Algorithms: Be Fair if You Can</h3>
+      <div class="reference-meta">
+        <span class="type-badge book">Book</span>
+        <span class="year-badge">1998</span>
+      </div>
+    </div>
+    <div class="reference-content">
+      <p class="reference-authors">Jack Robertson, William Webb</p>
+      <p class="reference-publication">A K Peters, Ltd</p>
+    </div>
+    <div class="reference-footer">
+      <span class="citation-note" onclick="copyCitation(this)" data-citation="Robertson, J., & Webb, W. (1998). Cake-Cutting Algorithms: Be Fair if You Can. A K Peters, Ltd.">Click to copy citation</span>
+    </div>
+  </div>
+
 </div>
 
 <script>
