@@ -10,7 +10,6 @@ permalink: /algorithms/austins-moving-knife/
   <div class="algorithm-header-card">
     <div class="algorithm-header-content">
       <h1 class="algorithm-title">Austin's Moving Knife</h1>
-      <p class="algorithm-subtitle">A simple, but powerful extension of "Divide-and-Choose"</p>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
         <span class="meta-badge complexity-badge">Continuous</span>
@@ -159,5 +158,6 @@ permalink: /algorithms/austins-moving-knife/
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="nav-button secondary">← Back to Divide-and-Choose</a>
+    <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="nav-button primary">Next: Steinhaus' Lone-Divider →</a>
   </footer>
 </div>

@@ -57,6 +57,29 @@ title: Fair Division Algorithms
       </div>
     </div>
 
+    <!-- Steinhaus' Lone-Divider Algorithm Card -->
+    <div class="algorithm-card">
+      <div class="algorithm-header">
+        <h3 class="algorithm-title">Steinhaus' Lone-Divider</h3>
+        <div class="algorithm-meta">
+          <span class="meta-badge players-badge">3 Players</span>
+          <span class="meta-badge complexity-badge">Discrete</span>
+        </div>
+      </div>
+      <div class="algorithm-content">
+        <p class="algorithm-description">An alternative extension of "Divide-and-Choose" enabling fair division among three parties.</p>
+        <div class="algorithm-properties">
+          <h4>Fairness Properties</h4>
+          <div class="property-tags">
+            <span class="property-tag">Proportional</span>
+          </div>
+        </div>
+      </div>
+      <div class="algorithm-footer">
+        <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+      </div>
+    </div>
+
     <!-- Placeholder for future algorithms -->
     <div class="algorithm-card coming-soon">
       <div class="algorithm-header">
