@@ -53,6 +53,13 @@ permalink: /glossary/
     </p>
   </div>
 
+  <div class="term-card">
+    <h3 class="term-name">Equitable</h3>
+    <p class="term-definition">
+      A fairness property where each player values their share equally. Mathematically: $V_i(X_i)=V_j(X_j)$
+    </p>
+  </div>
+
 </div>
 
 <script>

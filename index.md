@@ -12,6 +12,7 @@ title: Fair Division Algorithms
         <h3 class="algorithm-title">Divide-and-Choose</h3>
         <div class="algorithm-meta">
           <span class="meta-badge players-badge">2 Players</span>
+          <span class="meta-badge complexity-badge">Discrete</span>
         </div>
       </div>
       <div class="algorithm-content">
@@ -36,6 +37,7 @@ title: Fair Division Algorithms
         <h3 class="algorithm-title">Austin's Moving Knife</h3>
         <div class="algorithm-meta">
           <span class="meta-badge players-badge">2 Players</span>
+          <span class="meta-badge complexity-badge">Continuous</span>
         </div>
       </div>
       <div class="algorithm-content">
@@ -43,9 +45,10 @@ title: Fair Division Algorithms
         <div class="algorithm-properties">
           <h4>Fairness Properties</h4>
           <div class="property-tags">
-            <span class="property-tag">Proportional</span>
+            <span class="property-tag">Equitable</span>
             <span class="property-tag">Exact</span>
             <span class="property-tag">Envy-free</span>
+            <span class="property-tag">Strategy-proof</span>
           </div>
         </div>
       </div>
