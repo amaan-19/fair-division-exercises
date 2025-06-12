@@ -68,7 +68,7 @@ permalink: /algorithms/austins-moving-knife/
       <iframe 
         src="{{ '/assets/demos/austins-demo.html' | relative_url }}" 
         width="100%" 
-        height="1400" 
+        height="1050" 
         frameborder="0"
         style="display: block; border: none;">
         <p>Your browser does not support iframes. <a href="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}">View the demo directly</a>.</p>

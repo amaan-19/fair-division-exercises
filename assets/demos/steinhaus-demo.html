@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Steinhaus Lone-Divider Demo</title>
     <style>
+        /* ===== BASE STYLES ===== */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
@@ -13,30 +14,60 @@
             color: #2d3748;
         }
 
+        /* ===== MAIN CONTAINER ===== */
         .simulation-container {
             max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            padding: 2rem;
+            padding: 1.5rem; /* Reduced from 2rem for compactness */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             border: 1px solid #e2e8f0;
         }
 
+        /* ===== HEADER ELEMENTS ===== */
         .step-indicator {
             text-align: center;
             font-weight: 600;
-            margin: 15px 0;
-            font-size: 1.1rem;
+            margin: 10px 0; /* Reduced from 15px */
+            font-size: 1rem; /* Reduced from 1.1rem */
         }
 
+        .phase-indicator {
+            background: #fef5e7;
+            padding: 8px; /* Reduced from 10px */
+            border-radius: 6px;
+            border-left: 4px solid #f59e0b;
+            margin: 10px 0; /* Reduced from 15px */
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .instructions {
+            background: #ebf8ff;
+            padding: 12px; /* Reduced from 15px */
+            border-radius: 8px;
+            border-left: 4px solid #3182ce;
+            margin: 15px 0; /* Reduced from 20px */
+        }
+
+        .algorithm-info {
+            background: #f7fafc;
+            padding: 10px; /* Reduced from 12px */
+            border-radius: 6px;
+            margin: 12px 0; /* Reduced from 15px */
+            font-size: 12px; /* Reduced from 13px */
+            display: none;
+        }
+
+        /* ===== GAME AREA ===== */
         .game-area {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 320px; /* Reduced from 400px for better fit */
             border: 3px solid #2d3748;
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 15px 0; /* Reduced from 20px */
             background: #f5f5f0;
             overflow: hidden;
         }
@@ -50,6 +81,7 @@
             z-index: 1;
         }
 
+        /* ===== INTERACTIVE ELEMENTS ===== */
         .cut-line {
             stroke: #dc3545;
             stroke-width: 4;
@@ -85,10 +117,15 @@
             }
         }
 
-        .slider-container {
-            margin: 20px 0;
+        /* ===== CONTROL ELEMENTS ===== */
+        .slider-container, .dual-slider-container {
+            margin: 15px 0; /* Reduced from 20px */
             text-align: center;
         }
+
+            .dual-slider-container .slider {
+                margin: 4px 0; /* Reduced from 5px */
+            }
 
         .slider {
             width: 80%;
@@ -97,13 +134,13 @@
             background: #e2e8f0;
             outline: none;
             appearance: none;
-            margin: 10px 0;
+            margin: 8px 0; /* Reduced from 10px */
         }
 
             .slider::-webkit-slider-thumb {
                 appearance: none;
-                width: 24px;
-                height: 24px;
+                width: 20px; /* Reduced from 24px */
+                height: 20px; /* Reduced from 24px */
                 border-radius: 50%;
                 background: #3182ce;
                 cursor: pointer;
@@ -111,8 +148,8 @@
             }
 
             .slider::-moz-range-thumb {
-                width: 24px;
-                height: 24px;
+                width: 20px; /* Reduced from 24px */
+                height: 20px; /* Reduced from 24px */
                 border-radius: 50%;
                 background: #3182ce;
                 cursor: pointer;
@@ -124,12 +161,12 @@
             background: #3182ce;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px; /* Reduced from 10px 20px */
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
-            margin: 5px;
+            font-size: 13px; /* Reduced from 14px */
+            margin: 4px; /* Reduced from 5px */
             transition: background 0.2s ease;
         }
 
@@ -142,35 +179,139 @@
                 cursor: not-allowed;
             }
 
+        .controls {
+            text-align: center;
+            margin: 15px 0; /* Reduced from 20px */
+            align-items: center;
+            gap: 10px;
+            min-height: 50px;
+        }
+
+        #makeCutsButton, #continueButton, #resetButton {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* ===== PIECE INFORMATION ===== */
+        .piece-info {
+            display: flex;
+            justify-content: space-around;
+            margin: 12px 0; /* Reduced from 15px */
+            padding: 8px; /* Reduced from 10px */
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .piece-summary {
+            text-align: center;
+            font-size: 11px; /* Reduced from 12px */
+        }
+
+            .piece-summary strong {
+                display: block;
+                margin-bottom: 3px; /* Reduced from 4px */
+            }
+
+        /* ===== PLAYER INFORMATION SECTION ===== */
         .player-info {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: 1fr 1fr 1fr; /* Three equal columns for side-by-side layout */
+            gap: 12px; /* Reduced from 15px */
+            margin: 15px 0; /* Reduced from 20px */
         }
 
         .player-card {
             background: #f8f9fa;
-            padding: 12px;
+            padding: 8px; /* Reduced from 12px for compactness */
             border-radius: 8px;
             border: 1px solid #e2e8f0;
+            text-align: center;
         }
 
             .player-card h3 {
-                margin: 0 0 12px 0;
-                font-size: 16px;
-                text-align: center;
+                margin: 0 0 6px 0; /* Reduced from 12px */
+                font-size: 14px; /* Reduced from 16px */
                 color: #2d3748;
             }
 
-        .instructions {
-            background: #ebf8ff;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #3182ce;
-            margin: 20px 0;
+            .player-card.invalid {
+                border-color: #e53e3e !important;
+                background: #fff5f5 !important;
+            }
+
+        /* ===== COLOR LEGEND GRID ===== */
+        .color-legend {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for color items */
+            gap: 4px; /* Reduced from 6px */
+            margin: 8px 0; /* Reduced from 12px */
+            padding: 6px; /* Reduced from 8px */
+            background: #f8f9fa;
+            border-radius: 6px;
         }
 
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 3px; /* Reduced from 4px */
+            font-size: 9px; /* Reduced from 11px */
+            padding: 2px; /* Reduced from 3px */
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+            .color-item:hover {
+                background: rgba(255, 255, 255, 0.6);
+            }
+
+        .color-swatch {
+            width: 10px; /* Reduced from 12px */
+            height: 10px; /* Reduced from 12px */
+            border-radius: 2px;
+            border: 1px solid #ccc;
+            flex-shrink: 0;
+        }
+
+        .valuation-input {
+            width: 24px; /* Reduced from 28px */
+            padding: 1px 2px; /* Reduced from 1px 3px */
+            border: 1px solid #d2d6dc;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 9px; /* Reduced from 10px */
+            background: white;
+            margin-left: 2px;
+        }
+
+            .valuation-input:focus {
+                outline: none;
+                border-color: #3182ce;
+                box-shadow: 0 0 0 1px #3182ce;
+            }
+
+        /* ===== PLAYER STATUS DISPLAYS ===== */
+        .valuation-total {
+            margin-top: 5px; /* Reduced from 6px */
+            padding: 3px 5px; /* Reduced from 4px 6px */
+            font-weight: 600;
+            font-size: 10px; /* Reduced from 11px */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .player-values {
+            margin-top: 5px; /* Reduced from 6px */
+            padding: 3px 5px; /* Reduced from 4px 6px */
+            font-size: 9px; /* Reduced from 10px */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ===== NOTIFICATION PANELS ===== */
         .results {
             background: #f0fff4;
             padding: 15px;
@@ -182,161 +323,111 @@
 
         .warning {
             background: #fffbeb;
-            padding: 15px;
+            padding: 12px; /* Reduced from 15px */
             border-radius: 8px;
             border-left: 4px solid #f59e0b;
-            margin: 20px 0;
+            margin: 15px 0; /* Reduced from 20px */
             display: none;
         }
 
-        .controls {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .color-legend {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin: 12px 0;
-            padding: 8px;
+        /* ===== RECONSTRUCTION INTERFACE ===== */
+        #reconstructionInterface {
             background: #f8f9fa;
-            border-radius: 6px;
-        }
-
-        .color-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            padding: 3px;
-            border-radius: 4px;
-            transition: background-color 0.2s ease;
-        }
-
-            .color-item:hover {
-                background: rgba(255, 255, 255, 0.6);
-            }
-
-        .color-swatch {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            border: 1px solid #ccc;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-            .player-info {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .color-legend {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-            }
-
-            .game-area {
-                height: 300px;
-            }
-        }
-
-        .valuation-input {
-            width: 28px;
-            padding: 1px 3px;
-            border: 1px solid #d2d6dc;
-            border-radius: 3px;
-            text-align: center;
-            font-size: 10px;
-            background: white;
-            margin-left: 2px;
-        }
-
-            .valuation-input:focus {
-                outline: none;
-                border-color: #3182ce;
-                box-shadow: 0 0 0 1px #3182ce;
-            }
-
-        .valuation-total {
-            margin-top: 6px;
-            padding: 4px 6px;
-            font-weight: 600;
-            font-size: 11px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid #e2e8f0;
+            margin: 15px 0;
+            display: none;
         }
 
-        .player-values {
-            margin-top: 6px;
-            padding: 4px 6px;
-            font-size: 10px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 4px;
-            border: 1px solid #e2e8f0;
-        }
+            #reconstructionInterface h3 {
+                margin: 0 0 10px 0;
+                font-size: 16px;
+                text-align: center;
+            }
 
+            #reconstructionInterface p {
+                margin: 8px 0;
+                font-size: 13px;
+            }
+
+        /* ===== STATUS INDICATORS ===== */
         .error {
             color: #e53e3e;
+            font-weight: 600;
         }
 
         .valid {
             color: #38a169;
-        }
-
-        .dual-slider-container {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-            .dual-slider-container .slider {
-                margin: 5px 0;
-            }
-
-        .phase-indicator {
-            background: #fef5e7;
-            padding: 10px;
-            border-radius: 6px;
-            border-left: 4px solid #f59e0b;
-            margin: 15px 0;
             font-weight: 600;
-            text-align: center;
         }
 
-        .algorithm-info {
-            background: #f7fafc;
-            padding: 12px;
-            border-radius: 6px;
-            margin: 15px 0;
-            font-size: 13px;
-        }
-
-        .piece-info {
-            display: flex;
-            justify-content: space-around;
-            margin: 15px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-
-        .piece-summary {
-            text-align: center;
-            font-size: 12px;
-        }
-
-            .piece-summary strong {
-                display: block;
-                margin-bottom: 4px;
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 900px) { /* Changed from 768px to 900px for 3-column layout */
+            .player-info {
+                grid-template-columns: 1fr; /* Stack vertically on smaller screens */
+                gap: 10px;
             }
+
+            .color-legend {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+            }
+
+            .game-area {
+                height: 280px; /* Smaller on mobile */
+            }
+
+            .simulation-container {
+                padding: 1rem;
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .color-legend {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+
+            .valuation-input {
+                width: 22px;
+                font-size: 8px;
+            }
+
+            .piece-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .piece-summary {
+                margin: 4px 0;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+        .button:focus {
+            outline: 2px solid #3182ce;
+            outline-offset: 2px;
+        }
+
+        .slider:focus {
+            box-shadow: 0 0 0 2px #3182ce;
+        }
+
+        .piece-overlay:focus {
+            outline: 3px solid #3182ce;
+            outline-offset: 2px;
+        }
+
+        .valuation-input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 1px #3182ce;
+        }
     </style>
 </head>
 <body>
     <div class="simulation-container">
+        <!-- Header Section: Game Progress and Instructions -->
         <div class="step-indicator" id="stepIndicator">
             Step 1: Player 1 (Divider) creates three equal-value pieces
         </div>
@@ -349,8 +440,10 @@
             <strong>Instructions:</strong> Player 1, use the sliders below to position two vertical cuts to create three pieces that you value equally.
         </div>
 
+        <!-- Main Game Visualization -->
         <div class="game-area" id="gameArea">
             <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                <!-- Colored Regions -->
                 <!-- Blue region (top) -->
                 <polygon points="0,0 600,0 600,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2" />
                 <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Blue</text>
@@ -375,11 +468,12 @@
                 <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" stroke="#2d3748" stroke-width="2" />
                 <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Green</text>
 
-                <!-- Cut lines -->
+                <!-- Interactive Elements -->
+                <!-- Cut lines for initial division -->
                 <line id="cutLine1" x1="267" y1="0" x2="267" y2="400" class="cut-line" />
                 <line id="cutLine2" x1="533" y1="0" x2="533" y2="400" class="cut-line" />
 
-                <!-- Piece overlays -->
+                <!-- Piece overlays for initial three pieces -->
                 <rect id="piece1" x="0" y="0" width="267" height="400"
                       fill="rgba(49,130,206,0.15)" stroke="#3182ce" stroke-width="2"
                       style="display: none;" class="piece-overlay" />
@@ -390,13 +484,19 @@
                       fill="rgba(237,137,54,0.15)" stroke="#ed8936" stroke-width="2"
                       style="display: none;" class="piece-overlay" />
 
-                <!-- Reconstruction pieces -->
-                <line id="reconstructionCutLine" x1="400" y1="0" x2="400" y2="400" stroke="#ff0000" stroke-width="3" style="display: none;" />
-                <rect id="reconstructionLeftPiece" x="0" y="0" width="400" height="400" fill="rgba(255,255,0,0.3)" stroke="#ffff00" stroke-width="3" style="display: none; cursor: pointer;" class="piece-overlay" />
-                <rect id="reconstructionRightPiece" x="400" y="0" width="400" height="400" fill="rgba(0,255,255,0.3)" stroke="#00ffff" stroke-width="3" style="display: none; cursor: pointer;" class="piece-overlay" />
+                <!-- Reconstruction elements (hidden initially) -->
+                <line id="reconstructionCutLine" x1="400" y1="0" x2="400" y2="400"
+                      stroke="#ff0000" stroke-width="3" style="display: none;" />
+                <rect id="reconstructionLeftPiece" x="0" y="0" width="400" height="400"
+                      fill="rgba(255,255,0,0.3)" stroke="#ffff00" stroke-width="3"
+                      style="display: none; cursor: pointer;" class="piece-overlay" />
+                <rect id="reconstructionRightPiece" x="400" y="0" width="400" height="400"
+                      fill="rgba(0,255,255,0.3)" stroke="#00ffff" stroke-width="3"
+                      style="display: none; cursor: pointer;" class="piece-overlay" />
             </svg>
         </div>
 
+        <!-- Dual Slider Controls for Initial Division -->
         <div class="dual-slider-container" id="sliderContainer">
             <label for="cutSlider1"><strong>First Cut Position:</strong></label><br>
             <input type="range" id="cutSlider1" class="slider" min="50" max="750" value="267" step="1">
@@ -407,6 +507,7 @@
             <div>Position: <span id="cutPosition2">66.6%</span></div>
         </div>
 
+        <!-- Piece Value Summary -->
         <div class="piece-info" id="pieceInfo">
             <div class="piece-summary">
                 <strong>Piece 1</strong>
@@ -422,13 +523,15 @@
             </div>
         </div>
 
+        <!-- Action Control Buttons -->
         <div class="controls">
             <button id="makeCutsButton" class="button">Make Cuts</button>
             <button id="continueButton" class="button" style="display: none;">Continue</button>
             <button id="resetButton" class="button" style="display: none;">Reset Game</button>
         </div>
 
-        <div id="reconstructionInterface" style="display: none;">
+        <!-- Reconstruction Interface (Hidden Initially) -->
+        <div id="reconstructionInterface">
             <h3>Divide-and-Choose Reconstruction</h3>
             <p><strong>Note:</strong> Only the remaining pieces (highlighted in orange border) are being divided.</p>
             <p>Divider Values: <span id="dividerValues"></span></p>
@@ -441,9 +544,13 @@
             </div>
         </div>
 
+        <!-- Player Information Cards (Side-by-Side Layout) -->
         <div class="player-info">
-            <div class="player-card divider">
+            <!-- Player 1 Card (Divider) -->
+            <div class="player-card divider" id="player1Card">
                 <h3>Player 1 (Divider)</h3>
+
+                <!-- Color Valuations Grid (3x2 layout) -->
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
@@ -470,11 +577,16 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p1-purple" value="15" min="0" max="100">pts</span>
                     </div>
                 </div>
+
+                <!-- Validation total display -->
                 <div class="valuation-total" id="p1-total">Total: <span class="valid">100</span></div>
             </div>
 
-            <div class="player-card non-divider">
+            <!-- Player 2 Card (Non-Divider) -->
+            <div class="player-card non-divider" id="player2Card">
                 <h3>Player 2 (Non-Divider)</h3>
+
+                <!-- Color Valuations Grid (3x2 layout) -->
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
@@ -501,12 +613,17 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p2-purple" value="10" min="0" max="100">pts</span>
                     </div>
                 </div>
+
+                <!-- Validation and piece values display -->
                 <div class="valuation-total" id="p2-total">Total: <span class="valid">100</span></div>
                 <div class="player-values" id="p2-values">P1: 0 | P2: 0 | P3: 0</div>
             </div>
 
-            <div class="player-card non-divider">
+            <!-- Player 3 Card (Non-Divider) -->
+            <div class="player-card non-divider" id="player3Card">
                 <h3>Player 3 (Non-Divider)</h3>
+
+                <!-- Color Valuations Grid (3x2 layout) -->
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
@@ -533,19 +650,24 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p3-purple" value="15" min="0" max="100">pts</span>
                     </div>
                 </div>
+
+                <!-- Validation and piece values display -->
                 <div class="valuation-total" id="p3-total">Total: <span class="valid">100</span></div>
                 <div class="player-values" id="p3-values">P1: 0 | P2: 0 | P3: 0</div>
             </div>
         </div>
 
-        <div class="algorithm-info" id="algorithmInfo" style="display: none;">
+        <!-- Algorithm Information Panel (Hidden Initially) -->
+        <div class="algorithm-info" id="algorithmInfo">
             <div id="caseAnalysis"></div>
         </div>
 
+        <!-- Warning Panel (Hidden Initially) -->
         <div class="warning" id="warning">
             <strong>Note:</strong> The pieces are not equally valued by the divider!
         </div>
 
+        <!-- Results Panel (Hidden Initially) -->
         <div class="results" id="results">
             <h3>Results:</h3>
             <p id="resultText"></p>
@@ -556,6 +678,7 @@
         </div>
     </div>
 
+    <!-- Load the JavaScript functionality -->
     <script src="steinhaus-demo.js"></script>
 </body>
 </html>

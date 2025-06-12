@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Divide-and-Choose Demo</title>
     <style>
+        /* ===== BASE STYLES ===== */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
@@ -13,6 +14,7 @@
             color: #2d3748;
         }
 
+        /* ===== LAYOUT COMPONENTS ===== */
         .simulation-container {
             max-width: 900px;
             margin: 0 auto;
@@ -41,6 +43,7 @@
             overflow: hidden;
         }
 
+        /* ===== SVG GAME ELEMENTS ===== */
         .background-svg {
             position: absolute;
             top: 0;
@@ -68,6 +71,11 @@
                 stroke-width: 6 !important;
             }
 
+            .piece-overlay:hover {
+                fill-opacity: 0.3 !important;
+            }
+
+        /* ===== CONTROL ELEMENTS ===== */
         .slider-container {
             margin: 20px 0;
             text-align: center;
@@ -125,6 +133,16 @@
                 cursor: not-allowed;
             }
 
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+            min-height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== PLAYER INFORMATION ===== */
         .player-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -145,43 +163,6 @@
                 text-align: center;
                 color: #2d3748;
             }
-
-        .player-1 {
-        }
-
-        .player-2 {
-        }
-
-        .instructions {
-            background: #ebf8ff;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #3182ce;
-            margin: 20px 0;
-        }
-
-        .results {
-            background: #f0fff4;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #38a169;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .warning {
-            background: #fffbeb;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #f59e0b;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .controls {
-            text-align: center;
-            margin: 20px 0;
-        }
 
         .color-legend {
             display: grid;
@@ -213,22 +194,6 @@
             border-radius: 2px;
             border: 1px solid #ccc;
             flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-            .player-info {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .color-legend {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-
-            .game-area {
-                height: 300px;
-            }
         }
 
         .valuation-input {
@@ -269,27 +234,117 @@
             border: 1px solid #e2e8f0;
         }
 
+        /* ===== NOTIFICATION PANELS ===== */
+        .instructions {
+            background: #ebf8ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3182ce;
+            margin: 20px 0;
+        }
+
+        .results {
+            background: #f0fff4;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #38a169;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .warning {
+            background: #fffbeb;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            margin: 20px 0;
+            display: none;
+        }
+
+        /* ===== STATUS INDICATORS ===== */
         .error {
             color: #e53e3e;
+            font-weight: 600;
         }
 
         .valid {
             color: #38a169;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #38a169;
+        }
+
+        .failure {
+            color: #e53e3e;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .player-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .color-legend {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .game-area {
+                height: 300px;
+            }
+
+            .simulation-container {
+                padding: 1rem;
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .color-legend {
+                grid-template-columns: 1fr;
+            }
+
+            .valuation-input {
+                width: 28px;
+                font-size: 11px;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+        .button:focus {
+            outline: 2px solid #3182ce;
+            outline-offset: 2px;
+        }
+
+        .slider:focus {
+            box-shadow: 0 0 0 2px #3182ce;
+        }
+
+        .piece-overlay:focus {
+            outline: 3px solid #3182ce;
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
     <div class="simulation-container">
+        <!-- Game Progress Indicator -->
         <div class="step-indicator" id="stepIndicator">
             Step 1: Player 1 (Divider) adjusts the cutting line
         </div>
 
+        <!-- Dynamic Instructions -->
         <div class="instructions" id="instructions">
             <strong>Instructions:</strong> Player 1, use the slider below to position your vertical cut through the colored regions.
         </div>
 
+        <!-- Main Game Area -->
         <div class="game-area" id="gameArea">
             <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                <!-- Region Definitions -->
                 <!-- Blue region (top) -->
                 <polygon points="0,0 600,0 600,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2" />
                 <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Blue</text>
@@ -314,89 +369,98 @@
                 <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" stroke="#2d3748" stroke-width="2" />
                 <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Green</text>
 
+                <!-- Interactive Elements -->
                 <!-- Cut line -->
                 <line id="cutLine" x1="400" y1="0" x2="400" y2="400" class="cut-line" />
 
                 <!-- Piece overlays for selection -->
                 <rect id="leftPiece" x="0" y="0" width="400" height="400"
                       fill="rgba(49,130,206,0.2)" stroke="#3182ce" stroke-width="3"
-                      style="display: none;" class="piece-overlay" />
+                      style="display: none;" class="piece-overlay" tabindex="0"
+                      role="button" aria-label="Select left piece" />
                 <rect id="rightPiece" x="400" y="0" width="400" height="400"
                       fill="rgba(72,187,120,0.2)" stroke="#38a169" stroke-width="3"
-                      style="display: none;" class="piece-overlay" />
+                      style="display: none;" class="piece-overlay" tabindex="0"
+                      role="button" aria-label="Select right piece" />
             </svg>
         </div>
 
+        <!-- Cut Position Controls -->
         <div class="slider-container" id="sliderContainer">
             <label for="cutSlider"><strong>Cut Position:</strong></label><br>
-            <input type="range" id="cutSlider" class="slider" min="0" max="800" value="400" step="1">
+            <input type="range" id="cutSlider" class="slider" min="0" max="800" value="400" step="1"
+                   aria-label="Adjust cut position">
             <div>Position: <span id="cutPosition">50%</span></div>
         </div>
 
+        <!-- Action Buttons -->
         <div class="controls">
             <button id="makeCutButton" class="button">Make Cut</button>
             <button id="resetButton" class="button" style="display: none;">Reset Game</button>
         </div>
 
+        <!-- Player Information Cards -->
         <div class="player-info">
+            <!-- Player 1 (Divider) -->
             <div class="player-card player-1">
                 <h3>Player 1 (Divider)</h3>
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
-                        <span>Blue: <input type="number" class="valuation-input" id="p1-blue" value="20" min="0" max="100">pts</span>
+                        <span>Blue: <input type="number" class="valuation-input" id="p1-blue" value="20" min="0" max="100" aria-label="Player 1 blue valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #ff3366;"></div>
-                        <span>Red: <input type="number" class="valuation-input" id="p1-red" value="15" min="0" max="100">pts</span>
+                        <span>Red: <input type="number" class="valuation-input" id="p1-red" value="15" min="0" max="100" aria-label="Player 1 red valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #3f9633;"></div>
-                        <span>Green: <input type="number" class="valuation-input" id="p1-green" value="25" min="0" max="100">pts</span>
+                        <span>Green: <input type="number" class="valuation-input" id="p1-green" value="25" min="0" max="100" aria-label="Player 1 green valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #ff6600;"></div>
-                        <span>Orange: <input type="number" class="valuation-input" id="p1-orange" value="10" min="0" max="100">pts</span>
+                        <span>Orange: <input type="number" class="valuation-input" id="p1-orange" value="10" min="0" max="100" aria-label="Player 1 orange valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #ff66ff;"></div>
-                        <span>Pink: <input type="number" class="valuation-input" id="p1-pink" value="15" min="0" max="100">pts</span>
+                        <span>Pink: <input type="number" class="valuation-input" id="p1-pink" value="15" min="0" max="100" aria-label="Player 1 pink valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #9966ff;"></div>
-                        <span>Purple: <input type="number" class="valuation-input" id="p1-purple" value="15" min="0" max="100">pts</span>
+                        <span>Purple: <input type="number" class="valuation-input" id="p1-purple" value="15" min="0" max="100" aria-label="Player 1 purple valuation">pts</span>
                     </div>
                 </div>
                 <div class="valuation-total" id="p1-total">Total: <span class="valid">100</span></div>
                 <div class="player-values"><strong>Values:</strong> <span id="player1Value">Left: 0 | Right: 0</span></div>
             </div>
 
+            <!-- Player 2 (Chooser) -->
             <div class="player-card player-2">
                 <h3>Player 2 (Chooser)</h3>
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
-                        <span>Blue: <input type="number" class="valuation-input" id="p2-blue" value="15" min="0" max="100">pts</span>
+                        <span>Blue: <input type="number" class="valuation-input" id="p2-blue" value="15" min="0" max="100" aria-label="Player 2 blue valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #ff3366;"></div>
-                        <span>Red: <input type="number" class="valuation-input" id="p2-red" value="25" min="0" max="100">pts</span>
+                        <span>Red: <input type="number" class="valuation-input" id="p2-red" value="25" min="0" max="100" aria-label="Player 2 red valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #3f9633;"></div>
-                        <span>Green: <input type="number" class="valuation-input" id="p2-green" value="20" min="0" max="100">pts</span>
+                        <span>Green: <input type="number" class="valuation-input" id="p2-green" value="20" min="0" max="100" aria-label="Player 2 green valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #ff6600;"></div>
-                        <span>Orange: <input type="number" class="valuation-input" id="p2-orange" value="20" min="0" max="100">pts</span>
+                        <span>Orange: <input type="number" class="valuation-input" id="p2-orange" value="20" min="0" max="100" aria-label="Player 2 orange valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #ff66ff;"></div>
-                        <span>Pink: <input type="number" class="valuation-input" id="p2-pink" value="10" min="0" max="100">pts</span>
+                        <span>Pink: <input type="number" class="valuation-input" id="p2-pink" value="10" min="0" max="100" aria-label="Player 2 pink valuation">pts</span>
                     </div>
                     <div class="color-item">
                         <div class="color-swatch" style="background: #9966ff;"></div>
-                        <span>Purple: <input type="number" class="valuation-input" id="p2-purple" value="10" min="0" max="100">pts</span>
+                        <span>Purple: <input type="number" class="valuation-input" id="p2-purple" value="10" min="0" max="100" aria-label="Player 2 purple valuation">pts</span>
                     </div>
                 </div>
                 <div class="valuation-total" id="p2-total">Total: <span class="valid">100</span></div>
@@ -404,6 +468,7 @@
             </div>
         </div>
 
+        <!-- Notification Panels -->
         <div class="warning" id="warning">
             <strong>Note:</strong> This cut creates very unequal distributions!
         </div>
@@ -418,6 +483,7 @@
         </div>
     </div>
 
+    <!-- Load the JavaScript -->
     <script src="divide-and-choose-demo.js"></script>
 </body>
 </html>

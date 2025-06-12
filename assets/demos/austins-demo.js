@@ -1,23 +1,21 @@
-﻿// Game state initialization
-let gameState = {
-    phase: 1,
-    isAnimating: false,
-    isPaused: false,
-    stopPosition: null,
-    leftKnifePosition: 0,
-    rightKnifePosition: 0,
-    controllingPlayer: null,
-    animationSpeed: 0.5,
-    animationId: null,
-    targetMiddleValue: null,
+﻿/**
+ * Austin's Moving Knife Algorithm Demo
+ * 
+ * This demonstrates the Austin moving knife fair division algorithm
+ * using a clean, organized code structure.
+ */
+
+// ===== CONFIGURATION =====
+
+const CONFIG = {
+    CANVAS: { WIDTH: 800, HEIGHT: 400 },
+    ANIMATION: { BASE_SPEED: 0.5, MIN_SPEED_MULTIPLIER: 0.1, MAX_SPEED_MULTIPLIER: 2.0, CLOSE_THRESHOLD: 2, FAR_THRESHOLD: 20 },
+    VALIDATION: { REQUIRED_TOTAL: 100, TOLERANCE: 0.1 },
+    PHASES: { MOVING_KNIFE: 1, DUAL_KNIVES: 2, RANDOM_ASSIGNMENT: 3 },
+    TIMING: { SELECTION_DELAY: 1000, PHASE_TRANSITION_DELAY: 1000 }
 };
 
-const colorValues = {
-    player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
-    player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 }
-};
-
-const regions = {
+const REGIONS = {
     blue: { x1: 0, y1: 0, x2: 600, y2: 150 },
     red: { x1: 600, y1: 0, x2: 800, y2: 250 },
     orange: { x1: 600, y1: 250, x2: 800, y2: 350 },
@@ -26,824 +24,794 @@ const regions = {
     green: { x1: 150, y1: 150, x2: 600, y2: 350 }
 };
 
-// CORE CALCULATION FUNCTIONS
+const DEFAULT_VALUATIONS = {
+    player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
+    player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 }
+};
 
-// returns an object with the values of the left and the right regions (called each frame)
-function calculatePhase1RegionValues() {
-    const leftValues = {};
-    const rightValues = {};
+// ===== UTILITY FUNCTIONS =====
 
-    // For each color region, calculate 2D intersection
-    for (const [color, bounds] of Object.entries(regions)) {
-        if (gameState.rightKnifePosition <= bounds.x1) { // knife is entirely to the left, region is entirely in the right
-            leftValues[color] = 0;
-            rightValues[color] = 100;
-        } else if (gameState.rightKnifePosition >= bounds.x2) { // knife is entirely to the right, region is entirely in the left
-            leftValues[color] = 100;
-            rightValues[color] = 0;
-        } else { // knife intersects the region
-            const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
-            const leftArea = (gameState.rightKnifePosition - bounds.x1) * (bounds.y2 - bounds.y1);
-            const leftPercent = (leftArea / totalArea) * 100;
-            leftValues[color] = leftPercent;
-            rightValues[color] = 100 - leftPercent;
+const Utils = {
+    clamp(value, min, max) { return Math.min(Math.max(value, min), max); },
+    formatNumber(num, decimals = 1) { return Number(num).toFixed(decimals); },
+    getColorNames() { return Object.keys(REGIONS); },
+    setElementDisplay(element, show) { if (element) element.style.display = show ? 'block' : 'none'; }
+};
+
+// ===== GAME STATE =====
+
+class GameState {
+    constructor() { this.reset(); }
+
+    reset() {
+        this.phase = CONFIG.PHASES.MOVING_KNIFE;
+        this.isAnimating = false;
+        this.isPaused = false;
+        this.rightKnifePosition = 0;
+        this.leftKnifePosition = 0;
+        this.stopPosition = null;
+        this.controllingPlayer = null;
+        this.targetMiddleValue = null;
+        this.animationId = null;
+        this.playerValues = JSON.parse(JSON.stringify(DEFAULT_VALUATIONS));
+    }
+
+    updatePlayerValues() {
+        const colors = Utils.getColorNames();
+        for (let player of ['player1', 'player2']) {
+            const playerKey = player === 'player1' ? 'p1' : 'p2';
+            for (let color of colors) {
+                const element = document.getElementById(`${playerKey}-${color}`);
+                if (element) {
+                    this.playerValues[player][color] = Utils.clamp(parseInt(element.value) || 0, 0, 100);
+                }
+            }
         }
     }
 
-    return { left: leftValues, right: rightValues };
+    validateTotals() {
+        const results = {};
+        ['player1', 'player2'].forEach(player => {
+            const total = Object.values(this.playerValues[player]).reduce((sum, value) => sum + value, 0);
+            results[player] = { total, valid: total === CONFIG.VALIDATION.REQUIRED_TOTAL };
+        });
+        return results;
+    }
+
+    isValid() {
+        const validation = this.validateTotals();
+        return validation.player1.valid && validation.player2.valid;
+    }
 }
 
-// returns an object with the values of the middle and flank regions in phase 2 (called each frame)
-function calculatePhase2RegionValues() {
-    const middleValues = {};
-    const flankValues = {};
+// ===== CALCULATION ENGINE =====
 
-    for (const [color, bounds] of Object.entries(regions)) {
-        const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
-
-        if (gameState.leftKnifePosition <= bounds.x1 && gameState.rightKnifePosition >= bounds.x2) {
-            // Color region is completely between both knives
-            middleValues[color] = 100;
-            flankValues[color] = 0;
-        } else if (gameState.leftKnifePosition >= bounds.x2 || gameState.rightKnifePosition <= bounds.x1) {
-            // Color region is completely outside both knives
-            middleValues[color] = 0;
-            flankValues[color] = 100;
-        } else {
-            // Knives intersect the region - calculate actual overlap
-            const leftBound = Math.max(gameState.leftKnifePosition, bounds.x1);
-            const rightBound = Math.min(gameState.rightKnifePosition, bounds.x2);
-
-            if (leftBound < rightBound) {
-                // There is overlap between knives within this region
-                const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
-                const middlePercent = (middleArea / totalArea) * 100;
-                middleValues[color] = middlePercent;
-                flankValues[color] = 100 - middlePercent;
+class CalculationEngine {
+    static calculatePhase1RegionValues(knifePosition) {
+        const leftValues = {}, rightValues = {};
+        for (const [color, bounds] of Object.entries(REGIONS)) {
+            if (knifePosition <= bounds.x1) {
+                leftValues[color] = 0;
+                rightValues[color] = 100;
+            } else if (knifePosition >= bounds.x2) {
+                leftValues[color] = 100;
+                rightValues[color] = 0;
             } else {
-                // No overlap - region is entirely in flank
+                const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
+                const leftArea = (knifePosition - bounds.x1) * (bounds.y2 - bounds.y1);
+                const leftPercent = (leftArea / totalArea) * 100;
+                leftValues[color] = leftPercent;
+                rightValues[color] = 100 - leftPercent;
+            }
+        }
+        return { left: leftValues, right: rightValues };
+    }
+
+    static calculatePhase2RegionValues(leftKnifePos, rightKnifePos) {
+        const middleValues = {}, flankValues = {};
+        for (const [color, bounds] of Object.entries(REGIONS)) {
+            const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
+            if (leftKnifePos <= bounds.x1 && rightKnifePos >= bounds.x2) {
+                middleValues[color] = 100;
+                flankValues[color] = 0;
+            } else if (leftKnifePos >= bounds.x2 || rightKnifePos <= bounds.x1) {
                 middleValues[color] = 0;
                 flankValues[color] = 100;
-            }
-        }
-    }
-
-    return { middle: middleValues, flank: flankValues };
-}
-
-// returns how much a specific player values a region
-function calculatePlayerValue(regionValues, player) {
-    let total = 0;
-    const prefs = colorValues[player];
-
-    for (const [color, amount] of Object.entries(regionValues)) {
-        total += (amount / 100) * prefs[color];
-    }
-
-    return total;
-}
-
-// UTILITY AND VALIDATION FUNCTIONS
-
-// function that updates color valuations based on what is currently inputted
-function updateColorValues() {
-    colorValues.player1 = {
-        blue: parseInt(document.getElementById('p1-blue').value) || 0,
-        red: parseInt(document.getElementById('p1-red').value) || 0,
-        green: parseInt(document.getElementById('p1-green').value) || 0,
-        orange: parseInt(document.getElementById('p1-orange').value) || 0,
-        pink: parseInt(document.getElementById('p1-pink').value) || 0,
-        purple: parseInt(document.getElementById('p1-purple').value) || 0
-    };
-
-    colorValues.player2 = {
-        blue: parseInt(document.getElementById('p2-blue').value) || 0,
-        red: parseInt(document.getElementById('p2-red').value) || 0,
-        green: parseInt(document.getElementById('p2-green').value) || 0,
-        orange: parseInt(document.getElementById('p2-orange').value) || 0,
-        pink: parseInt(document.getElementById('p2-pink').value) || 0,
-        purple: parseInt(document.getElementById('p2-purple').value) || 0
-    };
-}
-
-// function that updates validation status of valuations
-function updateValidationStatus() {
-    const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
-    const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
-
-    // Update or create validation indicators
-    updatePlayerValidation('player1', p1Total);
-    updatePlayerValidation('player2', p2Total);
-}
-
-// helper function called in updateValidationStatus() for both players
-function updatePlayerValidation(player, total) {
-    const playerCard = document.getElementById(`${player}Card`);
-    const cardNumber = player === 'player1' ? '1' : '2';
-
-    // Remove existing validation indicator
-    const existingIndicator = playerCard.querySelector('.validation-indicator');
-    if (existingIndicator) {
-        existingIndicator.remove();
-    }
-
-    // Create new validation indicator
-    const indicator = document.createElement('div');
-    indicator.className = 'validation-indicator';
-    indicator.style.cssText = `
-                margin: 8px 0;
-                padding: 6px;
-                border-radius: 4px;
-                font-size: 12px;
-                font-weight: bold;
-                text-align: center;
-            `;
-
-    if (total === 100) {
-        indicator.textContent = `Total: ${total} points`;
-        indicator.style.background = '#f0fff4';
-        indicator.style.color = '#38a169';
-        indicator.style.border = '1px solid #68d391';
-        playerCard.classList.remove('invalid');
-    } else {
-        indicator.textContent = `Total: ${total} points (needs 100)`;
-        indicator.style.background = '#fff5f5';
-        indicator.style.color = '#e53e3e';
-        indicator.style.border = '1px solid #fc8181';
-        playerCard.classList.add('invalid');
-    }
-
-    // Insert after the color legend
-    const colorLegend = playerCard.querySelector('.color-legend');
-    colorLegend.insertAdjacentElement('afterend', indicator);
-}
-
-// updates utility bars based on value information
-function updateUtilityBars(p1Value, p2Value) {
-    const p1Fill = document.getElementById('p1-utility-fill');
-    const p1Text = document.getElementById('p1-utility-text');
-    const p2Fill = document.getElementById('p2-utility-fill');
-    const p2Text = document.getElementById('p2-utility-text');
-
-    p1Fill.style.width = `${p1Value}%`;
-    p1Text.textContent = `${Math.round(p1Value)}%`;
-
-    p2Fill.style.width = `${p2Value}%`;
-    p2Text.textContent = `${Math.round(p2Value)}%`;
-}
-
-// updates state of start button based on whether all information is valid
-function updateStartButtonState() {
-    const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
-    const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
-
-    const startButton = document.getElementById('startButton');
-    const isValid = p1Total === 100 && p2Total === 100;
-
-    startButton.disabled = !isValid;
-    startButton.textContent = isValid ? 'Start Animation' : 'Fix Valuations First';
-}
-
-// handles changes in valuations (calls helper functions)
-function handleValuationChange() {
-    updateColorValues();
-    updateValidationStatus();
-    updateStartButtonState();
-
-    if (gameState.phase === 1 && gameState.isAnimating) {
-        updateKnifePosition(gameState.rightKnifePosition);
-    }
-}
-
-// function that validates current color values
-function validateTotals() {
-    const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
-    const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
-    return p1Total === 100 && p2Total === 100;
-}
-
-// ANIMATION FUNCTIONS
-
-// Update the position of a knife (phase 1)
-function updateKnifePosition(newPosition) {
-    gameState.rightKnifePosition += newPosition;
-    const knife = document.getElementById('rightKnife');
-    knife.setAttribute('x1', gameState.rightKnifePosition);
-    knife.setAttribute('y1', 0);
-    knife.setAttribute('x2', gameState.rightKnifePosition);
-    knife.setAttribute('y2', 400);
-
-    // Calculate and update values
-    const regionValues = calculatePhase1RegionValues();
-    const p1Left = calculatePlayerValue(regionValues.left, 'player1');
-    const p2Left = calculatePlayerValue(regionValues.left, 'player2');
-
-    document.getElementById('player1LeftValue').textContent = `Left: ${Math.round(p1Left)}`;
-    document.getElementById('player2LeftValue').textContent = `Left: ${Math.round(p2Left)}`;
-
-    updateUtilityBars(p1Left, p2Left);
-}
-
-function showStopPosition() {
-    // Add a visual indicator for where the left knife needs to reach
-    const svg = document.querySelector('.background-svg');
-
-    // Remove existing indicator if present
-    const existingIndicator = document.getElementById('stopPositionIndicator');
-    if (existingIndicator) {
-        existingIndicator.remove();
-    }
-
-    // Add new indicator
-    const indicator = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    indicator.setAttribute('id', 'stopPositionIndicator');
-    indicator.setAttribute('x1', gameState.stopPosition);
-    indicator.setAttribute('y1', 0);
-    indicator.setAttribute('x2', gameState.stopPosition);
-    indicator.setAttribute('y2', 400);
-    indicator.setAttribute('stroke', '#ffa500');
-    indicator.setAttribute('stroke-width', '3');
-    indicator.setAttribute('stroke-dasharray', '5,5');
-    indicator.setAttribute('opacity', '0.7');
-
-    svg.appendChild(indicator);
-}
-
-// functions starts the demo
-function startAnimation() {
-    updateColorValues();
-
-    const p1Total = Object.values(colorValues.player1).reduce((a, b) => a + b, 0);
-    const p2Total = Object.values(colorValues.player2).reduce((a, b) => a + b, 0);
-
-    if (p1Total !== 100 || p2Total !== 100) {
-        alert(`Valuation totals must equal 100 points each!\n\nPlayer 1 total: ${p1Total}\nPlayer 2 total: ${p2Total}\n\nPlease adjust the values.`);
-        return;
-    }
-
-    gameState.isAnimating = true;
-    gameState.phase = 1;
-    gameState.rightKnifePosition = 0;
-
-    document.getElementById('startButton').style.display = 'none';
-    document.getElementById('pauseButton').style.display = 'inline-block';
-    document.getElementById('player1StopButton').style.display = 'inline-block';
-    document.getElementById('player2StopButton').style.display = 'inline-block';
-
-    animateKnife();
-}
-
-function animateKnife() {
-    if (!gameState.isAnimating || gameState.isPaused) return;
-
-    // Calculate current values for both players
-    const regionValues = calculatePhase1RegionValues();
-    const p1Left = calculatePlayerValue(regionValues.left, 'player1');
-    const p2Left = calculatePlayerValue(regionValues.left, 'player2');
-
-    // check if knife has reached end of the cake
-    if (gameState.rightKnifePosition >= 800) {
-        gameState.rightKnifePosition = 0; // Reset to start
-    }
-
-    // Calculate how close each player is to 50%
-    const p1Distance = Math.abs(p1Left - 50);
-    const p2Distance = Math.abs(p2Left - 50);
-
-    // Use the minimum distance (closest player to 50%)
-    const minDistance = Math.min(p1Distance, p2Distance);
-    const speedMultiplier = calculateSpeedMultiplier(minDistance);
-
-    // Calculate new position based on speed multiplier
-    const posToAdd = gameState.animationSpeed * 0.5 * speedMultiplier;
-
-    updateKnifePosition(posToAdd);
-    gameState.animationId = requestAnimationFrame(animateKnife);
-}
-
-function calculateSpeedMultiplier(minDistance) {
-    // Calculate speed multiplier based on distance
-    // When very close (distance < 2): slow down to 0.1x speed
-    // When far (distance > 20): speed up to 2x speed
-    // Linear interpolation between these points
-    let speedMultiplier;
-    if (minDistance < 2) {
-        // Very close to 50% - slow way down
-        speedMultiplier = 0.1 + (minDistance / 2) * 0.4; // 0.1x to 0.5x speed
-    } else if (minDistance < 10) {
-        // Somewhat close - moderate speed
-        speedMultiplier = 0.5 + ((minDistance - 2) / 8) * 0.5; // 0.5x to 1.0x speed
-    } else if (minDistance < 20) {
-        // Not close - normal to fast speed
-        speedMultiplier = 1.0 + ((minDistance - 10) / 10) * 1.0; // 1.0x to 2.0x speed
-    } else {
-        // Very far - maximum speed
-        speedMultiplier = 2.0;
-    }
-    return speedMultiplier;
-}
-
-function pauseAnimation() {
-    gameState.isPaused = !gameState.isPaused;
-    const pauseBtn = document.getElementById('pauseButton');
-
-    if (gameState.isPaused) {
-        pauseBtn.textContent = 'Resume';
-    } else {
-        pauseBtn.textContent = 'Pause';
-        animateKnife();
-    }
-}
-
-function stopPhase1(player) {
-    gameState.isAnimating = false;
-    gameState.controllingPlayer = player;
-    gameState.stopPosition = gameState.rightKnifePosition;
-
-    // Calculate what the middle piece would be worth if it matched their 50% assessment
-    const regionValues = calculatePhase1RegionValues();
-    const controllingPlayerKey = `player${player}`;
-    const leftPieceValue = calculatePlayerValue(regionValues.left, controllingPlayerKey);
-    gameState.targetMiddleValue = leftPieceValue;
-
-    gameState.phase = 2;
-
-    if (gameState.animationId) {
-        cancelAnimationFrame(gameState.animationId);
-    }
-
-    document.getElementById('pauseButton').style.display = 'none';
-    document.getElementById('player1StopButton').style.display = 'none';
-    document.getElementById('player2StopButton').style.display = 'none';
-
-    document.getElementById('stepIndicator').textContent = 'Phase 2: Dual knife movement with value constraint';
-    document.getElementById('phaseIndicator').textContent =
-        `Player ${player} controls both knives. Left knife moves toward position ${Math.round(gameState.stopPosition)}, maintaining exactly ${Math.round(gameState.targetMiddleValue)} value in middle piece`;
-
-    startPhase2();
-}
-
-function updateKnifePositions(newLeftPosition, newRightPosition) {
-    gameState.leftKnifePosition = newLeftPosition;
-    gameState.rightKnifePosition = newRightPosition;
-
-    const leftKnife = document.getElementById('leftKnife');
-    const rightKnife = document.getElementById('rightKnife');
-
-    // Set the knife line positions
-    leftKnife.setAttribute('x1', newLeftPosition);
-    leftKnife.setAttribute('y1', 0);
-    leftKnife.setAttribute('x2', newLeftPosition);
-    leftKnife.setAttribute('y2', 400);
-
-    rightKnife.setAttribute('x1', newRightPosition);
-    rightKnife.setAttribute('y1', 0);
-    rightKnife.setAttribute('x2', newRightPosition);
-    rightKnife.setAttribute('y2', 400);
-
-    // Calculate and update values
-    const regionValues = calculatePhase2RegionValues();
-    const p1Middle = calculatePlayerValue(regionValues.middle, 'player1');
-    const p1Flank = calculatePlayerValue(regionValues.flank, 'player1');
-    const p2Middle = calculatePlayerValue(regionValues.middle, 'player2');
-    const p2Flank = calculatePlayerValue(regionValues.flank, 'player2');
-
-    document.getElementById('player1CenterValue').textContent = `Center: ${Math.round(p1Middle)}`;
-    document.getElementById('player1FlankValue').textContent = `Flank: ${Math.round(p1Flank)}`;
-    document.getElementById('player2CenterValue').textContent = `Center: ${Math.round(p2Middle)}`;
-    document.getElementById('player2FlankValue').textContent = `Flank: ${Math.round(p2Flank)}`;
-
-    updateUtilityBars(p1Middle, p2Middle); // Show middle values during phase 2
-}
-
-function startPhase2() {
-    // Show both knives
-    const leftKnife = document.getElementById('leftKnife');
-    leftKnife.style.display = 'block';
-
-    showStopPosition();
-
-    document.getElementById('instructions').innerHTML =
-        '<strong>Phase 2:</strong> The controlling player\'s knives move automatically. The left knife (green) must reach the orange dashed line by the time the right knife (red) reaches the end, while maintaining the exact middle piece value.';
-
-    // Initialize positions - left knife starts at beginning, right knife at stop position
-    gameState.leftKnifePosition = 0;
-
-    // Calculate where right knife should start so middle piece has correct value
-    gameState.rightKnifePosition = findRightKnifePosition(0, gameState.targetMiddleValue, `player${gameState.controllingPlayer}`);
-
-    // Show center and flank value displays
-    document.getElementById('player1CenterValue').style.display = 'block';
-    document.getElementById('player1FlankValue').style.display = 'block';
-    document.getElementById('player2CenterValue').style.display = 'block';
-    document.getElementById('player2FlankValue').style.display = 'block';
-
-    // Hide left value displays
-    document.getElementById('player1LeftValue').style.display = 'none';
-    document.getElementById('player2LeftValue').style.display = 'none';
-
-    // Update knife positions
-    updateKnifePositions(gameState.leftKnifePosition, gameState.rightKnifePosition);
-
-    // Add stop button for the other player
-    const otherPlayer = gameState.controllingPlayer === 1 ? 2 : 1;
-    const stopButton = document.createElement('button');
-    stopButton.textContent = `Player ${otherPlayer}: STOP!`;
-    stopButton.className = 'button danger';
-    stopButton.onclick = () => startPhase3();
-
-    document.querySelector('.animation-controls').appendChild(stopButton);
-
-    // Start dual knife animation
-    setTimeout(() => {
-        gameState.isAnimating = true;
-        animateDualKnives();
-    }, 1000);
-}
-
-function calculatePhase2SpeedMultiplier(valueDistance) {
-    // Similar logic to Phase 1 but adjusted for value constraints
-    let speedMultiplier;
-    if (valueDistance < 1) {
-        // Very close to target value - slow way down
-        speedMultiplier = 0.1 + (valueDistance / 1) * 0.4; // 0.1x to 0.5x speed
-    } else if (valueDistance < 5) {
-        // Somewhat close - moderate speed
-        speedMultiplier = 0.5 + ((valueDistance - 1) / 4) * 0.5; // 0.5x to 1.0x speed
-    } else if (valueDistance < 10) {
-        // Not close - normal to fast speed
-        speedMultiplier = 1.0 + ((valueDistance - 5) / 5) * 1.0; // 1.0x to 2.0x speed
-    } else {
-        // Very far - maximum speed
-        speedMultiplier = 2.0;
-    }
-    return speedMultiplier;
-}
-
-function animateDualKnives() {
-    if (!gameState.isAnimating || gameState.isPaused) return;
-
-    const leftTarget = gameState.stopPosition;
-    const rightTarget = 800;
-    const controllingPlayerKey = `player${gameState.controllingPlayer}`;
-
-    // Move left knife steadily toward target
-    const leftRemaining = leftTarget - gameState.leftKnifePosition;
-    const baseSpeed = 1.5;
-
-    // Calculate current middle value and distance from target
-    const currentRegionValues = calculatePhase2RegionValues();
-    const currentMiddleValue = calculatePlayerValue(currentRegionValues.middle, controllingPlayerKey);
-    const valueDistance = Math.abs(currentMiddleValue - gameState.targetMiddleValue);
-
-    // Convert value distance to a percentage-like scale for speed calculation
-    const percentageDistance = (valueDistance / gameState.targetMiddleValue) * 50; // Scale to 0-50 range
-    const speedMultiplier = calculatePhase2SpeedMultiplier(percentageDistance);
-    const adjustedSpeed = baseSpeed * speedMultiplier;
-
-    // Move left knife steadily toward target (only if not already there)
-    let newLeftPosition = gameState.leftKnifePosition;
-    if (Math.abs(leftRemaining) > 1) {
-        const leftStep = Math.sign(leftRemaining) * Math.min(Math.abs(leftRemaining), adjustedSpeed);
-        newLeftPosition = gameState.leftKnifePosition + leftStep;
-    } else {
-        newLeftPosition = leftTarget; // Snap to target and stop moving
-    }
-
-    // Calculate right knife position that maintains the target value
-    let newRightPosition;
-    if (Math.abs(leftTarget - newLeftPosition) < 1) {
-        // Left knife has reached target, right knife can move freely toward end
-        const rightRemaining = rightTarget - gameState.rightKnifePosition;
-        if (Math.abs(rightRemaining) > 1) {
-            newRightPosition = gameState.rightKnifePosition + Math.sign(rightRemaining) * Math.min(Math.abs(rightRemaining), adjustedSpeed);
-        } else {
-            newRightPosition = rightTarget;
-        }
-    } else {
-        // Left knife still moving, maintain value constraint
-        newRightPosition = findRightKnifePosition(newLeftPosition, gameState.targetMiddleValue, controllingPlayerKey);
-    }
-
-    // Ensure right knife doesn't go beyond bounds or past left knife
-    newRightPosition = Math.max(newLeftPosition + 10, Math.min(newRightPosition, rightTarget));
-
-    // Update positions
-    updateKnifePositions(newLeftPosition, newRightPosition);
-
-    // Check if left knife has reached its target
-    let leftKnifeComplete = Math.abs(leftTarget - newLeftPosition) < 1;
-    if (leftKnifeComplete) {
-        newLeftPosition = leftTarget; // Lock left knife at target position
-    }
-
-    // Check if right knife has reached the end
-    let rightKnifeComplete = Math.abs(rightTarget - newRightPosition) < 1;
-    if (rightKnifeComplete) {
-        newRightPosition = rightTarget; // Lock right knife at end
-    }
-
-    // Update positions
-    updateKnifePositions(newLeftPosition, newRightPosition);
-
-    // Only end animation when BOTH knives have reached their targets
-    if (leftKnifeComplete && rightKnifeComplete) {
-        setTimeout(() => startPhase3(), 500);
-        return;
-    }
-
-    // Continue animation
-    gameState.animationId = requestAnimationFrame(animateDualKnives);
-}
-
-// New helper function to find the right knife position
-function findRightKnifePosition(leftPos, targetValue, controllingPlayerKey) {
-    // Binary search for the correct right knife position
-    let minRight = leftPos + 1;
-    let maxRight = 800;
-    let bestRightPos = (minRight + maxRight) / 2;
-    let bestValueDiff = Infinity;
-
-    // Convergence threshold
-    const tolerance = 0.1;
-    const maxIterations = 50;
-
-    for (let iterations = 0; iterations < maxIterations; iterations++) {
-        const testRightPos = (minRight + maxRight) / 2;
-
-        // Bounds check
-        if (testRightPos <= leftPos || testRightPos > 800) {
-            break;
-        }
-
-        const testMiddleValues = calculateTestMiddleValues(leftPos, testRightPos);
-        const testValue = calculatePlayerValue(testMiddleValues, controllingPlayerKey);
-        const valueDiff = testValue - targetValue;
-
-        // Check for convergence
-        if (Math.abs(valueDiff) < tolerance) {
-            return testRightPos;
-        }
-
-        // Update search bounds
-        if (valueDiff < 0) {
-            // Middle piece value too low, need to expand (move right knife right)
-            minRight = testRightPos;
-        } else {
-            // Middle piece value too high, need to contract (move right knife left)
-            maxRight = testRightPos;
-        }
-
-        // Track best position found so far
-        if (Math.abs(valueDiff) < Math.abs(bestValueDiff)) {
-            bestValueDiff = valueDiff;
-            bestRightPos = testRightPos;
-        }
-
-        // Check if search space collapsed
-        if (maxRight - minRight < 0.1) {
-            break;
-        }
-    }
-
-    // Ensure returned position is within valid bounds
-    return Math.max(leftPos + 1, Math.min(bestRightPos, 800));
-}
-
-// Helper function to calculate middle values for test positions
-function calculateTestMiddleValues(leftPos, rightPos) {
-    const middleValues = {};
-
-    for (const [color, bounds] of Object.entries(regions)) {
-        const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
-
-        if (leftPos <= bounds.x1 && rightPos >= bounds.x2) {
-            // Color region is completely between both knives
-            middleValues[color] = 100;
-        } else if (leftPos >= bounds.x2 || rightPos <= bounds.x1) {
-            // Color region is completely outside both knives
-            middleValues[color] = 0;
-        } else {
-            // Calculate actual overlap
-            const leftBound = Math.max(leftPos, bounds.x1);
-            const rightBound = Math.min(rightPos, bounds.x2);
-
-            if (leftBound < rightBound) {
-                const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
-                const middlePercent = (middleArea / totalArea) * 100;
-                middleValues[color] = middlePercent;
             } else {
-                middleValues[color] = 0;
+                const leftBound = Math.max(leftKnifePos, bounds.x1);
+                const rightBound = Math.min(rightKnifePos, bounds.x2);
+                if (leftBound < rightBound) {
+                    const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
+                    const middlePercent = (middleArea / totalArea) * 100;
+                    middleValues[color] = middlePercent;
+                    flankValues[color] = 100 - middlePercent;
+                } else {
+                    middleValues[color] = 0;
+                    flankValues[color] = 100;
+                }
             }
+        }
+        return { middle: middleValues, flank: flankValues };
+    }
+
+    /**
+ * Calculate phase 2 speed multiplier based on value distance
+ */
+    static calculatePhase2SpeedMultiplier(valueDistance) {
+        if (valueDistance < 1) {
+            return 0.1 + (valueDistance / 1) * 0.4;
+        } else if (valueDistance < 5) {
+            return 0.5 + ((valueDistance - 1) / 4) * 0.5;
+        } else if (valueDistance < 10) {
+            return 1.0 + ((valueDistance - 5) / 5) * 1.0;
+        } else {
+            return 2.0;
         }
     }
 
-    return middleValues;
-}
+    /**
+     * Find right knife position that maintains target middle value
+     */
+    static findRightKnifePosition(leftPos, targetValue, playerValues) {
+        let minRight = leftPos + 1;
+        let maxRight = 800;
+        let bestRightPos = (minRight + maxRight) / 2;
+        let bestValueDiff = Infinity;
 
-function startPhase3() {
-    gameState.isAnimating = false;
-    gameState.phase = 3;
+        const tolerance = 0.1;
+        const maxIterations = 50;
 
-    if (gameState.animationId) {
-        cancelAnimationFrame(gameState.animationId);
+        for (let iterations = 0; iterations < maxIterations; iterations++) {
+            const testRightPos = (minRight + maxRight) / 2;
+
+            if (testRightPos <= leftPos || testRightPos > 800) break;
+
+            const testMiddleValues = this.calculateTestMiddleValues(leftPos, testRightPos);
+            const testValue = this.calculatePlayerValue(testMiddleValues, playerValues);
+            const valueDiff = testValue - targetValue;
+
+            if (Math.abs(valueDiff) < tolerance) return testRightPos;
+
+            if (valueDiff < 0) {
+                minRight = testRightPos;
+            } else {
+                maxRight = testRightPos;
+            }
+
+            if (Math.abs(valueDiff) < Math.abs(bestValueDiff)) {
+                bestValueDiff = valueDiff;
+                bestRightPos = testRightPos;
+            }
+
+            if (maxRight - minRight < 0.1) break;
+        }
+
+        return Math.max(leftPos + 1, Math.min(bestRightPos, 800));
     }
 
-    document.getElementById('stepIndicator').textContent = 'Phase 3: Random Assignment';
+    /**
+     * Calculate test middle values for binary search
+     */
+    static calculateTestMiddleValues(leftPos, rightPos) {
+        const middleValues = {};
 
-    const choosingPlayer = gameState.controllingPlayer === 1 ? 2 : 1;
-    document.getElementById('phaseIndicator').textContent = `Randomly assigning pieces...`;
-    document.getElementById('instructions').innerHTML = '<strong>Random Assignment:</strong> The pieces will be randomly assigned to ensure fairness.';
+        for (const [color, bounds] of Object.entries(REGIONS)) {
+            const totalArea = (bounds.x2 - bounds.x1) * (bounds.y2 - bounds.y1);
 
-    // Show piece overlays for visualization
-    const leftPiece = document.getElementById('leftPiece');
-    const middlePiece = document.getElementById('middlePiece');
-    const rightPiece = document.getElementById('rightPiece');
+            if (leftPos <= bounds.x1 && rightPos >= bounds.x2) {
+                middleValues[color] = 100;
+            } else if (leftPos >= bounds.x2 || rightPos <= bounds.x1) {
+                middleValues[color] = 0;
+            } else {
+                const leftBound = Math.max(leftPos, bounds.x1);
+                const rightBound = Math.min(rightPos, bounds.x2);
 
-    leftPiece.setAttribute('width', gameState.leftKnifePosition);
-    leftPiece.style.display = 'block';
+                if (leftBound < rightBound) {
+                    const middleArea = (rightBound - leftBound) * (bounds.y2 - bounds.y1);
+                    const middlePercent = (middleArea / totalArea) * 100;
+                    middleValues[color] = middlePercent;
+                } else {
+                    middleValues[color] = 0;
+                }
+            }
+        }
 
-    middlePiece.setAttribute('x', gameState.leftKnifePosition);
-    middlePiece.setAttribute('width', gameState.rightKnifePosition - gameState.leftKnifePosition);
-    middlePiece.style.display = 'block';
+        return middleValues;
+    }
 
-    rightPiece.setAttribute('x', gameState.rightKnifePosition);
-    rightPiece.setAttribute('width', 800 - gameState.rightKnifePosition);
-    rightPiece.style.display = 'block';
+    static calculatePlayerValue(regionValues, playerValues) {
+        let total = 0;
+        for (const [color, amount] of Object.entries(regionValues)) {
+            total += (amount / 100) * playerValues[color];
+        }
+        return total;
+    }
 
-    // Remove click handlers
-    leftPiece.onclick = null;
-    middlePiece.onclick = null;
-    rightPiece.onclick = null;
-
-    // Randomly assign after a brief delay
-    setTimeout(() => {
-        const randomChoice = Math.random() < 0.5 ? 'inside' : 'outside';
-        performRandomAssignment(randomChoice, choosingPlayer);
-    }, 2000);
+    static calculateSpeedMultiplier(minDistance) {
+        const { MIN_SPEED_MULTIPLIER, MAX_SPEED_MULTIPLIER, CLOSE_THRESHOLD, FAR_THRESHOLD } = CONFIG.ANIMATION;
+        if (minDistance < CLOSE_THRESHOLD) {
+            return MIN_SPEED_MULTIPLIER + (minDistance / CLOSE_THRESHOLD) * 0.4;
+        } else if (minDistance < 10) {
+            return 0.5 + ((minDistance - CLOSE_THRESHOLD) / 8) * 0.5;
+        } else if (minDistance < FAR_THRESHOLD) {
+            return 1.0 + ((minDistance - 10) / 10) * 1.0;
+        } else {
+            return MAX_SPEED_MULTIPLIER;
+        }
+    }
 }
 
-function performRandomAssignment(randomChoice, choosingPlayer) {
-    // Highlight the randomly selected piece briefly
-    const selectedOverlay = randomChoice === 'inside' ?
-        document.getElementById('middlePiece') :
-        [document.getElementById('leftPiece'), document.getElementById('rightPiece')];
+// ===== UI MANAGER =====
 
-    if (Array.isArray(selectedOverlay)) {
-        selectedOverlay.forEach(piece => {
-            piece.style.stroke = '#ffd700';
-            piece.style.strokeWidth = '6';
-            piece.style.fillOpacity = '0.6';
+class UIManager {
+    constructor(gameState) {
+        this.gameState = gameState;
+        this.elements = this.cacheElements();
+        this.bindEvents();
+    }
+
+    cacheElements() {
+        const elementIds = [
+            'stepIndicator', 'phaseIndicator', 'instructions', 'rightKnife', 'leftKnife',
+            'leftPiece', 'middlePiece', 'rightPiece', 'startButton', 'pauseButton',
+            'player1StopButton', 'player2StopButton', 'resetButton', 'results',
+            'player1LeftValue', 'player1CenterValue', 'player1FlankValue',
+            'player2LeftValue', 'player2CenterValue', 'player2FlankValue',
+            'p1-utility-fill', 'p1-utility-text', 'p2-utility-fill', 'p2-utility-text',
+            'player1Card', 'player2Card', 'resultContent'
+        ];
+
+        const elements = {};
+        elementIds.forEach(id => elements[id] = document.getElementById(id));
+        return elements;
+    }
+
+    bindEvents() {
+        this.elements.startButton?.addEventListener('click', () => this.handleStart());
+        this.elements.pauseButton?.addEventListener('click', () => this.handlePause());
+        this.elements.player1StopButton?.addEventListener('click', () => this.handleStop(1));
+        this.elements.player2StopButton?.addEventListener('click', () => this.handleStop(2));
+        this.elements.resetButton?.addEventListener('click', () => this.handleReset());
+        this.bindValuationInputs();
+    }
+
+    bindValuationInputs() {
+        const colors = Utils.getColorNames();
+        ['p1', 'p2'].forEach(player => {
+            colors.forEach(color => {
+                const element = document.getElementById(`${player}-${color}`);
+                if (element) {
+                    element.addEventListener('input', () => this.handleValuationChange());
+                }
+            });
         });
-    } else {
-        selectedOverlay.style.stroke = '#ffd700';
-        selectedOverlay.style.strokeWidth = '6';
-        selectedOverlay.style.fillOpacity = '0.6';
     }
 
-    // Update phase indicator to show the result
-    document.getElementById('phaseIndicator').textContent =
-        `Random assignment complete! Player ${choosingPlayer} received the ${randomChoice} piece.`;
+    handleStart() {
+        if (!this.gameState.isValid()) {
+            const validation = this.gameState.validateTotals();
+            alert(`Valuation totals must equal 100 points each!\n\nPlayer 1 total: ${validation.player1.total}\nPlayer 2 total: ${validation.player2.total}`);
+            return;
+        }
 
-    // Show results after brief highlight
-    setTimeout(() => {
-        performFinalCalculation(randomChoice, choosingPlayer);
-    }, 1500);
-}
+        this.gameState.isAnimating = true;
+        this.gameState.phase = CONFIG.PHASES.MOVING_KNIFE;
+        this.gameState.rightKnifePosition = 0;
 
-function performFinalCalculation(selectedPiece, choosingPlayer) {
-    gameState.isAnimating = false;
+        Utils.setElementDisplay(this.elements.startButton, false);
+        Utils.setElementDisplay(this.elements.pauseButton, true);
+        Utils.setElementDisplay(this.elements.player1StopButton, true);
+        Utils.setElementDisplay(this.elements.player2StopButton, true);
 
-    // Calculate final values for the two actual pieces
-    const regionValues = calculatePhase2RegionValues();
-    const middleValues = regionValues.middle;
-    const flankValues = regionValues.flank;
-
-    const p1Inside = calculatePlayerValue(middleValues, 'player1');
-    const p1Outside = calculatePlayerValue(flankValues, 'player1');
-
-    const p2Inside = calculatePlayerValue(middleValues, 'player2');
-    const p2Outside = calculatePlayerValue(flankValues, 'player2');
-
-    const controllingPlayer = gameState.controllingPlayer;
-
-    // Show results
-    showResults(selectedPiece, choosingPlayer, controllingPlayer, {
-        inside: { p1: p1Inside, p2: p2Inside },
-        outside: { p1: p1Outside, p2: p2Outside }
-    });
-}
-
-function selectPiece(piece) {
-    gameState.isAnimating = false;
-
-    // Calculate final values for the two actual pieces
-    const middleValues = calculateMiddleRegionValues(gameState.leftKnifePosition, gameState.rightKnifePosition);
-
-    // Calculate outside piece (left + right combined)
-    const leftValues = calculateRegionValues(gameState.leftKnifePosition).left;
-    const rightValues = calculateRegionValues(gameState.rightKnifePosition).right;
-
-    // Combine left and right for outside piece
-    const outsideValues = {};
-    for (const color in leftValues) {
-        outsideValues[color] = leftValues[color] + rightValues[color];
+        this.animateKnife();
     }
 
-    const p1Inside = calculatePlayerValue(middleValues, 'player1');
-    const p1Outside = calculatePlayerValue(outsideValues, 'player1');
+    handlePause() {
+        this.gameState.isPaused = !this.gameState.isPaused;
+        this.elements.pauseButton.textContent = this.gameState.isPaused ? 'Resume' : 'Pause';
+        if (!this.gameState.isPaused) this.animateKnife();
+    }
 
-    const p2Inside = calculatePlayerValue(middleValues, 'player2');
-    const p2Outside = calculatePlayerValue(outsideValues, 'player2');
+    handleStop(player) {
+        this.gameState.isAnimating = false;
+        this.gameState.controllingPlayer = player;
+        this.gameState.stopPosition = this.gameState.rightKnifePosition;
 
-    // Determine what the choosing player selected
-    const choosingPlayer = gameState.controllingPlayer === 1 ? 2 : 1;
-    const controllingPlayer = gameState.controllingPlayer;
+        const regionValues = CalculationEngine.calculatePhase1RegionValues(this.gameState.rightKnifePosition);
+        const playerKey = `player${player}`;
+        this.gameState.targetMiddleValue = CalculationEngine.calculatePlayerValue(regionValues.left, this.gameState.playerValues[playerKey]);
 
-    // Convert click to actual choice (left/right clicks both mean "outside")
-    const actualChoice = piece === 'middle' ? 'inside' : 'outside';
+        this.transitionToPhase2();
+    }
 
-    // Show results
-    showResults(actualChoice, choosingPlayer, controllingPlayer, {
-        inside: { p1: p1Inside, p2: p2Inside },
-        outside: { p1: p1Outside, p2: p2Outside }
-    });
-}
+    handleReset() {
+        this.gameState.reset();
+        this.resetUI();
+        this.updatePlayerValueDisplays();
+        this.updateValidationDisplay();
+    }
 
-function showResults(selectedPiece, choosingPlayer, controllingPlayer, allValues) {
-    // Hide the game area and show results
-    document.getElementById('gameArea').style.display = 'none';
-    document.querySelector('.animation-controls').style.display = 'none';
+    handleValuationChange() {
+        this.gameState.updatePlayerValues();
+        this.updateValidationDisplay();
+        if (this.gameState.phase === CONFIG.PHASES.MOVING_KNIFE) {
+            this.updatePlayerValueDisplays();
+        }
+    }
 
-    // Create results display
-    const resultsHTML = `
-                <div id="resultsSection" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">Results</h2>
-            
-                    <div style="background: white; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #3182ce;">
-                        <h3>Protocol Summary:</h3>
-                        <p><strong>Phase 1:</strong> Player ${controllingPlayer} stopped the knife when they believed the left portion was worth exactly 50% to them.</p>
-                        <p><strong>Phase 2:</strong> Player ${controllingPlayer} controlled both knives, maintaining their 50% value constraint in the middle piece, while ${choosingPlayer} waited to call stop when they believed the portions were equal.</p>
-                        <p><strong>Phase 3:</strong> The pieces were <strong>randomly assigned</strong>. Player ${choosingPlayer} received the <strong>${selectedPiece} piece</strong>.</p>
-                    </div>
-            
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
-                        <div style="background: white; padding: 20px; border-radius: 6px; text-align: center; ${selectedPiece === 'inside' ? 'border: 3px solid #3182ce;' : 'border: 1px solid #e2e8f0;'}">
-                            <h4 style="color: #ffc107; margin-bottom: 15px;">Inside Piece (Middle)</h4>
-                            <div style="background: #fff8e1; padding: 10px; border-radius: 4px; margin: 10px 0;">
-                                <p style="margin: 5px 0;">Player 1 Value: <strong>${Math.round(allValues.inside.p1)}</strong> points</p>
-                                <p style="margin: 5px 0;">Player 2 Value: <strong>${Math.round(allValues.inside.p2)}</strong> points</p>
-                            </div>
-                            ${selectedPiece === 'inside' ? '<p style="color: #3182ce; font-weight: bold; margin-top: 10px;">✓ SELECTED</p>' : ''}
-                        </div>
-                
-                        <div style="background: white; padding: 20px; border-radius: 6px; text-align: center; ${selectedPiece === 'outside' ? 'border: 3px solid #3182ce;' : 'border: 1px solid #e2e8f0;'}">
-                            <h4 style="color: #38a169; margin-bottom: 15px;">Outside Piece (Left + Right)</h4>
-                            <div style="background: #f0fff4; padding: 10px; border-radius: 4px; margin: 10px 0;">
-                                <p style="margin: 5px 0;">Player 1 Value: <strong>${Math.round(allValues.outside.p1)}</strong> points</p>
-                                <p style="margin: 5px 0;">Player 2 Value: <strong>${Math.round(allValues.outside.p2)}</strong> points</p>
-                            </div>
-                            ${selectedPiece === 'outside' ? '<p style="color: #3182ce; font-weight: bold; margin-top: 10px;">✓ SELECTED</p>' : ''}
-                        </div>
-                    </div>
-            
-                    <div style="background: #ebf8ff; padding: 15px; border-radius: 6px; margin: 20px 0;">
-                        <h3 style="color: #2d3748;">Random Assignment Result:</h3>
-                        <p><strong>Player ${choosingPlayer}</strong> was randomly assigned the <strong>${selectedPiece}</strong> piece → <strong>${Math.round(choosingPlayer === 1 ? allValues[selectedPiece].p1 : allValues[selectedPiece].p2)} points</strong></p>
-                        <p><strong>Player ${controllingPlayer}</strong> gets the remaining <strong>${selectedPiece === 'inside' ? 'outside' : 'inside'}</strong> piece → <strong>${Math.round(controllingPlayer === 1 ? allValues[selectedPiece === 'inside' ? 'outside' : 'inside'].p1 : allValues[selectedPiece === 'inside' ? 'outside' : 'inside'].p2)} points</strong></p>
-                    </div>
+    animateKnife() {
+        if (!this.gameState.isAnimating || this.gameState.isPaused) return;
+
+        const regionValues = CalculationEngine.calculatePhase1RegionValues(this.gameState.rightKnifePosition);
+        const p1Left = CalculationEngine.calculatePlayerValue(regionValues.left, this.gameState.playerValues.player1);
+        const p2Left = CalculationEngine.calculatePlayerValue(regionValues.left, this.gameState.playerValues.player2);
+
+        if (this.gameState.rightKnifePosition >= CONFIG.CANVAS.WIDTH) {
+            this.gameState.rightKnifePosition = 0;
+        }
+
+        const p1Distance = Math.abs(p1Left - 50);
+        const p2Distance = Math.abs(p2Left - 50);
+        const minDistance = Math.min(p1Distance, p2Distance);
+        const speedMultiplier = CalculationEngine.calculateSpeedMultiplier(minDistance);
+
+        this.gameState.rightKnifePosition += CONFIG.ANIMATION.BASE_SPEED * speedMultiplier;
+        this.updateKnifePosition();
+
+        this.gameState.animationId = requestAnimationFrame(() => this.animateKnife());
+    }
+
+    updateKnifePosition() {
+        if (this.elements.rightKnife) {
+            this.elements.rightKnife.setAttribute('x1', this.gameState.rightKnifePosition);
+            this.elements.rightKnife.setAttribute('x2', this.gameState.rightKnifePosition);
+        }
+        this.updatePlayerValueDisplays();
+    }
+
+    updatePlayerValueDisplays() {
+        const regionValues = CalculationEngine.calculatePhase1RegionValues(this.gameState.rightKnifePosition);
+        const p1Left = CalculationEngine.calculatePlayerValue(regionValues.left, this.gameState.playerValues.player1);
+        const p2Left = CalculationEngine.calculatePlayerValue(regionValues.left, this.gameState.playerValues.player2);
+
+        if (this.elements.player1LeftValue) {
+            this.elements.player1LeftValue.textContent = `Left: ${Utils.formatNumber(p1Left)}`;
+        }
+        if (this.elements.player2LeftValue) {
+            this.elements.player2LeftValue.textContent = `Left: ${Utils.formatNumber(p2Left)}`;
+        }
+
+        this.updateUtilityBars(p1Left, p2Left);
+    }
+
+    updateUtilityBars(p1Value, p2Value) {
+        if (this.elements['p1-utility-fill']) {
+            this.elements['p1-utility-fill'].style.width = `${p1Value}%`;
+        }
+        if (this.elements['p1-utility-text']) {
+            this.elements['p1-utility-text'].textContent = `${Math.round(p1Value)}%`;
+        }
+        if (this.elements['p2-utility-fill']) {
+            this.elements['p2-utility-fill'].style.width = `${p2Value}%`;
+        }
+        if (this.elements['p2-utility-text']) {
+            this.elements['p2-utility-text'].textContent = `${Math.round(p2Value)}%`;
+        }
+    }
+
+    updateValidationDisplay() {
+        const validation = this.gameState.validateTotals();
+
+        ['player1', 'player2'].forEach((player, index) => {
+            const playerNum = index + 1;
+            const card = this.elements[`player${playerNum}Card`];
+
+            if (card) {
+                // Remove existing validation indicator
+                const existingIndicator = card.querySelector('.validation-indicator');
+                if (existingIndicator) existingIndicator.remove();
+
+                // Create new validation indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'validation-indicator';
+
+                if (validation[player].valid) {
+                    indicator.textContent = `Total: ${validation[player].total} points`;
+                    indicator.style.background = '#f0fff4';
+                    indicator.style.color = '#38a169';
+                    indicator.style.border = '1px solid #68d391';
+                    card.classList.remove('invalid');
+                } else {
+                    indicator.textContent = `Total: ${validation[player].total} points (needs 100)`;
+                    indicator.style.background = '#fff5f5';
+                    indicator.style.color = '#e53e3e';
+                    indicator.style.border = '1px solid #fc8181';
+                    card.classList.add('invalid');
+                }
+
+                const colorLegend = card.querySelector('.color-legend');
+                if (colorLegend) colorLegend.insertAdjacentElement('afterend', indicator);
+            }
+        });
+
+        if (this.elements.startButton) {
+            this.elements.startButton.disabled = !this.gameState.isValid();
+        }
+    }
+
+    transitionToPhase2() {
+        if (this.gameState.animationId) {
+            cancelAnimationFrame(this.gameState.animationId);
+        }
+
+        this.gameState.phase = CONFIG.PHASES.DUAL_KNIVES;
+
+        if (this.elements.stepIndicator) {
+            this.elements.stepIndicator.textContent = 'Phase 2: Dual knife movement with value constraint';
+        }
+
+        if (this.elements.phaseIndicator) {
+            this.elements.phaseIndicator.textContent =
+                `Player ${this.gameState.controllingPlayer} controls both knives. Left knife moves toward position ${Math.round(this.gameState.stopPosition)}, maintaining exactly ${Math.round(this.gameState.targetMiddleValue)} value in middle piece`;
+        }
+
+        if (this.elements.instructions) {
+            this.elements.instructions.innerHTML =
+                '<strong>Phase 2:</strong> The controlling player\'s knives move automatically. The left knife (green) must reach the orange dashed line by the time the right knife (red) reaches the end, while maintaining the exact middle piece value.';
+        }
+
+        Utils.setElementDisplay(this.elements.pauseButton, false);
+        Utils.setElementDisplay(this.elements.player1StopButton, false);
+        Utils.setElementDisplay(this.elements.player2StopButton, false);
+
+        setTimeout(() => this.startPhase2(), CONFIG.TIMING.PHASE_TRANSITION_DELAY);
+    }
+
+    startPhase2() {
+        Utils.setElementDisplay(this.elements.leftKnife, true);
+        this.showStopPosition();
+
+        if (this.elements.instructions) {
+            this.elements.instructions.innerHTML =
+                '<strong>Phase 2:</strong> The controlling player\'s knives move automatically. The left knife (green) must reach the orange dashed line by the time the right knife (red) reaches the end, while maintaining the exact middle piece value.';
+        }
+
+        // Initialize positions
+        this.gameState.leftKnifePosition = 0;
+        this.gameState.rightKnifePosition = CalculationEngine.findRightKnifePosition(
+            0,
+            this.gameState.targetMiddleValue,
+            this.gameState.playerValues[`player${this.gameState.controllingPlayer}`]
+        );
+
+        // Show center and flank value displays
+        Utils.setElementDisplay(this.elements.player1CenterValue, true);
+        Utils.setElementDisplay(this.elements.player1FlankValue, true);
+        Utils.setElementDisplay(this.elements.player2CenterValue, true);
+        Utils.setElementDisplay(this.elements.player2FlankValue, true);
+        Utils.setElementDisplay(this.elements.player1LeftValue, false);
+        Utils.setElementDisplay(this.elements.player2LeftValue, false);
+
+        // Update knife positions
+        this.updateKnifePositions(this.gameState.leftKnifePosition, this.gameState.rightKnifePosition);
+
+        // Add stop button for the other player
+        const otherPlayer = this.gameState.controllingPlayer === 1 ? 2 : 1;
+        const stopButton = document.createElement('button');
+        stopButton.textContent = `Player ${otherPlayer}: STOP!`;
+        stopButton.className = 'button danger';
+        stopButton.onclick = () => this.transitionToPhase3();
+
+        document.querySelector('.animation-controls').appendChild(stopButton);
+
+        // Start dual knife animation
+        setTimeout(() => {
+            this.gameState.isAnimating = true;
+            this.animateDualKnives();
+        }, 1000);
+    }
+
+    /**
+ * Animate dual knives in phase 2
+ */
+    animateDualKnives() {
+        if (!this.gameState.isAnimating || this.gameState.isPaused) return;
+
+        const leftTarget = this.gameState.stopPosition;
+        const rightTarget = 800;
+        const controllingPlayerKey = `player${this.gameState.controllingPlayer}`;
+
+        const leftRemaining = leftTarget - this.gameState.leftKnifePosition;
+        const baseSpeed = 1.5;
+
+        // Calculate current middle value and distance from target
+        const currentRegionValues = CalculationEngine.calculatePhase2RegionValues(
+            this.gameState.leftKnifePosition,
+            this.gameState.rightKnifePosition
+        );
+        const currentMiddleValue = CalculationEngine.calculatePlayerValue(
+            currentRegionValues.middle,
+            this.gameState.playerValues[controllingPlayerKey]
+        );
+        const valueDistance = Math.abs(currentMiddleValue - this.gameState.targetMiddleValue);
+
+        const percentageDistance = (valueDistance / this.gameState.targetMiddleValue) * 50;
+        const speedMultiplier = CalculationEngine.calculatePhase2SpeedMultiplier(percentageDistance);
+        const adjustedSpeed = baseSpeed * speedMultiplier;
+
+        // Move left knife toward target
+        let newLeftPosition = this.gameState.leftKnifePosition;
+        if (Math.abs(leftRemaining) > 1) {
+            const leftStep = Math.sign(leftRemaining) * Math.min(Math.abs(leftRemaining), adjustedSpeed);
+            newLeftPosition = this.gameState.leftKnifePosition + leftStep;
+        } else {
+            newLeftPosition = leftTarget;
+        }
+
+        // Calculate right knife position that maintains target value
+        let newRightPosition;
+        if (Math.abs(leftTarget - newLeftPosition) < 1) {
+            // Left knife reached target, right knife can move freely
+            const rightRemaining = rightTarget - this.gameState.rightKnifePosition;
+            if (Math.abs(rightRemaining) > 1) {
+                newRightPosition = this.gameState.rightKnifePosition + Math.sign(rightRemaining) * Math.min(Math.abs(rightRemaining), adjustedSpeed);
+            } else {
+                newRightPosition = rightTarget;
+            }
+        } else {
+            // Left knife still moving, maintain value constraint
+            newRightPosition = CalculationEngine.findRightKnifePosition(
+                newLeftPosition,
+                this.gameState.targetMiddleValue,
+                this.gameState.playerValues[controllingPlayerKey]
+            );
+        }
+
+        // Ensure right knife doesn't go beyond bounds
+        newRightPosition = Math.max(newLeftPosition + 10, Math.min(newRightPosition, rightTarget));
+
+        // Update positions
+        this.updateKnifePositions(newLeftPosition, newRightPosition);
+
+        // Check completion
+        const leftKnifeComplete = Math.abs(leftTarget - newLeftPosition) < 1;
+        const rightKnifeComplete = Math.abs(rightTarget - newRightPosition) < 1;
+
+        if (leftKnifeComplete && rightKnifeComplete) {
+            setTimeout(() => this.transitionToPhase3(), 500);
+            return;
+        }
+
+        this.gameState.animationId = requestAnimationFrame(() => this.animateDualKnives());
+    }
+
+    /**
+     * Update both knife positions in phase 2
+     */
+    updateKnifePositions(newLeftPosition, newRightPosition) {
+        this.gameState.leftKnifePosition = newLeftPosition;
+        this.gameState.rightKnifePosition = newRightPosition;
+
+        if (this.elements.leftKnife) {
+            this.elements.leftKnife.setAttribute('x1', newLeftPosition);
+            this.elements.leftKnife.setAttribute('x2', newLeftPosition);
+        }
+
+        if (this.elements.rightKnife) {
+            this.elements.rightKnife.setAttribute('x1', newRightPosition);
+            this.elements.rightKnife.setAttribute('x2', newRightPosition);
+        }
+
+        // Calculate and update values
+        const regionValues = CalculationEngine.calculatePhase2RegionValues(newLeftPosition, newRightPosition);
+        const p1Middle = CalculationEngine.calculatePlayerValue(regionValues.middle, this.gameState.playerValues.player1);
+        const p1Flank = CalculationEngine.calculatePlayerValue(regionValues.flank, this.gameState.playerValues.player1);
+        const p2Middle = CalculationEngine.calculatePlayerValue(regionValues.middle, this.gameState.playerValues.player2);
+        const p2Flank = CalculationEngine.calculatePlayerValue(regionValues.flank, this.gameState.playerValues.player2);
+
+        if (this.elements.player1CenterValue) {
+            this.elements.player1CenterValue.textContent = `Center: ${Math.round(p1Middle)}`;
+        }
+        if (this.elements.player1FlankValue) {
+            this.elements.player1FlankValue.textContent = `Flank: ${Math.round(p1Flank)}`;
+        }
+        if (this.elements.player2CenterValue) {
+            this.elements.player2CenterValue.textContent = `Center: ${Math.round(p2Middle)}`;
+        }
+        if (this.elements.player2FlankValue) {
+            this.elements.player2FlankValue.textContent = `Flank: ${Math.round(p2Flank)}`;
+        }
+
+        this.updateUtilityBars(p1Middle, p2Middle);
+    }
+
+    /**
+     * Show stop position indicator
+     */
+    showStopPosition() {
+        const svg = document.querySelector('.background-svg');
+
+        // Remove existing indicator
+        const existingIndicator = document.getElementById('stopPositionIndicator');
+        if (existingIndicator) {
+            existingIndicator.remove();
+        }
+
+        // Add new indicator
+        const indicator = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        indicator.setAttribute('id', 'stopPositionIndicator');
+        indicator.setAttribute('x1', this.gameState.stopPosition);
+        indicator.setAttribute('y1', 0);
+        indicator.setAttribute('x2', this.gameState.stopPosition);
+        indicator.setAttribute('y2', 400);
+        indicator.setAttribute('stroke', '#ffa500');
+        indicator.setAttribute('stroke-width', '3');
+        indicator.setAttribute('stroke-dasharray', '5,5');
+        indicator.setAttribute('opacity', '0.7');
+
+        svg.appendChild(indicator);
+    }
+
+    transitionToPhase3() {
+        this.gameState.isAnimating = false;
+        this.gameState.phase = CONFIG.PHASES.RANDOM_ASSIGNMENT;
+
+        if (this.elements.stepIndicator) {
+            this.elements.stepIndicator.textContent = 'Phase 3: Random Assignment';
+        }
+
+        if (this.elements.phaseIndicator) {
+            this.elements.phaseIndicator.textContent = 'Randomly assigning pieces...';
+        }
+
+        if (this.elements.instructions) {
+            this.elements.instructions.innerHTML = '<strong>Random Assignment:</strong> The pieces will be randomly assigned to ensure fairness.';
+        }
+
+        this.showPieceOverlays();
+
+        setTimeout(() => this.performRandomAssignment(), 2000);
+    }
+
+    showPieceOverlays() {
+        const leftWidth = this.gameState.leftKnifePosition || 200;
+        const rightStart = this.gameState.rightKnifePosition || 600;
+
+        if (this.elements.leftPiece) {
+            this.elements.leftPiece.setAttribute('width', leftWidth);
+            Utils.setElementDisplay(this.elements.leftPiece, true);
+        }
+
+        if (this.elements.middlePiece) {
+            this.elements.middlePiece.setAttribute('x', leftWidth);
+            this.elements.middlePiece.setAttribute('width', rightStart - leftWidth);
+            Utils.setElementDisplay(this.elements.middlePiece, true);
+        }
+
+        if (this.elements.rightPiece) {
+            this.elements.rightPiece.setAttribute('x', rightStart);
+            this.elements.rightPiece.setAttribute('width', CONFIG.CANVAS.WIDTH - rightStart);
+            Utils.setElementDisplay(this.elements.rightPiece, true);
+        }
+    }
+
+    performRandomAssignment() {
+        const randomChoice = Math.random() < 0.5 ? 'inside' : 'outside';
+        const choosingPlayer = this.gameState.controllingPlayer === 1 ? 2 : 1;
+
+        if (this.elements.phaseIndicator) {
+            this.elements.phaseIndicator.textContent =
+                `Random assignment complete! Player ${choosingPlayer} received the ${randomChoice} piece.`;
+        }
+
+        setTimeout(() => this.showResults(randomChoice, choosingPlayer), 1500);
+    }
+
+    showResults(selectedPiece, choosingPlayer) {
+        const controllingPlayer = this.gameState.controllingPlayer;
+
+        if (this.elements.resultContent) {
+            this.elements.resultContent.innerHTML = `
+                <div style="background: white; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #3182ce;">
+                    <h4>Protocol Summary:</h4>
+                    <p><strong>Phase 1:</strong> Player ${controllingPlayer} stopped the knife when they believed the left portion was worth exactly 50% to them.</p>
+                    <p><strong>Phase 2:</strong> Player ${controllingPlayer} controlled both knives, maintaining their 50% value constraint.</p>
+                    <p><strong>Phase 3:</strong> The pieces were randomly assigned. Player ${choosingPlayer} received the <strong>${selectedPiece} piece</strong>.</p>
+                </div>
+                <div style="background: #ebf8ff; padding: 15px; border-radius: 6px; margin: 20px 0;">
+                    <h4>Final Result:</h4>
+                    <p><strong>Player ${choosingPlayer}</strong> was randomly assigned the <strong>${selectedPiece}</strong> piece</p>
+                    <p><strong>Player ${controllingPlayer}</strong> gets the remaining piece</p>
+                    <p>Fair division achieved through the Austin moving knife algorithm!</p>
                 </div>
             `;
+        }
 
-    // Insert results after the player info
-    document.querySelector('.player-info').insertAdjacentHTML('afterend', resultsHTML);
+        Utils.setElementDisplay(this.elements.results, true);
+        Utils.setElementDisplay(this.elements.instructions, false);
 
-    // Update step indicator
-    document.getElementById('stepIndicator').textContent = 'Demo Complete - Results';
-    document.getElementById('phaseIndicator').textContent = `Player ${choosingPlayer} selected the ${selectedPiece} piece. Fair division achieved!`;
+        if (this.elements.stepIndicator) {
+            this.elements.stepIndicator.textContent = 'Demo Complete - Results';
+        }
+    }
+
+    resetUI() {
+        if (this.elements.stepIndicator) {
+            this.elements.stepIndicator.textContent = 'Phase 1: Single knife moving across the cake';
+        }
+
+        if (this.elements.phaseIndicator) {
+            this.elements.phaseIndicator.textContent = 'Waiting for either player to call "STOP!" when they believe the left piece equals exactly 50%';
+        }
+
+        if (this.elements.instructions) {
+            this.elements.instructions.innerHTML = '<strong>Instructions:</strong> Watch the knife move across the cake. Either player can call "STOP!" when they think the left piece has exactly 50% value according to their preferences.';
+        }
+
+        Utils.setElementDisplay(this.elements.startButton, true);
+        Utils.setElementDisplay(this.elements.pauseButton, false);
+        Utils.setElementDisplay(this.elements.player1StopButton, false);
+        Utils.setElementDisplay(this.elements.player2StopButton, false);
+        Utils.setElementDisplay(this.elements.results, false);
+        Utils.setElementDisplay(this.elements.instructions, true);
+        Utils.setElementDisplay(this.elements.leftKnife, false);
+        Utils.setElementDisplay(this.elements.leftPiece, false);
+        Utils.setElementDisplay(this.elements.middlePiece, false);
+        Utils.setElementDisplay(this.elements.rightPiece, false);
+        Utils.setElementDisplay(this.elements.player1LeftValue, true);
+        Utils.setElementDisplay(this.elements.player2LeftValue, true);
+        Utils.setElementDisplay(this.elements.player1CenterValue, false);
+        Utils.setElementDisplay(this.elements.player1FlankValue, false);
+        Utils.setElementDisplay(this.elements.player2CenterValue, false);
+        Utils.setElementDisplay(this.elements.player2FlankValue, false);
+
+        if (this.elements.rightKnife) {
+            this.elements.rightKnife.setAttribute('x1', 0);
+            this.elements.rightKnife.setAttribute('x2', 0);
+        }
+
+        if (this.elements.pauseButton) {
+            this.elements.pauseButton.textContent = 'Pause';
+        }
+    }
 }
 
-function resetDemo() {
-    location.reload();
-}
+// ===== GAME CONTROLLER =====
 
-// Event listeners
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('startButton').addEventListener('click', startAnimation);
-    document.getElementById('pauseButton').addEventListener('click', pauseAnimation);
-    document.getElementById('player1StopButton').addEventListener('click', () => stopPhase1(1));
-    document.getElementById('player2StopButton').addEventListener('click', () => stopPhase1(2));
-    document.getElementById('resetButton').addEventListener('click', resetDemo);
+class GameController {
+    constructor() {
+        this.gameState = new GameState();
+        this.uiManager = new UIManager(this.gameState);
+        this.initialize();
+    }
 
-    // Add event listeners for valuation inputs
-    ['p1-blue', 'p1-red', 'p1-green', 'p1-orange', 'p1-pink', 'p1-purple',
-        'p2-blue', 'p2-red', 'p2-green', 'p2-orange', 'p2-pink', 'p2-purple'].forEach(id => {
-            document.getElementById(id).addEventListener('input', handleValuationChange);
+    initialize() {
+        this.setInitialValues();
+        this.uiManager.updateValidationDisplay();
+        this.uiManager.updatePlayerValueDisplays();
+        console.log('Austin Moving Knife demo initialized successfully');
+    }
+
+    setInitialValues() {
+        const colors = Utils.getColorNames();
+        ['player1', 'player2'].forEach(player => {
+            const playerKey = player === 'player1' ? 'p1' : 'p2';
+            colors.forEach(color => {
+                const element = document.getElementById(`${playerKey}-${color}`);
+                if (element && this.gameState.playerValues[player][color] !== undefined) {
+                    element.value = this.gameState.playerValues[player][color];
+                }
+            });
         });
+    }
+}
 
-    // Initialize values
-    updateColorValues();
-    updateValidationStatus();
-    updateStartButtonState();
-    updateKnifePosition(0);
+// ===== INITIALIZATION =====
+
+document.addEventListener('DOMContentLoaded', function () {
+    try {
+        window.gameController = new GameController();
+    } catch (error) {
+        console.error('Failed to initialize Austin Moving Knife demo:', error);
+    }
 });
