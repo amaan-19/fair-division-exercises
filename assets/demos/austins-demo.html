@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Austin's Moving Knife Demo</title>
     <style>
+        /* ===== BASE STYLES ===== */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
@@ -13,40 +14,51 @@
             color: #2d3748;
         }
 
+        /* ===== MAIN CONTAINER ===== */
         .simulation-container {
             max-width: 900px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            padding: 2rem;
+            padding: 1.5rem; /* Reduced from 2rem for compactness */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             border: 1px solid #e2e8f0;
         }
 
+        /* ===== HEADER ELEMENTS ===== */
         .step-indicator {
             text-align: center;
             font-weight: 600;
-            margin: 15px 0;
-            font-size: 1.1rem;
+            margin: 10px 0; /* Reduced from 15px */
+            font-size: 1rem; /* Reduced from 1.1rem */
         }
 
         .phase-indicator {
             background: #f7fafc;
-            padding: 10px;
+            padding: 8px; /* Reduced from 10px */
             border-radius: 6px;
-            margin: 15px 0;
+            margin: 10px 0; /* Reduced from 15px */
             text-align: center;
             font-weight: 600;
             border: 1px solid #e2e8f0;
         }
 
+        .instructions {
+            background: #ebf8ff;
+            padding: 12px; /* Reduced from 15px */
+            border-radius: 8px;
+            border-left: 4px solid #3182ce;
+            margin: 15px 0; /* Reduced from 20px */
+        }
+
+        /* ===== GAME AREA ===== */
         .game-area {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 320px; /* Reduced from 400px for better fit */
             border: 3px solid #2d3748;
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 15px 0; /* Reduced from 20px */
             background: #f5f5f0;
             overflow: hidden;
         }
@@ -60,6 +72,7 @@
             z-index: 1;
         }
 
+        /* ===== KNIFE AND OVERLAY ELEMENTS ===== */
         .knife-line {
             stroke: #dc3545;
             stroke-width: 4;
@@ -82,15 +95,16 @@
                 stroke-width: 6 !important;
             }
 
+        /* ===== BUTTONS AND CONTROLS ===== */
         .button {
             background: #3182ce;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px; /* Reduced from 10px 20px */
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px; /* Reduced from 14px */
             margin: 5px;
             transition: background 0.2s ease;
         }
@@ -112,48 +126,52 @@
                     background: #c53030;
                 }
 
-        .instructions {
-            background: #ebf8ff;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #3182ce;
-            margin: 20px 0;
-        }
-
         .animation-controls {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin: 15px 0;
+            margin: 12px 0; /* Reduced from 15px */
             flex-wrap: wrap;
         }
 
+        /* ===== PLAYER INFORMATION SECTION ===== */
         .player-info {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
+            grid-template-columns: 1fr 1fr; /* Two equal columns for side-by-side layout */
+            gap: 15px; /* Reduced from 20px */
+            margin: 15px 0; /* Reduced from 20px */
         }
 
         .player-card {
             background: #f8f9fa;
-            padding: 15px;
+            padding: 10px; /* Reduced from 15px for compactness */
             border-radius: 8px;
             border: 1px solid #e2e8f0;
             text-align: center;
         }
+
+            .player-card h3 {
+                margin: 0 0 8px 0; /* Added explicit h3 styling */
+                font-size: 16px;
+            }
 
             .player-card.active {
                 border-color: #3182ce;
                 background: #ebf8ff;
             }
 
+            .player-card.invalid {
+                border-color: #e53e3e !important;
+                background: #fff5f5 !important;
+            }
+
+        /* ===== COLOR LEGEND GRID ===== */
         .color-legend {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 15px 0;
-            padding: 10px;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for color items */
+            gap: 6px; /* Reduced from 8px */
+            margin: 8px 0; /* Reduced from 15px */
+            padding: 8px; /* Reduced from 10px */
             background: #ffffff;
             border-radius: 6px;
         }
@@ -162,33 +180,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            font-size: 12px;
+            gap: 3px; /* Reduced from 4px */
+            font-size: 10px; /* Reduced from 12px */
             text-align: center;
         }
 
         .color-swatch {
-            width: 16px;
-            height: 16px;
+            width: 14px; /* Reduced from 16px */
+            height: 14px; /* Reduced from 16px */
             border-radius: 3px;
             border: 1px solid #ccc;
         }
 
         .valuation-input {
-            width: 35px;
+            width: 30px; /* Reduced from 35px */
             padding: 2px 4px;
             border: 1px solid #ccc;
             border-radius: 3px;
             text-align: center;
-            font-size: 11px;
+            font-size: 10px; /* Reduced from 11px */
         }
 
+        /* ===== UTILITY BARS ===== */
         .utility-bar {
             width: 100%;
-            height: 20px;
+            height: 16px; /* Reduced from 20px */
             background: #e2e8f0;
             border-radius: 10px;
-            margin: 10px 0;
+            margin: 8px 0; /* Reduced from 10px */
             overflow: hidden;
             position: relative;
         }
@@ -205,31 +224,118 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 12px;
+            font-size: 10px; /* Reduced from 12px */
             font-weight: bold;
             color: #2d3748;
         }
 
+        /* ===== CURRENT VALUES DISPLAY ===== */
         .current-values {
             background: #f0f4f7;
-            padding: 8px;
+            padding: 6px; /* Reduced from 8px */
             border-radius: 6px;
-            margin: 8px 0;
-            font-size: 13px;
+            margin: 6px 0; /* Reduced from 8px */
+            font-size: 11px; /* Reduced from 13px */
         }
 
-        .player-card.invalid {
-            border-color: #e53e3e !important;
-            background: #fff5f5 !important;
-        }
-
+        /* ===== VALIDATION INDICATORS ===== */
         .validation-indicator {
             transition: all 0.3s ease;
+            margin: 6px 0;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* ===== RESULTS SECTION ===== */
+        .results {
+            background: #f0fff4;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #38a169;
+            margin: 20px 0;
+            display: none;
+        }
+
+        /* ===== STATUS INDICATORS ===== */
+        .error {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .valid {
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #38a169;
+        }
+
+        .failure {
+            color: #e53e3e;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 600px) { /* Changed from 768px to 600px for better desktop experience */
+            .player-info {
+                grid-template-columns: 1fr; /* Stack vertically only on very small screens */
+                gap: 12px;
+            }
+
+            .color-legend {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+            }
+
+            .animation-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .game-area {
+                height: 280px; /* Smaller on mobile */
+            }
+
+            .simulation-container {
+                padding: 1rem;
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .color-legend {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+
+            .valuation-input {
+                width: 28px;
+                font-size: 9px;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+        .button:focus {
+            outline: 2px solid #3182ce;
+            outline-offset: 2px;
+        }
+
+        .piece-overlay:focus {
+            outline: 3px solid #3182ce;
+            outline-offset: 2px;
+        }
+
+        .valuation-input:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 1px #3182ce;
         }
     </style>
 </head>
 <body>
     <div class="simulation-container">
+        <!-- Header Section: Game Progress and Instructions -->
         <div class="step-indicator" id="stepIndicator">
             Phase 1: Single knife moving across the cake
         </div>
@@ -242,8 +348,10 @@
             <strong>Instructions:</strong> Watch the knife move across the cake. Either player can call "STOP!" when they think the left piece has exactly 50% value according to their preferences.
         </div>
 
+        <!-- Main Game Visualization -->
         <div class="game-area" id="gameArea">
             <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                <!-- Colored Regions -->
                 <!-- Blue region (top) -->
                 <polygon points="0,0 600,0 600,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2" />
                 <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Blue</text>
@@ -268,13 +376,14 @@
                 <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" stroke="#2d3748" stroke-width="2" />
                 <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Green</text>
 
-                <!-- Right knife -->
-                <line id="rightKnife" x="0"  class="knife-line" />
+                <!-- Interactive Elements -->
+                <!-- Right knife (red dashed line) -->
+                <line id="rightKnife" x1="0" y1="0" x2="0" y2="400" class="knife-line" />
 
-                <!-- Second knife (hidden initially) -->
-                <line id="leftKnife" x="0" class="knife-line left-knife" style="display: none;" />
+                <!-- Left knife (green dashed line, hidden initially) -->
+                <line id="leftKnife" x1="0" y1="0" x2="0" y2="400" class="knife-line left-knife" style="display: none;" />
 
-                <!-- Piece overlays for selection -->
+                <!-- Piece overlays for final selection phase -->
                 <rect id="leftPiece" x="0" y="0" width="400" height="400"
                       fill="rgba(49,130,206,0.2)" stroke="#3182ce" stroke-width="3"
                       style="display: none;" class="piece-overlay" />
@@ -287,16 +396,21 @@
             </svg>
         </div>
 
+        <!-- Animation Control Buttons -->
         <div class="animation-controls">
-            <button id="startButton" class="button">Play</button>
+            <button id="startButton" class="button">Start Animation</button>
             <button id="pauseButton" class="button" style="display: none;">Pause</button>
             <button id="player1StopButton" class="button danger" style="display: none;">Player 1: STOP!</button>
             <button id="player2StopButton" class="button danger" style="display: none;">Player 2: STOP!</button>
         </div>
 
+        <!-- Player Information Cards (Side-by-Side Layout) -->
         <div class="player-info">
+            <!-- Player 1 Card -->
             <div class="player-card" id="player1Card">
                 <h3>Player 1</h3>
+
+                <!-- Color Valuations Grid (3x2 layout) -->
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
@@ -323,20 +437,27 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p1-purple" value="15" min="0" max="100">pts</span>
                     </div>
                 </div>
+
+                <!-- Current piece values display -->
                 <div class="current-values" id="p1-values">
                     <div><strong>Current Piece Value:</strong></div>
                     <div id="player1LeftValue">Left: 0.0</div>
                     <div id="player1CenterValue" style="display: none;">Center: 0.0</div>
                     <div id="player1FlankValue" style="display: none;">Flank: 0.0</div>
                 </div>
+
+                <!-- Visual utility bar showing percentage -->
                 <div class="utility-bar">
                     <div class="utility-fill" id="p1-utility-fill"></div>
                     <div class="utility-text" id="p1-utility-text">0%</div>
                 </div>
             </div>
 
+            <!-- Player 2 Card -->
             <div class="player-card" id="player2Card">
                 <h3>Player 2</h3>
+
+                <!-- Color Valuations Grid (3x2 layout) -->
                 <div class="color-legend">
                     <div class="color-item">
                         <div class="color-swatch" style="background: #0066ff;"></div>
@@ -363,26 +484,36 @@
                         <span>Purple: <input type="number" class="valuation-input" id="p2-purple" value="10" min="0" max="100">pts</span>
                     </div>
                 </div>
+
+                <!-- Current piece values display -->
                 <div class="current-values" id="p2-values">
                     <div><strong>Current Piece Value:</strong></div>
                     <div id="player2LeftValue">Left: 0.0</div>
                     <div id="player2CenterValue" style="display: none;">Center: 0.0</div>
                     <div id="player2FlankValue" style="display: none;">Flank: 0.0</div>
                 </div>
+
+                <!-- Visual utility bar showing percentage -->
                 <div class="utility-bar">
                     <div class="utility-fill" id="p2-utility-fill"></div>
                     <div class="utility-text" id="p2-utility-text">0%</div>
                 </div>
-                
             </div>
         </div>
 
+        <!-- Results Section (Hidden Initially) -->
+        <div class="results" id="results" style="display: none;">
+            <h3>Results:</h3>
+            <div id="resultContent"></div>
+        </div>
+
+        <!-- Reset Button -->
         <div style="text-align: center; margin: 20px 0;">
             <button id="resetButton" class="button">Reset Demo</button>
         </div>
     </div>
 
+    <!-- Load the JavaScript functionality -->
     <script src="austins-demo.js"></script>
-
 </body>
 </html>
