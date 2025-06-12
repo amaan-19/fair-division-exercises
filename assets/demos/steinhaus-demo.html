@@ -389,6 +389,11 @@
                 <rect id="piece3" x="533" y="0" width="267" height="400"
                       fill="rgba(237,137,54,0.15)" stroke="#ed8936" stroke-width="2"
                       style="display: none;" class="piece-overlay" />
+
+                <!-- Reconstruction pieces -->
+                <line id="reconstructionCutLine" x1="400" y1="0" x2="400" y2="400" stroke="#ff0000" stroke-width="3" style="display: none;" />
+                <rect id="reconstructionLeftPiece" x="0" y="0" width="400" height="400" fill="rgba(255,255,0,0.3)" stroke="#ffff00" stroke-width="3" style="display: none; cursor: pointer;" class="piece-overlay" />
+                <rect id="reconstructionRightPiece" x="400" y="0" width="400" height="400" fill="rgba(0,255,255,0.3)" stroke="#00ffff" stroke-width="3" style="display: none; cursor: pointer;" class="piece-overlay" />
             </svg>
         </div>
 
@@ -421,6 +426,19 @@
             <button id="makeCutsButton" class="button">Make Cuts</button>
             <button id="continueButton" class="button" style="display: none;">Continue</button>
             <button id="resetButton" class="button" style="display: none;">Reset Game</button>
+        </div>
+
+        <div id="reconstructionInterface" style="display: none;">
+            <h3>Divide-and-Choose Reconstruction</h3>
+            <p><strong>Note:</strong> Only the remaining pieces (highlighted in orange border) are being divided.</p>
+            <p>Divider Values: <span id="dividerValues"></span></p>
+            <p>Chooser Values: <span id="chooserValues"></span></p>
+
+            <div class="slider-container">
+                <label for="reconstructionSlider">Cut Position within remaining cake: <span id="reconstructionCutPosition">50%</span></label>
+                <input type="range" id="reconstructionSlider" class="slider" min="0" max="800" value="400" step="1">
+                <button id="makeReconstructionCutButton" class="button">Make Cut</button>
+            </div>
         </div>
 
         <div class="player-info">
