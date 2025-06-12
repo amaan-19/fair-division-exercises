@@ -27,7 +27,7 @@ const CONFIG = {
         STEP_2_CASE_B: "Step 2: Case B - Removing unacceptable piece",
         STEP_3_RECONSTRUCTION: "Step 3: Divide-and-Choose Reconstruction",
         STEP_3_PLAYER2: "Step 3: Player 2 selects from remaining pieces",
-        COMPLETE: "Algorithm Complete!",
+        COMPLETE: "Algorithm Complete! View Results Below.",
         INSTRUCTIONS_1: "<strong>Instructions:</strong> Player 1, use the sliders below to position two vertical cuts to create three pieces that you value equally.",
         INSTRUCTIONS_PLAYER3: "<strong>Instructions:</strong> Player 3, click on your preferred piece!",
         INSTRUCTIONS_PLAYER2: "<strong>Instructions:</strong> Player 2, click on your preferred piece from the remaining options!",
@@ -786,10 +786,10 @@ class UIManager {
 
         Utils.setElementDisplay(this.elements.results, true);
 
-        let resultText = '';
-        let p1Final, p2Final, p3Final, proportional;
+        let p1Final, p2Final, p3Final;
 
         if (this.gameState.reconstructionState.active) {
+            // Case B: Get values from reconstruction
             const unacceptablePiece = this.gameState.finalAllocation.p1;
             p1Final = this.gameState.pieceValues.p1[unacceptablePiece];
 
@@ -800,33 +800,27 @@ class UIManager {
                 p3Final = this.gameState.reconstructionState.dividerValue;
                 p2Final = this.gameState.reconstructionState.chooserValue;
             }
-
-            const p1Threshold = CONFIG.ALGORITHM.PROPORTIONAL_THRESHOLD;
-            const p2Threshold = CONFIG.ALGORITHM.PROPORTIONAL_THRESHOLD;
-            const p3Threshold = CONFIG.ALGORITHM.PROPORTIONAL_THRESHOLD;
-
-            proportional = p1Final >= p1Threshold && p2Final >= p2Threshold && p3Final >= p3Threshold;
-
-            resultText =
-                `Player 1 gets Piece ${unacceptablePiece + 1} (value: ${Utils.formatNumber(p1Final)}, ${Utils.formatNumber(p1Final)}%)<br>` +
-                `Player 2 gets reconstructed portion (value: ${Utils.formatNumber(p2Final)}, ${Utils.formatNumber(p2Final)}%)<br>` +
-                `Player 3 gets reconstructed portion (value: ${Utils.formatNumber(p3Final)}, ${Utils.formatNumber(p3Final)}%)`;
         } else {
+            // Case A: Get values from direct allocation
             p1Final = this.gameState.pieceValues.p1[this.gameState.finalAllocation.p1];
             p2Final = this.gameState.pieceValues.p2[this.gameState.finalAllocation.p2];
             p3Final = this.gameState.pieceValues.p3[this.gameState.finalAllocation.p3];
-
-            const threshold = CONFIG.ALGORITHM.PROPORTIONAL_THRESHOLD;
-            proportional = p1Final >= threshold && p2Final >= threshold && p3Final >= threshold;
-
-            resultText =
-                `Player 1 gets Piece ${this.gameState.finalAllocation.p1 + 1} (value: ${Utils.formatNumber(p1Final)}, ${Utils.formatNumber(p1Final)}%)<br>` +
-                `Player 2 gets Piece ${this.gameState.finalAllocation.p2 + 1} (value: ${Utils.formatNumber(p2Final)}, ${Utils.formatNumber(p2Final)}%)<br>` +
-                `Player 3 gets Piece ${this.gameState.finalAllocation.p3 + 1} (value: ${Utils.formatNumber(p3Final)}, ${Utils.formatNumber(p3Final)}%)`;
         }
 
+        // Simple results display - just show total cake value for each player
+        const resultText =
+            `Player 1: ${Utils.formatNumber(p1Final)}% value<br>` +
+            `Player 2: ${Utils.formatNumber(p2Final)}% value<br>` +
+            `Player 3: ${Utils.formatNumber(p3Final)}% value`;
+
         this.elements.resultText.innerHTML = resultText;
-        this.elements.proportionalResult.textContent = proportional ? 'All players get ≥33.3% value' : 'Some players get <33.3% value';
+
+        // Check if allocation is proportional (each player gets ≥33.3%)
+        const threshold = CONFIG.ALGORITHM.PROPORTIONAL_THRESHOLD - CONFIG.ALGORITHM.EQUAL_VALUE_TOLERANCE; // Add small tolerance for floating-point precision issues
+        const proportional = p1Final >= threshold && p2Final >= threshold && p3Final >= threshold;
+
+        this.elements.proportionalResult.textContent = proportional ?
+            'All players get ≥33.3% value' : 'Some players get <33.3% value';
         this.elements.proportionalResult.style.color = proportional ? '#38a169' : '#e53e3e';
 
         const algorithmPath = this.gameState.algorithmCase === 'A' ?
