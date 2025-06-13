@@ -20,7 +20,7 @@ permalink: /algorithms/divide-and-choose/
   <!-- Overview -->
   <section class="content-block">
     <h2>Overview</h2>
-    <p>The divide-and-choose algorithm is the most basic fair division procedure. This procedure assumes that the resource in question is continuous, divisible, and heterogeneous.</p>
+    <p>The divide-and-choose algorithm is the most fundamental fair division procedure.</p>
     <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
     <div class="procedure-steps">
       <h3>How It Works</h3>
@@ -55,7 +55,7 @@ permalink: /algorithms/divide-and-choose/
       <iframe 
         src="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}" 
         width="100%" 
-        height="1400" 
+        height="1300" 
         frameborder="0"
         style="display: block; border: none;">
         <p>Your browser does not support iframes. <a href="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}">View the demo directly</a>.</p>
