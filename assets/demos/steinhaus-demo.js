@@ -574,9 +574,9 @@ class UIManager {
         Utils.setElementDisplay(this.elements.reconstructionInterface, true);
 
         const reconstructionSlider = this.elements.reconstructionSlider;
-        reconstructionSlider.min = 0;
-        reconstructionSlider.max = CONFIG.CANVAS.WIDTH;
-        reconstructionSlider.value = CONFIG.CANVAS.WIDTH / 2;
+        reconstructionSlider.min = minX;
+        reconstructionSlider.max = maxX;
+        reconstructionSlider.value = (minX + maxX) / 2;  // Start in middle of actual range
 
         // Store gap information for slider logic
         reconstructionSlider.dataset.gapStart = cuts[removedPiece];
@@ -585,8 +585,9 @@ class UIManager {
         reconstructionSlider.dataset.actualMax = maxX;
 
         const reconstructionCutLine = this.elements.reconstructionCutLine;
-        reconstructionCutLine.setAttribute('x1', CONFIG.CANVAS.WIDTH / 2);
-        reconstructionCutLine.setAttribute('x2', CONFIG.CANVAS.WIDTH / 2);
+        const initialCutX = (minX + maxX) / 2;
+        reconstructionCutLine.setAttribute('x1', initialCutX);
+        reconstructionCutLine.setAttribute('x2', initialCutX);
         Utils.setElementDisplay(reconstructionCutLine, true);
 
         const dividerNum = this.gameState.reconstructionState.divider.slice(1);
@@ -610,14 +611,18 @@ class UIManager {
         let cutPercent, leftValues, rightValues;
 
         if (cutX >= gapStart && cutX <= gapEnd) {
-            cutPercent = 50;
+            // Calculate what percentage through the remaining cake this represents
+            const leftPieceLength = gapStart - minX;
+            const totalRemainingLength = (gapStart - minX) + (maxX - gapEnd);
+            cutPercent = (leftPieceLength / totalRemainingLength) * 100;
+
             leftValues = CalculationEngine.calculateReconstructionPieceValue(minX, gapStart, this.gameState.playerValues);
             rightValues = CalculationEngine.calculateReconstructionPieceValue(gapEnd, maxX, this.gameState.playerValues);
         } else if (cutX < gapStart) {
+            const positionInLeft = Math.max(0, cutX - minX); // Prevent negative
             const leftPieceLength = gapStart - minX;
             const rightPieceLength = maxX - gapEnd;
             const totalRemainingLength = leftPieceLength + rightPieceLength;
-            const positionInLeft = cutX - minX;
             cutPercent = (positionInLeft / totalRemainingLength) * 100;
 
             leftValues = CalculationEngine.calculateReconstructionPieceValue(minX, cutX, this.gameState.playerValues);
@@ -697,19 +702,48 @@ class UIManager {
         const leftPiece = this.elements.reconstructionLeftPiece;
         const rightPiece = this.elements.reconstructionRightPiece;
 
+        // Clear any previous styling
+        leftPiece.style.fill = 'rgba(0, 255, 0, 0.6)';
+        rightPiece.style.fill = 'rgba(255, 0, 255, 0.6)';
+
         if (cutX >= gapStart && cutX <= gapEnd) {
+            // Cut is in the gap - pieces are naturally separated
             leftPiece.setAttribute('x', minX);
             leftPiece.setAttribute('width', gapStart - minX);
             rightPiece.setAttribute('x', gapEnd);
             rightPiece.setAttribute('width', maxX - gapEnd);
         } else if (cutX < gapStart) {
+            // Cut is in the first remaining segment
             leftPiece.setAttribute('x', minX);
             leftPiece.setAttribute('width', cutX - minX);
+
+            // Right piece consists of two visual segments
+            // Show only the first segment, use pattern/hatching to indicate the second
             rightPiece.setAttribute('x', cutX);
-            rightPiece.setAttribute('width', gapStart - cutX + (maxX - gapEnd));
-        } else {
+            rightPiece.setAttribute('width', gapStart - cutX);
+
+            // Add visual indication that there's more cake after the gap
+            rightPiece.style.fill = 'url(#discontinuousPattern)';
+
+            // Create the pattern if it doesn't exist
+            this.createDiscontinuousPattern();
+
+            // Add text indicator for the second segment
+            this.addSegmentIndicator(gapEnd, maxX - gapEnd, 'Part of right piece');
+
+        } else { // cutX > gapEnd
+            // Cut is in the second remaining segment
+
+            // Left piece consists of two visual segments  
+            // Show the first segment normally
             leftPiece.setAttribute('x', minX);
-            leftPiece.setAttribute('width', (gapStart - minX) + (cutX - gapEnd));
+            leftPiece.setAttribute('width', gapStart - minX);
+            leftPiece.style.fill = 'url(#discontinuousPattern)';
+
+            // Add text indicator for the second part of left piece
+            this.addSegmentIndicator(gapEnd, cutX - gapEnd, 'Part of left piece');
+
+            // Right piece is just the remainder
             rightPiece.setAttribute('x', cutX);
             rightPiece.setAttribute('width', maxX - cutX);
         }
@@ -724,6 +758,71 @@ class UIManager {
         this.elements.instructions.innerHTML = Utils.formatMessage(CONFIG.MESSAGES.INSTRUCTIONS_CHOOSER, chooserNum);
 
         this.gameState.step = CONFIG.STEPS.RECONSTRUCTION_CUT;
+    }
+
+    // Helper method to create visual pattern for discontinuous pieces
+    createDiscontinuousPattern() {
+        const svg = document.querySelector('svg');
+        let defs = svg.querySelector('defs');
+        if (!defs) {
+            defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            svg.appendChild(defs);
+        }
+
+        if (!defs.querySelector('#discontinuousPattern')) {
+            const pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+            pattern.setAttribute('id', 'discontinuousPattern');
+            pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+            pattern.setAttribute('width', '10');
+            pattern.setAttribute('height', '10');
+
+            const rect1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect1.setAttribute('width', '10');
+            rect1.setAttribute('height', '10');
+            rect1.setAttribute('fill', 'rgba(255, 0, 255, 0.6)');
+
+            const rect2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect2.setAttribute('width', '5');
+            rect2.setAttribute('height', '5');
+            rect2.setAttribute('fill', 'rgba(255, 255, 255, 0.8)');
+
+            pattern.appendChild(rect1);
+            pattern.appendChild(rect2);
+            defs.appendChild(pattern);
+        }
+    }
+
+    // Helper method to add text indicators for hidden segments
+    addSegmentIndicator(x, width, text) {
+        const svg = document.querySelector('svg');
+
+        // Remove any existing indicators
+        const existingIndicators = svg.querySelectorAll('.segment-indicator');
+        existingIndicators.forEach(indicator => indicator.remove());
+
+        // Add new indicator
+        const textElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        textElement.setAttribute('x', x + width / 2);
+        textElement.setAttribute('y', CONFIG.CANVAS.HEIGHT / 2 - 30);
+        textElement.setAttribute('text-anchor', 'middle');
+        textElement.setAttribute('class', 'segment-indicator');
+        textElement.setAttribute('fill', '#666');
+        textElement.setAttribute('font-size', '12');
+        textElement.textContent = text;
+
+        // Add a background rectangle for better visibility
+        const bgRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bgRect.setAttribute('x', x);
+        bgRect.setAttribute('y', CONFIG.CANVAS.HEIGHT / 2 - 10);
+        bgRect.setAttribute('width', width);
+        bgRect.setAttribute('height', 20);
+        bgRect.setAttribute('fill', 'rgba(255, 255, 255, 0.8)');
+        bgRect.setAttribute('stroke', '#999');
+        bgRect.setAttribute('stroke-dasharray', '3,3');
+        bgRect.setAttribute('class', 'segment-indicator');
+
+        svg.appendChild(bgRect);
+        svg.appendChild(textElement);
     }
 
     selectReconstructionPiece(side, cutX) {

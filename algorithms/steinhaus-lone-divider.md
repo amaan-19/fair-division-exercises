@@ -79,7 +79,7 @@ permalink: /algorithms/steinhaus-lone-divider/
 
   <section class="content-block">
     <h2>Fairness Properties</h2>
-    <p>Steinhaus' procedure gaurantees one fundamental fairness property:</p>
+    <p>Steinhaus' procedure guarantees one fundamental fairness property:</p>
   </section>
 
   <section class="content-block">
