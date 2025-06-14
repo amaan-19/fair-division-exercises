@@ -16,13 +16,13 @@ class UnifiedGameState {
             canvas: { width: 800, height: 400 }
         };
 
-        // Initialize state
-        this.reset();
-
-        // Event system for state change notifications
+        // Initialize event system FIRST before calling reset()
         this.eventListeners = new Map();
         this.changeHistory = [];
         this.maxHistoryLength = 50;
+
+        // Now initialize state (reset can safely call emit)
+        this.reset();
 
         console.log('UnifiedGameState: Initialized');
     }
