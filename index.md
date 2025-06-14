@@ -97,25 +97,22 @@ title: Fair Division Algorithms
 
   </div>
 </div>
-
-
-
-  
-
-
 <div class="content-block demo-section">
   <div class="demo-header">
     <h2>Interactive Algorithm Simulator</h2>
-    <p class="demo-subtitle">Experience multiple fair division algorithms side-by-side with live visualizations and customizable scenarios.</p>
+    <p class="demo-subtitle">Explore the fair division algorithms with live visualizations and customizable scenarios.</p>
   </div>
   
-
   <!-- Demo Interface Container -->
-  <div class="unified-demo-container" id="unified-demo-root">
-    <!-- Demo will be populated here by JavaScript -->
-    <div class="demo-loading">
-      <p>Loading interactive demo...</p>
-    </div>
+ <div class="unified-demo-container">
+    <iframe 
+      src="{{ '/assets/demos/unified/unified-demo.html' | relative_url }}" 
+      width="100%" 
+      height="900" 
+      frameborder="0"
+      style="display: block; border: none;">
+      <p>Your browser does not support iframes. <a href="{{ '/assets/demos/unified/unified-demo.html' | relative_url }}">View the demo directly</a>.</p>
+    </iframe>
   </div>
 
 </div>

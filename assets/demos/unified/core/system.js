@@ -232,10 +232,10 @@ class UnifiedDemoSystem {
         });
 
         this.on('algorithm:switched', (data) => {
-            console.log(`Algorithm changed from ${data.previous?.name || 'none'} to ${data.current.name}`);
+            if (this.uiManager) {
+                this.uiManager.handleAlgorithmSwitch(data.current);
+            }
         });
-
-        // Add more event listeners as needed
     }
 
     /**
