@@ -557,8 +557,3 @@ class BaseAlgorithm {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 }
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { BaseAlgorithm };
-}

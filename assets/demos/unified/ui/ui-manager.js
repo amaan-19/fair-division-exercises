@@ -77,19 +77,6 @@ class UnifiedUIManager {
     initialize() {
         this.bindBasicEvents();
         this.updateUIForNoAlgorithm();
-
-        // Listen to demo system events
-        this.demoSystem.on('algorithm:switched', (data) => {
-            this.handleAlgorithmSwitch(data.current);
-        });
-
-        this.demoSystem.on('algorithm:executed', (data) => {
-            this.showResults(data.result);
-        });
-
-        this.demoSystem.on('gamestate:initialized', () => {
-            console.log('UI Manager: Game state ready');
-        });
     }
 
     /**
@@ -1763,9 +1750,4 @@ class UnifiedUIManager {
             resultsVisible: this.elements.resultsSection.classList.contains('visible')
         };
     }
-}
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { UnifiedUIManager };
 }

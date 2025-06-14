@@ -5,8 +5,6 @@
  * It coordinates between algorithms, state management, UI, and comparison features.
  */
 
-const { createDivideAndChooseAlgorithm } = require("../algorithms/divide-and-choose");
-
 class UnifiedDemoSystem {
     constructor() {
         // Core components
@@ -33,7 +31,7 @@ class UnifiedDemoSystem {
         // Event system for loose coupling
         this.eventListeners = new Map();
 
-        console.log('UnifiedDemoSystem: Constructor initialized');
+        console.log('UnifiedDemoSystem: Constructor called');
     }
 
     /**
@@ -48,13 +46,9 @@ class UnifiedDemoSystem {
             await this.initializeGameState();
             await this.initializeAlgorithms();
             await this.initializeUIManager();
-            await this.initializeComparisonEngine();
 
             // Set up event listeners
             this.setupEventListeners();
-
-            // Load default algorithm if available
-            await this.loadDefaultAlgorithm();
 
             this.isInitialized = true;
             this.emit('system:initialized');
@@ -89,55 +83,15 @@ class UnifiedDemoSystem {
     }
 
     /**
-     * Create a placeholder algorithm for development
-     * This will be replaced with actual algorithm implementations
-     */
-    createPlaceholderAlgorithm(config) {
-        return {
-            ...config,
-            initialize: (gameState) => {
-                console.log(`${config.name}: Initialize called`);
-            },
-            execute: (gameState) => {
-                console.log(`${config.name}: Execute called`);
-                return {
-                    algorithm: config.name,
-                    playerCount: config.playerCount,
-                    playerValues: { player1: 50, player2: 50 }, // Placeholder
-                    allocation: { player1: 'piece1', player2: 'piece2' },
-                    fairnessProperties: config.properties.reduce((obj, prop) => {
-                        obj[prop] = true;
-                        return obj;
-                    }, {})
-                };
-            },
-            getRequiredControls: () => {
-                return config.type === 'discrete' ? ['cut-slider'] : ['animation-controls'];
-            },
-            validateInputs: (gameState) => true,
-            getSteps: () => ['setup', 'execute', 'complete']
-        };
-    }
-
-    /**
-     * Initialize the UI Manager
-     */
+ * Initialize the UI Manager
+ */
     async initializeUIManager() {
         console.log('UnifiedDemoSystem: Initializing UI Manager...');
 
-        // UIManager will be implemented in later iterations
-        // For now, create a placeholder
-        this.uiManager = {
-            initialize: () => console.log('UIManager: Initialize called'),
-            switchAlgorithm: (algorithmId) => console.log(`UIManager: Switch to ${algorithmId}`),
-            updateDisplay: () => console.log('UIManager: Update display called'),
-            setMode: (mode) => {
-                this.currentMode = mode;
-                console.log(`UIManager: Mode set to ${mode}`);
-            }
-        };
-
+        // Create the real UI manager instead of placeholder
+        this.uiManager = new UnifiedUIManager(this);
         await this.uiManager.initialize();
+
         this.emit('ui:initialized');
     }
 
@@ -145,17 +99,7 @@ class UnifiedDemoSystem {
      * Initialize the Comparison Engine
      */
     async initializeComparisonEngine() {
-        console.log('UnifiedDemoSystem: Initializing Comparison Engine...');
-
-        // ComparisonEngine will be implemented in later iterations
-        this.comparisonEngine = {
-            compareAlgorithms: (algorithmIds, gameState) => {
-                console.log(`ComparisonEngine: Comparing ${algorithmIds.join(', ')}`);
-                return { results: [], analysis: {} };
-            }
-        };
-
-        this.emit('comparison:initialized');
+        console.log('UnifiedDemoSystem: Skipping initializing of Comparison Engine...');
     }
 
     /**
@@ -188,25 +132,10 @@ class UnifiedDemoSystem {
         // Initialize the new algorithm
         await this.currentAlgorithm.initialize(this.gameState);
 
-        // Update UI to match new algorithm
-        if (this.uiManager) {
-            await this.uiManager.switchAlgorithm(algorithmId);
-        }
-
         this.emit('algorithm:switched', {
             previous: previousAlgorithm,
             current: this.currentAlgorithm
         });
-    }
-
-    /**
-     * Load the default algorithm (first one available)
-     */
-    async loadDefaultAlgorithm() {
-        if (this.algorithms.size > 0) {
-            const firstAlgorithmId = Array.from(this.algorithms.keys())[0];
-            await this.switchAlgorithm(firstAlgorithmId);
-        }
     }
 
     /**
@@ -359,7 +288,7 @@ let unifiedDemo = null;
  */
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        console.log('DOM loaded, initializing unified demo system...');
+        console.log('DOM loaded, initializing demo system...');
         unifiedDemo = new UnifiedDemoSystem();
         await unifiedDemo.initialize();
 
@@ -370,8 +299,3 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.error('Failed to initialize unified demo:', error);
     }
 });
-
-// Export for module usage if needed
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { UnifiedDemoSystem };
-}

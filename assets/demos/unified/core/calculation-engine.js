@@ -593,7 +593,3 @@ class SharedCalculationEngine {
     }
 }
 
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { SharedCalculationEngine };
-}

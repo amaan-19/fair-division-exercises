@@ -724,14 +724,6 @@ function createDivideAndChooseAlgorithm() {
     return new DivideAndChooseAlgorithm();
 }
 
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        DivideAndChooseAlgorithm,
-        createDivideAndChooseAlgorithm
-    };
-}
-
 async function runTest() {
     console.clear();
     console.log('Testing your changes...');

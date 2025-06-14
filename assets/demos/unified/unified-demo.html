@@ -366,12 +366,6 @@
 </head>
 <body>
     <div class="unified-demo-container">
-        <!-- Header -->
-        <div class="demo-header">
-            <h1 class="demo-title">Fair Division Algorithms</h1>
-            <p class="demo-subtitle">Interactive exploration of mathematical fairness</p>
-        </div>
-
         <!-- Algorithm Selector -->
         <div class="algorithm-selector-section">
             <div class="algorithm-selector">
@@ -387,8 +381,6 @@
                     <select class="algorithm-dropdown" id="algorithm-selector">
                         <option value="">Choose Algorithm...</option>
                         <option value="divide-and-choose">Divide-and-Choose</option>
-                        <option value="austins-moving-knife">Austin's Moving Knife</option>
-                        <option value="steinhaus-lone-divider">Steinhaus' Lone-Divider</option>
                     </select>
 
                     <div class="mode-toggle">
@@ -414,7 +406,7 @@
                 <!-- Game Area with SVG -->
                 <div class="game-area" id="game-area">
                     <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-                        <!-- Colored Regions (matching original demo layout) -->
+
                         <!-- Blue region (top) -->
                         <polygon points="0,0 600,0 600,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2" />
                         <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Blue</text>
@@ -497,14 +489,21 @@
     </div>
 
     <!-- Load JavaScript modules -->
-    <script src="core/system.js"></script>
-    <script src="core/game-state.js"></script>
+    <!-- Base classes first -->
     <script src="core/base-algorithm.js"></script>
+    <script src="core/game-state.js"></script>
     <script src="core/calculation-engine.js"></script>
 
+    <!-- Main system -->
+    <script src="core/system.js"></script>
 
-    <script src="algorithms/divide-and-choose.js"></script>
+    <!-- UI components -->
     <script src="ui/ui-manager.js"></script>
-    <script src="unified-demo-main.js"></script>
+
+    <!-- Algorithm implementations -->
+    <script src="algorithms/divide-and-choose.js"></script>
+
+    <!-- Main -->
+    <!-- <script src="unified-demo-main.js"></script> -->
 </body>
 </html>
