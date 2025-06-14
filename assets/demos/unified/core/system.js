@@ -5,6 +5,8 @@
  * It coordinates between algorithms, state management, UI, and comparison features.
  */
 
+const { createDivideAndChooseAlgorithm } = require("../algorithms/divide-and-choose");
+
 class UnifiedDemoSystem {
     constructor() {
         // Core components
@@ -80,38 +82,7 @@ class UnifiedDemoSystem {
     async initializeAlgorithms() {
         console.log('UnifiedDemoSystem: Initializing algorithms...');
 
-        // Algorithms will be implemented in later iterations
-        // For now, register placeholders that follow our planned interface
-
-        const algorithmConfigs = [
-            {
-                id: 'divide-and-choose',
-                name: 'Divide-and-Choose',
-                playerCount: 2,
-                type: 'discrete',
-                properties: ['proportional', 'envy-free', 'strategy-proof']
-            },
-            {
-                id: 'austins-moving-knife',
-                name: "Austin's Moving Knife",
-                playerCount: 2,
-                type: 'continuous',
-                properties: ['equitable', 'exact', 'envy-free', 'strategy-proof']
-            },
-            {
-                id: 'steinhaus-lone-divider',
-                name: "Steinhaus' Lone-Divider",
-                playerCount: 3,
-                type: 'discrete',
-                properties: ['proportional']
-            }
-        ];
-
-        // Create placeholder algorithms
-        algorithmConfigs.forEach(config => {
-            const algorithm = this.createPlaceholderAlgorithm(config);
-            this.registerAlgorithm(algorithm);
-        });
+        this.registerAlgorithm(createDivideAndChooseAlgorithm());
 
         console.log(`UnifiedDemoSystem: Registered ${this.algorithms.size} algorithms`);
         this.emit('algorithms:initialized', { count: this.algorithms.size });

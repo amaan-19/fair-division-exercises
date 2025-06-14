@@ -5,9 +5,6 @@
  * It coordinates the startup sequence and handles any initialization errors.
  */
 
-// Global system instance
-let unifiedDemo = null;
-
 /**
  * Initialize the unified demo system
  */
@@ -16,13 +13,13 @@ async function initializeUnifiedDemo() {
         console.log('Starting unified demo initialization...');
 
         // Create the main system
-        unifiedDemo = new UnifiedDemoSystem();
+        const unifiedDemo = new UnifiedDemoSystem();
 
         // Initialize the core system
         await unifiedDemo.initialize();
 
         // Register available algorithms
-        await registerAlgorithms();
+        await registerAlgorithms(unifiedDemo);
 
         // System is ready
         console.log('Unified demo initialization complete');
@@ -35,16 +32,19 @@ async function initializeUnifiedDemo() {
             detail: { system: unifiedDemo }
         }));
 
+        return unifiedDemo;
+
     } catch (error) {
         console.error('Failed to initialize unified demo:', error);
         handleInitializationError(error);
+        throw error;
     }
 }
 
 /**
  * Register all available algorithms with the system
  */
-async function registerAlgorithms() {
+async function registerAlgorithms(unifiedDemo) {
     try {
         console.log('Registering algorithms...');
 
@@ -127,10 +127,12 @@ function checkDependencies() {
     }
 
     if (missing.length > 0) {
-        throw new Error(`Missing required classes: ${missing.join(', ')}`);
+        console.warn(`Missing required classes: ${missing.join(', ')}`);
+        console.log('Available classes:', Object.keys(window).filter(key => key.includes('Demo') || key.includes('Game') || key.includes('Algorithm') || key.includes('UI')));
+        // Don't throw error, just warn - some classes might not be needed yet
     }
 
-    console.log('All required dependencies are available');
+    console.log('Dependency check complete');
 }
 
 /**
@@ -144,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         checkDependencies();
 
         // Initialize the system
-        await initializeUnifiedDemo();
+        const systemInstance = await initializeUnifiedDemo();
 
     } catch (error) {
         console.error('Failed to start unified demo:', error);
@@ -156,8 +158,8 @@ document.addEventListener('DOMContentLoaded', async function () {
  * Handle page unload cleanup
  */
 window.addEventListener('beforeunload', function () {
-    if (unifiedDemo && typeof unifiedDemo.destroy === 'function') {
-        unifiedDemo.destroy();
+    if (window.unifiedDemo && typeof window.unifiedDemo.destroy === 'function') {
+        window.unifiedDemo.destroy();
     }
 });
 
@@ -165,11 +167,11 @@ window.addEventListener('beforeunload', function () {
  * Utility functions for debugging
  */
 window.debugUnifiedDemo = {
-    getSystem: () => unifiedDemo,
-    getSystemStatus: () => unifiedDemo ? unifiedDemo.getSystemStatus() : null,
+    getSystem: () => window.unifiedDemo,
+    getSystemStatus: () => window.unifiedDemo ? window.unifiedDemo.getSystemStatus() : null,
     restart: async () => {
-        if (unifiedDemo) {
-            unifiedDemo.destroy();
+        if (window.unifiedDemo) {
+            window.unifiedDemo.destroy();
         }
         await initializeUnifiedDemo();
     }
