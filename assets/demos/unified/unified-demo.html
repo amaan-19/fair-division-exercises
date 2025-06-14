@@ -485,6 +485,9 @@
             <p class="demo-subtitle">Interactive exploration of mathematical fairness</p>
         </div>
 
+        <!-- Testing changes button -->
+        <button onclick="runTest()">🧪 Test My Changes</button>
+
         <!-- Algorithm Selector -->
         <div class="algorithm-selector-section">
             <div class="algorithm-selector">
@@ -603,12 +606,13 @@
     </div>
 
     <!-- Load JavaScript modules -->
-    <script src="core/shared-calculation-engine.js"></script>
+    <script src="core/calculation-engine.js"></script>
     <script src="core/base-algorithm.js"></script>
-    <script src="core/unified-game-state.js"></script>
-    <script src="core/unified-demo-system.js"></script>
-    <script src="algorithms/divide-and-choose-algorithm.js"></script>
-    <script src="ui/unified-ui-manager.js"></script>
+    <script src="core/game-state.js"></script>
+    <script src="core/system.js"></script>
+    <script src="algorithms/divide-and-choose.js"></script>
+    <script src="ui/ui-manager.js"></script>
     <script src="unified-demo-main.js"></script>
+    <script src="../verification-implementation.js"></script>
 </body>
 </html>

@@ -712,6 +712,7 @@ class DivideAndChooseAlgorithm extends BaseAlgorithm {
             performance: this.calculationEngine.getCacheStats()
         };
     }
+
 }
 
 // ===== FACTORY AND REGISTRATION =====
@@ -729,4 +730,18 @@ if (typeof module !== 'undefined' && module.exports) {
         DivideAndChooseAlgorithm,
         createDivideAndChooseAlgorithm
     };
+}
+
+async function runTest() {
+    console.clear();
+    console.log('Testing your changes...');
+
+    const verification = new DivideAndChooseVerification();
+    const success = await verification.runFullVerification();
+
+    if (success) {
+        alert('✅ All tests passed! Your changes work correctly.');
+    } else {
+        alert('⚠️ Some tests failed. Check the console for details.');
+    }
 }
