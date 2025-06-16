@@ -17,7 +17,7 @@ class FairDivisionCore {
 
     createInitialState() {
         return {
-            cutPosition: 50,
+            cutPosition: 0,
             playerValues: {
                 player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
                 player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 }
@@ -201,6 +201,7 @@ class FairDivisionCore {
     }
 
     createAPI() {
+        const self = this; // capture the correct this context
         return {
             // State management
             updateState: (changes) => {
@@ -281,6 +282,207 @@ class FairDivisionCore {
 
             calculatePlayerValue: (regionValues, playerValues) => {
                 return this.calculatePlayerValue(regionValues, playerValues);
+            },
+
+            // NEW: Austin's algorithm specific API extensions
+            addStopButtons: () => {
+                const controlsEl = document.querySelector('.action-buttons');
+                if (controlsEl && !document.getElementById('player1-stop')) {
+                    // Hide normal execute button during moving knife phase
+                    const executeBtn = document.getElementById('execute-btn');
+                    if (executeBtn) executeBtn.style.display = 'none';
+
+                    const p1StopBtn = document.createElement('button');
+                    p1StopBtn.id = 'player1-stop';
+                    p1StopBtn.className = 'btn btn-primary';
+                    p1StopBtn.textContent = 'Player 1: STOP!';
+                    p1StopBtn.style.marginRight = '10px';
+                    p1StopBtn.onclick = () => {
+                        if (self.currentAlgorithm && self.currentAlgorithm.config.onPlayerStop) {
+                            self.currentAlgorithm.config.onPlayerStop(1, self.state, self.createAPI());
+                        }
+                    };
+
+                    const p2StopBtn = document.createElement('button');
+                    p2StopBtn.id = 'player2-stop';
+                    p2StopBtn.className = 'btn btn-primary';
+                    p2StopBtn.textContent = 'Player 2: STOP!';
+                    p2StopBtn.onclick = () => {
+                        if (self.currentAlgorithm && self.currentAlgorithm.config.onPlayerStop) {
+                            self.currentAlgorithm.config.onPlayerStop(2, self.state, self.createAPI());
+                        }
+                    };
+
+                    controlsEl.appendChild(p1StopBtn);
+                    controlsEl.appendChild(p2StopBtn);
+                }
+            },
+
+            removeStopButtons: () => {
+                const p1Stop = document.getElementById('player1-stop');
+                const p2Stop = document.getElementById('player2-stop');
+                if (p1Stop) p1Stop.remove();
+                if (p2Stop) p2Stop.remove();
+
+                // Show execute button again
+                const executeBtn = document.getElementById('execute-btn');
+                if (executeBtn) executeBtn.style.display = '';
+            },
+
+            handlePlayerStop: (playerNumber) => {
+                if (this.currentAlgorithm && this.currentAlgorithm.config.onPlayerStop) {
+                    this.currentAlgorithm.config.onPlayerStop(playerNumber, this.state, this.createAPI());
+                }
+            },
+
+            updateSingleKnife: (cutX) => {
+                const cutLine = document.getElementById('cut-line');
+                if (cutLine) {
+                    cutLine.setAttribute('x1', cutX);
+                    cutLine.setAttribute('x2', cutX);
+                }
+            },
+
+            showDualKnives: () => {
+                // Show the left knife (green)
+                let leftKnife = document.getElementById('left-knife');
+                if (!leftKnife) {
+                    const svg = document.querySelector('.game-svg');
+                    leftKnife = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    leftKnife.id = 'left-knife';
+                    leftKnife.setAttribute('x1', '0');
+                    leftKnife.setAttribute('y1', '0');
+                    leftKnife.setAttribute('x2', '0');
+                    leftKnife.setAttribute('y2', '400');
+                    leftKnife.setAttribute('stroke', '#48bb78');
+                    leftKnife.setAttribute('stroke-width', '4');
+                    leftKnife.setAttribute('stroke-dasharray', '10,5');
+                    svg.appendChild(leftKnife);
+                }
+                leftKnife.style.display = 'block';
+
+                // Keep the existing right knife (red) - that's our cut-line
+                const rightKnife = document.getElementById('cut-line');
+                if (rightKnife) {
+                    rightKnife.style.display = 'block';
+                }
+            },
+
+            hideDualKnives: () => {
+                const leftKnife = document.getElementById('left-knife');
+                if (leftKnife) leftKnife.style.display = 'none';
+            },
+
+            updateKnifePositions: (leftX, rightX) => {
+                const leftKnife = document.getElementById('left-knife');
+                const rightKnife = document.getElementById('cut-line');
+
+                if (leftKnife) {
+                    leftKnife.setAttribute('x1', leftX);
+                    leftKnife.setAttribute('x2', leftX);
+                }
+
+                if (rightKnife) {
+                    rightKnife.setAttribute('x1', rightX);
+                    rightKnife.setAttribute('x2', rightX);
+                }
+            },
+
+            showThreePieceOverlays: (leftPos, rightPos) => {
+                // Create three piece overlays
+                const svg = document.querySelector('.game-svg');
+
+                // Left piece (0 to leftPos)
+                let leftPiece = document.getElementById('austin-left-piece');
+                if (!leftPiece) {
+                    leftPiece = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    leftPiece.id = 'austin-left-piece';
+                    svg.appendChild(leftPiece);
+                }
+                leftPiece.setAttribute('x', '0');
+                leftPiece.setAttribute('y', '0');
+                leftPiece.setAttribute('width', leftPos);
+                leftPiece.setAttribute('height', '400');
+                leftPiece.setAttribute('fill', 'rgba(49,130,206,0.2)');
+                leftPiece.setAttribute('stroke', '#3182ce');
+                leftPiece.setAttribute('stroke-width', '3');
+                leftPiece.style.display = 'block';
+
+                // Middle piece (leftPos to rightPos)
+                let middlePiece = document.getElementById('austin-middle-piece');
+                if (!middlePiece) {
+                    middlePiece = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    middlePiece.id = 'austin-middle-piece';
+                    svg.appendChild(middlePiece);
+                }
+                middlePiece.setAttribute('x', leftPos);
+                middlePiece.setAttribute('y', '0');
+                middlePiece.setAttribute('width', rightPos - leftPos);
+                middlePiece.setAttribute('height', '400');
+                middlePiece.setAttribute('fill', 'rgba(255,193,7,0.2)');
+                middlePiece.setAttribute('stroke', '#ffc107');
+                middlePiece.setAttribute('stroke-width', '3');
+                middlePiece.style.display = 'block';
+
+                // Right piece (rightPos to 800)
+                let rightPiece = document.getElementById('austin-right-piece');
+                if (!rightPiece) {
+                    rightPiece = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    rightPiece.id = 'austin-right-piece';
+                    svg.appendChild(rightPiece);
+                }
+                rightPiece.setAttribute('x', rightPos);
+                rightPiece.setAttribute('y', '0');
+                rightPiece.setAttribute('width', 800 - rightPos);
+                rightPiece.setAttribute('height', '400');
+                rightPiece.setAttribute('fill', 'rgba(72,187,120,0.2)');
+                rightPiece.setAttribute('stroke', '#38a169');
+                rightPiece.setAttribute('stroke-width', '3');
+                rightPiece.style.display = 'block';
+            },
+
+            hideThreePieceOverlays: () => {
+                const pieces = ['austin-left-piece', 'austin-middle-piece', 'austin-right-piece'];
+                pieces.forEach(id => {
+                    const piece = document.getElementById(id);
+                    if (piece) piece.style.display = 'none';
+                });
+            },
+
+            addOtherPlayerStopButton: (controllingPlayer) => {
+                const controlsEl = document.querySelector('.action-buttons');
+                const otherPlayer = controllingPlayer === 1 ? 2 : 1;
+
+                if (controlsEl && !document.getElementById('other-player-stop')) {
+
+                    const p1Stop = document.getElementById('player1-stop');
+                    const p2Stop = document.getElementById('player2-stop');
+                    if (p1Stop) p1Stop.remove();
+                    if (p2Stop) p2Stop.remove();
+
+                    const stopBtn = document.createElement('button');
+                    stopBtn.id = 'other-player-stop';
+                    stopBtn.className = 'btn btn-primary';
+                    stopBtn.textContent = `Player ${otherPlayer}: STOP!`;
+                    stopBtn.onclick = () => {
+                        if (self.currentAlgorithm && self.currentAlgorithm.config.onOtherPlayerStop) {
+                            self.currentAlgorithm.config.onOtherPlayerStop(self.state, self.createAPI());
+                        }
+                    };
+
+                    controlsEl.appendChild(stopBtn);
+                }
+            },
+
+            removeOtherPlayerStopButton: () => {
+                const stopBtn = document.getElementById('other-player-stop');
+                if (stopBtn) stopBtn.remove();
+            },
+
+            handleOtherPlayerStop: () => {
+                if (this.currentAlgorithm && this.currentAlgorithm.config.onOtherPlayerStop) {
+                    this.currentAlgorithm.config.onOtherPlayerStop(this.state, this.createAPI());
+                }
             }
         };
     }

@@ -329,15 +329,36 @@
                         <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" />
                         <text x="380" y="260" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Green</text>
 
-                        <!-- Cut line -->
+                        <!-- Cut line (right knife in Austin's algorithm) -->
                         <line id="cut-line" x1="400" y1="0" x2="400" y2="400"
                               stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5" />
 
-                        <!-- Piece overlays (hidden by default) -->
+                        <!-- Left knife for Austin's algorithm (initially hidden) -->
+                        <line id="left-knife" x1="0" y1="0" x2="0" y2="400"
+                              stroke="#48bb78" stroke-width="4" stroke-dasharray="10,5"
+                              style="display: none;" />
+
+                        <!-- Piece overlays for divide-and-choose (hidden by default) -->
                         <rect id="left-piece" x="0" y="0" width="400" height="400"
                               fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
                         <rect id="right-piece" x="400" y="0" width="400" height="400"
                               fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+
+                        <!-- Three-piece overlays for Austin's algorithm (initially hidden) -->
+                        <rect id="austin-left-piece" x="0" y="0" width="200" height="400"
+                              fill="rgba(49,130,206,0.2)" stroke="#3182ce" stroke-width="3"
+                              style="display: none;" />
+                        <rect id="austin-middle-piece" x="200" y="0" width="200" height="400"
+                              fill="rgba(255,193,7,0.2)" stroke="#ffc107" stroke-width="3"
+                              style="display: none;" />
+                        <rect id="austin-right-piece" x="400" y="0" width="400" height="400"
+                              fill="rgba(72,187,120,0.2)" stroke="#38a169" stroke-width="3"
+                              style="display: none;" />
+
+                        <!-- Stop position indicator for Austin's algorithm (initially hidden) -->
+                        <line id="stop-position-indicator" x1="300" y1="0" x2="300" y2="400"
+                              stroke="#ffa500" stroke-width="3" stroke-dasharray="5,5"
+                              opacity="0.7" style="display: none;" />
                     </svg>
                 </div>
 
@@ -346,7 +367,7 @@
                     <div class="cut-control">
                         <label for="cut-slider">Cut Position: <span id="cut-value">50.0%</span></label>
                         <input type="range" id="cut-slider" class="cut-slider"
-                               min="0" max="100" value="50" step="0.1">
+                               min="0" max="100" value="0" step="0.1">
                     </div>
 
                     <div class="action-buttons">
@@ -464,5 +485,6 @@
 
     <!-- Load Algorithms -->
     <script src="algorithms/divide-and-choose.js"></script>
+    <script src="algorithms/austins-moving-knife.js"></script>
 </body>
 </html>
