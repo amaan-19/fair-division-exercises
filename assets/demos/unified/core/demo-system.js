@@ -45,12 +45,12 @@ class FairDivisionCore {
             });
         }
 
-        // Core buttons
-        const executeBtn = document.getElementById('execute-btn');
-        if (executeBtn) {
-            executeBtn.addEventListener('click', () => {
+        // Core buttons - Updated to use start button
+        const startBtn = document.getElementById('start-btn');
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
                 if (this.currentAlgorithm) {
-                    this.currentAlgorithm.config.onExecute(this.state, this.createAPI());
+                    this.currentAlgorithm.config.onStart(this.state, this.createAPI());
                 }
             });
         }
@@ -160,9 +160,22 @@ class FairDivisionCore {
         document.getElementById('algorithm-name').textContent = config.name;
         document.getElementById('algorithm-description').textContent = config.description;
 
+        // Reset start button text and state
+        this.resetStartButton();
+
         // Enter first step
         if (config.steps && config.steps.length > 0) {
             this.enterStep(0);
+        }
+    }
+
+    resetStartButton() {
+        const startBtn = document.getElementById('start-btn');
+        if (startBtn) {
+            startBtn.textContent = 'Start';
+            startBtn.disabled = false;
+            startBtn.style.display = '';
+            startBtn.classList.remove('loading');
         }
     }
 
@@ -196,6 +209,12 @@ class FairDivisionCore {
         this.updateCutLine();
         this.updatePlayerValueDisplays();
 
+        // Hide results
+        const resultsEl = document.getElementById('results');
+        if (resultsEl) {
+            resultsEl.style.display = 'none';
+        }
+
         // Re-initialize algorithm
         this.initializeAlgorithm();
     }
@@ -227,6 +246,40 @@ class FairDivisionCore {
             },
 
             getCurrentStep: () => this.currentStep,
+
+            // Start button control
+            setStartButtonText: (text) => {
+                const startBtn = document.getElementById('start-btn');
+                if (startBtn) {
+                    startBtn.textContent = text;
+                }
+            },
+
+            setStartButtonState: (state) => {
+                const startBtn = document.getElementById('start-btn');
+                if (startBtn) {
+                    switch (state) {
+                        case 'loading':
+                            startBtn.disabled = true;
+                            startBtn.classList.add('loading');
+                            break;
+                        case 'disabled':
+                            startBtn.disabled = true;
+                            startBtn.classList.remove('loading');
+                            break;
+                        case 'enabled':
+                            startBtn.disabled = false;
+                            startBtn.classList.remove('loading');
+                            break;
+                        case 'hidden':
+                            startBtn.style.display = 'none';
+                            break;
+                        case 'visible':
+                            startBtn.style.display = '';
+                            break;
+                    }
+                }
+            },
 
             // UI control
             updateUI: ({ stepTitle, instructions, enabledControls = [] }) => {
@@ -284,13 +337,13 @@ class FairDivisionCore {
                 return this.calculatePlayerValue(regionValues, playerValues);
             },
 
-            // NEW: Austin's algorithm specific API extensions
+            // Austin's algorithm specific API extensions
             addStopButtons: () => {
                 const controlsEl = document.querySelector('.action-buttons');
                 if (controlsEl && !document.getElementById('player1-stop')) {
-                    // Hide normal execute button during moving knife phase
-                    const executeBtn = document.getElementById('execute-btn');
-                    if (executeBtn) executeBtn.style.display = 'none';
+                    // Hide normal start button during moving knife phase
+                    const startBtn = document.getElementById('start-btn');
+                    if (startBtn) startBtn.style.display = 'none';
 
                     const p1StopBtn = document.createElement('button');
                     p1StopBtn.id = 'player1-stop';
@@ -324,15 +377,9 @@ class FairDivisionCore {
                 if (p1Stop) p1Stop.remove();
                 if (p2Stop) p2Stop.remove();
 
-                // Show execute button again
-                const executeBtn = document.getElementById('execute-btn');
-                if (executeBtn) executeBtn.style.display = '';
-            },
-
-            handlePlayerStop: (playerNumber) => {
-                if (this.currentAlgorithm && this.currentAlgorithm.config.onPlayerStop) {
-                    this.currentAlgorithm.config.onPlayerStop(playerNumber, this.state, this.createAPI());
-                }
+                // Show start button again
+                const startBtn = document.getElementById('start-btn');
+                if (startBtn) startBtn.style.display = '';
             },
 
             updateSingleKnife: (cutX) => {
@@ -477,12 +524,6 @@ class FairDivisionCore {
             removeOtherPlayerStopButton: () => {
                 const stopBtn = document.getElementById('other-player-stop');
                 if (stopBtn) stopBtn.remove();
-            },
-
-            handleOtherPlayerStop: () => {
-                if (this.currentAlgorithm && this.currentAlgorithm.config.onOtherPlayerStop) {
-                    this.currentAlgorithm.config.onOtherPlayerStop(this.state, this.createAPI());
-                }
             }
         };
     }
@@ -490,7 +531,7 @@ class FairDivisionCore {
     updateControlStates(enabledControls) {
         const controlMap = {
             'cutSlider': 'cut-slider',
-            'executeButton': 'execute-btn',
+            'startButton': 'start-btn',
             'resetButton': 'reset-btn',
             'pieceSelection': ['left-piece', 'right-piece']
         };

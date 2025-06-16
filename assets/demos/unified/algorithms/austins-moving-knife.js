@@ -14,8 +14,8 @@ const algorithmConfigAustin = {
         {
             id: "phase1-moving-knife",
             title: "Phase 1: Single moving knife",
-            instructions: "Watch the knife move across the cake. Click 'STOP' when the left piece equals exactly 50% of your valuation.",
-            enabledControls: ['executeButton'],
+            instructions: "Get ready to watch the knife move across the cake. Click 'Start Animation' to begin, then click 'STOP' when the left piece equals exactly 50% of your valuation.",
+            enabledControls: ['startButton'],
             onStepEnter: (state, api) => {
                 console.log('Entered Phase 1: Moving knife');
 
@@ -29,11 +29,9 @@ const algorithmConfigAustin = {
                 state.algorithmData.targetMiddleValue = null;
                 state.algorithmData.animationStarted = false;
 
-                // add start button
-                const executeBtn = document.getElementById('execute-btn');
-                if (executeBtn) {
-                    executeBtn.textContent = 'Start Animation';
-                }
+                // Set start button text
+                api.setStartButtonText('Start Animation');
+                api.setStartButtonState('enabled');
             },
             onStepExit: (state, api) => {
                 console.log('Exiting Phase 1');
@@ -42,12 +40,6 @@ const algorithmConfigAustin = {
                     cancelAnimationFrame(state.algorithmData.animationId);
                 }
                 api.removeStopButtons();
-
-                // Reset execute button text
-                const executeBtn = document.getElementById('execute-btn');
-                if (executeBtn) {
-                    executeBtn.textContent = 'Execute';
-                }
             }
         },
         {
@@ -59,6 +51,9 @@ const algorithmConfigAustin = {
                 console.log('Entered Phase 2: Dual knives');
                 state.algorithmData.phase = 2;
                 state.algorithmData.leftKnifePosition = 0;
+
+                // Hide start button during this phase
+                api.setStartButtonState('hidden');
 
                 // Show both knives
                 api.showDualKnives();
@@ -109,6 +104,9 @@ const algorithmConfigAustin = {
                 console.log('Entered Phase 3: Random assignment');
                 state.algorithmData.phase = 3;
 
+                // Keep start button hidden
+                api.setStartButtonState('hidden');
+
                 // Show piece overlays
                 api.showThreePieceOverlays(
                     state.algorithmData.leftKnifePosition,
@@ -127,8 +125,15 @@ const algorithmConfigAustin = {
     ],
 
     // Main algorithm handlers
-    onExecute: (state, api) => {
-        console.log('Execute button clicked for Austin\'s algorithm');
+    onStart: (state, api) => {
+        console.log('Start button clicked for Austin\'s algorithm');
+
+        // Validate that player values sum to 100
+        const validation = validatePlayerTotals(state);
+        if (!validation.valid) {
+            alert(`Player valuations must sum to 100!\n\nPlayer 1: ${validation.player1Total}\nPlayer 2: ${validation.player2Total}`);
+            return;
+        }
 
         // Initialize algorithmData if it doesn't exist
         if (!state.algorithmData) {
@@ -139,14 +144,11 @@ const algorithmConfigAustin = {
             // Start the knife animation
             state.algorithmData.animationStarted = true;
 
+            // Set start button to loading state
+            api.setStartButtonState('loading');
+
             // Add stop buttons to the UI
             api.addStopButtons();
-
-            // Hide the execute button during animation
-            const executeBtn = document.getElementById('execute-btn');
-            if (executeBtn) {
-                executeBtn.style.display = 'none';
-            }
 
             // Start knife animation
             startKnifeAnimation(state, api);
@@ -178,6 +180,10 @@ const algorithmConfigAustin = {
         api.removeStopButtons();
         api.removeOtherPlayerStopButton();
 
+        // Reset start button
+        api.setStartButtonText('Start');
+        api.setStartButtonState('enabled');
+
         // Hide stop position indicator
         const stopIndicator = document.getElementById('stop-position-indicator');
         if (stopIndicator) stopIndicator.style.display = 'none';
@@ -185,6 +191,19 @@ const algorithmConfigAustin = {
 
     onPlayerValueChange: (state, api) => {
         console.log('Player values changed in Austin\'s algorithm');
+
+        // Validate totals and update start button state
+        const validation = validatePlayerTotals(state);
+        if (api.getCurrentStep() === 0 && !state.algorithmData.animationStarted) {
+            if (validation.valid) {
+                api.setStartButtonState('enabled');
+                api.setStartButtonText('Start Animation');
+            } else {
+                api.setStartButtonState('disabled');
+                api.setStartButtonText('Fix Valuations First');
+            }
+        }
+
         // Update displays if in animation phase
         if (state.algorithmData.phase === 1 && state.algorithmData.isAnimating) {
             updatePhase1Displays(state, api);
@@ -227,6 +246,20 @@ const algorithmConfigAustin = {
         return { player1: { left: 0, right: 0 }, player2: { left: 0, right: 0 } };
     }
 };
+
+// Helper function to validate player totals
+function validatePlayerTotals(state) {
+    const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
+
+    const player1Total = colors.reduce((sum, color) => sum + (state.playerValues.player1[color] || 0), 0);
+    const player2Total = colors.reduce((sum, color) => sum + (state.playerValues.player2[color] || 0), 0);
+
+    return {
+        valid: player1Total === 100 && player2Total === 100,
+        player1Total,
+        player2Total
+    };
+}
 
 // Helper functions for Austin's algorithm
 
@@ -561,15 +594,9 @@ function performRandomAssignment(state, api) {
 }
 
 function updatePhase1Displays(state, api) {
-    const values = algorithmConfig.calculateValues(state);
+    const values = algorithmConfigAustin.calculateValues(state);
     // The core system handles basic left/right displays automatically
     // Additional displays could be added here for Austin-specific info
-}
-
-function updatePhase2Displays(state, api) {
-    const values = algorithmConfig.calculateValues(state);
-    // Update middle/flank displays if available
-    // This would require extending the API to support these display types
 }
 
 function calculateRegionValues(cutPosition) {

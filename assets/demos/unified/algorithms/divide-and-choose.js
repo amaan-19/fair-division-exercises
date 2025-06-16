@@ -14,10 +14,12 @@ const algorithmConfig = {
         {
             id: "cutting",
             title: "Step 1: Position the cut",
-            instructions: "Player 1, adjust the cut position using the slider below.",
-            enabledControls: ['cutSlider', 'executeButton'],
+            instructions: "Player 1, adjust the cut position using the slider below to create two pieces you value equally.",
+            enabledControls: ['cutSlider', 'startButton'],
             onStepEnter: (state, api) => {
                 console.log('Entered cutting step');
+                // Set start button text for this step
+                api.setStartButtonText('Make Cut');
                 // Update player value displays when entering step
                 updatePlayerDisplays(state, api);
             },
@@ -32,6 +34,8 @@ const algorithmConfig = {
             enabledControls: ['pieceSelection'],
             onStepEnter: (state, api) => {
                 console.log('Entered choosing step');
+                // Hide start button during piece selection
+                api.setStartButtonState('hidden');
                 // Set up piece selection
                 api.addEventListener('pieceClick', (piece) => {
                     handlePieceSelection(piece, state, api);
@@ -44,9 +48,16 @@ const algorithmConfig = {
     ],
 
     // Main algorithm handlers
-    onExecute: (state, api) => {
-        console.log('Execute button clicked');
+    onStart: (state, api) => {
+        console.log('Start button clicked for Divide-and-Choose');
         if (api.getCurrentStep() === 0) {
+            // Validate that player values sum to 100
+            const validation = validatePlayerTotals(state);
+            if (!validation.valid) {
+                alert(`Player valuations must sum to 100!\n\nPlayer 1: ${validation.player1Total}\nPlayer 2: ${validation.player2Total}`);
+                return;
+            }
+
             // Move to choosing step
             api.requestStepProgression();
         }
@@ -56,12 +67,27 @@ const algorithmConfig = {
         console.log('Algorithm reset');
         // Reset any algorithm-specific state
         state.algorithmData = {};
+        // Reset start button
+        api.setStartButtonText('Start');
+        api.setStartButtonState('enabled');
         updatePlayerDisplays(state, api);
     },
 
     onPlayerValueChange: (state, api) => {
         console.log('Player values changed');
         updatePlayerDisplays(state, api);
+
+        // Validate totals and update start button state
+        const validation = validatePlayerTotals(state);
+        if (api.getCurrentStep() === 0) {
+            if (validation.valid) {
+                api.setStartButtonState('enabled');
+                api.setStartButtonText('Make Cut');
+            } else {
+                api.setStartButtonState('disabled');
+                api.setStartButtonText('Fix Valuations First');
+            }
+        }
     },
 
     calculateValues: (state) => {
@@ -80,6 +106,20 @@ const algorithmConfig = {
         };
     }
 };
+
+// Helper function to validate player totals
+function validatePlayerTotals(state) {
+    const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
+
+    const player1Total = colors.reduce((sum, color) => sum + (state.playerValues.player1[color] || 0), 0);
+    const player2Total = colors.reduce((sum, color) => sum + (state.playerValues.player2[color] || 0), 0);
+
+    return {
+        valid: player1Total === 100 && player2Total === 100,
+        player1Total,
+        player2Total
+    };
+}
 
 // Helper function to update player value displays
 function updatePlayerDisplays(state, api) {
@@ -103,18 +143,23 @@ function handlePieceSelection(piece, state, api) {
     // Show results
     api.showResults({
         text: `
-                <p><strong>Algorithm Complete!</strong></p>
-                <p>Player 2 selected the <strong>${piece}</strong> piece.</p>
-                <p>Player 1 gets the <strong>${piece === 'left' ? 'right' : 'left'}</strong> piece.</p>
-                <br>
-                <p><strong>Final Values:</strong></p>
-                <p>Player 1: ${player1Value.toFixed(1)} points</p>
-                <p>Player 2: ${player2Value.toFixed(1)} points</p>
+            <div style="background: white; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #3182ce;">
+                <h4>Divide-and-Choose Complete!</h4>
+                <p><strong>Step 1:</strong> Player 1 positioned the cut to create pieces they valued equally.</p>
+                <p><strong>Step 2:</strong> Player 2 selected the <strong>${piece}</strong> piece.</p>
+                <p><strong>Result:</strong> Player 1 gets the <strong>${piece === 'left' ? 'right' : 'left'}</strong> piece.</p>
+            </div>
+            <div style="background: #ebf8ff; padding: 15px; border-radius: 6px; margin: 20px 0;">
+                <h4>Final Values:</h4>
+                <p><strong>Player 1:</strong> ${player1Value.toFixed(1)} points</p>
+                <p><strong>Player 2:</strong> ${player2Value.toFixed(1)} points</p>
                 <br>
                 <p><strong>Fairness Analysis:</strong></p>
-                <p>Proportional: ${(player1Value >= 50 - threshold) && (player2Value >= 50 - threshold) ? '✓ Yes' : '✗ No'}</p>
-                <p>Envy-free: ✓ Yes (guaranteed by divide-and-choose)</p>
-            `
+                <p>✓ <strong>Proportional:</strong> ${(player1Value >= 50 - threshold) && (player2Value >= 50 - threshold) ? 'Both players get ≥50%' : 'Someone gets <50%'}</p>
+                <p>✓ <strong>Envy-free:</strong> Neither player prefers the other's piece</p>
+                <p>✓ <strong>Strategy-proof:</strong> Truth-telling was optimal for both players</p>
+            </div>
+        `
     });
 
     // Store result in algorithm data
