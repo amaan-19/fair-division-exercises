@@ -524,7 +524,33 @@ class FairDivisionCore {
             removeOtherPlayerStopButton: () => {
                 const stopBtn = document.getElementById('other-player-stop');
                 if (stopBtn) stopBtn.remove();
-            }
+            },
+
+            showMakeCutButton: () => {
+                const makeCutBtn = document.getElementById('make-cut-btn');
+                if (makeCutBtn) {
+                    makeCutBtn.style.display = 'block';
+                    // Add event listener for make cut
+                    const handler = () => {
+                        if (this.currentAlgorithm && this.currentAlgorithm.config.onMakeCut) {
+                            this.currentAlgorithm.config.onMakeCut(this.state, this.createAPI());
+                        }
+                    };
+                    makeCutBtn.addEventListener('click', handler);
+
+                    // Store cleanup function
+                    this.eventCleanup.push(() => {
+                        makeCutBtn.removeEventListener('click', handler);
+                    });
+                }
+            },
+
+            hideMakeCutButton: () => {
+                const makeCutBtn = document.getElementById('make-cut-btn');
+                if (makeCutBtn) {
+                    makeCutBtn.style.display = 'none';
+                }
+            },
         };
     }
 
@@ -532,6 +558,7 @@ class FairDivisionCore {
         const controlMap = {
             'cutSlider': 'cut-slider',
             'startButton': 'start-btn',
+            'makeCutButton': 'make-cut-btn',
             'resetButton': 'reset-btn',
             'pieceSelection': ['left-piece', 'right-piece']
         };

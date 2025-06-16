@@ -15,16 +15,15 @@ const algorithmConfig = {
             id: "cutting",
             title: "Step 1: Position the cut",
             instructions: "Player 1, adjust the cut position using the slider below to create two pieces you value equally.",
-            enabledControls: ['cutSlider', 'startButton'],
+            enabledControls: ['cutSlider', 'makeCutButton'],
             onStepEnter: (state, api) => {
                 console.log('Entered cutting step');
-                // Set start button text for this step
-                api.setStartButtonText('Make Cut');
-                // Update player value displays when entering step
+                api.showMakeCutButton();
                 updatePlayerDisplays(state, api);
             },
             onStepExit: (state, api) => {
                 console.log('Exiting cutting step');
+                api.hideMakeCutButton();
             }
         },
         {
@@ -50,17 +49,19 @@ const algorithmConfig = {
     // Main algorithm handlers
     onStart: (state, api) => {
         console.log('Start button clicked for Divide-and-Choose');
-        if (api.getCurrentStep() === 0) {
-            // Validate that player values sum to 100
-            const validation = validatePlayerTotals(state);
-            if (!validation.valid) {
-                alert(`Player valuations must sum to 100!\n\nPlayer 1: ${validation.player1Total}\nPlayer 2: ${validation.player2Total}`);
-                return;
-            }
+    },
 
-            // Move to choosing step
-            api.requestStepProgression();
+    onMakeCut: (state, api) => {
+        console.log('Make Cut button clicked for Divide-and-Choose');
+        // Validate that player values sum to 100
+        const validation = validatePlayerTotals(state);
+        if (!validation.valid) {
+            alert(`Player valuations must sum to 100!\n\nPlayer 1: ${validation.player1Total}\nPlayer 2: ${validation.player2Total}`);
+            return;
         }
+
+        // Move to choosing step
+        api.requestStepProgression();
     },
 
     onReset: (state, api) => {
@@ -82,7 +83,6 @@ const algorithmConfig = {
         if (api.getCurrentStep() === 0) {
             if (validation.valid) {
                 api.setStartButtonState('enabled');
-                api.setStartButtonText('Make Cut');
             } else {
                 api.setStartButtonState('disabled');
                 api.setStartButtonText('Fix Valuations First');
