@@ -18,9 +18,11 @@ class FairDivisionCore {
     createInitialState() {
         return {
             cutPosition: 0,
+            cutPosition2: 66.6, 
             playerValues: {
                 player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
-                player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 }
+                player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 },
+                player3: { blue: 30, red: 10, green: 15, orange: 5, pink: 25, purple: 15 },
             },
             algorithmData: {}
         };
@@ -81,18 +83,18 @@ class FairDivisionCore {
 
     setupPlayerValueEvents() {
         const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
-        ['p1', 'p2'].forEach(player => {
+        ['p1', 'p2', 'p3'].forEach(player => {
             colors.forEach(color => {
                 const input = document.getElementById(`${player}-${color}`);
                 if (input) {
                     input.addEventListener('input', (e) => {
-                        const playerKey = player === 'p1' ? 'player1' : 'player2';
+                        const playerKey = player === 'p1' ? 'player1' : player === 'p2' ? 'player2' : 'player3';
                         this.state.playerValues[playerKey][color] = parseInt(e.target.value) || 0;
-                        // check if values sum to 100
+
+                        // Check if values sum to 100
                         const total = colors.reduce((sum, clr) => sum + (this.state.playerValues[playerKey][clr] || 0), 0);
                         if (total !== 100) {
                             console.error(`Error: ${playerKey} values must sum to 100. Current total: ${total}`);
-                            // Optional: show visual error
                             const errorElement = document.getElementById(`${player}-error`);
                             if (errorElement) {
                                 errorElement.textContent = `Total must be 100 (currently ${total})`;
@@ -104,6 +106,7 @@ class FairDivisionCore {
                                 errorElement.style.display = 'none';
                             }
                         }
+
                         this.updatePlayerValueDisplays();
                         if (this.currentAlgorithm) {
                             this.currentAlgorithm.config.onPlayerValueChange?.(this.state, this.createAPI());
@@ -133,6 +136,14 @@ class FairDivisionCore {
         this.currentAlgorithm = algorithm;
         this.currentStep = 0;
         this.state = this.createInitialState();
+
+        // Show/hide UI elements based on player count
+        const api = this.createAPI();
+        if (algorithm.config.playerCount === 3) {
+            api.showPlayer3Section();
+        } else {
+            api.hidePlayer3Section();
+        }
 
         // Initialize new algorithm
         this.initializeAlgorithm();
@@ -207,6 +218,7 @@ class FairDivisionCore {
         this.state = this.createInitialState();
         this.currentStep = 0;
         this.updateCutLine();
+        this.updateSecondCutLine(); // Add this line
         this.updatePlayerValueDisplays();
 
         // Hide results
@@ -214,6 +226,11 @@ class FairDivisionCore {
         if (resultsEl) {
             resultsEl.style.display = 'none';
         }
+
+        // Reset algorithm-specific UI elements
+        const api = this.createAPI();
+        api.hideSteinhausThreePieces();
+        api.hideDualCutSliders();
 
         // Re-initialize algorithm
         this.initializeAlgorithm();
@@ -551,6 +568,112 @@ class FairDivisionCore {
                     makeCutBtn.style.display = 'none';
                 }
             },
+
+            // Steinhaus-specific API extensions
+            showPlayer3Section: () => {
+                const player3Section = document.getElementById('player3-section');
+                if (player3Section) player3Section.style.display = 'block';
+            },
+
+            hidePlayer3Section: () => {
+                const player3Section = document.getElementById('player3-section');
+                if (player3Section) player3Section.style.display = 'none';
+            },
+
+            showDualCutSliders: () => {
+                const slider2 = document.getElementById('cut-control-2');
+                const cutLine2 = document.getElementById('cut-line-2');
+                if (slider2) slider2.style.display = 'block';
+                if (cutLine2) cutLine2.style.display = 'block';
+
+                // Set up event listeners for second slider
+                const cutSlider2 = document.getElementById('cut-slider-2');
+                if (cutSlider2) {
+                    const handler = (e) => {
+                        self.state.cutPosition2 = parseFloat(e.target.value);
+                        self.updateSecondCutLine();
+                        if (self.currentAlgorithm && self.currentAlgorithm.config.onCutChange) {
+                            self.currentAlgorithm.config.onCutChange(self.state, self.createAPI());
+                        }
+                    };
+                    cutSlider2.addEventListener('input', handler);
+                    self.eventCleanup.push(() => {
+                        cutSlider2.removeEventListener('input', handler);
+                    });
+                }
+            },
+
+            hideDualCutSliders: () => {
+                const slider2 = document.getElementById('cut-control-2');
+                const cutLine2 = document.getElementById('cut-line-2');
+                if (slider2) slider2.style.display = 'none';
+                if (cutLine2) cutLine2.style.display = 'none';
+            },
+
+            showSteinhausThreePieces: () => {
+                const cut1 = (self.state.cutPosition / 100) * 800;
+                const cut2 = (self.state.cutPosition2 / 100) * 800;
+                const cuts = [0, Math.min(cut1, cut2), Math.max(cut1, cut2), 800];
+
+                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
+                    const piece = document.getElementById(id);
+                    if (piece) {
+                        piece.setAttribute('x', cuts[index]);
+                        piece.setAttribute('width', cuts[index + 1] - cuts[index]);
+                        piece.style.display = 'block';
+                    }
+                });
+            },
+
+            hideSteinhausThreePieces: () => {
+                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach(id => {
+                    const piece = document.getElementById(id);
+                    if (piece) piece.style.display = 'none';
+                });
+            },
+
+            enableThreePieceSelection: (handler) => {
+                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
+                    const piece = document.getElementById(id);
+                    if (piece) {
+                        const clickHandler = () => handler(index);
+                        piece.addEventListener('click', clickHandler);
+                        piece.style.cursor = 'pointer';
+                        piece.style.stroke = '#3182ce';
+                        piece.style.strokeWidth = '3';
+
+                        self.eventCleanup.push(() => {
+                            piece.removeEventListener('click', clickHandler);
+                        });
+                    }
+                });
+            },
+
+            enableRemainingPieceSelection: (handler) => {
+                const selectedPiece = self.state.algorithmData.finalAllocation?.player3;
+
+                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
+                    const piece = document.getElementById(id);
+                    if (piece) {
+                        if (index === selectedPiece) {
+                            // Disable selected piece
+                            piece.style.opacity = '0.5';
+                            piece.style.cursor = 'not-allowed';
+                        } else {
+                            // Enable remaining pieces
+                            const clickHandler = () => handler(index);
+                            piece.addEventListener('click', clickHandler);
+                            piece.style.cursor = 'pointer';
+                            piece.style.stroke = '#38a169';
+                            piece.style.strokeWidth = '3';
+
+                            self.eventCleanup.push(() => {
+                                piece.removeEventListener('click', clickHandler);
+                            });
+                        }
+                    }
+                });
+            },
         };
     }
 
@@ -637,19 +760,52 @@ class FairDivisionCore {
         }
     }
 
+    updateSecondCutLine() {
+        const cutLine2 = document.getElementById('cut-line-2');
+        if (cutLine2) {
+            const cutX = (this.state.cutPosition2 / 100) * 800;
+            cutLine2.setAttribute('x1', cutX);
+            cutLine2.setAttribute('x2', cutX);
+        }
+
+        const cutValue2 = document.getElementById('cut-value-2');
+        if (cutValue2) {
+            cutValue2.textContent = `${this.state.cutPosition2.toFixed(1)}%`;
+        }
+    }
+
     updatePlayerValueDisplays() {
-        const regionValues = this.calculateRegionValues(this.state.cutPosition);
+        if (!this.currentAlgorithm) return;
 
-        ['player1', 'player2'].forEach((player, index) => {
-            const playerNum = index + 1;
-            const leftValue = this.calculatePlayerValue(regionValues.left, this.state.playerValues[player]);
-            const rightValue = this.calculatePlayerValue(regionValues.right, this.state.playerValues[player]);
+        if (this.currentAlgorithm.config.playerCount === 2) {
+            // Two-player algorithm (Divide-and-Choose, Austin's)
+            const regionValues = this.calculateRegionValues(this.state.cutPosition);
 
-            const display = document.getElementById(`player${playerNum}-values`);
-            if (display) {
-                display.textContent = `Left: ${leftValue.toFixed(1)} | Right: ${rightValue.toFixed(1)}`;
+            ['player1', 'player2'].forEach((player, index) => {
+                const playerNum = index + 1;
+                const leftValue = this.calculatePlayerValue(regionValues.left, this.state.playerValues[player]);
+                const rightValue = this.calculatePlayerValue(regionValues.right, this.state.playerValues[player]);
+
+                const display = document.getElementById(`player${playerNum}-values`);
+                if (display) {
+                    display.textContent = `Left: ${leftValue.toFixed(1)} | Right: ${rightValue.toFixed(1)}`;
+                }
+            });
+        } else if (this.currentAlgorithm.config.playerCount === 3) {
+            // Three-player algorithm (Steinhaus)
+            if (this.currentAlgorithm.config.calculateValues) {
+                const values = this.currentAlgorithm.config.calculateValues(this.state);
+
+                ['player1', 'player2', 'player3'].forEach((player, index) => {
+                    const playerNum = index + 1;
+                    const display = document.getElementById(`player${playerNum}-values`);
+                    if (display && values[player]) {
+                        const vals = values[player];
+                        display.textContent = `P1: ${vals[0].toFixed(1)} | P2: ${vals[1].toFixed(1)} | P3: ${vals[2].toFixed(1)}`;
+                    }
+                });
             }
-        });
+        }
     }
 
     calculateRegionValues(cutPosition) {
