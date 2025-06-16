@@ -3,78 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fair Division Algorithms - Interactive Demo</title>
+    <title>Fair Division Algorithm Demo</title>
     <style>
-        /* ===== BASE STYLES ===== */
+        /* ===== UNIFIED DEMO STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f7fafc;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
             color: #2d3748;
-        }
-
-        /* ===== MAIN CONTAINER ===== */
-        .unified-demo-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-        }
-
-        /* ===== HEADER SECTION ===== */
-        .demo-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .demo-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin: 0 0 0.5rem 0;
-        }
-
-        .demo-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin: 0;
+            background: #f7fafc;
         }
 
         /* ===== ALGORITHM SELECTOR ===== */
         .algorithm-selector-section {
-            background: #f8f9fa;
-            padding: 1.5rem;
+            background: white;
             border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem;
         }
 
         .algorithm-selector {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
             flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .algorithm-info {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .algorithm-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0 0 0.5rem 0;
+        .algorithm-info h2 {
             color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
         }
 
         .algorithm-description {
             color: #4a5568;
-            margin: 0 0 0.75rem 0;
+            margin-bottom: 0.5rem;
         }
 
         .algorithm-meta {
@@ -84,7 +54,7 @@
         }
 
         .meta-badge {
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.75rem;
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 600;
@@ -92,210 +62,334 @@
             letter-spacing: 0.025em;
         }
 
-        .players-badge {
-            background: #e6fffa;
-            color: #0c4a6e;
-        }
+            .meta-badge.players-badge {
+                background: #dbeafe;
+                color: #1e40af;
+            }
 
-        .complexity-badge {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .selector-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+            .meta-badge.complexity-badge {
+                background: #f3e8ff;
+                color: #6b21a8;
+            }
 
         .algorithm-dropdown {
-            padding: 0.5rem;
+            padding: 0.75rem 1rem;
             border: 1px solid #d2d6dc;
             border-radius: 6px;
             background: white;
-            min-width: 180px;
-        }
-
-        .mode-toggle {
-            display: flex;
-            border: 1px solid #d2d6dc;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .mode-button {
-            padding: 0.5rem 1rem;
-            border: none;
-            background: white;
+            font-size: 1rem;
+            min-width: 200px;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-            .mode-button.active {
-                background: #3182ce;
-                color: white;
+            .algorithm-dropdown:focus {
+                outline: none;
+                border-color: #3182ce;
+                box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
             }
 
-            .mode-button:hover:not(.active) {
-                background: #f7fafc;
-            }
-
-        /* ===== DEMO CONTENT ===== */
-        .demo-content {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 1.5rem;
+        /* ===== MAIN CONTENT ===== */
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 1.5rem;
-            min-height: 600px;
-        }
-
-        .visualization-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            background: white;
+            margin-top: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .step-indicator {
+            text-align: center;
             background: #ebf8ff;
             color: #2c5282;
-            padding: 0.75rem 1rem;
+            padding: 0.75rem;
             border-radius: 6px;
             font-weight: 600;
             border-left: 4px solid #3182ce;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
 
         .instructions {
             background: #f0fff4;
-            color: #22543d;
-            padding: 1rem;
+            padding: 0.75rem;
             border-radius: 6px;
-            border-left: 4px solid #38a169;
+            border-left: 4px solid #48bb78;
+            margin-bottom: 1rem;
+            color: #22543d;
+            font-size: 0.9rem;
         }
 
+        /* ===== MAIN LAYOUT ===== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== GAME AREA ===== */
         .game-area {
-            background: #f8f9fa;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            min-height: 400px;
             position: relative;
+            width: 100%;
+            height: 300px;
+            border: 2px solid #2d3748;
+            border-radius: 6px;
+            background: #f5f5f0;
             overflow: hidden;
+            margin-bottom: 1rem;
         }
 
         .background-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            display: block;
         }
 
-        /* ===== CONTROL PANEL ===== */
-        .control-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        /* SVG Elements */
+        .cut-line {
+            stroke: #dc3545;
+            stroke-width: 4;
+            stroke-dasharray: 10,5;
         }
 
-        .player-grid {
-            display: grid;
-            gap: 1rem;
+        .piece-overlay {
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .player-card {
+            .piece-overlay.selected {
+                fill-opacity: 0.5 !important;
+                stroke-width: 6 !important;
+            }
+
+            .piece-overlay:hover {
+                fill-opacity: 0.3 !important;
+            }
+
+        /* ===== PLAYER VALUES PANEL ===== */
+        .player-values-panel {
             background: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
             padding: 1rem;
-        }
-
-        .player-header {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #2d3748;
-        }
-
-        .algorithm-controls {
-            background: #f8f9fa;
+            border-radius: 6px;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
         }
 
-        .dynamic-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+            .player-values-panel h3 {
+                margin-bottom: 0.75rem;
+                color: #2d3748;
+                font-size: 1rem;
+            }
 
-        .control-section {
+        /* ===== PLAYER VALUES ===== */
+        .player-section {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
             padding: 1rem;
+            margin-bottom: 0.75rem;
         }
 
-            .control-section h4 {
-                margin: 0 0 0.75rem 0;
-                font-size: 0.9rem;
-                font-weight: 600;
-                color: #4a5568;
-                text-transform: uppercase;
-                letter-spacing: 0.025em;
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.9rem;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .color-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            flex-shrink: 0;
+        }
+
+        .valuation-input {
+            width: 50px;
+            padding: 0.2rem 0.4rem;
+            border: 1px solid #d2d6dc;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+            .valuation-input:focus {
+                outline: none;
+                border-color: #3182ce;
             }
+
+        .valuation-total {
+            font-weight: 600;
+            text-align: center;
+            padding: 0.4rem;
+            background: #f7fafc;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .valid {
+            color: #22543d;
+        }
+
+        .invalid {
+            color: #c53030;
+        }
+
+        .player-values {
+            text-align: center;
+            padding: 0.4rem;
+            background: #ebf8ff;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #2c5282;
+            font-size: 0.85rem;
+        }
+
+        /* ===== ALGORITHM CONTROLS ===== */
+        .algorithm-controls {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+            .algorithm-controls h3 {
+                margin-bottom: 0.75rem;
+                color: #2d3748;
+                font-size: 1rem;
+            }
+
+        /* ===== CUT CONTROLS ===== */
+        .cut-control {
+            margin-bottom: 1rem;
+        }
+
+            .cut-control label {
+                display: block;
+                margin-bottom: 0.4rem;
+                font-weight: 500;
+                font-size: 0.9rem;
+            }
+
+        .cut-slider {
+            width: 100%;
+            height: 5px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+            .cut-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #3182ce;
+                cursor: pointer;
+            }
+
+            .cut-slider::-moz-range-thumb {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #3182ce;
+                cursor: pointer;
+                border: none;
+            }
+
+        .cut-position {
+            text-align: center;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 0.85rem;
+        }
 
         /* ===== ACTION BUTTONS ===== */
         .action-buttons {
             display: flex;
             gap: 0.75rem;
-            flex-wrap: wrap;
+            justify-content: center;
         }
 
-            .action-buttons button {
-                padding: 0.75rem 1rem;
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.2s;
-                min-width: 120px;
-            }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            min-width: 100px;
+        }
 
-        .execute-btn {
+        .btn-primary {
             background: #3182ce;
             color: white;
         }
 
-            .execute-btn:hover:not(:disabled) {
+            .btn-primary:hover:not(:disabled) {
                 background: #2c5282;
             }
 
-            .execute-btn:disabled {
-                background: #a0aec0;
-                cursor: not-allowed;
-            }
-
-        .step-btn, .reset-btn {
+        .btn-secondary {
             background: #f7fafc;
             color: #4a5568;
             border: 1px solid #d2d6dc;
         }
 
-            .step-btn:hover:not(:disabled), .reset-btn:hover:not(:disabled) {
+            .btn-secondary:hover:not(:disabled) {
                 background: #edf2f7;
             }
 
-            .step-btn:disabled, .reset-btn:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         /* ===== RESULTS SECTION ===== */
         .results-section {
             background: #f0fff4;
             border: 1px solid #c6f6d5;
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 1rem;
             margin-top: 1rem;
             display: none;
+            font-size: 0.9rem;
         }
 
             .results-section.visible {
@@ -303,183 +397,240 @@
             }
 
             .results-section h3 {
-                margin: 0 0 0.75rem 0;
+                margin: 0 0 1rem 0;
                 color: #22543d;
             }
 
-        /* ===== COMPARISON MODE ===== */
-        .comparison-mode {
+            .results-section ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .results-section li {
+                padding: 0.5rem 0;
+                border-bottom: 1px solid #e6fffa;
+            }
+
+                .results-section li:last-child {
+                    border-bottom: none;
+                }
+
+        /* ===== NOTIFICATIONS ===== */
+        .warning {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 0.75rem;
+            border-radius: 5px;
+            margin: 0.75rem 0;
+            border-left: 3px solid #f56565;
             display: none;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            padding: 1.5rem;
+            font-size: 0.85rem;
         }
 
-        .comparison-panel {
-            background: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-        }
-
-        .comparison-header {
-            font-weight: 600;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
+            .warning.visible {
+                display: block;
+            }
 
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
-            .demo-content {
-                grid-template-columns: 1fr;
-            }
-
             .algorithm-selector {
                 flex-direction: column;
                 align-items: stretch;
             }
 
-            .selector-controls {
-                justify-content: center;
+            .main-layout {
+                grid-template-columns: 1fr;
             }
-        }
 
-        /* ===== UTILITY CLASSES ===== */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
+            .color-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .highlight {
-            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.3);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .visible {
-            display: block;
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="unified-demo-container">
-        <!-- Algorithm Selector -->
-        <div class="algorithm-selector-section">
-            <div class="algorithm-selector">
-                <div class="algorithm-info">
-                    <h2 class="algorithm-name" id="current-algorithm-name">Select Algorithm</h2>
-                    <p class="algorithm-description" id="current-algorithm-description">Choose an algorithm to begin</p>
-                    <div class="algorithm-meta" id="current-algorithm-meta">
-                        <!-- Meta badges will be inserted here -->
-                    </div>
-                </div>
-
-                <div class="selector-controls">
-                    <select class="algorithm-dropdown" id="algorithm-selector">
-                        <option value="">Choose Algorithm...</option>
-                        <option value="divide-and-choose">Divide-and-Choose</option>
-                    </select>
+    <!-- Algorithm Selector -->
+    <div class="algorithm-selector-section">
+        <div class="algorithm-selector">
+            <div class="algorithm-info">
+                <h2 id="algorithm-name">Divide-and-Choose</h2>
+                <div class="algorithm-meta" id="algorithm-meta">
+                    <span class="meta-badge players-badge">2 Players</span>
+                    <span class="meta-badge complexity-badge">Discrete</span>
                 </div>
             </div>
-        </div>
-
-        <!-- Single Algorithm Mode -->
-        <div class="demo-content" id="single-mode-content">
-            <!-- Visualization Panel -->
-            <div class="visualization-panel">
-                <div class="step-indicator" id="step-indicator">
-                    Ready to begin
-                </div>
-
-                <div class="instructions" id="instructions">
-                    <strong>Instructions:</strong> Select an algorithm from the dropdown above to start the interactive demo.
-                </div>
-
-                <!-- Game Area with SVG -->
-                <div class="game-area" id="game-area">
-                    <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-
-                        <!-- Blue region (top) -->
-                        <polygon points="0,0 600,0 600,150 0,150" fill="#0066ff" stroke="#2d3748" stroke-width="2" />
-                        <text x="300" y="80" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Blue</text>
-
-                        <!-- Red region (top right) -->
-                        <polygon points="600,0 800,0 800,250 600,250" fill="#ff3366" stroke="#2d3748" stroke-width="2" />
-                        <text x="700" y="125" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Red</text>
-
-                        <!-- Orange region (right) -->
-                        <polygon points="600,250 800,250 800,350 600,350" fill="#ff6600" stroke="#2d3748" stroke-width="2" />
-                        <text x="700" y="310" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Orange</text>
-
-                        <!-- Purple region (bottom) -->
-                        <polygon points="150,350 800,350 800,400 150,400" fill="#9966ff" stroke="#2d3748" stroke-width="2" />
-                        <text x="500" y="380" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Purple</text>
-
-                        <!-- Pink region (bottom left) -->
-                        <polygon points="0,150 150,150 150,400 0,400" fill="#ff66ff" stroke="#2d3748" stroke-width="2" />
-                        <text x="80" y="280" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Pink</text>
-
-                        <!-- Green region (center) -->
-                        <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" stroke="#2d3748" stroke-width="2" />
-                        <text x="380" y="260" text-anchor="middle" font-size="32" font-weight="bold" fill="white">Green</text>
-
-                        <!-- Interactive Elements (will be added by algorithms) -->
-                        <g id="interactive-elements">
-                            <!-- Cut lines and overlays will be inserted here -->
-                        </g>
-                    </svg>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="start-btn" id="start-procedure-btn" disabled>Start Procedure</button>
-                    <button class="reset-btn" id="reset-btn" disabled>Reset</button>
-                </div>
-
-                <!-- Results Section -->
-                <div class="results-section" id="results-section">
-                    <h3>Results</h3>
-                    <div id="results-content">
-                        <!-- Results will be populated here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Control Panel -->
-            <div class="control-panel">
-                <!-- Player Values Grid -->
-                <div class="player-grid" id="player-grid">
-                    <!-- Player cards will be inserted here dynamically -->
-                </div>
-
-                <!-- Algorithm Controls -->
-                <div class="algorithm-controls" id="algorithm-controls">
-                    <h4>Algorithm Parameters</h4>
-                    <div class="dynamic-controls" id="dynamic-controls">
-                        <!-- Algorithm-specific controls will be inserted here -->
-                    </div>
-                </div>
+            <div>
+                <select class="algorithm-dropdown" id="algorithm-selector">
+                    <option value="divide-and-choose">Divide-and-Choose</option>
+                    <!-- Future algorithms will be added here -->
+                </select>
             </div>
         </div>
     </div>
 
-    <!-- Load JavaScript modules -->
-    <!-- Base classes first -->
-    <script src="core/base-algorithm.js"></script>
-    <script src="core/game-state.js"></script>
-    <script src="core/calculation-engine.js"></script>
+    <!-- Main Demo Content -->
+    <div class="demo-container">
+        <!-- Step Indicator -->
+        <div class="step-indicator" id="step-indicator">
+            Step 1: Player 1 (Divider) adjusts the cutting line
+        </div>
 
-    <!-- Main system -->
-    <script src="core/system.js"></script>
+        <!-- Instructions -->
+        <div class="instructions" id="instructions">
+            <strong>Instructions:</strong> Player 1, use the slider below to position your vertical cut through the colored regions.
+        </div>
 
-    <!-- UI components -->
-    <script src="ui/ui-manager.js"></script>
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Game Section -->
+            <div class="game-section">
+                <div class="game-area">
+                    <svg class="background-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                        <!-- Colored regions -->
+                        <polygon points="0,0 600,0 600,150 0,150" fill="#0066ff" />
+                        <text x="300" y="80" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Blue</text>
 
-    <!-- Algorithm implementations -->
-    <script src="algorithms/divide-and-choose.js"></script>
+                        <polygon points="600,0 800,0 800,250 600,250" fill="#ff3366" />
+                        <text x="700" y="125" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Red</text>
 
+                        <polygon points="600,250 800,250 800,350 600,350" fill="#ff6600" />
+                        <text x="700" y="310" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Orange</text>
+
+                        <polygon points="150,350 800,350 800,400 150,400" fill="#9966ff" />
+                        <text x="500" y="380" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Purple</text>
+
+                        <polygon points="0,150 150,150 150,400 0,400" fill="#ff66ff" />
+                        <text x="80" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="white">Pink</text>
+
+                        <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" />
+                        <text x="380" y="260" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Green</text>
+
+                        <!-- Cut line -->
+                        <line id="cut-line" class="cut-line" x1="400" y1="0" x2="400" y2="400" />
+
+                        <!-- Clickable piece overlays (initially hidden) -->
+                        <rect id="left-piece" class="piece-overlay" x="0" y="0" width="400" height="400"
+                              fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" stroke-width="3" />
+                        <rect id="right-piece" class="piece-overlay" x="400" y="0" width="400" height="400"
+                              fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" stroke-width="3" />
+                    </svg>
+                </div>
+
+                <!-- Warning for unequal cuts -->
+                <div class="warning" id="warning">
+                    <strong>Note:</strong> This cut creates very unequal distributions!
+                </div>
+
+                <!-- Algorithm Controls -->
+                <div class="algorithm-controls">
+                    <h3>Algorithm Controls</h3>
+
+                    <div class="cut-control">
+                        <label for="cut-slider">Cut Position:</label>
+                        <input type="range" id="cut-slider" class="cut-slider"
+                               min="0" max="800" value="400" step="1">
+                        <div class="cut-position" id="cut-position">50.0%</div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="make-cut-btn" class="btn btn-primary">Make Cut</button>
+                        <button id="reset-btn" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Values Panel -->
+            <div class="player-values-panel">
+                <h3>Player Valuations</h3>
+
+                <!-- Player 1 -->
+                <div class="player-section">
+                    <div class="player-header">
+                        <span class="player-name">Player 1 (Divider)</span>
+                    </div>
+                    <div class="color-grid">
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #0066ff;"></div>
+                            <span>Blue: <input type="number" class="valuation-input" id="p1-blue" value="20" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #ff3366;"></div>
+                            <span>Red: <input type="number" class="valuation-input" id="p1-red" value="15" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #3f9633;"></div>
+                            <span>Green: <input type="number" class="valuation-input" id="p1-green" value="25" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #ff6600;"></div>
+                            <span>Orange: <input type="number" class="valuation-input" id="p1-orange" value="10" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #ff66ff;"></div>
+                            <span>Pink: <input type="number" class="valuation-input" id="p1-pink" value="15" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #9966ff;"></div>
+                            <span>Purple: <input type="number" class="valuation-input" id="p1-purple" value="15" min="0" max="100">pts</span>
+                        </div>
+                    </div>
+                    <div class="valuation-total" id="p1-total">Total: <span class="valid">100</span></div>
+                    <div class="player-values"><strong>Values:</strong> <span id="player1Value">Left: 50 | Right: 50</span></div>
+                </div>
+
+                <!-- Player 2 -->
+                <div class="player-section">
+                    <div class="player-header">
+                        <span class="player-name">Player 2 (Chooser)</span>
+                    </div>
+                    <div class="color-grid">
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #0066ff;"></div>
+                            <span>Blue: <input type="number" class="valuation-input" id="p2-blue" value="15" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #ff3366;"></div>
+                            <span>Red: <input type="number" class="valuation-input" id="p2-red" value="25" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #3f9633;"></div>
+                            <span>Green: <input type="number" class="valuation-input" id="p2-green" value="20" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #ff6600;"></div>
+                            <span>Orange: <input type="number" class="valuation-input" id="p2-orange" value="20" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #ff66ff;"></div>
+                            <span>Pink: <input type="number" class="valuation-input" id="p2-pink" value="10" min="0" max="100">pts</span>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-swatch" style="background: #9966ff;"></div>
+                            <span>Purple: <input type="number" class="valuation-input" id="p2-purple" value="10" min="0" max="100">pts</span>
+                        </div>
+                    </div>
+                    <div class="valuation-total" id="p2-total">Total: <span class="valid">100</span></div>
+                    <div class="player-values"><strong>Values:</strong> <span id="player2Value">Left: 35 | Right: 65</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="results">
+            <h3>Results:</h3>
+            <p id="result-text"></p>
+            <ul>
+                <li><strong>Proportionality:</strong> <span id="proportional-result"></span></li>
+                <li><strong>Envy-freeness:</strong> <span id="envy-result"></span></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="unified-demo.js"></script>
 </body>
 </html>
