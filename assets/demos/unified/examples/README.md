@@ -4,17 +4,6 @@ This directory contains reference implementations and templates for building alg
 
 ## Files
 
-### `simple-divide-and-choose.js`
-Complete example implementation showing how to:
-- Extend the BaseAlgorithm class
-- Implement all required abstract methods
-- Handle step-by-step execution
-- Integrate with UnifiedGameState
-- Provide UI control specifications
-- Use caching and events
-
-**Note**: This is a simplified reference implementation. The actual Divide-and-Choose algorithm should use the shared calculation engine for geometric calculations.
-
 ### `algorithm-template.js` (Future)
 Boilerplate template for quickly creating new algorithms.
 

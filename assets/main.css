@@ -2767,7 +2767,7 @@ blockquote {
         text-decoration: none;
     }
 
-/* ===== CAROUSEL CONTROLS (matching your HTML structure) ===== */
+/* ===== CAROUSEL CONTROLS ===== */
 .carousel-controls {
     display: flex;
     align-items: center;
@@ -2864,5 +2864,110 @@ blockquote {
 
     .carousel-controls {
         display: none;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #4caf50, #45a049);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+}
+
+    .start-btn:hover:not(:disabled) {
+        background: linear-gradient(135deg, #45a049, #3d8b40);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+
+    .start-btn:disabled {
+        background: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+.reset-btn {
+    background: linear-gradient(135deg, #ff7043, #f4511e);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+    .reset-btn:hover:not(:disabled) {
+        background: linear-gradient(135deg, #f4511e, #e64a19);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 112, 67, 0.3);
+    }
+
+    .reset-btn:disabled {
+        background: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+/* Loading state for start button */
+.start-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+    .start-btn.loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .start-btn, .reset-btn {
+        width: 100%;
+        max-width: 200px;
     }
 }

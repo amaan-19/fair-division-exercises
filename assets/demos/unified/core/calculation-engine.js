@@ -285,52 +285,6 @@ class SharedCalculationEngine {
         return bestResult;
     }
 
-    /**
-     * Find optimal cuts for Steinhaus algorithm (equal-valued pieces for divider)
-     * @param {Object} dividerValues - Divider's valuations
-     * @param {number} precision - Search precision (default 2)
-     * @returns {Object} - Best cut positions and analysis
-     */
-    findOptimalSteinhausCuts(dividerValues, precision = 2) {
-        let bestCuts = [this.canvas.width / 3, (2 * this.canvas.width) / 3];
-        let smallestDeviation = Infinity;
-        let bestResult = null;
-
-        const step = precision;
-        const minGap = 20; // Minimum gap between cuts
-
-        for (let cut1 = 20; cut1 < this.canvas.width - minGap - 20; cut1 += step) {
-            for (let cut2 = cut1 + minGap; cut2 < this.canvas.width - 20; cut2 += step) {
-                const result = this.calculateSteinhausValues(cut1, cut2, { divider: dividerValues });
-                const values = [
-                    result.playerValues.divider.piece1,
-                    result.playerValues.divider.piece2,
-                    result.playerValues.divider.piece3
-                ];
-
-                // Calculate how much the pieces deviate from equal (33.33%)
-                const targetValue = 100 / 3;
-                const deviation = values.reduce((sum, val) => sum + Math.abs(val - targetValue), 0);
-
-                if (deviation < smallestDeviation) {
-                    smallestDeviation = deviation;
-                    bestCuts = [cut1, cut2];
-                    bestResult = {
-                        cut1,
-                        cut2,
-                        cut1Percentage: (cut1 / this.canvas.width) * 100,
-                        cut2Percentage: (cut2 / this.canvas.width) * 100,
-                        pieceValues: values,
-                        deviation,
-                        isOptimal: deviation < 0.5
-                    };
-                }
-            }
-        }
-
-        return bestResult;
-    }
-
     // ===== FAIRNESS ANALYSIS =====
 
     /**

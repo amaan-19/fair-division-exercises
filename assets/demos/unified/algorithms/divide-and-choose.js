@@ -26,8 +26,8 @@ class DivideAndChooseAlgorithm extends BaseAlgorithm {
         // Algorithm-specific constants
         this.CANVAS_WIDTH = 800;
         this.DEFAULT_CUT_POSITION = 50; // percentage
-        this.MIN_CUT_POSITION = 5;
-        this.MAX_CUT_POSITION = 95;
+        this.MIN_CUT_POSITION = 0;
+        this.MAX_CUT_POSITION = 100;
 
         // Role assignments
         this.DIVIDER = 'player1';

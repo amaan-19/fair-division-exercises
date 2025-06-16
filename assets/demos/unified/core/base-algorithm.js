@@ -55,8 +55,8 @@ class BaseAlgorithm {
             throw new Error(`Algorithm type must be 'discrete' or 'continuous', got: ${config.type}`);
         }
 
-        if (config.playerCount < 2 || config.playerCount > 4) {
-            throw new Error(`Player count must be between 2-4, got: ${config.playerCount}`);
+        if (config.playerCount < 2) {
+            throw new Error(`Player count must be between 2 or more, got: ${config.playerCount}`);
         }
     }
 
@@ -173,43 +173,6 @@ class BaseAlgorithm {
             console.error(`${this.name}: Execution failed:`, error);
             this.isExecuting = false;
             this.emit('execution:failed', { error });
-            throw error;
-        }
-    }
-
-    /**
-     * Execute algorithm step by step (for animations/education)
-     */
-    async executeStepByStep(gameState, stepIndex = null) {
-        try {
-            if (!this.isInitialized) {
-                await this.initializeAlgorithm(gameState);
-            }
-
-            const targetStep = stepIndex !== null ? stepIndex : this.currentStep;
-
-            if (targetStep >= this.steps.length) {
-                throw new Error(`Step ${targetStep} exceeds available steps (${this.steps.length})`);
-            }
-
-            console.log(`${this.name}: Executing step ${targetStep}: ${this.steps[targetStep]}`);
-
-            const stepResult = await this.executeStep(targetStep, gameState);
-
-            this.currentStep = targetStep + 1;
-            gameState.setExecutionStep(this.currentStep);
-
-            this.emit('step:completed', {
-                stepIndex: targetStep,
-                stepName: this.steps[targetStep],
-                result: stepResult
-            });
-
-            return stepResult;
-
-        } catch (error) {
-            console.error(`${this.name}: Step execution failed:`, error);
-            this.emit('step:failed', { stepIndex: targetStep, error });
             throw error;
         }
     }
