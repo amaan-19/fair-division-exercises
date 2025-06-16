@@ -458,16 +458,14 @@
     <div class="algorithm-selector-section">
         <div class="algorithm-selector">
             <div class="algorithm-info">
-                <h2 id="algorithm-name">Divide-and-Choose</h2>
+                <h2 id="algorithm-name">Loading...</h2>
                 <div class="algorithm-meta" id="algorithm-meta">
-                    <span class="meta-badge players-badge">2 Players</span>
-                    <span class="meta-badge complexity-badge">Discrete</span>
+                    <!-- Meta badges will be populated by JavaScript -->
                 </div>
             </div>
             <div>
                 <select class="algorithm-dropdown" id="algorithm-selector">
-                    <option value="divide-and-choose">Divide-and-Choose</option>
-                    <!-- Future algorithms will be added here -->
+                    <!-- Options will be populated by JavaScript -->
                 </select>
             </div>
         </div>
@@ -477,12 +475,12 @@
     <div class="demo-container">
         <!-- Step Indicator -->
         <div class="step-indicator" id="step-indicator">
-            Step 1: Player 1 (Divider) adjusts the cutting line
+            Loading...
         </div>
 
         <!-- Instructions -->
         <div class="instructions" id="instructions">
-            <strong>Instructions:</strong> Player 1, use the slider below to position your vertical cut through the colored regions.
+            Initializing demo system...
         </div>
 
         <!-- Main Layout -->
@@ -631,6 +629,38 @@
         </div>
     </div>
 
-    <script src="unified-demo.js"></script>
+    <!-- Load JavaScript files in order -->
+    <script>
+        // Ensure proper loading order by using dynamic imports
+        (async function () {
+            try {
+                // Load base system first
+                const baseScript = document.createElement('script');
+                baseScript.src = 'unified-demo-base.js';
+                document.head.appendChild(baseScript);
+
+                // Wait for base system to be ready
+                await new Promise((resolve) => {
+                    baseScript.onload = resolve;
+                    baseScript.onerror = () => {
+                        console.error('Failed to load base system');
+                        resolve(); // Still try to continue
+                    };
+                });
+
+                // Wait a bit more for the base system to initialize
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // Load algorithm modules
+                const algorithmScript = document.createElement('script');
+                algorithmScript.src = 'divide-and-choose.js';
+                document.head.appendChild(algorithmScript);
+
+            } catch (error) {
+                console.error('Error loading demo system:', error);
+            }
+        })();
+    </script>
+
 </body>
 </html>

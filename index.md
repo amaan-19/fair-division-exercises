@@ -108,7 +108,7 @@ title: Fair Division Algorithms
     <iframe 
       src="{{ '/assets/demos/unified/unified-demo.html' | relative_url }}" 
       width="100%" 
-      height="900" 
+      height="1200" 
       frameborder="0"
       style="display: block; border: none;">
       <p>Your browser does not support iframes. <a href="{{ '/assets/demos/unified/unified-demo.html' | relative_url }}">View the demo directly</a>.</p>
