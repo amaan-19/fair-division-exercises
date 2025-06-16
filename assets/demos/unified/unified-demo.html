@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fair Division Algorithm Demo</title>
     <style>
-        /* ===== UNIFIED DEMO STYLES ===== */
+        /* ===== UNIFIED DEMO STYLES (Enhanced for Austin's Algorithm) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -154,11 +154,19 @@
             height: 100%;
         }
 
-        /* SVG Elements */
+        /* ===== SVG ELEMENTS (Enhanced for Austin's Algorithm) ===== */
         .cut-line {
             stroke: #dc3545;
             stroke-width: 4;
             stroke-dasharray: 10,5;
+            transition: all 0.1s ease;
+        }
+
+        .left-knife {
+            stroke: #28a745;
+            stroke-width: 4;
+            stroke-dasharray: 10,5;
+            transition: all 0.1s ease;
         }
 
         .piece-overlay {
@@ -277,7 +285,7 @@
             font-size: 0.85rem;
         }
 
-        /* ===== ALGORITHM CONTROLS ===== */
+        /* ===== ALGORITHM CONTROLS (Enhanced for Austin's) ===== */
         .algorithm-controls {
             background: #f8f9fa;
             padding: 1rem;
@@ -339,11 +347,12 @@
             font-size: 0.85rem;
         }
 
-        /* ===== ACTION BUTTONS ===== */
+        /* ===== ACTION BUTTONS (Enhanced for Austin's) ===== */
         .action-buttons {
             display: flex;
             gap: 0.75rem;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -380,6 +389,73 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        /* ===== AUSTIN'S ALGORITHM SPECIFIC STYLES ===== */
+        .animation-status {
+            background: #fff5f5;
+            color: #c53030;
+            padding: 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            display: none;
+        }
+
+            .animation-status.active {
+                display: block;
+                background: #f0fff4;
+                color: #22543d;
+            }
+
+        .phase-display {
+            background: #fef5e7;
+            color: #92400e;
+            padding: 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Stop buttons container for Austin's algorithm */
+        .stop-buttons-container {
+            margin-top: 1rem;
+            text-align: center;
+            padding: 1rem;
+            background: #fff5f5;
+            border-radius: 6px;
+            border: 1px solid #fed7d7;
+        }
+
+            .stop-buttons-container h4 {
+                margin: 0 0 0.75rem 0;
+                color: #c53030;
+                font-size: 0.9rem;
+            }
+
+        .stop-btn {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 0.25rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+            .stop-btn:hover:not(:disabled) {
+                background: #c53030;
+                transform: translateY(-1px);
+            }
+
+            .stop-btn:active {
+                transform: translateY(0);
+            }
 
         /* ===== RESULTS SECTION ===== */
         .results-section {
@@ -450,6 +526,12 @@
                 flex-direction: column;
                 align-items: center;
             }
+
+            .stop-buttons-container .stop-btn {
+                display: block;
+                width: 100%;
+                margin: 0.25rem 0;
+            }
         }
     </style>
 </head>
@@ -508,8 +590,10 @@
                         <polygon points="150,150 600,150 600,350 150,350" fill="#3f9633" />
                         <text x="380" y="260" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Green</text>
 
-                        <!-- Cut line -->
+                        <!-- Moving knife lines -->
                         <line id="cut-line" class="cut-line" x1="400" y1="0" x2="400" y2="400" />
+                        <!-- Left knife for Austin's algorithm (initially hidden) -->
+                        <line id="left-knife" class="left-knife" x1="0" y1="0" x2="0" y2="400" style="display: none;" />
 
                         <!-- Clickable piece overlays (initially hidden) -->
                         <rect id="left-piece" class="piece-overlay" x="0" y="0" width="400" height="400"
@@ -528,7 +612,17 @@
                 <div class="algorithm-controls">
                     <h3>Algorithm Controls</h3>
 
-                    <div class="cut-control">
+                    <!-- Animation Status (for Austin's algorithm) -->
+                    <div class="animation-status" id="animation-status">
+                        Animation in progress...
+                    </div>
+
+                    <!-- Phase Display (for Austin's algorithm) -->
+                    <div class="phase-display" id="phase-display" style="display: none;">
+                        Phase 1: Moving Knife
+                    </div>
+
+                    <div class="cut-control" id="cut-control">
                         <label for="cut-slider">Cut Position:</label>
                         <input type="range" id="cut-slider" class="cut-slider"
                                min="0" max="800" value="400" step="1">
@@ -537,7 +631,15 @@
 
                     <div class="action-buttons">
                         <button id="make-cut-btn" class="btn btn-primary">Make Cut</button>
+                        <button id="pause-btn" class="btn btn-secondary" style="display: none;">Pause</button>
                         <button id="reset-btn" class="btn btn-secondary">Reset</button>
+                    </div>
+
+                    <!-- Stop Buttons Container (for Austin's algorithm) -->
+                    <div class="stop-buttons-container" id="stop-buttons-container" style="display: none;">
+                        <h4>Call "STOP!" when the left piece is worth exactly 50% to you:</h4>
+                        <button id="player1StopButton" class="stop-btn">Player 1: STOP!</button>
+                        <button id="player2StopButton" class="stop-btn">Player 2: STOP!</button>
                     </div>
                 </div>
             </div>
@@ -652,9 +754,14 @@
                 await new Promise(resolve => setTimeout(resolve, 100));
 
                 // Load algorithm modules
-                const algorithmScript = document.createElement('script');
-                algorithmScript.src = 'divide-and-choose.js';
-                document.head.appendChild(algorithmScript);
+                const divideChooseScript = document.createElement('script');
+                divideChooseScript.src = 'divide-and-choose.js';
+                document.head.appendChild(divideChooseScript);
+
+                // Load Austin's algorithm
+                const austinsScript = document.createElement('script');
+                austinsScript.src = 'austins-moving-knife.js';
+                document.head.appendChild(austinsScript);
 
             } catch (error) {
                 console.error('Error loading demo system:', error);
