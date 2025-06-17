@@ -58,11 +58,6 @@ permalink: /algorithms/austins-moving-knife/
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Mathematical Analysis -->
-  <section class="content-block">
-    <h2>Mathematical Insight</h2>
     <p>Austin's procedure relies on the <strong>intermediate value theorem</strong> to guarantee exact divisions. Let $f(x)$ represent Player 1's valuation of the cake from position 0 to position $x$, where the cake spans $[0,1]$. Since Player 1's valuation function is continuous and $f(0) = 0$ while $f(1) = 100$, there exists some position $x^* \in (0,1)$ such that $f(x^*) = 50$.</p>
     <p>During the knife-moving phase, the player in control maintains two knives at positions $L(t)$ and $R(t)$ such that their valuation of the piece between the knives remains constant:</p>
 
@@ -71,12 +66,13 @@ permalink: /algorithms/austins-moving-knife/
     <p>where $k$ is the value that player assigned to the initial piece when they first called "stop". The constraint that $L(T) = R(0)$ when $R(T) = 1$ ensures the entire cake is partitioned into exactly three pieces with valuations that sum to 100.</p>
   </section>
 
+
+  <!-- Fairness Properties -->
+
   <section class="content-block">
     <h2>Fairness Properties</h2>
     <p>Austin's procedure satisfies four fundamental fairness properties:</p>
-  </section>
 
-  <section class="content-block">
     <h3>Equitable</h3>
     <p>Both players receive exactly 50% of their subjective valuation of the resource.</p>
     <div class="proof-sketch">
@@ -86,18 +82,14 @@ permalink: /algorithms/austins-moving-knife/
 
       <p>Player 2 calls "stop" when they believe the division creates pieces worth exactly 50 each according to their valuation. Since pieces are randomly assigned, both players receive exactly 50% in expectation according to their own valuations.</p>
     </div>
-  </section>
 
-  <section class="content-block">
     <h3>Exact</h3>
     <p>The division achieves perfect equality rather than just proportionality.</p>
     <div class="proof-sketch">
       <p><strong>Formal Statement:</strong> The procedure produces pieces such that each player values their piece at exactly $\frac{100}{2} = 50$</p>
       <p><strong>Proof:</strong> Unlike divide-and-choose which only guarantees $v_i(\text{piece}_i) \geq 50$, Austin's procedure allows each player to specify exactly when they believe a 50-50 division has been achieved. The intermediate value theorem guarantees such points exist, and the procedure terminates only when a player declares the division to be exact according to their valuation.</p>
     </div>
-  </section>
 
-  <section class="content-block">
     <h3>Envy-free</h3>
     <p>Neither player prefers the other's allocation to their own.</p>
     <div class="proof-sketch">
@@ -106,9 +98,7 @@ permalink: /algorithms/austins-moving-knife/
 
       <p>For Player 1, the two-knife constraint ensures they value both final pieces equally at the moment of division. Since $v_1(\text{piece}_A) = v_1(\text{piece}_B)$, Player 1 also cannot experience envy regardless of the random assignment.</p>
     </div>
-  </section>
 
-  <section class="content-block">
     <h3>Strategy-proof</h3>
     <p>Truth-telling is optimal for both players throughout the procedure.</p>
     <div class="proof-sketch">

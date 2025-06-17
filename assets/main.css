@@ -691,9 +691,10 @@ blockquote {
 /* ===== CAROUSEL INDICATORS/DOTS ===== */
 .carousel-indicators {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
+    align-items: center; 
     gap: 8px;
-    margin-top: 1.5rem;
+    min-height: 20px; 
 }
 
 .carousel-dot {
