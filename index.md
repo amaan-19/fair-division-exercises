@@ -81,6 +81,29 @@ title: Fair Division Algorithms
         </div>
       </div>
 
+      <!-- Banach-Knaster's Last-Diminisher Algorithm Card -->
+      <div class="algorithm-card">
+        <div class="algorithm-header">
+          <h3 class="algorithm-title">Banach-Knaster's Last-Diminisher</h3>
+          <div class="algorithm-meta">
+            <span class="meta-badge players-badge">N Players</span>
+            <span class="meta-badge complexity-badge">Discrete</span>
+          </div>
+        </div>
+        <div class="algorithm-content">
+          <p class="algorithm-description">Clever discrete procedure enabling proportional division for any number of players.</p>
+          <div class="algorithm-properties">
+            <h4>Fairness Properties</h4>
+            <div class="property-tags">
+              <span class="property-tag">Proportional</span>
+            </div>
+          </div>
+        </div>
+        <div class="algorithm-footer">
+          <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+        </div>
+      </div>
+
       <!-- Placeholder for future algorithms -->
       <div class="algorithm-card coming-soon">
         <div class="algorithm-header">

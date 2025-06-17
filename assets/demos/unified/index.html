@@ -427,7 +427,7 @@
                               stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5" />
 
                         <!-- Second cut line for Steinhaus -->
-                        <line id="cut-line-2" x1="533" y1="0" x2="533" y2="400"
+                        <line id="cut-line-2" x1="0" y1="0" x2="0" y2="400"
                               stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5"
                               style="display: none;" />
 
@@ -474,15 +474,15 @@
                 <!-- Controls -->
                 <div class="controls">
                     <div class="cut-control">
-                        <label for="cut-slider">Cut Position: <span id="cut-value">50.0%</span></label>
+                        <label for="cut-slider">Cut Position: <span id="cut-value">0%</span></label>
                         <input type="range" id="cut-slider" class="cut-slider"
                                min="0" max="100" value="0" step="0.1">
                     </div>
 
                     <div class="cut-control" id="cut-control-2" style="display: none;">
-                        <label for="cut-slider-2">Second Cut Position: <span id="cut-value-2">66.6%</span></label>
+                        <label for="cut-slider-2">Second Cut Position: <span id="cut-value-2">0%</span></label>
                         <input type="range" id="cut-slider-2" class="cut-slider"
-                               min="0" max="100" value="66.6" step="0.1">
+                               min="0" max="100" value="0" step="0.1">
                     </div>
 
                     <div class="action-buttons">
@@ -545,7 +545,7 @@
                             <span>pts</span>
                         </div>
                     </div>
-                    <div class="player-values" id="player1-values">Left: 50.0 | Right: 50.0</div>
+                    <div class="player-values" id="player1-values">Left: 0 | Right: 100</div>
                 </div>
 
                 <!-- Player 2 -->
@@ -590,7 +590,7 @@
                             <span>pts</span>
                         </div>
                     </div>
-                    <div class="player-values" id="player2-values">Left: 35.0 | Right: 65.0</div>
+                    <div class="player-values" id="player2-values">Left: 0 | Right: 100</div>
                 </div>
 
                 <!-- Player 3 -->
@@ -635,7 +635,7 @@
                             <span>pts</span>
                         </div>
                     </div>
-                    <div class="player-values" id="player3-values">P1: 30.0 | P2: 35.0 | P3: 35.0</div>
+                    <div class="player-values" id="player3-values">P1: 0 | P2: 0 | P3: 100</div>
                 </div>
             </div>
         </div>

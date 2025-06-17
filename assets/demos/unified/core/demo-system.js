@@ -47,7 +47,7 @@ class FairDivisionCore {
             });
         }
 
-        // Core buttons
+        // Start button
         const startBtn = document.getElementById('start-btn');
         if (startBtn) {
             startBtn.addEventListener('click', () => {
@@ -57,6 +57,7 @@ class FairDivisionCore {
             });
         }
 
+        // Reset button
         const resetBtn = document.getElementById('reset-btn');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
@@ -81,6 +82,7 @@ class FairDivisionCore {
         this.setupPlayerValueEvents();
     }
 
+    // Monitor changes in color valuations
     setupPlayerValueEvents() {
         const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
         ['p1', 'p2', 'p3'].forEach(player => {
@@ -117,11 +119,13 @@ class FairDivisionCore {
         });
     }
 
+    // Registers algorithm at runtime
     register(id, config) {
         this.algorithms.set(id, { id, config });
         this.updateAlgorithmSelector();
         console.log(`Algorithm registered: ${config.name}`);
     }
+
 
     switchAlgorithm(id) {
         if (!id) return;

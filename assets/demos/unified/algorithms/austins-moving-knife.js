@@ -29,6 +29,12 @@ const algorithmConfigAustin = {
                 state.algorithmData.targetMiddleValue = null;
                 state.algorithmData.animationStarted = false;
 
+                // Ensure clean state
+                api.removeStopButtons();
+                api.removeOtherPlayerStopButton();
+                api.hideDualKnives();
+                api.hideThreePieceOverlays();
+
                 // Set start button text
                 api.setStartButtonText('Start Animation');
                 api.setStartButtonState('enabled');
@@ -39,6 +45,7 @@ const algorithmConfigAustin = {
                 if (state.algorithmData.animationId) {
                     cancelAnimationFrame(state.algorithmData.animationId);
                 }
+                // Clean up all buttons
                 api.removeStopButtons();
             }
         },
@@ -51,6 +58,9 @@ const algorithmConfigAustin = {
                 console.log('Entered Phase 2: Dual knives');
                 state.algorithmData.phase = 2;
                 state.algorithmData.leftKnifePosition = 0;
+
+                // Clean up any remaining buttons from previous phase
+                api.removeStopButtons();
 
                 // Hide start button during this phase
                 api.setStartButtonState('hidden');
@@ -79,8 +89,10 @@ const algorithmConfigAustin = {
                 // Update knife positions
                 api.updateKnifePositions(0, rightPos);
 
-                // Add stop button for other player
-                api.addOtherPlayerStopButton(state.algorithmData.controllingPlayer);
+                // Add stop button for other player AFTER cleanup
+                setTimeout(() => {
+                    api.addOtherPlayerStopButton(state.algorithmData.controllingPlayer);
+                }, 100);
 
                 // Start dual knife animation
                 setTimeout(() => {
@@ -103,6 +115,9 @@ const algorithmConfigAustin = {
             onStepEnter: (state, api) => {
                 console.log('Entered Phase 3: Random assignment');
                 state.algorithmData.phase = 3;
+
+                // Clean up any remaining buttons
+                api.removeOtherPlayerStopButton();
 
                 // Keep start button hidden
                 api.setStartButtonState('hidden');
@@ -175,13 +190,15 @@ const algorithmConfigAustin = {
         if (state.algorithmData.animationId) {
             cancelAnimationFrame(state.algorithmData.animationId);
         }
+
+        // Clean up all UI elements
         api.hideDualKnives();
         api.hideThreePieceOverlays();
         api.removeStopButtons();
         api.removeOtherPlayerStopButton();
 
         // Reset start button
-        api.setStartButtonText('Start');
+        api.setStartButtonText('Start Animation');
         api.setStartButtonState('enabled');
 
         // Hide stop position indicator
