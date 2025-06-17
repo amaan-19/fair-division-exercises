@@ -44,25 +44,21 @@ permalink: /algorithms/divide-and-choose/
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Mathematical Analysis -->
-  <section class="content-block">
-    <h2>Mathematical Insight</h2>
     <p>The algorithm exploits the <strong>zero-sum nature</strong> of the division problem. Let $S$ be the total resource and $v_i(S) = 100$ for each player $i$. For any partition $\{A, B\}$ where $A \cup B = S$ and $A \cap B = \emptyset$:</p>
   
     $$v_i(A) + v_i(B) = v_i(S) = 100$$
   
     <p>Player 1 uses this constraint by creating pieces such that $v_1(A) \approx v_1(B) \approx 50$, guaranteeing they cannot receive less than 50% regardless of Player 2's choice. Player 2 then optimizes: $v_2(\text{chosen piece}) = \max(v_2(A), v_2(B)) \geq 50$.</p>
+    </div>
   </section>
+
+  <!-- Fairness Properties -->
 
   <section class="content-block">
     <h2>Fairness Properties</h2>
     <p>The divide-and-choose algorithm satisfies three fundamental fairness properties:</p>
-  </section>
 
-  <section class="content-block">
     <h3>Proportionality</h3>
     <p>Both players receive at least 50% of their subjective valuation of the resource.</p>
     <div class="proof-sketch">
@@ -76,9 +72,6 @@ permalink: /algorithms/divide-and-choose/
 
       <p>Player 2 chooses their preferred piece, so $v_2(\text{piece}_2) = \max(v_2(\text{left}), v_2(\text{right})) \geq 50$.</p>
     </div>
-  </section>
-
-  <section class="content-block">
     <h3>Envy-Freeness</h3>
     <p>Neither player prefers the other's allocation to their own.</p>
     <div class="proof-sketch">
@@ -87,9 +80,6 @@ permalink: /algorithms/divide-and-choose/
       <p><strong>Proof:</strong> Player 1 made the cut such that $v_1(\text{left}) = v_1(\text{right})$ (or as close as possible), so Player 1 cannot prefer the other piece. Player 2 chose their preferred piece by definition. Thus:</p> 
       <p>$$v_2(\text{piece}_2) = \max(v_2(\text{left}), v_2(\text{right})) \geq v_2(\text{piece}_1)$$</p>
     </div>
-  </section>
-
-  <section class="content-block">
     <h3>Strategy-Proofness</h3>
     <p>Truth-telling is optimal for both players.</p>
     <div class="proof-sketch">
@@ -102,8 +92,6 @@ permalink: /algorithms/divide-and-choose/
       <p><em>Player 2:</em> Given two pieces, choosing the piece with lower value according to their true valuations $v_2$ gives a worse outcome than choosing the piece with higher value. Therefore, misrepresenting preferences cannot improve Player 2's outcome.</p>
     </div>
   </section>
-
-  
 
   <!-- Limitations -->
   <section class="content-block">

@@ -59,14 +59,12 @@ permalink: /algorithms/steinhaus-lone-divider/
     </div>
   </section>
 
-  <!-- Mathematical Analysis -->
+  <!-- Fairness Properties -->
 
   <section class="content-block">
     <h2>Fairness Properties</h2>
     <p>Steinhaus' procedure guarantees one fundamental fairness property:</p>
-  </section>
 
-  <section class="content-block">
     <h3>Proportionality</h3>
     <p>All three players receive at least 1/3 of their subjective valuation of the resource.</p>
     <div class="proof-sketch">
