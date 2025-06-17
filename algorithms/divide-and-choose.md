@@ -47,22 +47,6 @@ permalink: /algorithms/divide-and-choose/
     </div>
   </section>
 
-  <!-- Interactive Demo -->
-  <section class="content-block">
-    <h2>Interactive Demo</h2>
-    <p>Try the algorithm yourself! Draw a line to divide the geometric pattern, then see how Player 2 responds.</p>
-    <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 20px 0; min-height: 800px;">
-      <iframe 
-        src="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}" 
-        width="100%" 
-        height="1300" 
-        frameborder="0"
-        style="display: block; border: none;">
-        <p>Your browser does not support iframes. <a href="{{ '/assets/demos/divide-and-choose-demo.html' | relative_url }}">View the demo directly</a>.</p>
-      </iframe>
-    </div>
-  </section>
-
   <!-- Mathematical Analysis -->
   <section class="content-block">
     <h2>Mathematical Insight</h2>
