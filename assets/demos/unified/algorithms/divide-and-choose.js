@@ -30,7 +30,7 @@ const algorithmConfig = {
             id: "choosing",
             title: "Step 2: Choose a piece",
             instructions: "Player 2, click on the piece you prefer!",
-            enabledControls: ['pieceSelection'],
+            enabledControls: ['pieceSelection', 'resetButton'],
             onStepEnter: (state, api) => {
                 console.log('Entered choosing step');
                 // Hide start button during piece selection

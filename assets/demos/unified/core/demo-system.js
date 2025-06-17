@@ -1,5 +1,5 @@
 ﻿/**
- * Fair Division Demo System - Core
+ * Fair Division Demo System - Core 
  * 
  * Main system that manages algorithms, state, and provides the API
  */
@@ -18,7 +18,7 @@ class FairDivisionCore {
     createInitialState() {
         return {
             cutPosition: 0,
-            cutPosition2: 66.6, 
+            cutPosition2: 0, 
             playerValues: {
                 player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
                 player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 },
@@ -47,7 +47,7 @@ class FairDivisionCore {
             });
         }
 
-        // Core buttons - Updated to use start button
+        // Core buttons
         const startBtn = document.getElementById('start-btn');
         if (startBtn) {
             startBtn.addEventListener('click', () => {
@@ -218,7 +218,7 @@ class FairDivisionCore {
         this.state = this.createInitialState();
         this.currentStep = 0;
         this.updateCutLine();
-        this.updateSecondCutLine(); // Add this line
+        this.updateSecondCutLine();
         this.updatePlayerValueDisplays();
 
         // Hide results
@@ -877,12 +877,6 @@ document.addEventListener('DOMContentLoaded', () => {
         demoSystem.register(id, config);
     });
     registrationQueue.length = 0; // Clear the queue
-
-    // Keep the register function available after initialization
-    window.FairDivisionCore.register = function (id, config) {
-        console.log(`Direct registration after init: ${id}`);
-        demoSystem.register(id, config);
-    };
 
     console.log('Fair Division Demo System ready');
 });
