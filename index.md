@@ -91,7 +91,7 @@ title: Fair Division Algorithms
           </div>
         </div>
         <div class="algorithm-content">
-          <p class="algorithm-description"></p>
+          <p class="algorithm-description">Employs a diminishing rule to ensure proportionality for any number of players</p>
           <div class="algorithm-properties">
             <h4>Fairness Properties</h4>
             <div class="property-tags">
