@@ -680,14 +680,21 @@ class FairDivisionCore {
     updateControlStates(enabledControls) {
         const controlMap = {
             'cutSlider': 'cut-slider',
+            'cutSlider2': 'cut-slider-2',  // Add this mapping
             'startButton': 'start-btn',
             'makeCutButton': 'make-cut-btn',
             'resetButton': 'reset-btn',
             'pieceSelection': ['left-piece', 'right-piece']
         };
 
+        // Get all control elements that could be disabled
+        const allControlElements = [
+            'cut-slider', 'cut-slider-2', 'start-btn', 'make-cut-btn', 'reset-btn',
+            'left-piece', 'right-piece'
+        ];
+
         // Disable all controls first
-        Object.values(controlMap).flat().forEach(id => {
+        allControlElements.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
                 el.disabled = true;

@@ -15,7 +15,7 @@ const algorithmConfigSteinhaus = {
             id: "initial-division",
             title: "Step 1: Create three equal pieces",
             instructions: "Player 1 (Divider), use the sliders to create three pieces you value equally.",
-            enabledControls: ['cutSlider1', 'cutSlider2', 'makeCutButton'],
+            enabledControls: ['cutSlider', 'cutSlider2', 'makeCutButton'],
             onStepEnter: (state, api) => {
                 console.log('Entered initial division step');
                 api.showDualCutSliders();

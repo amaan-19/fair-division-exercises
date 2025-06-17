@@ -2973,3 +2973,42 @@ blockquote {
         max-width: 200px;
     }
 }
+
+.algorithm-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3rem 0 2rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid #e2e8f0;
+    gap: 1rem;
+}
+
+    /* Handle cases where there's only one button */
+    .algorithm-navigation:has(.nav-button:only-child) {
+        justify-content: flex-end;
+    }
+
+    /* Alternative approach if :has() isn't supported */
+    .algorithm-navigation .nav-button:only-child {
+        margin-left: auto;
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .algorithm-navigation {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+        .algorithm-navigation .nav-button {
+            width: 100%;
+            max-width: 300px;
+        }
+
+            /* Reset the margin auto for mobile */
+            .algorithm-navigation .nav-button:only-child {
+                margin-left: 0;
+            }
+}
