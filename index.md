@@ -91,7 +91,7 @@ title: Fair Division Algorithms
           </div>
         </div>
         <div class="algorithm-content">
-          <p class="algorithm-description">Clever discrete procedure enabling proportional division for any number of players.</p>
+          <p class="algorithm-description"></p>
           <div class="algorithm-properties">
             <h4>Fairness Properties</h4>
             <div class="property-tags">
