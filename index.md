@@ -13,7 +13,6 @@ title: Fair Division Algorithms
           <h3 class="algorithm-title">Divide-and-Choose</h3>
           <div class="algorithm-meta">
             <span class="meta-badge players-badge">2 Players</span>
-            <span class="meta-badge complexity-badge">Discrete</span>
           </div>
         </div>
         <div class="algorithm-content">
@@ -35,14 +34,13 @@ title: Fair Division Algorithms
       <!-- Austin's Moving Knife Algorithm Card -->
       <div class="algorithm-card">
         <div class="algorithm-header">
-          <h3 class="algorithm-title">Austin's Moving Knife</h3>
+          <h3 class="algorithm-title">Austin Moving Knife</h3>
           <div class="algorithm-meta">
             <span class="meta-badge players-badge">2 Players</span>
-            <span class="meta-badge complexity-badge">Continuous</span>
           </div>
         </div>
         <div class="algorithm-content">
-          <p class="algorithm-description">Introduces a referee and a continuous, moving-knife mechanism for stronger fairness guarantees.</p>
+          <p class="algorithm-description">Utilizes a referee and a moving-knife mechanism for stronger fairness guarantees.</p>
           <div class="algorithm-properties">
             <h4>Fairness Properties</h4>
             <div class="property-tags">
@@ -61,10 +59,9 @@ title: Fair Division Algorithms
       <!-- Steinhaus' Lone-Divider Algorithm Card -->
       <div class="algorithm-card">
         <div class="algorithm-header">
-          <h3 class="algorithm-title">Steinhaus' Lone-Divider</h3>
+          <h3 class="algorithm-title">Steinhaus Lone-Divider</h3>
           <div class="algorithm-meta">
             <span class="meta-badge players-badge">3 Players</span>
-            <span class="meta-badge complexity-badge">Discrete</span>
           </div>
         </div>
         <div class="algorithm-content">
@@ -84,10 +81,9 @@ title: Fair Division Algorithms
       <!-- Banach-Knaster's Last-Diminisher Algorithm Card -->
       <div class="algorithm-card">
         <div class="algorithm-header">
-          <h3 class="algorithm-title">Banach-Knaster's Last-Diminisher</h3>
+          <h3 class="algorithm-title">Banach-Knaster Last-Diminisher</h3>
           <div class="algorithm-meta">
             <span class="meta-badge players-badge">N Players</span>
-            <span class="meta-badge complexity-badge">Discrete</span>
           </div>
         </div>
         <div class="algorithm-content">

@@ -239,7 +239,7 @@ function checkDividerEquality(dividerValues) {
 function updateSteinhasPieceDisplays(state, api) {
     const values = calculateThreePieceValues(state);
 
-    // Update piece value displays (you'll need to add these to the UI)
+    // Update piece value displays (need to add these to the UI)
     ['player1', 'player2', 'player3'].forEach((player, index) => {
         const display = document.getElementById(`${player}-values`);
         if (display) {

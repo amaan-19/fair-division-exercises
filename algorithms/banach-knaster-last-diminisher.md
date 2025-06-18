@@ -43,11 +43,11 @@ permalink: /algorithms/banach-knaster-last-diminisher/
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            Once the piece has been evaluated by each player, whoever made the <strong>final</strong> trim, recieves the piece from that round and all trimmed portions are returned to the cake.
+            Once the piece has been evaluated by each player, whoever made the <strong>final</strong> trim recieves the piece from that round and all trimmings are returned to the cake.
           </div>
         </div>
 
-        <h4>Rounds 2...N:</h4>
+        <h4>Rounds 2, 3, ..., N:</h4>
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
@@ -65,7 +65,7 @@ permalink: /algorithms/banach-knaster-last-diminisher/
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            Once the piece has been evaluated by each player, whoever made the <strong>final</strong> trim, recieves the piece from that round and all trimmed portions are returned to the cake.
+            Once the piece has been evaluated by each player, whoever made the <strong>final</strong> trim recieves the piece from that round and all trimmings are returned to the cake.
           </div>
         </div>
 
