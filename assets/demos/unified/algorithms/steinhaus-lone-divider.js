@@ -236,7 +236,7 @@ function checkDividerEquality(dividerValues) {
     return { isEqual: maxDiff < 2.0, maxDiff };
 }
 
-function updateSteinhasPieceDisplays(state, api) {
+function updateSteinhausPieceDisplays(state, api) {
     const values = calculateThreePieceValues(state);
 
     // Update piece value displays (need to add these to the UI)

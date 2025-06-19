@@ -457,7 +457,7 @@ class FairDivisionCore {
             },
 
             showThreePieceOverlays: (leftPos, rightPos) => {
-                // Create three piece overlays
+                // Create three-piece overlays
                 const svg = document.querySelector('.game-svg');
 
                 // Left piece (0 to leftPos)
