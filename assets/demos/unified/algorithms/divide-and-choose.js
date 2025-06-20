@@ -18,7 +18,10 @@ const algorithmConfig = {
             enabledControls: ['cutSlider', 'makeCutButton'],
             onStepEnter: (state, api) => {
                 console.log('Entered cutting step');
+                console.log('Showing "Make Cut" button...');
                 api.showMakeCutButton();
+                console.log('Hiding "Start" button...');
+                api.setStartButtonState('hidden');
                 updatePlayerDisplays(state, api);
             },
             onStepExit: (state, api) => {
@@ -47,19 +50,18 @@ const algorithmConfig = {
     ],
 
     // Main algorithm handlers
-    onStart: (state, api) => {
-        console.log('Start button clicked for Divide-and-Choose');
-    },
 
     onMakeCut: (state, api) => {
         console.log('Make Cut button clicked for Divide-and-Choose');
+        console.log('Cut made at: ' + state.cutPosition.toString());
         // Validate that player values sum to 100
         const validation = validatePlayerTotals(state);
         if (!validation.valid) {
             alert(`Player valuations must sum to 100!\n\nPlayer 1: ${validation.player1Total}\nPlayer 2: ${validation.player2Total}`);
             return;
         }
-
+        // show overlays
+        api.showTwoPieceOverlays(state.cutPosition);
         // Move to choosing step
         api.requestStepProgression();
     },

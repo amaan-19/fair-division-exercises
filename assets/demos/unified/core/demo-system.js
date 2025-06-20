@@ -216,6 +216,26 @@ class FairDivisionCore {
         }
     }
 
+    exitStep(stepIndex) {
+        if (!this.currentAlgorithm || !this.currentAlgorithm.config.steps) return;
+
+        const step = this.currentAlgorithm.config.steps[stepIndex];
+        if (!step) return;
+
+        this.currentStep = stepIndex;
+
+        const api = this.createAPI();
+
+        if (step.onStepExit) {
+            step.onStepExit(this.state, api);
+        }
+    }
+
+    resetSlider() {
+        const cutSlider = document.getElementById('cut-slider');
+        cutSlider.value = 0;
+    }
+
     resetAlgorithm() {
         if (!this.currentAlgorithm) return;
 
@@ -224,6 +244,7 @@ class FairDivisionCore {
         this.updateCutLine();
         this.updateSecondCutLine();
         this.updatePlayerValueDisplays();
+        this.resetSlider();
 
         // Hide results
         const resultsEl = document.getElementById('results');
@@ -243,47 +264,30 @@ class FairDivisionCore {
     createAPI() {
         const self = this; // capture the correct this context
         return {
-            // State management
-            updateState: (changes) => {
-                Object.assign(this.state, changes);
-            },
-
-            getState: () => ({ ...this.state }),
-
-            setCutPosition: (percentage) => {
-                this.state.cutPosition = percentage;
-                this.updateCutLine();
-                document.getElementById('cut-slider').value = percentage;
-            },
+            /**
+             * GENERAL PURPOSE API METHODS
+             */
 
             // Step control
             requestStepProgression: () => {
                 if (this.currentAlgorithm && this.currentAlgorithm.config.steps) {
-                    const nextStep = this.currentStep + 1;
+                    const thisStep = this.currentStep;
+                    this.exitStep(thisStep);
+                    const nextStep = thisStep + 1;
                     if (nextStep < this.currentAlgorithm.config.steps.length) {
                         this.enterStep(nextStep);
                     }
                 }
             },
 
+            // current step getter
             getCurrentStep: () => this.currentStep,
 
-            // Start button control
-            setStartButtonText: (text) => {
-                const startBtn = document.getElementById('start-btn');
-                if (startBtn) {
-                    startBtn.textContent = text;
-                }
-            },
-
+            // sets state of the start button
             setStartButtonState: (state) => {
                 const startBtn = document.getElementById('start-btn');
                 if (startBtn) {
                     switch (state) {
-                        case 'loading':
-                            startBtn.disabled = true;
-                            startBtn.classList.add('loading');
-                            break;
                         case 'disabled':
                             startBtn.disabled = true;
                             startBtn.classList.remove('loading');
@@ -406,28 +410,17 @@ class FairDivisionCore {
             updateSingleKnife: (cutX) => {
                 const cutLine = document.getElementById('cut-line');
                 if (cutLine) {
-                    cutLine.setAttribute('x1', cutX);
-                    cutLine.setAttribute('x2', cutX);
+                    cutLine.setAttribute('x1', cutX.toString());
+                    cutLine.setAttribute('x2', cutX.toString());
                 }
             },
 
             showDualKnives: () => {
-                // Show the left knife (green)
+                // Show the left knife
                 let leftKnife = document.getElementById('left-knife');
-                if (!leftKnife) {
-                    const svg = document.querySelector('.game-svg');
-                    leftKnife = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    leftKnife.id = 'left-knife';
-                    leftKnife.setAttribute('x1', '0');
-                    leftKnife.setAttribute('y1', '0');
-                    leftKnife.setAttribute('x2', '0');
-                    leftKnife.setAttribute('y2', '400');
-                    leftKnife.setAttribute('stroke', '#48bb78');
-                    leftKnife.setAttribute('stroke-width', '4');
-                    leftKnife.setAttribute('stroke-dasharray', '10,5');
-                    svg.appendChild(leftKnife);
+                if (leftKnife) {
+                    leftKnife.style.display = 'block';
                 }
-                leftKnife.style.display = 'block';
 
                 // Keep the existing right knife (red) - that's our cut-line
                 const rightKnife = document.getElementById('cut-line');
@@ -446,18 +439,46 @@ class FairDivisionCore {
                 const rightKnife = document.getElementById('cut-line');
 
                 if (leftKnife) {
-                    leftKnife.setAttribute('x1', leftX);
-                    leftKnife.setAttribute('x2', leftX);
+                    leftKnife.setAttribute('x1', leftX.toString());
+                    leftKnife.setAttribute('x2', leftX.toString());
                 }
 
                 if (rightKnife) {
-                    rightKnife.setAttribute('x1', rightX);
-                    rightKnife.setAttribute('x2', rightX);
+                    rightKnife.setAttribute('x1', rightX.toString());
+                    rightKnife.setAttribute('x2', rightX.toString());
                 }
             },
 
+            showTwoPieceOverlays: (cutPosition) => {
+                const svg = document.querySelector('.game-svg');
+
+                // convert cutPosition to pixel value
+                const finalPos = (cutPosition / 100) * 800;
+
+                // Left piece (0 to cutPosition)
+                let leftPiece = document.getElementById('left-piece');
+                leftPiece.setAttribute('x', '0');
+                leftPiece.setAttribute('y', '0');
+                leftPiece.setAttribute('width', finalPos.toString());
+                leftPiece.setAttribute('height', '400');
+                leftPiece.setAttribute('fill', 'rgba(49,130,206,0.2)');
+                leftPiece.setAttribute('stroke', '#3182ce');
+                leftPiece.setAttribute('stroke-width', '3');
+                leftPiece.style.display = 'block';
+
+                // Right piece (cutPosition to 800)
+                let rightPiece = document.getElementById('right-piece');
+                rightPiece.setAttribute('x', finalPos.toString());
+                rightPiece.setAttribute('y', '0');
+                rightPiece.setAttribute('width', (800 - finalPos).toString());
+                rightPiece.setAttribute('height', '400');
+                rightPiece.setAttribute('fill', 'rgba(72,187,120,0.2)');
+                rightPiece.setAttribute('stroke', '#38a169');
+                rightPiece.setAttribute('stroke-width', '3');
+                rightPiece.style.display = 'block';
+            },
+
             showThreePieceOverlays: (leftPos, rightPos) => {
-                // Create three-piece overlays
                 const svg = document.querySelector('.game-svg');
 
                 // Left piece (0 to leftPos)
@@ -469,7 +490,7 @@ class FairDivisionCore {
                 }
                 leftPiece.setAttribute('x', '0');
                 leftPiece.setAttribute('y', '0');
-                leftPiece.setAttribute('width', leftPos);
+                leftPiece.setAttribute('width', leftPos.toString());
                 leftPiece.setAttribute('height', '400');
                 leftPiece.setAttribute('fill', 'rgba(49,130,206,0.2)');
                 leftPiece.setAttribute('stroke', '#3182ce');
@@ -483,9 +504,9 @@ class FairDivisionCore {
                     middlePiece.id = 'austin-middle-piece';
                     svg.appendChild(middlePiece);
                 }
-                middlePiece.setAttribute('x', leftPos);
+                middlePiece.setAttribute('x', leftPos.toString());
                 middlePiece.setAttribute('y', '0');
-                middlePiece.setAttribute('width', rightPos - leftPos);
+                middlePiece.setAttribute('width', (rightPos - leftPos).toString());
                 middlePiece.setAttribute('height', '400');
                 middlePiece.setAttribute('fill', 'rgba(255,193,7,0.2)');
                 middlePiece.setAttribute('stroke', '#ffc107');
@@ -499,9 +520,9 @@ class FairDivisionCore {
                     rightPiece.id = 'austin-right-piece';
                     svg.appendChild(rightPiece);
                 }
-                rightPiece.setAttribute('x', rightPos);
+                rightPiece.setAttribute('x', rightPos.toString());
                 rightPiece.setAttribute('y', '0');
-                rightPiece.setAttribute('width', 800 - rightPos);
+                rightPiece.setAttribute('width', (800 - rightPos).toString());
                 rightPiece.setAttribute('height', '400');
                 rightPiece.setAttribute('fill', 'rgba(72,187,120,0.2)');
                 rightPiece.setAttribute('stroke', '#38a169');
@@ -622,8 +643,8 @@ class FairDivisionCore {
                 ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
                     const piece = document.getElementById(id);
                     if (piece) {
-                        piece.setAttribute('x', cuts[index]);
-                        piece.setAttribute('width', cuts[index + 1] - cuts[index]);
+                        piece.setAttribute('x', cuts[index].toString());
+                        piece.setAttribute('width', (cuts[index + 1] - cuts[index]).toString());
                         piece.style.display = 'block';
                     }
                 });
@@ -761,8 +782,8 @@ class FairDivisionCore {
         const cutLine = document.getElementById('cut-line');
         if (cutLine) {
             const cutX = (this.state.cutPosition / 100) * 800;
-            cutLine.setAttribute('x1', cutX);
-            cutLine.setAttribute('x2', cutX);
+            cutLine.setAttribute('x1', cutX.toString());
+            cutLine.setAttribute('x2', cutX.toString());
         }
 
         const cutValue = document.getElementById('cut-value');
@@ -775,8 +796,8 @@ class FairDivisionCore {
         const cutLine2 = document.getElementById('cut-line-2');
         if (cutLine2) {
             const cutX = (this.state.cutPosition2 / 100) * 800;
-            cutLine2.setAttribute('x1', cutX);
-            cutLine2.setAttribute('x2', cutX);
+            cutLine2.setAttribute('x1', cutX.toString());
+            cutLine2.setAttribute('x2', cutX.toString());
         }
 
         const cutValue2 = document.getElementById('cut-value-2');
@@ -865,14 +886,8 @@ const registrationQueue = [];
 // Make registration available immediately when script loads
 window.FairDivisionCore = {
     register: function (id, config) {
-        console.log(`Registration attempt for: ${id}`);
-        if (demoSystem) {
-            console.log(`Registering immediately: ${id}`);
-            demoSystem.register(id, config);
-        } else {
-            console.log(`Queueing registration: ${id}`);
-            registrationQueue.push({ id, config });
-        }
+        console.log(`Waiting for DOM, queueing registration: ${id}`);
+        registrationQueue.push({ id, config });
     }
 };
 

@@ -20,7 +20,7 @@ const algorithmConfigSteinhaus = {
                 console.log('Entered initial division step');
                 api.showDualCutSliders();
                 api.showMakeCutButton();
-                updateSteinhasPieceDisplays(state, api);
+                updateSteinhausPieceDisplays(state, api);
             },
             onStepExit: (state, api) => {
                 console.log('Exiting initial division step');
@@ -108,7 +108,7 @@ const algorithmConfigSteinhaus = {
         console.log('Steinhaus algorithm reset');
         // Reset algorithm-specific state
         state.algorithmData = {};
-        state.cutPosition2 = 66.6; // Add second cut position
+        state.cutPosition2 = 0; // Add second cut position
 
         // Reset UI elements
         api.hideThreePieceOverlays();
@@ -118,12 +118,12 @@ const algorithmConfigSteinhaus = {
         api.setStartButtonText('Start');
         api.setStartButtonState('enabled');
 
-        updateSteinhasPieceDisplays(state, api);
+        updateSteinhausPieceDisplays(state, api);
     },
 
     onPlayerValueChange: (state, api) => {
         console.log('Player values changed in Steinhaus algorithm');
-        updateSteinhasPieceDisplays(state, api);
+        updateSteinhausPieceDisplays(state, api);
 
         // Validate totals and update start button state
         const validation = validateAllPlayerTotals(state);
@@ -139,7 +139,7 @@ const algorithmConfigSteinhaus = {
 
     onCutChange: (state, api) => {
         console.log('Cut positions changed in Steinhaus algorithm');
-        updateSteinhasPieceDisplays(state, api);
+        updateSteinhausPieceDisplays(state, api);
     },
 
     // Utility methods

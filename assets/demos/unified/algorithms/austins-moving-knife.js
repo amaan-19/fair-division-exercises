@@ -35,8 +35,7 @@ const algorithmConfigAustin = {
                 api.hideDualKnives();
                 api.hideThreePieceOverlays();
 
-                // Set start button text
-                api.setStartButtonText('Start Animation');
+                // enable start button
                 api.setStartButtonState('enabled');
             },
             onStepExit: (state, api) => {
@@ -196,9 +195,6 @@ const algorithmConfigAustin = {
         api.hideThreePieceOverlays();
         api.removeStopButtons();
         api.removeOtherPlayerStopButton();
-
-        // Reset start button
-        api.setStartButtonText('Start Animation');
         api.setStartButtonState('enabled');
 
         // Hide stop position indicator
@@ -214,10 +210,8 @@ const algorithmConfigAustin = {
         if (api.getCurrentStep() === 0 && !state.algorithmData.animationStarted) {
             if (validation.valid) {
                 api.setStartButtonState('enabled');
-                api.setStartButtonText('Start Animation');
             } else {
                 api.setStartButtonState('disabled');
-                api.setStartButtonText('Fix Valuations First');
             }
         }
 
