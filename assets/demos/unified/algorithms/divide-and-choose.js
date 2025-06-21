@@ -157,9 +157,9 @@ function handlePieceSelection(piece, state, api) {
                 <p><strong>Player 2:</strong> ${player2Value.toFixed(1)} points</p>
                 <br>
                 <p><strong>Fairness Analysis:</strong></p>
-                <p>✓ <strong>Proportional:</strong> ${(player1Value >= 50 - threshold) && (player2Value >= 50 - threshold) ? 'Both players get ≥50%' : 'Someone gets <50%'}</p>
-                <p>✓ <strong>Envy-free:</strong> Neither player prefers the other's piece</p>
-                <p>✓ <strong>Strategy-proof:</strong> Truth-telling was optimal for both players</p>
+                <p><strong>Proportional:</strong> ${(player1Value >= 50 - threshold) && (player2Value >= 50 - threshold) ? 'Yes, both players get ≥50%' : 'No, someone gets <50%'}</p>
+                <p><strong>Envy-free:</strong> Neither player prefers the other's piece</p>
+                <p><strong>Strategy-proof:</strong> Truth-telling was optimal for both players</p>
             </div>
         `
     });
