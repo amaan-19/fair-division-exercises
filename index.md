@@ -113,7 +113,6 @@ title: Fair Division Algorithms
         <div class="carousel-indicators" id="indicators"></div>
         <button class="carousel-btn" id="nextBtn">›</button>
     </div>
-
   </div>
 </div>
 <div class="content-block demo-section">

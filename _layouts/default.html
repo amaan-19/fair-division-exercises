@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html> <!-- Default Layout Page -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     {% seo %}
 </head>
 <body>
+    <!-- Site Header -->
     <header class="site-header">
         <div class="container">
             <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
@@ -19,12 +20,14 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="main-content">
         <div class="container">
             {{ content }}
         </div>
     </main>
 
+    <!-- Site Footer -->
     <footer class="site-footer">
         <div class="container">
             <h3 class="footer-title">{{ site.title }}</h3>
@@ -33,6 +36,7 @@
         </div>
     </footer>
 
+    <!-- LaTex Scripts -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
@@ -44,6 +48,7 @@
       };
     </script>
 
+    <!-- Proof Sketches Scripts -->
     <script>
         // Initialize collapsible proof sketches after MathJax is ready
         document.addEventListener('DOMContentLoaded', function () {

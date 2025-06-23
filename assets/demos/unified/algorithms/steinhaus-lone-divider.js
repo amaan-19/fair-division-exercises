@@ -34,6 +34,7 @@ const algorithmConfigSteinhaus = {
             enabledControls: [],
             onStepEnter: (state, api) => {
                 console.log('Entered analysis phase');
+                console.log('Hiding start button...')
                 api.setStartButtonState('hidden');
                 analyzeAcceptablePieces(state, api);
             },
@@ -97,9 +98,6 @@ const algorithmConfigSteinhaus = {
             if (!proceed) return;
         }
 
-        // Store piece values in algorithm data
-        state.algorithmData.pieceValues = dividerValues;
-
         // Move to analysis step
         api.requestStepProgression();
     },
@@ -115,7 +113,6 @@ const algorithmConfigSteinhaus = {
         api.hideDualCutSliders();
 
         // Reset start button
-        api.setStartButtonText('Start');
         api.setStartButtonState('enabled');
 
         updateSteinhausPieceDisplays(state, api);
@@ -132,7 +129,6 @@ const algorithmConfigSteinhaus = {
                 api.setStartButtonState('enabled');
             } else {
                 api.setStartButtonState('disabled');
-                api.setStartButtonText('Fix Valuations First');
             }
         }
     },
@@ -250,7 +246,7 @@ function updateSteinhausPieceDisplays(state, api) {
 }
 
 function analyzeAcceptablePieces(state, api) {
-    const pieceValues = state.algorithmData.pieceValues;
+    const pieceValues = calculateThreePieceValues(state);
     const threshold = 100 / 3; // 33.33%
 
     const acceptablePieces = {

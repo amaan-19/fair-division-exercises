@@ -71,7 +71,6 @@ const algorithmConfig = {
         // Reset any algorithm-specific state
         state.algorithmData = {};
         // Reset start button
-        api.setStartButtonText('Start');
         api.setStartButtonState('enabled');
         updatePlayerDisplays(state, api);
     },
@@ -87,7 +86,6 @@ const algorithmConfig = {
                 api.setStartButtonState('enabled');
             } else {
                 api.setStartButtonState('disabled');
-                api.setStartButtonText('Fix Valuations First');
             }
         }
     },

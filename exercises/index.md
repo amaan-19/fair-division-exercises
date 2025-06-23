@@ -10,8 +10,7 @@ permalink: /exercises/
 </div>
 
 <div class="content-block">
-  <h2>Exercise Selection</h2>
-  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem;">
+  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;">
     <div>
       <label for="exercise-category" style="font-weight: 500; margin-right: 0.5rem;">Category:</label>
       <select id="exercise-category" class="algorithm-dropdown">
