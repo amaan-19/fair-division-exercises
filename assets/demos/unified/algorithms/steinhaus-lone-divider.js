@@ -240,7 +240,7 @@ function updateSteinhausPieceDisplays(state, api) {
         const display = document.getElementById(`${player}-values`);
         if (display) {
             const vals = values[player];
-            display.textContent = `P1: ${vals[0].toFixed(1)} | P2: ${vals[1].toFixed(1)} | P3: ${vals[2].toFixed(1)}`;
+            display.textContent = `Left: ${vals[0].toFixed(1)} | Center: ${vals[1].toFixed(1)} | Right: ${vals[2].toFixed(1)}`;
         }
     });
 }
