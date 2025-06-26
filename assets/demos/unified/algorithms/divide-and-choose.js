@@ -93,21 +93,28 @@ class DivideAndChooseAlgorithm {
     static handlePieceSelection(piece, state, api) {
         Logger.info(`Player 2 selected: ${piece} piece`);
 
+        // Ensure piece values are calculated before showing results
+        DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+
         const algorithm = api.getState().algorithmData.algorithm;
         if (algorithm) {
             algorithm.selectedPiece = piece;
             algorithm.gameComplete = true;
         }
 
+        // IMPORTANT: Show the results element FIRST
+        api.showElement('results');
+
         // Visual feedback
         DivideAndChooseAlgorithm.highlightSelectedPiece(piece);
+
+        // Then populate the results
         DivideAndChooseAlgorithm.showResults(piece, state, api);
 
         // Update UI
         api.updateInstructions('<strong>Selection Complete!</strong> Player 2 has chosen their piece.');
         api.disableElement('left-piece');
         api.disableElement('right-piece');
-        api.showElement('results');
 
         api.emit('pieceSelected', { piece, player: 'player2' });
     }
@@ -128,59 +135,108 @@ class DivideAndChooseAlgorithm {
     }
 
     static showResults(selectedPiece, state, api) {
-        const pieceValues = api.getState().algorithmData.pieceValues;
-        if (!pieceValues) return;
+        Logger.info(`Showing results for selected piece: ${selectedPiece}`);
 
+        const pieceValues = api.getState().algorithmData.pieceValues;
+        if (!pieceValues) {
+            Logger.error('No piece values found when showing results');
+            return;
+        }
+
+        // Calculate which piece each player gets
         const player1Gets = selectedPiece === 'left' ? 'right' : 'left';
         const player2Gets = selectedPiece;
 
+        // Get the values for each player's piece
         const player1Value = pieceValues.player1[player1Gets];
         const player2Value = pieceValues.player2[player2Gets];
 
+        // Check if values are valid
+        if (player1Value === undefined || player2Value === undefined) {
+            Logger.error('Invalid piece values:', { player1Value, player2Value, pieceValues });
+            return;
+        }
+
+        // Calculate fairness metrics
+        const isProportional = player1Value >= 50 && player2Value >= 50;
+        const isEnvyFree = player1Value >= pieceValues.player1[player2Gets] &&
+            player2Value >= pieceValues.player2[player1Gets];
+
+        // Create the results HTML
         const resultsHTML = `
-            <div class="results-summary">
-                <h3>Final Allocation</h3>
-                <div class="allocation-grid">
-                    <div class="player-result">
-                        <h4>Player 1 (Divider)</h4>
-                        <p>Receives: <strong>${player1Gets.charAt(0).toUpperCase() + player1Gets.slice(1)} piece</strong></p>
-                        <p>Value: <strong>${player1Value.toFixed(1)} points</strong></p>
-                    </div>
-                    <div class="player-result">
-                        <h4>Player 2 (Chooser)</h4>
-                        <p>Receives: <strong>${player2Gets.charAt(0).toUpperCase() + player2Gets.slice(1)} piece</strong></p>
-                        <p>Value: <strong>${player2Value.toFixed(1)} points</strong></p>
-                    </div>
+        <div class="results-summary">
+            <h3>Final Allocation</h3>
+            <div class="allocation-grid">
+                <div class="player-result">
+                    <h4>Player 1 (Divider)</h4>
+                    <p>Receives: <strong>${player1Gets.charAt(0).toUpperCase() + player1Gets.slice(1)} piece</strong></p>
+                    <p>Value: <strong>${player1Value.toFixed(1)} points</strong></p>
                 </div>
-                
-                <div class="fairness-analysis">
-                    <h4>Fairness Properties</h4>
-                    <ul>
-                        <li><strong>Proportional:</strong> Both players receive at least 50% of their valuation</li>
-                        <li><strong>Envy-free:</strong> Each player prefers their piece to the other's</li>
-                        <li><strong>Strategy-proof:</strong> Truth-telling is optimal for both players</li>
-                    </ul>
+                <div class="player-result">
+                    <h4>Player 2 (Chooser)</h4>
+                    <p>Receives: <strong>${player2Gets.charAt(0).toUpperCase() + player2Gets.slice(1)} piece</strong></p>
+                    <p>Value: <strong>${player2Value.toFixed(1)} points</strong></p>
                 </div>
             </div>
-        `;
+            
+            <div class="fairness-analysis">
+                <h4>Fairness Analysis</h4>
+                <div class="fairness-properties">
+                    <div class="property-result ${isProportional ? 'success' : 'warning'}">
+                        <span class="property-icon">${isProportional ? '✓' : '⚠'}</span>
+                        <span><strong>Proportional:</strong> ${isProportional ? 'Both players get ≥50%' : 'Some player gets <50%'}</span>
+                    </div>
+                    <div class="property-result ${isEnvyFree ? 'success' : 'warning'}">
+                        <span class="property-icon">${isEnvyFree ? '✓' : '⚠'}</span>
+                        <span><strong>Envy-free:</strong> ${isEnvyFree ? 'No player envies the other' : 'Some envy exists'}</span>
+                    </div>
+                    <div class="property-result success">
+                        <span class="property-icon">✓</span>
+                        <span><strong>Strategy-proof:</strong> Truth-telling is optimal for both players</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 
+        // Find the results container and populate it
         const resultsElement = document.getElementById('results');
         if (resultsElement) {
             const contentElement = document.getElementById('result-content');
-            contentElement.innerHTML = resultsHTML;
+            if (contentElement) {
+                contentElement.innerHTML = resultsHTML;
+                Logger.debug('Results HTML added to result-content element');
+            } else {
+                // Fallback: add directly to results if result-content doesn't exist
+                Logger.warn('result-content element not found, adding directly to results');
+                resultsElement.innerHTML = `<h3>Results</h3>${resultsHTML}`;
+            }
+
+            // Make sure the results element is visible
+            resultsElement.style.display = 'block';
+            Logger.debug('Results element made visible');
+        } else {
+            Logger.error('results element not found in DOM');
+            return;
         }
 
-        api.showElement(resultsElement);
-
+        // Store the final results in algorithm data
         api.setAlgorithmData('finalResults', {
             player1: { piece: player1Gets, value: player1Value },
             player2: { piece: player2Gets, value: player2Value },
-            selectedPiece
+            selectedPiece,
+            fairness: {
+                proportional: isProportional,
+                envyFree: isEnvyFree,
+                strategyProof: true
+            }
         });
 
-        Logger.info('Results displayed:', {
+        Logger.info('Results displayed successfully:', {
             player1: `${player1Gets} piece (${player1Value.toFixed(1)} points)`,
-            player2: `${player2Gets} piece (${player2Value.toFixed(1)} points)`
+            player2: `${player2Gets} piece (${player2Value.toFixed(1)} points)`,
+            proportional: isProportional,
+            envyFree: isEnvyFree
         });
     }
 }
