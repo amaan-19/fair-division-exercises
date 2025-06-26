@@ -361,7 +361,7 @@
                         <text x="380" y="260" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Green</text>
 
                         <!-- Cut line (right knife in Austin's algorithm) -->
-                        <line id="cut-line" x1="400" y1="0" x2="400" y2="400"
+                        <line id="cut-line" x1="0" y1="0" x2="0" y2="400"
                               stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5" />
 
                         <!-- Piece overlays for divide-and-choose (hidden by default) -->
@@ -436,6 +436,7 @@
                     <h3>Results</h3>
                     <div id="result-content"></div>
                 </div>
+
             </div>
 
             <!-- Player Values Section -->
@@ -582,10 +583,9 @@
 
     <!-- Load Core System -->
     <script src="core/demo-system.js"></script>
+    <script src="core/demo-controller.js"></script>
 
     <!-- Load Algorithms -->
     <script src="algorithms/divide-and-choose.js"></script>
-    <script src="algorithms/austins-moving-knife.js"></script>
-    <script src="algorithms/steinhaus-lone-divider.js"></script>
 </body>
 </html>
