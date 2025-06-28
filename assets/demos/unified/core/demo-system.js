@@ -1,908 +1,774 @@
 ﻿/**
- * Fair Division Demo System - Core 
- * 
- * Main system that manages algorithms, state, and provides the API
+ * Fair Division Demo System - Core
+ *
+ * Defines classes used by the demo system
  */
 
-class FairDivisionCore {
-    constructor() {
-        this.algorithms = new Map();
-        this.currentAlgorithm = null;
-        this.currentStep = 0;
-        this.state = this.createInitialState();
-        this.eventCleanup = [];
+// ===== CORE CONFIGURATION =====
+const DEMO_CONFIG = {
+    VALIDATION: {
+        REQUIRED_TOTAL: 100,
+        TOLERANCE: 0.1
+    },
+    DEFAULT_PLAYER_VALUES: {
+        player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
+        player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 },
+        player3: { blue: 30, red: 10, green: 15, orange: 5, pink: 25, purple: 15 }
+    },
+    COLORS: ['blue', 'red', 'green', 'orange', 'pink', 'purple'],
+    BOUNDS: {
+        blue: { start: 0, end: 75 },
+        red: { start: 75, end: 100 },
+        green: { start: 18.75, end: 75 },
+        orange: { start: 75, end: 100 },
+        pink: { start: 0, end: 18.75 },
+        purple: { start: 18.75, end: 100 }
+    },
+    ELEMENT_IDS: [
+        'algorithm-selector', 'algorithm-name', 'algorithm-description',
+        'step-indicator', 'instructions', 'start-btn', 'reset-btn',
+        'cut-slider', 'cut-slider-2', 'make-cut-btn',
+        'cut-value', 'cut-value-2',
+        'left-piece', 'right-piece', 'piece-1', 'piece-2', 'piece-3',
+        'results', 'result-content', 'player3-section'
+    ],
+};
 
-        this.initializeUI();
+// ===== LOGGING UTILITY =====
+class Logger {
+    static debug(...args) {
+        console.log('[DEMO DEBUG]', ...args);
+    }
+
+    static info(...args) {
+        console.log('[DEMO INFO]', ...args);
+    }
+
+    static warn(...args) {
+        console.warn('[DEMO WARN]', ...args);
+    }
+
+    static error(...args) {
+        console.error('[DEMO ERROR]', ...args);
+    }
+
+    static group(title) {
+        console.group('[DEMO]', title);
+    }
+
+    static groupEnd() {
+        console.groupEnd();
+    }
+}
+
+// ===== EVENT SYSTEM =====
+class EventSystem {
+    constructor() {
+        this.events = {};
+        Logger.debug('EventSystem initialized');
+    }
+
+    on(eventName, callback) {
+        if (!this.events[eventName]) {
+            this.events[eventName] = [];
+        }
+        this.events[eventName].push(callback);
+    }
+
+    once(eventName, callback) {
+        const onceWrapper = (...args) => {
+            callback(...args);
+            this.off(eventName, onceWrapper);
+        };
+        this.on(eventName, onceWrapper);
+    }
+
+    off(eventName, callback) {
+        if (!this.events[eventName]) return;
+        this.events[eventName] = this.events[eventName].filter(
+            listener => listener !== callback
+        );
+    }
+
+    emit(eventName, ...args) {
+        if (!this.events[eventName]) return;
+        this.events[eventName].forEach(callback => {
+            try {
+                callback(...args);
+            } catch (error) {
+                Logger.error(`Error in event handler for "${eventName}":`, error);
+            }
+        });
+    }
+
+    removeAllListeners(eventName) {
+        if (eventName) {
+            delete this.events[eventName];
+        } else {
+            this.events = {};
+        }
+    }
+
+    eventNames() {
+        return Object.keys(this.events);
+    }
+
+    getListenerCount() {
+        return Object.values(this.events).reduce((total, listeners) => total + listeners.length, 0);
+    }
+}
+
+// ===== STATE MANAGEMENT =====
+class StateManager {
+    constructor(eventSystem) {
+        this.eventSystem = eventSystem;
+        this.state = this.createInitialState();
+        this.subscribers = {};
+
+        Logger.debug('StateManager initialized');
     }
 
     createInitialState() {
         return {
+            playerValues: JSON.parse(JSON.stringify(DEMO_CONFIG.DEFAULT_PLAYER_VALUES)),
             cutPosition: 0,
-            cutPosition2: 0, 
-            playerValues: {
-                player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
-                player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 },
-                player3: { blue: 30, red: 10, green: 15, orange: 5, pink: 25, purple: 15 },
-            },
+            cutPosition2: 0,
+            currentStep: 0,
             algorithmData: {}
         };
     }
 
-    initializeUI() {
-        // Set up core event listeners
-        this.setupCoreEvents();
-
-        // Initialize UI state
-        this.updateAlgorithmSelector();
-        this.updateCutLine();
-        this.updatePlayerValueDisplays();
+    // ===== CORE STATE METHODS =====
+    getState(key) {
+        return key ? this.state[key] : { ...this.state };
     }
 
-    setupCoreEvents() {
-        // Algorithm selector
-        const selector = document.getElementById('algorithm-selector');
-        if (selector) {
-            selector.addEventListener('change', (e) => {
-                this.switchAlgorithm(e.target.value);
-            });
-        }
+    setState(key, value) {
+        if (this.state[key] === value) return;
 
-        // Start button
-        const startBtn = document.getElementById('start-btn');
-        if (startBtn) {
-            startBtn.addEventListener('click', () => {
-                if (this.currentAlgorithm) {
-                    this.currentAlgorithm.config.onStart(this.state, this.createAPI());
+        const oldValue = this.state[key];
+        this.state[key] = value;
+
+        // Emit specific state change event
+        this.eventSystem.emit(`state:${key}:changed`, { value, oldValue });
+
+        // Emit general state change event
+        this.eventSystem.emit('state:changed', { key, value, oldValue });
+
+        // Notify subscribers
+        if (this.subscribers[key]) {
+            this.subscribers[key].forEach(callback => {
+                try {
+                    callback({ value, oldValue });
+                } catch (error) {
+                    Logger.error(`Error in state subscriber for "${key}":`, error);
                 }
             });
         }
 
-        // Reset button
-        const resetBtn = document.getElementById('reset-btn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                this.resetAlgorithm();
-            });
+        Logger.debug(`State updated: ${key} =`, value);
+    }
+
+    subscribe(key, callback) {
+        if (!this.subscribers[key]) {
+            this.subscribers[key] = [];
         }
-
-        // Cut slider
-        const cutSlider = document.getElementById('cut-slider');
-        if (cutSlider) {
-            cutSlider.addEventListener('input', (e) => {
-                this.state.cutPosition = parseFloat(e.target.value);
-                this.updateCutLine();
-                this.updatePlayerValueDisplays();
-                if (this.currentAlgorithm) {
-                    this.currentAlgorithm.config.onPlayerValueChange?.(this.state, this.createAPI());
-                }
-            });
-        }
-
-        // Player value inputs
-        this.setupPlayerValueEvents();
+        this.subscribers[key].push(callback);
     }
 
-    // Monitor changes in color valuations
-    setupPlayerValueEvents() {
-        const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
-        ['p1', 'p2', 'p3'].forEach(player => {
-            colors.forEach(color => {
-                const input = document.getElementById(`${player}-${color}`);
-                if (input) {
-                    input.addEventListener('input', (e) => {
-                        const playerKey = player === 'p1' ? 'player1' : player === 'p2' ? 'player2' : 'player3';
-                        this.state.playerValues[playerKey][color] = parseInt(e.target.value) || 0;
-
-                        // Check if values sum to 100
-                        const total = colors.reduce((sum, clr) => sum + (this.state.playerValues[playerKey][clr] || 0), 0);
-                        if (total !== 100) {
-                            console.error(`Error: ${playerKey} values must sum to 100. Current total: ${total}`);
-                            const errorElement = document.getElementById(`${player}-error`);
-                            if (errorElement) {
-                                errorElement.textContent = `Total must be 100 (currently ${total})`;
-                                errorElement.style.display = 'block';
-                            }
-                        } else {
-                            const errorElement = document.getElementById(`${player}-error`);
-                            if (errorElement) {
-                                errorElement.style.display = 'none';
-                            }
-                        }
-
-                        this.updatePlayerValueDisplays();
-                        if (this.currentAlgorithm) {
-                            this.currentAlgorithm.config.onPlayerValueChange?.(this.state, this.createAPI());
-                        }
-                    });
-                }
-            });
-        });
-    }
-
-    // Registers algorithm at runtime
-    register(id, config) {
-        this.algorithms.set(id, { id, config });
-        this.updateAlgorithmSelector();
-        console.log(`Algorithm registered: ${config.name}`);
-    }
-
-
-    switchAlgorithm(id) {
-        if (!id) return;
-
-        const algorithm = this.algorithms.get(id);
-        if (!algorithm) return;
-
-        // Cleanup current algorithm
-        this.cleanupCurrentAlgorithm();
-
-        // Switch to new algorithm
-        this.currentAlgorithm = algorithm;
-        this.currentStep = 0;
+    reset() {
+        const oldState = { ...this.state };
         this.state = this.createInitialState();
+        this.eventSystem.emit('state:reset', { oldState, newState: { ...this.state } });
+        Logger.debug('State reset to initial values');
+    }
 
-        // Show/hide UI elements based on player count
-        const api = this.createAPI();
-        if (algorithm.config.playerCount === 3) {
-            api.showPlayer3Section();
-        } else {
-            api.hidePlayer3Section();
+    // ===== CUT POSITION METHODS =====
+    getCutPosition() {
+        return this.state.cutPosition;
+    }
+
+    setCutPosition(position) {
+        const clampedPosition = Math.max(0, Math.min(100, parseFloat(position) || 0));
+        this.setState('cutPosition', clampedPosition);
+    }
+
+    getCutPosition2() {
+        return this.state.cutPosition2;
+    }
+
+    setCutPosition2(position) {
+        const clampedPosition = Math.max(0, Math.min(100, parseFloat(position) || 0));
+        this.setState('cutPosition2', clampedPosition);
+    }
+
+    // ===== PLAYER VALUES METHODS =====
+    getPlayerValues(player) {
+        if (player) {
+            return this.state.playerValues[player] || {};
+        }
+        return { ...this.state.playerValues };
+    }
+
+    setPlayerValue(player, color, value) {
+        if (!this.state.playerValues[player]) {
+            this.state.playerValues[player] = {};
         }
 
-        // Initialize new algorithm
-        this.initializeAlgorithm();
+        const clampedValue = Math.max(0, Math.min(100, parseInt(value) || 0));
+        this.state.playerValues[player][color] = clampedValue;
+
+        // Emit player values change
+        this.setState('playerValues', { ...this.state.playerValues });
     }
 
-    cleanupCurrentAlgorithm() {
-        if (!this.currentAlgorithm) return;
+    validatePlayerValues(player) {
+        const values = this.getPlayerValues(player);
+        const total = DEMO_CONFIG.COLORS.reduce((sum, color) => sum + (values[color] || 0), 0);
+        const isValid = Math.abs(total - DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL) <= DEMO_CONFIG.VALIDATION.TOLERANCE;
 
-        // Clean up event listeners
-        this.eventCleanup.forEach(cleanup => cleanup());
-        this.eventCleanup = [];
-
-        // Call algorithm cleanup if exists
-        if (this.currentAlgorithm.config.onReset) {
-            this.currentAlgorithm.config.onReset(this.state, this.createAPI());
-        }
-    }
-
-    initializeAlgorithm() {
-        if (!this.currentAlgorithm) return;
-
-        const config = this.currentAlgorithm.config;
-
-        // Update UI for algorithm
-        document.getElementById('algorithm-name').textContent = config.name;
-        document.getElementById('algorithm-description').textContent = config.description;
-
-        // Reset start button text and state
-        this.resetStartButton();
-
-        // Enter first step
-        if (config.steps && config.steps.length > 0) {
-            this.enterStep(0);
-        }
-    }
-
-    resetStartButton() {
-        const startBtn = document.getElementById('start-btn');
-        if (startBtn) {
-            startBtn.textContent = 'Start';
-            startBtn.disabled = false;
-            startBtn.style.display = '';
-            startBtn.classList.remove('loading');
-        }
-    }
-
-    enterStep(stepIndex) {
-        if (!this.currentAlgorithm || !this.currentAlgorithm.config.steps) return;
-
-        const step = this.currentAlgorithm.config.steps[stepIndex];
-        if (!step) return;
-
-        this.currentStep = stepIndex;
-
-        // Update UI for step
-        const api = this.createAPI();
-        api.updateUI({
-            stepTitle: step.title,
-            instructions: step.instructions,
-            enabledControls: step.enabledControls || []
-        });
-
-        // Call step enter handler
-        if (step.onStepEnter) {
-            step.onStepEnter(this.state, api);
-        }
-    }
-
-    exitStep(stepIndex) {
-        if (!this.currentAlgorithm || !this.currentAlgorithm.config.steps) return;
-
-        const step = this.currentAlgorithm.config.steps[stepIndex];
-        if (!step) return;
-
-        this.currentStep = stepIndex;
-
-        const api = this.createAPI();
-
-        if (step.onStepExit) {
-            step.onStepExit(this.state, api);
-        }
-    }
-
-    resetSlider() {
-        const cutSlider = document.getElementById('cut-slider');
-        cutSlider.value = 0;
-    }
-
-    resetAlgorithm() {
-        if (!this.currentAlgorithm) return;
-
-        this.state = this.createInitialState();
-        this.currentStep = 0;
-        this.updateCutLine();
-        this.updateSecondCutLine();
-        this.updatePlayerValueDisplays();
-        this.resetSlider();
-
-        // Hide results
-        const resultsEl = document.getElementById('results');
-        if (resultsEl) {
-            resultsEl.style.display = 'none';
-        }
-
-        // Reset algorithm-specific UI elements
-        const api = this.createAPI();
-        api.hideSteinhausThreePieces();
-        api.hideDualCutSliders();
-
-        // Re-initialize algorithm
-        this.initializeAlgorithm();
-    }
-
-    createAPI() {
-        const self = this; // capture the correct this context
         return {
-            /**
-             * GENERAL PURPOSE API METHODS
-             */
-
-            // Step control
-            requestStepProgression: () => {
-                if (this.currentAlgorithm && this.currentAlgorithm.config.steps) {
-                    const thisStep = this.currentStep;
-                    this.exitStep(thisStep);
-                    const nextStep = thisStep + 1;
-                    if (nextStep < this.currentAlgorithm.config.steps.length) {
-                        this.enterStep(nextStep);
-                    }
-                }
-            },
-
-            // current step getter
-            getCurrentStep: () => this.currentStep,
-
-            // sets state of the start button
-            setStartButtonState: (state) => {
-                const startBtn = document.getElementById('start-btn');
-                if (startBtn) {
-                    switch (state) {
-                        case 'disabled':
-                            startBtn.disabled = true;
-                            startBtn.classList.remove('loading');
-                            break;
-                        case 'enabled':
-                            startBtn.disabled = false;
-                            startBtn.classList.remove('loading');
-                            break;
-                        case 'hidden':
-                            startBtn.style.display = 'none';
-                            break;
-                        case 'visible':
-                            startBtn.style.display = '';
-                            break;
-                    }
-                }
-            },
-
-            // UI control
-            updateUI: ({ stepTitle, instructions, enabledControls = [] }) => {
-                if (stepTitle) {
-                    const el = document.getElementById('step-indicator');
-                    if (el) el.textContent = stepTitle;
-                }
-
-                if (instructions) {
-                    const el = document.getElementById('instructions');
-                    if (el) el.innerHTML = instructions;
-                }
-
-                this.updateControlStates(enabledControls);
-            },
-
-            showResults: (config) => {
-                const resultsEl = document.getElementById('results');
-                const contentEl = document.getElementById('result-content');
-
-                if (contentEl && config.text) {
-                    contentEl.innerHTML = config.text;
-                }
-
-                if (resultsEl) {
-                    resultsEl.style.display = 'block';
-                }
-            },
-
-            // Event handling
-            addEventListener: (eventType, handler) => {
-                if (eventType === 'pieceClick') {
-                    const leftPiece = document.getElementById('left-piece');
-                    const rightPiece = document.getElementById('right-piece');
-
-                    const leftHandler = () => handler('left');
-                    const rightHandler = () => handler('right');
-
-                    if (leftPiece) leftPiece.addEventListener('click', leftHandler);
-                    if (rightPiece) rightPiece.addEventListener('click', rightHandler);
-
-                    this.eventCleanup.push(() => {
-                        if (leftPiece) leftPiece.removeEventListener('click', leftHandler);
-                        if (rightPiece) rightPiece.removeEventListener('click', rightHandler);
-                    });
-                }
-            },
-
-            // Utilities
-            calculateRegionValues: (cutPosition) => {
-                return this.calculateRegionValues(cutPosition);
-            },
-
-            calculatePlayerValue: (regionValues, playerValues) => {
-                return this.calculatePlayerValue(regionValues, playerValues);
-            },
-
-            // Austin's algorithm specific API extensions
-            addStopButtons: () => {
-                const controlsEl = document.querySelector('.action-buttons');
-                if (controlsEl && !document.getElementById('player1-stop')) {
-                    // Hide normal start button during moving knife phase
-                    const startBtn = document.getElementById('start-btn');
-                    if (startBtn) startBtn.style.display = 'none';
-
-                    const p1StopBtn = document.createElement('button');
-                    p1StopBtn.id = 'player1-stop';
-                    p1StopBtn.className = 'btn btn-primary';
-                    p1StopBtn.textContent = 'Player 1: STOP!';
-                    p1StopBtn.style.marginRight = '10px';
-                    p1StopBtn.onclick = () => {
-                        if (self.currentAlgorithm && self.currentAlgorithm.config.onPlayerStop) {
-                            self.currentAlgorithm.config.onPlayerStop(1, self.state, self.createAPI());
-                        }
-                    };
-
-                    const p2StopBtn = document.createElement('button');
-                    p2StopBtn.id = 'player2-stop';
-                    p2StopBtn.className = 'btn btn-primary';
-                    p2StopBtn.textContent = 'Player 2: STOP!';
-                    p2StopBtn.onclick = () => {
-                        if (self.currentAlgorithm && self.currentAlgorithm.config.onPlayerStop) {
-                            self.currentAlgorithm.config.onPlayerStop(2, self.state, self.createAPI());
-                        }
-                    };
-
-                    controlsEl.appendChild(p1StopBtn);
-                    controlsEl.appendChild(p2StopBtn);
-                }
-            },
-
-            removeStopButtons: () => {
-                const p1Stop = document.getElementById('player1-stop');
-                const p2Stop = document.getElementById('player2-stop');
-                if (p1Stop) p1Stop.remove();
-                if (p2Stop) p2Stop.remove();
-
-                // Show start button again
-                const startBtn = document.getElementById('start-btn');
-                if (startBtn) startBtn.style.display = '';
-            },
-
-            updateSingleKnife: (cutX) => {
-                const cutLine = document.getElementById('cut-line');
-                if (cutLine) {
-                    cutLine.setAttribute('x1', cutX.toString());
-                    cutLine.setAttribute('x2', cutX.toString());
-                }
-            },
-
-            showDualKnives: () => {
-                // Show the left knife
-                let leftKnife = document.getElementById('left-knife');
-                if (leftKnife) {
-                    leftKnife.style.display = 'block';
-                }
-
-                // Keep the existing right knife (red) - that's our cut-line
-                const rightKnife = document.getElementById('cut-line');
-                if (rightKnife) {
-                    rightKnife.style.display = 'block';
-                }
-            },
-
-            hideDualKnives: () => {
-                const leftKnife = document.getElementById('left-knife');
-                if (leftKnife) leftKnife.style.display = 'none';
-            },
-
-            updateKnifePositions: (leftX, rightX) => {
-                const leftKnife = document.getElementById('left-knife');
-                const rightKnife = document.getElementById('cut-line');
-
-                if (leftKnife) {
-                    leftKnife.setAttribute('x1', leftX.toString());
-                    leftKnife.setAttribute('x2', leftX.toString());
-                }
-
-                if (rightKnife) {
-                    rightKnife.setAttribute('x1', rightX.toString());
-                    rightKnife.setAttribute('x2', rightX.toString());
-                }
-            },
-
-            showTwoPieceOverlays: (cutPosition) => {
-                const svg = document.querySelector('.game-svg');
-
-                // convert cutPosition to pixel value
-                const finalPos = (cutPosition / 100) * 800;
-
-                // Left piece (0 to cutPosition)
-                let leftPiece = document.getElementById('left-piece');
-                leftPiece.setAttribute('x', '0');
-                leftPiece.setAttribute('y', '0');
-                leftPiece.setAttribute('width', finalPos.toString());
-                leftPiece.setAttribute('height', '400');
-                leftPiece.setAttribute('fill', 'rgba(49,130,206,0.2)');
-                leftPiece.setAttribute('stroke', '#3182ce');
-                leftPiece.setAttribute('stroke-width', '3');
-                leftPiece.style.display = 'block';
-
-                // Right piece (cutPosition to 800)
-                let rightPiece = document.getElementById('right-piece');
-                rightPiece.setAttribute('x', finalPos.toString());
-                rightPiece.setAttribute('y', '0');
-                rightPiece.setAttribute('width', (800 - finalPos).toString());
-                rightPiece.setAttribute('height', '400');
-                rightPiece.setAttribute('fill', 'rgba(72,187,120,0.2)');
-                rightPiece.setAttribute('stroke', '#38a169');
-                rightPiece.setAttribute('stroke-width', '3');
-                rightPiece.style.display = 'block';
-            },
-
-            showThreePieceOverlays: (leftPos, rightPos) => {
-                const svg = document.querySelector('.game-svg');
-
-                // Left piece (0 to leftPos)
-                let leftPiece = document.getElementById('austin-left-piece');
-                if (!leftPiece) {
-                    leftPiece = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                    leftPiece.id = 'austin-left-piece';
-                    svg.appendChild(leftPiece);
-                }
-                leftPiece.setAttribute('x', '0');
-                leftPiece.setAttribute('y', '0');
-                leftPiece.setAttribute('width', leftPos.toString());
-                leftPiece.setAttribute('height', '400');
-                leftPiece.setAttribute('fill', 'rgba(49,130,206,0.2)');
-                leftPiece.setAttribute('stroke', '#3182ce');
-                leftPiece.setAttribute('stroke-width', '3');
-                leftPiece.style.display = 'block';
-
-                // Middle piece (leftPos to rightPos)
-                let middlePiece = document.getElementById('austin-middle-piece');
-                if (!middlePiece) {
-                    middlePiece = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                    middlePiece.id = 'austin-middle-piece';
-                    svg.appendChild(middlePiece);
-                }
-                middlePiece.setAttribute('x', leftPos.toString());
-                middlePiece.setAttribute('y', '0');
-                middlePiece.setAttribute('width', (rightPos - leftPos).toString());
-                middlePiece.setAttribute('height', '400');
-                middlePiece.setAttribute('fill', 'rgba(255,193,7,0.2)');
-                middlePiece.setAttribute('stroke', '#ffc107');
-                middlePiece.setAttribute('stroke-width', '3');
-                middlePiece.style.display = 'block';
-
-                // Right piece (rightPos to 800)
-                let rightPiece = document.getElementById('austin-right-piece');
-                if (!rightPiece) {
-                    rightPiece = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                    rightPiece.id = 'austin-right-piece';
-                    svg.appendChild(rightPiece);
-                }
-                rightPiece.setAttribute('x', rightPos.toString());
-                rightPiece.setAttribute('y', '0');
-                rightPiece.setAttribute('width', (800 - rightPos).toString());
-                rightPiece.setAttribute('height', '400');
-                rightPiece.setAttribute('fill', 'rgba(72,187,120,0.2)');
-                rightPiece.setAttribute('stroke', '#38a169');
-                rightPiece.setAttribute('stroke-width', '3');
-                rightPiece.style.display = 'block';
-            },
-
-            hideThreePieceOverlays: () => {
-                const pieces = ['austin-left-piece', 'austin-middle-piece', 'austin-right-piece'];
-                pieces.forEach(id => {
-                    const piece = document.getElementById(id);
-                    if (piece) piece.style.display = 'none';
-                });
-            },
-
-            addOtherPlayerStopButton: (controllingPlayer) => {
-                const controlsEl = document.querySelector('.action-buttons');
-                const otherPlayer = controllingPlayer === 1 ? 2 : 1;
-
-                if (controlsEl && !document.getElementById('other-player-stop')) {
-
-                    const p1Stop = document.getElementById('player1-stop');
-                    const p2Stop = document.getElementById('player2-stop');
-                    if (p1Stop) p1Stop.remove();
-                    if (p2Stop) p2Stop.remove();
-
-                    const stopBtn = document.createElement('button');
-                    stopBtn.id = 'other-player-stop';
-                    stopBtn.className = 'btn btn-primary';
-                    stopBtn.textContent = `Player ${otherPlayer}: STOP!`;
-                    stopBtn.onclick = () => {
-                        if (self.currentAlgorithm && self.currentAlgorithm.config.onOtherPlayerStop) {
-                            self.currentAlgorithm.config.onOtherPlayerStop(self.state, self.createAPI());
-                        }
-                    };
-
-                    controlsEl.appendChild(stopBtn);
-                }
-            },
-
-            removeOtherPlayerStopButton: () => {
-                const stopBtn = document.getElementById('other-player-stop');
-                if (stopBtn) stopBtn.remove();
-            },
-
-            showMakeCutButton: () => {
-                const makeCutBtn = document.getElementById('make-cut-btn');
-                if (makeCutBtn) {
-                    makeCutBtn.style.display = 'block';
-                    // Add event listener for make cut
-                    const handler = () => {
-                        if (this.currentAlgorithm && this.currentAlgorithm.config.onMakeCut) {
-                            this.currentAlgorithm.config.onMakeCut(this.state, this.createAPI());
-                        }
-                    };
-                    makeCutBtn.addEventListener('click', handler);
-
-                    // Store cleanup function
-                    this.eventCleanup.push(() => {
-                        makeCutBtn.removeEventListener('click', handler);
-                    });
-                }
-            },
-
-            hideMakeCutButton: () => {
-                const makeCutBtn = document.getElementById('make-cut-btn');
-                if (makeCutBtn) {
-                    makeCutBtn.style.display = 'none';
-                }
-            },
-
-            // Steinhaus-specific API extensions
-            showPlayer3Section: () => {
-                const player3Section = document.getElementById('player3-section');
-                if (player3Section) player3Section.style.display = 'block';
-            },
-
-            hidePlayer3Section: () => {
-                const player3Section = document.getElementById('player3-section');
-                if (player3Section) player3Section.style.display = 'none';
-            },
-
-            showDualCutSliders: () => {
-                const slider2 = document.getElementById('cut-control-2');
-                const cutLine2 = document.getElementById('cut-line-2');
-                if (slider2) slider2.style.display = 'block';
-                if (cutLine2) cutLine2.style.display = 'block';
-
-                // Set up event listeners for second slider
-                const cutSlider2 = document.getElementById('cut-slider-2');
-                if (cutSlider2) {
-                    const handler = (e) => {
-                        self.state.cutPosition2 = parseFloat(e.target.value);
-                        self.updateSecondCutLine();
-                        if (self.currentAlgorithm && self.currentAlgorithm.config.onCutChange) {
-                            self.currentAlgorithm.config.onCutChange(self.state, self.createAPI());
-                        }
-                    };
-                    cutSlider2.addEventListener('input', handler);
-                    self.eventCleanup.push(() => {
-                        cutSlider2.removeEventListener('input', handler);
-                    });
-                }
-            },
-
-            hideDualCutSliders: () => {
-                const slider2 = document.getElementById('cut-control-2');
-                const cutLine2 = document.getElementById('cut-line-2');
-                if (slider2) slider2.style.display = 'none';
-                if (cutLine2) cutLine2.style.display = 'none';
-            },
-
-            showSteinhausThreePieces: () => {
-                const cut1 = (self.state.cutPosition / 100) * 800;
-                const cut2 = (self.state.cutPosition2 / 100) * 800;
-                const cuts = [0, Math.min(cut1, cut2), Math.max(cut1, cut2), 800];
-
-                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
-                    const piece = document.getElementById(id);
-                    if (piece) {
-                        piece.setAttribute('x', cuts[index].toString());
-                        piece.setAttribute('width', (cuts[index + 1] - cuts[index]).toString());
-                        piece.style.display = 'block';
-                    }
-                });
-            },
-
-            hideSteinhausThreePieces: () => {
-                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach(id => {
-                    const piece = document.getElementById(id);
-                    if (piece) piece.style.display = 'none';
-                });
-            },
-
-            enableThreePieceSelection: (handler) => {
-                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
-                    const piece = document.getElementById(id);
-                    if (piece) {
-                        const clickHandler = () => handler(index);
-                        piece.addEventListener('click', clickHandler);
-                        piece.style.cursor = 'pointer';
-                        piece.style.stroke = '#3182ce';
-                        piece.style.strokeWidth = '3';
-
-                        self.eventCleanup.push(() => {
-                            piece.removeEventListener('click', clickHandler);
-                        });
-                    }
-                });
-            },
-
-            enableRemainingPieceSelection: (handler) => {
-                const selectedPiece = self.state.algorithmData.finalAllocation?.player3;
-
-                ['steinhaus-piece-1', 'steinhaus-piece-2', 'steinhaus-piece-3'].forEach((id, index) => {
-                    const piece = document.getElementById(id);
-                    if (piece) {
-                        if (index === selectedPiece) {
-                            // Disable selected piece
-                            piece.style.opacity = '0.5';
-                            piece.style.cursor = 'not-allowed';
-                        } else {
-                            // Enable remaining pieces
-                            const clickHandler = () => handler(index);
-                            piece.addEventListener('click', clickHandler);
-                            piece.style.cursor = 'pointer';
-                            piece.style.stroke = '#38a169';
-                            piece.style.strokeWidth = '3';
-
-                            self.eventCleanup.push(() => {
-                                piece.removeEventListener('click', clickHandler);
-                            });
-                        }
-                    }
-                });
-            },
+            total,
+            valid: isValid,
+            expected: DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL
         };
     }
 
-    updateControlStates(enabledControls) {
-        const controlMap = {
-            'cutSlider': 'cut-slider',
-            'cutSlider2': 'cut-slider-2',  // Add this mapping
-            'startButton': 'start-btn',
-            'makeCutButton': 'make-cut-btn',
-            'resetButton': 'reset-btn',
-            'pieceSelection': ['left-piece', 'right-piece']
-        };
-
-        // Get all control elements that could be disabled
-        const allControlElements = [
-            'cut-slider', 'cut-slider-2', 'start-btn', 'make-cut-btn', 'reset-btn',
-            'left-piece', 'right-piece'
-        ];
-
-        // Disable all controls first
-        allControlElements.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.disabled = true;
-                el.style.cursor = 'not-allowed';
-                el.style.opacity = '0.5';
-            }
-        });
-
-        // Enable specified controls
-        enabledControls.forEach(control => {
-            const ids = Array.isArray(controlMap[control]) ? controlMap[control] : [controlMap[control]];
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.disabled = false;
-                    el.style.cursor = '';
-                    el.style.opacity = '';
-                }
-            });
-        });
-
-        // Special handling for piece selection
-        if (enabledControls.includes('pieceSelection')) {
-            ['left-piece', 'right-piece'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.style.cursor = 'pointer';
-                    el.style.stroke = '#3182ce';
-                    el.style.strokeWidth = '3';
-                    el.style.fill = 'rgba(49, 130, 206, 0.1)';
-                }
-            });
-        } else {
-            ['left-piece', 'right-piece'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.style.cursor = 'default';
-                    el.style.stroke = 'rgba(0,0,0,0)';
-                    el.style.fill = 'rgba(0,0,0,0)';
-                }
-            });
-        }
+    // ===== STEP METHODS =====
+    getCurrentStep() {
+        return this.state.currentStep;
     }
 
-    updateAlgorithmSelector() {
-        const selector = document.getElementById('algorithm-selector');
-        if (!selector) return;
-
-        selector.innerHTML = '<option value="">Choose Algorithm...</option>';
-
-        for (const [id, algorithm] of this.algorithms) {
-            const option = document.createElement('option');
-            option.value = id;
-            option.textContent = algorithm.config.name;
-            selector.appendChild(option);
-        }
+    setCurrentStep(step) {
+        this.setState('currentStep', parseInt(step) || 0);
     }
 
-    updateCutLine() {
-        const cutLine = document.getElementById('cut-line');
-        if (cutLine) {
-            const cutX = (this.state.cutPosition / 100) * 800;
-            cutLine.setAttribute('x1', cutX.toString());
-            cutLine.setAttribute('x2', cutX.toString());
+    // ===== ALGORITHM DATA METHODS =====
+    getAlgorithmData(key) {
+        if (key) {
+            return this.state.algorithmData[key];
         }
-
-        const cutValue = document.getElementById('cut-value');
-        if (cutValue) {
-            cutValue.textContent = `${this.state.cutPosition.toFixed(1)}%`;
-        }
+        return { ...this.state.algorithmData };
     }
 
-    updateSecondCutLine() {
-        const cutLine2 = document.getElementById('cut-line-2');
-        if (cutLine2) {
-            const cutX = (this.state.cutPosition2 / 100) * 800;
-            cutLine2.setAttribute('x1', cutX.toString());
-            cutLine2.setAttribute('x2', cutX.toString());
-        }
-
-        const cutValue2 = document.getElementById('cut-value-2');
-        if (cutValue2) {
-            cutValue2.textContent = `${this.state.cutPosition2.toFixed(1)}%`;
-        }
+    setAlgorithmData(key, value) {
+        this.state.algorithmData[key] = value;
+        this.setState('algorithmData', { ...this.state.algorithmData });
     }
 
-    updatePlayerValueDisplays() {
-        if (!this.currentAlgorithm) return;
-
-        if (this.currentAlgorithm.config.playerCount === 2) {
-            // Two-player algorithm (Divide-and-Choose, Austin's)
-            const regionValues = this.calculateRegionValues(this.state.cutPosition);
-
-            ['player1', 'player2'].forEach((player, index) => {
-                const playerNum = index + 1;
-                const leftValue = this.calculatePlayerValue(regionValues.left, this.state.playerValues[player]);
-                const rightValue = this.calculatePlayerValue(regionValues.right, this.state.playerValues[player]);
-
-                const display = document.getElementById(`player${playerNum}-values`);
-                if (display) {
-                    display.textContent = `Left: ${leftValue.toFixed(1)} | Right: ${rightValue.toFixed(1)}`;
-                }
-            });
-        } else if (this.currentAlgorithm.config.playerCount === 3) {
-            // Three-player algorithm (Steinhaus)
-            if (this.currentAlgorithm.config.calculateValues) {
-                const values = this.currentAlgorithm.config.calculateValues(this.state);
-
-                ['player1', 'player2', 'player3'].forEach((player, index) => {
-                    const playerNum = index + 1;
-                    const display = document.getElementById(`player${playerNum}-values`);
-                    if (display && values[player]) {
-                        const vals = values[player];
-                        display.textContent = `Left: ${vals[0].toFixed(1)} | Center: ${vals[1].toFixed(1)} | Right: ${vals[2].toFixed(1)}`;
-                    }
-                });
-            }
-        }
+    clearAlgorithmData() {
+        this.setState('algorithmData', {});
     }
+}
 
-    calculateRegionValues(cutPosition) {
-        const cutX = (cutPosition / 100) * 800;
-        const regions = {
-            blue: { start: 0, end: 600 },
-            red: { start: 600, end: 800 },
-            green: { start: 150, end: 600 },
-            orange: { start: 600, end: 800 },
-            pink: { start: 0, end: 150 },
-            purple: { start: 150, end: 800 }
-        };
+// ===== CALCULATION UTILITIES =====
+class CalculationEngine {
+    static calculateRegionValues(cutPosition) {
+        const leftValues = {};
+        const rightValues = {};
 
-        const leftValues = {}, rightValues = {};
-
-        for (const [color, bounds] of Object.entries(regions)) {
-            if (cutX <= bounds.start) {
+        DEMO_CONFIG.COLORS.forEach(color => {
+            const colorBounds = DEMO_CONFIG.BOUNDS[color];
+            if (cutPosition <= colorBounds.start) {
                 leftValues[color] = 0;
                 rightValues[color] = 100;
-            } else if (cutX >= bounds.end) {
+            } else if (cutPosition >= colorBounds.end) {
                 leftValues[color] = 100;
                 rightValues[color] = 0;
             } else {
-                const total = bounds.end - bounds.start;
-                const left = cutX - bounds.start;
+                const total = colorBounds.end - colorBounds.start;
+                const left = cutPosition - colorBounds.start;
                 leftValues[color] = (left / total) * 100;
                 rightValues[color] = 100 - leftValues[color];
             }
-        }
+        });
 
         return { left: leftValues, right: rightValues };
     }
 
-    calculatePlayerValue(regionValues, playerValues) {
-        return Object.entries(regionValues)
-            .reduce((total, [color, percentage]) => {
-                return total + (percentage / 100) * (playerValues[color] || 0);
-            }, 0);
+    static calculateThreeRegionValues(cutPosition1, cutPosition2) {
+        const cut1 = Math.min(cutPosition1, cutPosition2);
+        const cut2 = Math.max(cutPosition1, cutPosition2);
+        const bounds = DEMO_CONFIG.BOUNDS;
+        const piece1 = {}, piece2 = {}, piece3 = {};
+
+        DEMO_CONFIG.COLORS.forEach(color => {
+            const colorBounds = bounds[color];
+            if (!colorBounds) {
+                piece1[color] = piece2[color] = piece3[color] = 0;
+                return;
+            }
+
+            const start = colorBounds.start;
+            const end = colorBounds.end;
+            const total = end - start;
+
+            const piece1End = Math.min(cut1, end);
+            const piece1Start = Math.max(start, 0);
+            const piece1Overlap = Math.max(0, piece1End - piece1Start);
+
+            const piece2Start = Math.max(cut1, start);
+            const piece2End = Math.min(cut2, end);
+            const piece2Overlap = Math.max(0, piece2End - piece2Start);
+
+            const piece3Start = Math.max(cut2, start);
+            const piece3End = Math.max(end, cut2);
+            const piece3Overlap = Math.max(0, piece3End - piece3Start);
+
+            piece1[color] = total > 0 ? (piece1Overlap / total) * 100 : 0;
+            piece2[color] = total > 0 ? (piece2Overlap / total) * 100 : 0;
+            piece3[color] = total > 0 ? (piece3Overlap / total) * 100 : 0;
+        });
+
+        return { piece1, piece2, piece3 };
+    }
+
+    static calculatePlayerValue(regionValues, playerValues) {
+        return DEMO_CONFIG.COLORS.reduce((total, color) => {
+            const regionPercent = regionValues[color] || 0;
+            const playerValue = playerValues[color] || 0;
+            return total + (regionPercent / 100) * playerValue;
+        }, 0);
+    }
+
+    static validatePlayerTotals(playerValues) {
+        const results = {};
+
+        Object.entries(playerValues).forEach(([player, values]) => {
+            const total = DEMO_CONFIG.COLORS.reduce((sum, color) => sum + (values[color] || 0), 0);
+            const isValid = Math.abs(total - DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL) <= DEMO_CONFIG.VALIDATION.TOLERANCE;
+
+            results[player] = {
+                total,
+                valid: isValid,
+                expected: DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL
+            };
+        });
+
+        return results;
     }
 }
 
-// Global instance
-let demoSystem = null;
-const registrationQueue = [];
+// ===== UI CONTROLLER =====
+class UIController {
+    constructor(stateManager, eventSystem) {
+        this.state = stateManager;
+        this.events = eventSystem;
+        this.elements = new Map();
+        this.activeListeners = [];
 
-// Make registration available immediately when script loads
-window.FairDivisionCore = {
-    register: function (id, config) {
-        console.log(`Waiting for DOM, queueing registration: ${id}`);
-        registrationQueue.push({ id, config });
+        Logger.debug('UIController initialized');
+        this.initializeElements();
+        this.setupEventListeners();
     }
+
+    initializeElements() {
+        const elementIds = DEMO_CONFIG.ELEMENT_IDS;
+
+        elementIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                this.elements.set(id, element);
+            } else {
+                Logger.warn(`Element not found: ${id}`);
+            }
+        });
+        Logger.debug(`Cached ${this.elements.size} UI elements`);
+    }
+
+    setupEventListeners() {
+        // Cut slider
+        const cutSlider = this.elements.get('cut-slider');
+        if (cutSlider) {
+            const listener = (e) => {
+                const value = parseFloat(e.target.value);
+                this.state.setCutPosition(value);
+            };
+            cutSlider.addEventListener('input', listener);
+            this.activeListeners.push({ element: cutSlider, event: 'input', listener });
+        }
+
+        // Second cut slider
+        const cutSlider2 = this.elements.get('cut-slider-2');
+        if (cutSlider2) {
+            const listener = (e) => {
+                const value = parseFloat(e.target.value);
+                this.state.setCutPosition2(value);
+            };
+            cutSlider2.addEventListener('input', listener);
+            this.activeListeners.push({ element: cutSlider2, event: 'input', listener });
+        }
+
+        // Player value inputs
+        this.setupPlayerValueListeners();
+
+        Logger.debug(`Setup ${this.activeListeners.length} UI event listeners`);
+    }
+
+    setupPlayerValueListeners() {
+        ['p1', 'p2', 'p3'].forEach(playerPrefix => {
+            const playerKey = playerPrefix === 'p1' ? 'player1' :
+                playerPrefix === 'p2' ? 'player2' : 'player3';
+
+            DEMO_CONFIG.COLORS.forEach(color => {
+                const input = document.getElementById(`${playerPrefix}-${color}`);
+                if (input) {
+                    const listener = (e) => {
+                        const value = parseInt(e.target.value) || 0;
+                        this.state.setPlayerValue(playerKey, color, value);
+                        this.updatePlayerValidation(playerKey, playerPrefix);
+                    };
+                    input.addEventListener('input', listener);
+                    this.activeListeners.push({ element: input, event: 'input', listener });
+                }
+            });
+        });
+    }
+
+    // ===== UI UPDATE METHODS =====
+    updateStepIndicator(text) {
+        const element = this.elements.get('step-indicator');
+        if (element) {
+            element.textContent = text;
+        }
+    }
+
+    updateInstructions(html) {
+        const element = this.elements.get('instructions');
+        if (element) {
+            element.innerHTML = html;
+        }
+    }
+
+    updateAlgorithmInfo(name, description) {
+        const nameEl = this.elements.get('algorithm-name');
+        const descEl = this.elements.get('algorithm-description');
+
+        if (nameEl) nameEl.textContent = name;
+        if (descEl) descEl.textContent = description;
+    }
+
+    updatePlayerValidation(playerKey, playerPrefix) {
+        const validation = this.state.validatePlayerValues(playerKey);
+        const errorElement = document.getElementById(`${playerPrefix}-error`);
+
+        if (errorElement) {
+            if (!validation.valid) {
+                errorElement.textContent = `Total must be ${validation.expected} (currently ${validation.total})`;
+                errorElement.style.display = 'block';
+                errorElement.className = 'error';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        }
+    }
+
+    // ===== ELEMENT CONTROL METHODS =====
+    showElement(id) {
+        const element = this.elements.get(id) || document.getElementById(id);
+        if (element) {
+            element.style.display = '';
+        }
+    }
+
+    hideElement(id) {
+        const element = this.elements.get(id) || document.getElementById(id);
+        if (element) {
+            element.style.display = 'none';
+        }
+    }
+
+    enableElement(id) {
+        const element = this.elements.get(id) || document.getElementById(id);
+        if (element) {
+            element.disabled = false;
+            element.style.opacity = '1';
+            element.style.cursor = '';
+        }
+    }
+
+    disableElement(id) {
+        const element = this.elements.get(id) || document.getElementById(id);
+        if (element) {
+            element.disabled = true;
+            element.style.opacity = '0.5';
+            element.style.cursor = 'not-allowed';
+        }
+    }
+
+    resetSlider(id) {
+        const element = this.elements.get(id) || document.getElementById(id);
+        if (element) {
+            element.value = 0;
+        }
+    }
+
+    // ===== VISUAL UPDATE METHODS =====
+    updateCutLine() {
+        const position = this.state.getCutPosition();
+        const cutLine = document.getElementById('cut-line');
+        if (cutLine) {
+            const x = (position / 100) * 800;
+            cutLine.setAttribute('x1', x.toString());
+            cutLine.setAttribute('x2', x.toString());
+            cutLine.style.display = 'block';
+        }
+        this.updateCutPositionDisplay(position);
+    }
+
+    updateCutPositionDisplay(position) {
+        const element = document.getElementById('cut-value');
+        if (element) {
+            element.textContent = `${position.toFixed(1)}%`;
+        }
+    }
+
+    updateCutPosition2Display(position) {
+        const element = document.getElementById('cut-value-2');
+        if (element) {
+            element.textContent = `${position.toFixed(1)}%`;
+        }
+    }
+
+    updateDualCutLines() {
+        const pos1 = this.state.getCutPosition();
+        const pos2 = this.state.getCutPosition2();
+
+        const cutLine1 = document.getElementById('cut-line');
+        const cutLine2 = document.getElementById('cut-line-2');
+
+        if (cutLine1) {
+            const x1 = (pos1 / 100) * 800;
+            cutLine1.setAttribute('x1', x1);
+            cutLine1.setAttribute('x2', x1);
+            cutLine1.style.display = 'block';
+        }
+
+        if (cutLine2) {
+            const x2 = (pos2 / 100) * 800;
+            cutLine2.setAttribute('x1', x2);
+            cutLine2.setAttribute('x2', x2);
+            cutLine2.style.display = 'block';
+        }
+
+        this.updateCutPositionDisplay(pos1);
+        this.updateCutPosition2Display(pos2);
+    }
+
+    updatePlayerValueDisplays() {
+        const playerValues = this.state.getPlayerValues();
+        const regionValues = CalculationEngine.calculateRegionValues(this.state.getCutPosition());
+
+        ['player1', 'player2', 'player3'].forEach(player => {
+            if (!playerValues[player]) return;
+
+            const leftValue = CalculationEngine.calculatePlayerValue(regionValues.left, playerValues[player]);
+            const rightValue = CalculationEngine.calculatePlayerValue(regionValues.right, playerValues[player]);
+
+            const displayElement = document.getElementById(`${player}-values`);
+            if (displayElement) {
+                displayElement.textContent = `Left: ${leftValue.toFixed(1)} | Right: ${rightValue.toFixed(1)}`;
+            }
+        });
+    }
+
+    // ===== ADDITIONAL UI METHODS =====
+    updateSingleKnife(position) {
+        const knife = document.getElementById('moving-knife-line');
+        if (knife) {
+            knife.setAttribute('x1', position);
+            knife.setAttribute('x2', position);
+            knife.style.display = 'block';
+        }
+    }
+
+    updateKnifePositions(leftPos, rightPos) {
+        const leftKnife = document.getElementById('left-knife-line');
+        const rightKnife = document.getElementById('right-knife-line');
+
+        if (leftKnife) {
+            leftKnife.setAttribute('x1', leftPos);
+            leftKnife.setAttribute('x2', leftPos);
+        }
+        if (rightKnife) {
+            rightKnife.setAttribute('x1', rightPos);
+            rightKnife.setAttribute('x2', rightPos);
+        }
+    }
+
+    showDualKnives() {
+        ['left-knife-line', 'right-knife-line'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.style.display = 'block';
+        });
+        this.hideElement('moving-knife-line');
+    }
+
+    hideDualKnives() {
+        ['left-knife-line', 'right-knife-line'].forEach(id => {
+            this.hideElement(id);
+        });
+    }
+
+    addStopButtons() {
+        const container = document.getElementById('stop-buttons-container');
+        if (container) {
+            container.innerHTML = `
+            <button id="player1-stop-btn" class="stop-button">Player 1 STOP</button>
+            <button id="player2-stop-btn" class="stop-button">Player 2 STOP</button>
+        `;
+            container.style.display = 'block';
+
+            document.getElementById('player1-stop-btn').onclick = () => {
+                window.FairDivisionCore.getInstance().handlePlayerStop(1);
+            };
+            document.getElementById('player2-stop-btn').onclick = () => {
+                window.FairDivisionCore.getInstance().handlePlayerStop(2);
+            };
+        }
+    }
+
+    removeStopButtons() {
+        const container = document.getElementById('stop-buttons-container');
+        if (container) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+        }
+    }
+
+    setStartButtonState(state) {
+        const startBtn = document.getElementById('start-btn');
+        if (startBtn) {
+            switch (state) {
+                case 'enabled':
+                    startBtn.disabled = false;
+                    startBtn.textContent = 'Start';
+                    startBtn.style.display = 'block';
+                    break;
+                case 'disabled':
+                    startBtn.disabled = true;
+                    startBtn.textContent = 'Start';
+                    startBtn.style.display = 'block';
+                    break;
+                case 'loading':
+                    startBtn.disabled = true;
+                    startBtn.textContent = 'Running...';
+                    startBtn.style.display = 'block';
+                    break;
+                case 'hidden':
+                    startBtn.style.display = 'none';
+                    break;
+            }
+        }
+    }
+
+    addOtherPlayerStopButton(controllingPlayer) {
+        const otherPlayer = controllingPlayer === 1 ? 2 : 1;
+        const container = document.getElementById('stop-buttons-container');
+        if (container) {
+            container.innerHTML = `
+            <button id="player${otherPlayer}-stop-btn" class="stop-button">
+                Player ${otherPlayer} STOP
+            </button>
+        `;
+            container.style.display = 'block';
+
+            document.getElementById(`player${otherPlayer}-stop-btn`).onclick = () => {
+                window.FairDivisionCore.getInstance().handleOtherPlayerStop();
+            };
+        }
+    }
+
+    removeOtherPlayerStopButton() {
+        this.removeStopButtons();
+    }
+
+    showThreePieceOverlays(leftPos, rightPos) {
+        const leftOverlay = document.getElementById('left-piece-overlay');
+        const middleOverlay = document.getElementById('middle-piece-overlay');
+        const rightOverlay = document.getElementById('right-piece-overlay');
+
+        if (leftOverlay && middleOverlay && rightOverlay) {
+            leftOverlay.setAttribute('width', leftPos);
+            leftOverlay.style.display = 'block';
+
+            middleOverlay.setAttribute('x', leftPos);
+            middleOverlay.setAttribute('width', rightPos - leftPos);
+            middleOverlay.style.display = 'block';
+
+            rightOverlay.setAttribute('x', rightPos);
+            rightOverlay.setAttribute('width', 800 - rightPos);
+            rightOverlay.style.display = 'block';
+        }
+    }
+
+    hideThreePieceOverlays() {
+        ['left-piece-overlay', 'middle-piece-overlay', 'right-piece-overlay'].forEach(id => {
+            this.hideElement(id);
+        });
+    }
+
+    cleanup() {
+        Logger.debug('Cleaning up UI event listeners');
+        this.activeListeners.forEach(({ element, event, listener }) => {
+            element.removeEventListener(event, listener);
+        });
+        this.activeListeners = [];
+    }
+}
+
+// ===== ANIMATION ENGINE =====
+class AnimationEngine {
+    constructor() {
+        this.animations = new Map();
+        this.animationId = 0;
+    }
+
+    start(config) {
+        const id = ++this.animationId;
+        const animation = {
+            id,
+            config,
+            isRunning: true,
+            isPaused: false,
+            frameId: null
+        };
+
+        this.animations.set(id, animation);
+        this.runAnimation(animation);
+        return id;
+    }
+
+    runAnimation(animation) {
+        if (!animation.isRunning || animation.isPaused) return;
+
+        animation.frameId = requestAnimationFrame(() => {
+            if (animation.config.onFrame) {
+                animation.config.onFrame(animation.id);
+            }
+            this.runAnimation(animation);
+        });
+    }
+
+    stop(id) {
+        const animation = this.animations.get(id);
+        if (animation) {
+            animation.isRunning = false;
+            if (animation.frameId) {
+                cancelAnimationFrame(animation.frameId);
+            }
+            this.animations.delete(id);
+        }
+    }
+}
+
+// Export for use in algorithm modules
+window.DemoSystem = {
+    Logger,
+    StateManager,
+    EventSystem,
+    CalculationEngine,
+    UIController,
+    AnimationEngine,
+    DEMO_CONFIG
 };
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM ready, initializing system...');
-    demoSystem = new FairDivisionCore();
-
-    // Process any queued registrations
-    console.log(`Processing ${registrationQueue.length} queued registrations`);
-    registrationQueue.forEach(({ id, config }) => {
-        console.log(`Processing queued registration: ${id}`);
-        demoSystem.register(id, config);
-    });
-    registrationQueue.length = 0; // Clear the queue
-
-    console.log('Fair Division Demo System ready');
-});

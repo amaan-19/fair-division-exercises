@@ -162,6 +162,31 @@
             min-width: 120px;
         }
 
+        .stop-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 5px;
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .stop-button:hover {
+            background: linear-gradient(135deg, #c53030, #9c2727);
+            transform: translateY(-1px);
+        }
+
+        #stop-buttons-container {
+            text-align: center;
+            padding: 10px;
+            background: #fed7d7;
+            border-radius: 6px;
+            border: 1px solid #feb2b2;
+        }
+
         .btn-primary {
             background: linear-gradient(135deg, #4caf50, #45a049);
             color: white;
@@ -361,28 +386,45 @@
                         <text x="380" y="260" text-anchor="middle" font-size="24" font-weight="bold" fill="white">Green</text>
 
                         <!-- Cut line (right knife in Austin's algorithm) -->
-                        <line id="cut-line" x1="400" y1="0" x2="400" y2="400"
+                        <line id="cut-line" x1="0" y1="0" x2="0" y2="400"
                               stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5" />
 
                         <!-- Piece overlays for divide-and-choose (hidden by default) -->
                         <rect id="left-piece" x="0" y="0" width="400" height="400"
-                              fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+                              fill="rgba(112,128,144,0)" stroke="rgba(112,128,144,0)" />
                         <rect id="right-piece" x="400" y="0" width="400" height="400"
-                              fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+                              fill="rgba(112,128,144,0)" stroke="rgba(112,128,144,0)" />
 
                         <!-- Left knife for Austin's algorithm (initially hidden) -->
                         <line id="left-knife" x1="0" y1="0" x2="0" y2="400"
                               stroke="#48bb78" stroke-width="4" stroke-dasharray="10,5"
                               style="display: none;" />
 
-                        <!-- Three-piece overlays for Austin's algorithm (initially hidden) -->
-                        <rect id="austin-left-piece" x="0" y="0" width="200" height="400"
+                        <!-- Cut line (right knife in Austin's algorithm) -->
+                        <line id="cut-line" x1="0" y1="0" x2="0" y2="400"
+                              stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5" />
+
+                        <!-- Moving knife for Austin's algorithm -->
+                        <line id="moving-knife-line" x1="0" y1="0" x2="0" y2="400"
+                              stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5"
+                              style="display: none;" />
+
+                        <!-- Dual knives for Austin's algorithm -->
+                        <line id="left-knife-line" x1="0" y1="0" x2="0" y2="400"
+                              stroke="#48bb78" stroke-width="4" stroke-dasharray="10,5"
+                              style="display: none;" />
+                        <line id="right-knife-line" x1="0" y1="0" x2="0" y2="400"
+                              stroke="#dc3545" stroke-width="4" stroke-dasharray="10,5"
+                              style="display: none;" />
+
+                        <!-- Three-piece overlays for Austin's algorithm -->
+                        <rect id="left-piece-overlay" x="0" y="0" width="200" height="400"
                               fill="rgba(49,130,206,0.2)" stroke="#3182ce" stroke-width="3"
                               style="display: none;" />
-                        <rect id="austin-middle-piece" x="200" y="0" width="200" height="400"
+                        <rect id="middle-piece-overlay" x="200" y="0" width="200" height="400"
                               fill="rgba(255,193,7,0.2)" stroke="#ffc107" stroke-width="3"
                               style="display: none;" />
-                        <rect id="austin-right-piece" x="400" y="0" width="400" height="400"
+                        <rect id="right-piece-overlay" x="400" y="0" width="400" height="400"
                               fill="rgba(72,187,120,0.2)" stroke="#38a169" stroke-width="3"
                               style="display: none;" />
 
@@ -407,6 +449,13 @@
                               fill="rgba(237,137,54,0.1)" stroke="#ed8936" stroke-width="2"
                               style="display: none; cursor: pointer;" />
 
+                        <!-- Piece overlays for divide-and-choose selection -->
+                        <rect id="left-piece-overlay" x="0" y="0" width="400" height="400"
+                              fill="rgba(49,130,206,0.3)" stroke="#3182ce" stroke-width="3"
+                              style="display: none; cursor: pointer;" />
+                        <rect id="right-piece-overlay" x="400" y="0" width="400" height="400"
+                              fill="rgba(72,187,120,0.3)" stroke="#38a169" stroke-width="3"
+                              style="display: none; cursor: pointer;" />
                     </svg>
                 </div>
 
@@ -429,6 +478,11 @@
                         <button id="make-cut-btn" class="btn btn-primary" style="display: none;">Make Cut</button>
                         <button id="reset-btn" class="btn btn-secondary">Reset</button>
                     </div>
+
+                    <!-- Stop buttons for Austin's algorithm -->
+                    <div id="stop-buttons-container" style="display: none; margin-top: 15px;">
+                        <!-- Dynamic stop buttons will be inserted here -->
+                    </div>
                 </div>
 
                 <!-- Results -->
@@ -436,6 +490,7 @@
                     <h3>Results</h3>
                     <div id="result-content"></div>
                 </div>
+
             </div>
 
             <!-- Player Values Section -->
@@ -582,6 +637,7 @@
 
     <!-- Load Core System -->
     <script src="core/demo-system.js"></script>
+    <script src="core/demo-controller.js"></script>
 
     <!-- Load Algorithms -->
     <script src="algorithms/divide-and-choose.js"></script>

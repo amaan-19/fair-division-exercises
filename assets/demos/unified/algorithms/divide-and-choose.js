@@ -1,173 +1,405 @@
-﻿// Algorithm ID
-const algorithmId = "divide-and-choose";
+﻿/**
+ * Divide-and-Choose Plug-in
+ */
 
-// Algorithm configuration
-const algorithmConfig = {
-    // Metadata
-    name: "Divide-and-Choose",
-    description: "Fundamental fair division procedure",
-    playerCount: 2,
-    type: "discrete",
+// ===== ALGORITHM LOGIC =====
+class DivideAndChooseAlgorithm {
+    constructor() {
+        this.currentStep = 1;
+        this.selectedPiece = null;
+        this.cutMade = false;
+        this.gameComplete = false;
+    }
 
-    // Steps definition
-    steps: [
-        {
-            id: "cutting",
-            title: "Step 1: Position the cut",
-            instructions: "Player 1, adjust the cut position using the slider below to create two pieces you value equally.",
-            enabledControls: ['cutSlider', 'makeCutButton'],
-            onStepEnter: (state, api) => {
-                console.log('Entered cutting step');
-                console.log('Showing "Make Cut" button...');
-                api.showMakeCutButton();
-                console.log('Hiding "Start" button...');
-                api.setStartButtonState('hidden');
-                updatePlayerDisplays(state, api);
-            },
-            onStepExit: (state, api) => {
-                console.log('Exiting cutting step');
-                api.hideMakeCutButton();
+    // Validation logic
+    static validateCut(state, api) {
+        const validation = api.validatePlayerTotals(state.playerValues);
+
+        if (!validation.player1.valid || !validation.player2.valid) {
+            const errors = [];
+            if (!validation.player1.valid) {
+                errors.push(`Player 1 total: ${validation.player1.total} (expected: ${validation.player1.expected})`);
             }
-        },
-        {
-            id: "choosing",
-            title: "Step 2: Choose a piece",
-            instructions: "Player 2, click on the piece you prefer!",
-            enabledControls: ['pieceSelection', 'resetButton'],
-            onStepEnter: (state, api) => {
-                console.log('Entered choosing step');
-                // Hide start button during piece selection
-                api.setStartButtonState('hidden');
-                // Set up piece selection
-                api.addEventListener('pieceClick', (piece) => {
-                    handlePieceSelection(piece, state, api);
-                });
-            },
-            onStepExit: (state, api) => {
-                console.log('Exiting choosing step');
+            if (!validation.player2.valid) {
+                errors.push(`Player 2 total: ${validation.player2.total} (expected: ${validation.player2.expected})`);
+            }
+
+            api.emit('validationError', {
+                message: 'Player valuations must sum to 100!',
+                errors
+            });
+            return false;
+        }
+
+        return true;
+    }
+
+    // Calculate and display piece values
+    static updatePieceDisplays(state, api) {
+        const regionValues = api.calculateRegionValues(state.cutPosition);
+        const playerValues = state.playerValues;
+
+        // Calculate values for both players
+        const player1Left = api.calculatePlayerValue(regionValues.left, playerValues.player1);
+        const player1Right = api.calculatePlayerValue(regionValues.right, playerValues.player1);
+        const player2Left = api.calculatePlayerValue(regionValues.left, playerValues.player2);
+        const player2Right = api.calculatePlayerValue(regionValues.right, playerValues.player2);
+
+        // Update displays
+        DivideAndChooseAlgorithm.updateValueDisplay('player1-left-value', player1Left);
+        DivideAndChooseAlgorithm.updateValueDisplay('player1-right-value', player1Right);
+        DivideAndChooseAlgorithm.updateValueDisplay('player2-left-value', player2Left);
+        DivideAndChooseAlgorithm.updateValueDisplay('player2-right-value', player2Right);
+
+        // Store calculated values for results
+        api.setAlgorithmData('pieceValues', {
+            player1: { left: player1Left, right: player1Right },
+            player2: { left: player2Left, right: player2Right }
+        });
+
+        Logger.debug('Piece values updated:', {
+            player1: { left: player1Left.toFixed(1), right: player1Right.toFixed(1) },
+            player2: { left: player2Left.toFixed(1), right: player2Right.toFixed(1) }
+        });
+    }
+
+    static updateValueDisplay(elementId, value) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.textContent = value.toFixed(1);
+        }
+    }
+
+    // Handle piece selection
+    static handlePieceSelection(piece, state, api) {
+        Logger.info(`Player 2 selected: ${piece} piece`);
+
+        // Ensure piece values are calculated before showing results
+        DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+
+        const algorithm = api.getState().algorithmData.algorithm;
+        if (algorithm) {
+            algorithm.selectedPiece = piece;
+            algorithm.gameComplete = true;
+        }
+
+        // IMPORTANT: Show the results element FIRST
+        api.showElement('results');
+
+        // Visual feedback
+        DivideAndChooseAlgorithm.highlightSelectedPiece(piece, api);
+
+        // Then populate the results
+        DivideAndChooseAlgorithm.showResults(piece, state, api);
+
+        // Update UI
+        api.updateInstructions('<strong>Selection Complete!</strong> Player 2 has chosen their piece.');
+        api.disableElement('left-piece-overlay');
+        api.disableElement('right-piece-overlay');
+
+        api.emit('pieceSelected', { piece, player: 'player2' });
+    }
+
+    static highlightSelectedPiece(piece, api) {
+        const leftOverlay = document.getElementById('left-piece-overlay');
+        const rightOverlay = document.getElementById('right-piece-overlay');
+
+        if (leftOverlay && rightOverlay) {
+            if (piece === 'left') {
+                leftOverlay.style.fill = 'rgba(49,130,206,0.6)';
+                leftOverlay.style.stroke = '#2c5282';
+                leftOverlay.style.strokeWidth = '4';
+                rightOverlay.style.opacity = '0.3';
+            } else {
+                rightOverlay.style.fill = 'rgba(72,187,120,0.6)';
+                rightOverlay.style.stroke = '#22543d';
+                rightOverlay.style.strokeWidth = '4';
+                leftOverlay.style.opacity = '0.3';
             }
         }
-    ],
+    }
 
-    // Main algorithm handlers
+    static showResults(selectedPiece, state, api) {
+        Logger.info(`Showing results for selected piece: ${selectedPiece}`);
 
-    onMakeCut: (state, api) => {
-        console.log('Make Cut button clicked for Divide-and-Choose');
-        console.log('Cut made at: ' + state.cutPosition.toString());
-        // Validate that player values sum to 100
-        const validation = validatePlayerTotals(state);
-        if (!validation.valid) {
-            alert(`Player valuations must sum to 100!\n\nPlayer 1: ${validation.player1Total}\nPlayer 2: ${validation.player2Total}`);
+        const pieceValues = api.getState().algorithmData.pieceValues;
+        if (!pieceValues) {
+            Logger.error('No piece values found when showing results');
             return;
         }
-        // show overlays
-        api.showTwoPieceOverlays(state.cutPosition);
-        // Move to choosing step
-        api.requestStepProgression();
+
+        // Calculate which piece each player gets
+        const player1Gets = selectedPiece === 'left' ? 'right' : 'left';
+        const player2Gets = selectedPiece;
+
+        // Get the values for each player's piece
+        const player1Value = pieceValues.player1[player1Gets];
+        const player2Value = pieceValues.player2[player2Gets];
+
+        // Check if values are valid
+        if (player1Value === undefined || player2Value === undefined) {
+            Logger.error('Invalid piece values:', { player1Value, player2Value, pieceValues });
+            return;
+        }
+
+        // Calculate fairness metrics
+        const isProportional = player1Value >= 50 && player2Value >= 50;
+        const isEnvyFree = player1Value >= pieceValues.player1[player2Gets] &&
+            player2Value >= pieceValues.player2[player1Gets];
+
+        // Create the results HTML
+        const resultsHTML = `
+        <div class="results-summary">
+            <h3>Final Allocation</h3>
+            <div class="allocation-grid">
+                <div class="player-result">
+                    <h4>Player 1 (Divider)</h4>
+                    <p>Receives: <strong>${player1Gets.charAt(0).toUpperCase() + player1Gets.slice(1)} piece</strong></p>
+                    <p>Value: <strong>${player1Value.toFixed(1)} points</strong></p>
+                </div>
+                <div class="player-result">
+                    <h4>Player 2 (Chooser)</h4>
+                    <p>Receives: <strong>${player2Gets.charAt(0).toUpperCase() + player2Gets.slice(1)} piece</strong></p>
+                    <p>Value: <strong>${player2Value.toFixed(1)} points</strong></p>
+                </div>
+            </div>
+            <div class="fairness-analysis">
+                <h4>Fairness Properties</h4>
+                <p><strong>Proportional:</strong> ${isProportional ? '✅ Yes' : '❌ No'} (both players get ≥50% value)</p>
+                <p><strong>Envy-free:</strong> ${isEnvyFree ? '✅ Yes' : '❌ No'} (no player prefers the other's piece)</p>
+                <p><strong>Strategy-proof:</strong> ✅ Yes (optimal strategy is to cut/choose honestly)</p>
+            </div>
+        </div>
+    `;
+
+        // Find the results container and populate it
+        const resultsElement = document.getElementById('results');
+        if (resultsElement) {
+            const contentElement = document.getElementById('result-content');
+            if (contentElement) {
+                contentElement.innerHTML = resultsHTML;
+                Logger.debug('Results HTML added to result-content element');
+            } else {
+                // Fallback: add directly to results if result-content doesn't exist
+                Logger.warn('result-content element not found, adding directly to results');
+                resultsElement.innerHTML = `<h3>Results</h3>${resultsHTML}`;
+            }
+
+            // Make sure the results element is visible
+            resultsElement.style.display = 'block';
+            Logger.debug('Results element made visible');
+        } else {
+            Logger.error('results element not found in DOM');
+            return;
+        }
+
+        // Store the final results in algorithm data
+        api.setAlgorithmData('finalResults', {
+            player1: { piece: player1Gets, value: player1Value },
+            player2: { piece: player2Gets, value: player2Value },
+            selectedPiece,
+            fairness: {
+                proportional: isProportional,
+                envyFree: isEnvyFree,
+                strategyProof: true
+            }
+        });
+
+        Logger.info('Results displayed successfully:', {
+            player1: `${player1Gets} piece (${player1Value.toFixed(1)} points)`,
+            player2: `${player2Gets} piece (${player2Value.toFixed(1)} points)`,
+            proportional: isProportional,
+            envyFree: isEnvyFree
+        });
+    }
+}
+
+// ===== ALGORITHM STEPS DEFINITION =====
+const DIVIDE_CHOOSE_STEPS = [
+    {
+        id: 'cutting',
+        title: 'Step 1: Position the cut',
+        instructions: 'Player 1, adjust the cut position using the slider below to create two pieces you value equally.',
+        enabledControls: ['cutSlider', 'makeCutButton'],
+
+        onStepEnter: (state, api) => {
+            Logger.debug('Entered Step 1: cutting step...');
+
+            // Initialize algorithm instance
+            api.setAlgorithmData('algorithm', new DivideAndChooseAlgorithm());
+
+            // Setup UI
+            api.showElement('make-cut-btn');
+            api.hideElement('start-btn');
+            api.enableElement('cut-slider');
+
+            // Initial update
+            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+        },
+
+        onStepExit: (state, api) => {
+            Logger.debug('Exiting cutting step');
+            api.hideElement('make-cut-btn');
+            api.disableElement('cut-slider');
+        }
+    },
+
+    {
+        id: 'choosing',
+        title: 'Step 2: Choose a piece',
+        instructions: 'Player 2, click on the piece you prefer!',
+        enabledControls: ['pieceSelection'],
+
+        onStepEnter: (state, api) => {
+            Logger.debug('Entered choosing step');
+
+            // Show piece overlays
+            api.showElement('left-piece-overlay');
+            api.showElement('right-piece-overlay');
+
+            // Setup piece selection handlers
+            const leftOverlay = document.getElementById('left-piece-overlay');
+            const rightOverlay = document.getElementById('right-piece-overlay');
+
+            if (leftOverlay) {
+                leftOverlay.style.cursor = 'pointer';
+                leftOverlay.onclick = () => DivideAndChooseAlgorithm.handlePieceSelection('left', state, api);
+            }
+
+            if (rightOverlay) {
+                rightOverlay.style.cursor = 'pointer';
+                rightOverlay.onclick = () => DivideAndChooseAlgorithm.handlePieceSelection('right', state, api);
+            }
+
+            // Update displays one final time
+            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+        },
+
+        onStepExit: (state, api) => {
+            Logger.debug('Exiting choosing step');
+
+            // Clean up event handlers
+            const leftOverlay = document.getElementById('left-piece-overlay');
+            const rightOverlay = document.getElementById('right-piece-overlay');
+
+            if (leftOverlay) {
+                leftOverlay.style.cursor = '';
+                leftOverlay.onclick = null;
+            }
+
+            if (rightOverlay) {
+                rightOverlay.style.cursor = '';
+                rightOverlay.onclick = null;
+            }
+        }
+    }
+];
+
+// ===== ALGORITHM CONFIGURATION OBJECT =====
+const divideAndChooseConfig = {
+    name: 'Divide-and-Choose',
+    description: 'Fundamental fair division procedure for two players',
+    playerCount: 2,
+    steps: DIVIDE_CHOOSE_STEPS,
+
+    // Lifecycle handlers
+    onInit: (state, api) => {
+        Logger.debug('Divide-and-Choose algorithm initialized');
+        api.setCutPosition(0);
+        api.resetSlider('cut-slider');
+        DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+    },
+
+    onStateChange: (stateKey, state, api) => {
+        // Handle real-time updates during cutting phase
+        if (stateKey === 'cutPosition' && api.getCurrentStep() === 0) {
+            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+        }
+    },
+
+    onStart: (state, api) => {
+        Logger.info('Divide-and-Choose algorithm started');
+        api.nextStep();
+    },
+
+    onMakeCut: (state, api) => {
+        Logger.info('Make Cut button clicked');
+
+        // Validate before proceeding
+        if (!DivideAndChooseAlgorithm.validateCut(state, api)) {
+            return;
+        }
+
+        // Mark cut as made
+        const algorithm = api.getState().algorithmData.algorithm;
+        if (algorithm) {
+            algorithm.cutMade = true;
+        }
+
+        Logger.info(`Cut finalized at position: ${state.cutPosition}`);
+
+        // Show piece overlays and advance to choosing
+        DivideAndChooseAlgorithm.showPieceOverlays(state.cutPosition);
+        api.nextStep();
     },
 
     onReset: (state, api) => {
-        console.log('Algorithm reset');
-        // Reset any algorithm-specific state
-        state.algorithmData = {};
-        // Reset start button
-        api.setStartButtonState('enabled');
-        updatePlayerDisplays(state, api);
-    },
+        Logger.info('Divide-and-Choose algorithm reset');
+        // Clear visual elements
+        DivideAndChooseAlgorithm.clearPieceOverlays();
 
-    onPlayerValueChange: (state, api) => {
-        console.log('Player values changed');
-        updatePlayerDisplays(state, api);
+        // Reset algorithm state
+        api.setAlgorithmData('algorithm', null);
+        api.setAlgorithmData('pieceValues', null);
+        api.setAlgorithmData('finalResults', null);
 
-        // Validate totals and update start button state
-        const validation = validatePlayerTotals(state);
-        if (api.getCurrentStep() === 0) {
-            if (validation.valid) {
-                api.setStartButtonState('enabled');
-            } else {
-                api.setStartButtonState('disabled');
-            }
-        }
-    },
-
-    calculateValues: (state) => {
-        // Use the core utility to calculate region values
-        const regionValues = demoSystem.calculateRegionValues(state.cutPosition);
-
-        // Calculate values for both players
-        const player1Left = demoSystem.calculatePlayerValue(regionValues.left, state.playerValues.player1);
-        const player1Right = demoSystem.calculatePlayerValue(regionValues.right, state.playerValues.player1);
-        const player2Left = demoSystem.calculatePlayerValue(regionValues.left, state.playerValues.player2);
-        const player2Right = demoSystem.calculatePlayerValue(regionValues.right, state.playerValues.player2);
-
-        return {
-            player1: { left: player1Left, right: player1Right },
-            player2: { left: player2Left, right: player2Right }
-        };
+        // Reset UI
+        api.hideElement('results');
+        api.enableElement('cut-slider');
+        api.resetSlider('cut-slider');
+        api.showElement('make-cut-btn');
     }
 };
 
-// Helper function to validate player totals
-function validatePlayerTotals(state) {
-    const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
+// Add helper methods to the algorithm class
+DivideAndChooseAlgorithm.showPieceOverlays = function(cutPosition) {
+    const leftOverlay = document.getElementById('left-piece-overlay');
+    const rightOverlay = document.getElementById('right-piece-overlay');
 
-    const player1Total = colors.reduce((sum, color) => sum + (state.playerValues.player1[color] || 0), 0);
-    const player2Total = colors.reduce((sum, color) => sum + (state.playerValues.player2[color] || 0), 0);
+    if (leftOverlay && rightOverlay) {
+        // Calculate piece boundaries based on cut position
+        const cutX = (cutPosition / 100) * 800;
 
-    return {
-        valid: player1Total === 100 && player2Total === 100,
-        player1Total,
-        player2Total
-    };
-}
+        leftOverlay.setAttribute('width', cutX.toString());
+        rightOverlay.setAttribute('x', cutX.toString());
+        rightOverlay.setAttribute('width', (800 - cutX).toString());
 
-// Helper function to update player value displays
-function updatePlayerDisplays(state, api) {
-    const values = algorithmConfig.calculateValues(state);
-    // Update the displays (these are handled by core system automatically)
-    console.log('Player values:', values);
-}
+        leftOverlay.style.display = 'block';
+        rightOverlay.style.display = 'block';
 
-// Handle piece selection in step 2
-function handlePieceSelection(piece, state, api) {
-    const threshold = 0.1;
-    console.log(`Player 2 selected the ${piece} piece`);
+        Logger.debug(`Piece overlays shown with cut at ${cutPosition}%`);
+    }
+};
 
-    // Calculate final values
-    const values = algorithmConfig.calculateValues(state);
+DivideAndChooseAlgorithm.clearPieceOverlays = function() {
+    const overlays = ['left-piece-overlay', 'right-piece-overlay'];
 
-    // Determine who gets what
-    const player2Value = piece === 'left' ? values.player2.left : values.player2.right;
-    const player1Value = piece === 'left' ? values.player1.right : values.player1.left;
-
-    // Show results
-    api.showResults({
-        text: `
-            <div style="background: white; padding: 15px; border-radius: 6px; margin: 15px 0; border-left: 4px solid #3182ce;">
-                <h4>Divide-and-Choose Complete!</h4>
-                <p><strong>Step 1:</strong> Player 1 positioned the cut to create pieces they valued equally.</p>
-                <p><strong>Step 2:</strong> Player 2 selected the <strong>${piece}</strong> piece.</p>
-                <p><strong>Result:</strong> Player 1 gets the <strong>${piece === 'left' ? 'right' : 'left'}</strong> piece.</p>
-            </div>
-            <div style="background: #ebf8ff; padding: 15px; border-radius: 6px; margin: 20px 0;">
-                <h4>Final Values:</h4>
-                <p><strong>Player 1:</strong> ${player1Value.toFixed(1)} points</p>
-                <p><strong>Player 2:</strong> ${player2Value.toFixed(1)} points</p>
-                <br>
-                <p><strong>Fairness Analysis:</strong></p>
-                <p><strong>Proportional:</strong> ${(player1Value >= 50 - threshold) && (player2Value >= 50 - threshold) ? 'Yes, both players get ≥50%' : 'No, someone gets <50%'}</p>
-                <p><strong>Envy-free:</strong> Neither player prefers the other's piece</p>
-                <p><strong>Strategy-proof:</strong> Truth-telling was optimal for both players</p>
-            </div>
-        `
+    overlays.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.style.display = 'none';
+            element.style.fill = '';
+            element.style.stroke = '';
+            element.style.strokeWidth = '';
+            element.style.opacity = '';
+            element.onclick = null;
+            element.style.cursor = '';
+        }
     });
 
-    // Store result in algorithm data
-    state.algorithmData.result = {
-        player2Choice: piece,
-        player1Value: player1Value,
-        player2Value: player2Value
-    };
-}
+    Logger.debug('Piece overlays cleared');
+};
 
-window.FairDivisionCore.register(algorithmId, algorithmConfig);
+// ===== REGISTRATION =====
+window.FairDivisionCore.register('divide-and-choose', divideAndChooseConfig);
+Logger.info(`${divideAndChooseConfig.name} algorithm loaded and registered`);

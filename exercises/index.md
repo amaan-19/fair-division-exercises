@@ -12,18 +12,9 @@ permalink: /exercises/
 <div class="content-block">
   <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;">
     <div>
-      <label for="exercise-category" style="font-weight: 500; margin-right: 0.5rem;">Category:</label>
-      <select id="exercise-category" class="algorithm-dropdown">
-        <option value="">Select a Category</option>
-        <option value="simulation">Algorithm Simulation</option>
-        <option value="comparative">Comparative Analysis</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="exercise-list" style="font-weight: 500; margin-right: 0.5rem;">Exercise:</label>
-      <select id="exercise-list" class="algorithm-dropdown" disabled>
-        <option value="">Select an Exercise</option>
+      <label for="exercise-list" style="font-weight: 500; margin-right: 0.5rem;">Select Exercise:</label>
+      <select id="exercise-list" class="algorithm-dropdown">
+        <option value="">Choose an Exercise</option>
       </select>
     </div>
   </div>
