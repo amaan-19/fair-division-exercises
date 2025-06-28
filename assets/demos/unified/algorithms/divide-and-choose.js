@@ -1,30 +1,11 @@
 ﻿/**
- * Divide-and-Choose Algorithm
+ * Divide-and-Choose Plug-in
  */
-
-// ===== ALGORITHM CONFIGURATION =====
-const DIVIDE_CHOOSE_CONFIG = {
-    // Algorithm metadata
-    id: 'divide-and-choose',
-    name: 'Divide-and-Choose',
-    description: 'Fundamental fair division procedure for two players',
-    playerCount: 2,
-    type: 'discrete',
-
-    // Fairness properties
-    properties: ['proportional', 'envy-free', 'strategy-proof'],
-
-    // Algorithm-specific settings
-    settings: {
-        enableRealTimeUpdate: true,
-        showValueCalculations: true,
-        requireEqualPieces: false // Player 1 can make unequal cuts
-    }
-};
 
 // ===== ALGORITHM LOGIC =====
 class DivideAndChooseAlgorithm {
     constructor() {
+        this.currentStep = 1;
         this.selectedPiece = null;
         this.cutMade = false;
         this.gameComplete = false;
@@ -106,30 +87,34 @@ class DivideAndChooseAlgorithm {
         api.showElement('results');
 
         // Visual feedback
-        DivideAndChooseAlgorithm.highlightSelectedPiece(piece);
+        DivideAndChooseAlgorithm.highlightSelectedPiece(piece, api);
 
         // Then populate the results
         DivideAndChooseAlgorithm.showResults(piece, state, api);
 
         // Update UI
         api.updateInstructions('<strong>Selection Complete!</strong> Player 2 has chosen their piece.');
-        api.disableElement('left-piece');
-        api.disableElement('right-piece');
+        api.disableElement('left-piece-overlay');
+        api.disableElement('right-piece-overlay');
 
         api.emit('pieceSelected', { piece, player: 'player2' });
     }
 
-    static highlightSelectedPiece(piece) {
-        const leftPiece = document.getElementById('left-piece');
-        const rightPiece = document.getElementById('right-piece');
+    static highlightSelectedPiece(piece, api) {
+        const leftOverlay = document.getElementById('left-piece-overlay');
+        const rightOverlay = document.getElementById('right-piece-overlay');
 
-        if (leftPiece && rightPiece) {
+        if (leftOverlay && rightOverlay) {
             if (piece === 'left') {
-                leftPiece.classList.add('selected');
-                rightPiece.style.opacity = '0.3';
+                leftOverlay.style.fill = 'rgba(49,130,206,0.6)';
+                leftOverlay.style.stroke = '#2c5282';
+                leftOverlay.style.strokeWidth = '4';
+                rightOverlay.style.opacity = '0.3';
             } else {
-                rightPiece.classList.add('selected');
-                leftPiece.style.opacity = '0.3';
+                rightOverlay.style.fill = 'rgba(72,187,120,0.6)';
+                rightOverlay.style.stroke = '#22543d';
+                rightOverlay.style.strokeWidth = '4';
+                leftOverlay.style.opacity = '0.3';
             }
         }
     }
@@ -178,23 +163,11 @@ class DivideAndChooseAlgorithm {
                     <p>Value: <strong>${player2Value.toFixed(1)} points</strong></p>
                 </div>
             </div>
-            
             <div class="fairness-analysis">
-                <h4>Fairness Analysis</h4>
-                <div class="fairness-properties">
-                    <div class="property-result ${isProportional ? 'success' : 'warning'}">
-                        <span class="property-icon">${isProportional ? '✓' : '⚠'}</span>
-                        <span><strong>Proportional:</strong> ${isProportional ? 'Both players get ≥50%' : 'Some player gets <50%'}</span>
-                    </div>
-                    <div class="property-result ${isEnvyFree ? 'success' : 'warning'}">
-                        <span class="property-icon">${isEnvyFree ? '✓' : '⚠'}</span>
-                        <span><strong>Envy-free:</strong> ${isEnvyFree ? 'No player envies the other' : 'Some envy exists'}</span>
-                    </div>
-                    <div class="property-result success">
-                        <span class="property-icon">✓</span>
-                        <span><strong>Strategy-proof:</strong> Truth-telling is optimal for both players</span>
-                    </div>
-                </div>
+                <h4>Fairness Properties</h4>
+                <p><strong>Proportional:</strong> ${isProportional ? '✅ Yes' : '❌ No'} (both players get ≥50% value)</p>
+                <p><strong>Envy-free:</strong> ${isEnvyFree ? '✅ Yes' : '❌ No'} (no player prefers the other's piece)</p>
+                <p><strong>Strategy-proof:</strong> ✅ Yes (optimal strategy is to cut/choose honestly)</p>
             </div>
         </div>
     `;
@@ -250,7 +223,7 @@ const DIVIDE_CHOOSE_STEPS = [
         enabledControls: ['cutSlider', 'makeCutButton'],
 
         onStepEnter: (state, api) => {
-            Logger.debug('Entered cutting step');
+            Logger.debug('Entered Step 1: cutting step...');
 
             // Initialize algorithm instance
             api.setAlgorithmData('algorithm', new DivideAndChooseAlgorithm());
@@ -260,17 +233,8 @@ const DIVIDE_CHOOSE_STEPS = [
             api.hideElement('start-btn');
             api.enableElement('cut-slider');
 
-            // Enable real-time updates if configured
-            if (DIVIDE_CHOOSE_CONFIG.settings.enableRealTimeUpdate) {
-                DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
-            }
-
-            // Listen for cut position changes
-            api.on('cutPositionChanged', () => {
-                if (DIVIDE_CHOOSE_CONFIG.settings.enableRealTimeUpdate) {
-                    DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
-                }
-            });
+            // Initial update
+            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
         },
 
         onStepExit: (state, api) => {
@@ -294,17 +258,17 @@ const DIVIDE_CHOOSE_STEPS = [
             api.showElement('right-piece-overlay');
 
             // Setup piece selection handlers
-            const leftPiece = document.getElementById('left-piece');
-            const rightPiece = document.getElementById('right-piece');
+            const leftOverlay = document.getElementById('left-piece-overlay');
+            const rightOverlay = document.getElementById('right-piece-overlay');
 
-            if (leftPiece) {
-                leftPiece.style.cursor = 'pointer';
-                leftPiece.onclick = () => DivideAndChooseAlgorithm.handlePieceSelection('left', state, api);
+            if (leftOverlay) {
+                leftOverlay.style.cursor = 'pointer';
+                leftOverlay.onclick = () => DivideAndChooseAlgorithm.handlePieceSelection('left', state, api);
             }
 
-            if (rightPiece) {
-                rightPiece.style.cursor = 'pointer';
-                rightPiece.onclick = () => DivideAndChooseAlgorithm.handlePieceSelection('right', state, api);
+            if (rightOverlay) {
+                rightOverlay.style.cursor = 'pointer';
+                rightOverlay.onclick = () => DivideAndChooseAlgorithm.handlePieceSelection('right', state, api);
             }
 
             // Update displays one final time
@@ -315,17 +279,17 @@ const DIVIDE_CHOOSE_STEPS = [
             Logger.debug('Exiting choosing step');
 
             // Clean up event handlers
-            const leftPiece = document.getElementById('left-piece');
-            const rightPiece = document.getElementById('right-piece');
+            const leftOverlay = document.getElementById('left-piece-overlay');
+            const rightOverlay = document.getElementById('right-piece-overlay');
 
-            if (leftPiece) {
-                leftPiece.style.cursor = '';
-                leftPiece.onclick = null;
+            if (leftOverlay) {
+                leftOverlay.style.cursor = '';
+                leftOverlay.onclick = null;
             }
 
-            if (rightPiece) {
-                rightPiece.style.cursor = '';
-                rightPiece.onclick = null;
+            if (rightOverlay) {
+                rightOverlay.style.cursor = '';
+                rightOverlay.onclick = null;
             }
         }
     }
@@ -333,13 +297,24 @@ const DIVIDE_CHOOSE_STEPS = [
 
 // ===== ALGORITHM CONFIGURATION OBJECT =====
 const divideAndChooseConfig = {
-    ...DIVIDE_CHOOSE_CONFIG,
+    name: 'Divide-and-Choose',
+    description: 'Fundamental fair division procedure for two players',
+    playerCount: 2,
     steps: DIVIDE_CHOOSE_STEPS,
 
     // Lifecycle handlers
     onInit: (state, api) => {
-        Logger.info('Divide-and-Choose algorithm initialized');
+        Logger.debug('Divide-and-Choose algorithm initialized');
+        api.setCutPosition(0);
+        api.resetSlider('cut-slider');
         DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+    },
+
+    onStateChange: (stateKey, state, api) => {
+        // Handle real-time updates during cutting phase
+        if (stateKey === 'cutPosition' && api.getCurrentStep() === 0) {
+            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+        }
     },
 
     onStart: (state, api) => {
@@ -352,7 +327,7 @@ const divideAndChooseConfig = {
 
         // Validate before proceeding
         if (!DivideAndChooseAlgorithm.validateCut(state, api)) {
-            return; // Stay on current step if validation fails
+            return;
         }
 
         // Mark cut as made
@@ -368,16 +343,8 @@ const divideAndChooseConfig = {
         api.nextStep();
     },
 
-    onPlayerValueChange: (state, api) => {
-        // Update displays in real-time if enabled and we're in cutting step
-        if (DIVIDE_CHOOSE_CONFIG.settings.enableRealTimeUpdate && api.getCurrentStep() === 0) {
-            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
-        }
-    },
-
     onReset: (state, api) => {
         Logger.info('Divide-and-Choose algorithm reset');
-
         // Clear visual elements
         DivideAndChooseAlgorithm.clearPieceOverlays();
 
@@ -389,6 +356,8 @@ const divideAndChooseConfig = {
         // Reset UI
         api.hideElement('results');
         api.enableElement('cut-slider');
+        api.resetSlider('cut-slider');
+        api.showElement('make-cut-btn');
     }
 };
 
@@ -399,11 +368,11 @@ DivideAndChooseAlgorithm.showPieceOverlays = function(cutPosition) {
 
     if (leftOverlay && rightOverlay) {
         // Calculate piece boundaries based on cut position
-        const cutX = (cutPosition / 100) * 800; // Assuming 800px canvas width
+        const cutX = (cutPosition / 100) * 800;
 
-        leftOverlay.setAttribute('width', cutX.toString(1));
-        rightOverlay.setAttribute('x', cutX.toString(1));
-        rightOverlay.setAttribute('width', (800 - cutX).toString(1));
+        leftOverlay.setAttribute('width', cutX.toString());
+        rightOverlay.setAttribute('x', cutX.toString());
+        rightOverlay.setAttribute('width', (800 - cutX).toString());
 
         leftOverlay.style.display = 'block';
         rightOverlay.style.display = 'block';
@@ -413,14 +382,18 @@ DivideAndChooseAlgorithm.showPieceOverlays = function(cutPosition) {
 };
 
 DivideAndChooseAlgorithm.clearPieceOverlays = function() {
-    const overlays = ['left-piece-overlay', 'right-piece-overlay', 'left-piece', 'right-piece'];
+    const overlays = ['left-piece-overlay', 'right-piece-overlay'];
 
     overlays.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
             element.style.display = 'none';
-            element.classList.remove('selected');
+            element.style.fill = '';
+            element.style.stroke = '';
+            element.style.strokeWidth = '';
             element.style.opacity = '';
+            element.onclick = null;
+            element.style.cursor = '';
         }
     });
 
@@ -428,7 +401,5 @@ DivideAndChooseAlgorithm.clearPieceOverlays = function() {
 };
 
 // ===== REGISTRATION =====
-// Register the algorithm with the demo system
-window.FairDivisionCore.register(DIVIDE_CHOOSE_CONFIG.id, divideAndChooseConfig);
-
-Logger.info(`${DIVIDE_CHOOSE_CONFIG.name} algorithm loaded and registered`);
+window.FairDivisionCore.register('divide-and-choose', divideAndChooseConfig);
+Logger.info(`${divideAndChooseConfig.name} algorithm loaded and registered`);

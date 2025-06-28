@@ -6,115 +6,108 @@
 
 class FairDivisionDemoSystem {
     constructor() {
-        Logger.info('Initializing Fair Division Demo System');
+        this.isInitialized = false;
+        Logger.info('Initializing Fair Division Demo System...');
 
-        // Core components
-        this.state = new StateManager();
-        this.events = new EventSystem();
-        this.ui = new UIController(this.state, this.events);
+        // Initialize core components
+        this.eventSystem = new EventSystem();
+        this.stateManager = new StateManager(this.eventSystem);
+        this.uiController = new UIController(this.stateManager, this.eventSystem);
+        this.animationEngine = new AnimationEngine();
 
         // Algorithm management
         this.algorithms = new Map();
         this.currentAlgorithm = null;
         this.registrationQueue = [];
 
-        // System state
-        this.isInitialized = false;
+        // Initialize system
+        this.setupEventHandlers();
+        this.attachHTMLListeners();
 
-        this.initializeSystem();
+        this.isInitialized = true;
+        this.processRegistrationQueue();
+
+        Logger.info('Fair Division Demo System ready');
     }
 
-    initializeSystem() {
-        Logger.group('System Initialization');
+    setupEventHandlers() {
+        // State changes trigger UI updates
+        this.stateManager.subscribe('cutPosition', () => {
+            this.uiController.updateCutLine();
+            this.uiController.updatePlayerValueDisplays();
 
-        try {
-            this.setupCoreEventListeners();
-            this.setupStateSubscriptions();
-            this.setupUIEventHandlers();
-
-            this.isInitialized = true;
-            Logger.info('Demo system initialization complete');
-
-            // Process any queued algorithm registrations
-            this.processRegistrationQueue();
-
-            this.events.emit('systemReady');
-
-        } catch (error) {
-            Logger.error('Failed to initialize demo system:', error);
-            throw error;
-        }
-
-        Logger.groupEnd();
-    }
-
-    setupCoreEventListeners() {
-        // Handle cut position changes
-        this.state.subscribe('cutPosition', () => {
-            this.ui.updateCutLine();
-            this.ui.updatePlayerValueDisplays();
-            this.events.emit('visualUpdate', 'cutPosition');
-        });
-
-        this.state.subscribe('cutPosition2', () => {
-            this.ui.updateDualCutLines();
-            this.events.emit('visualUpdate', 'cutPosition2');
-        });
-
-        // Handle player value changes
-        this.state.subscribe('playerValues', (data) => {
-            this.ui.updatePlayerValueDisplays();
-            this.events.emit('visualUpdate', 'playerValues');
-
-            // Notify current algorithm if it's listening
-            if (this.currentAlgorithm?.config.onPlayerValueChange) {
-                this.currentAlgorithm.config.onPlayerValueChange(this.state.getState(), this.createAlgorithmAPI());
+            // Notify current algorithm if it has an update method
+            if (this.currentAlgorithm?.config.onStateChange) {
+                try {
+                    this.currentAlgorithm.config.onStateChange('cutPosition', this.stateManager.getState(), this.createAlgorithmAPI());
+                } catch (error) {
+                    Logger.error('Error in algorithm onStateChange:', error);
+                }
             }
         });
 
-        Logger.debug('Core event listeners setup complete');
+        this.stateManager.subscribe('cutPosition2', () => {
+            this.uiController.updateDualCutLines();
+        });
+
+        this.stateManager.subscribe('playerValues', () => {
+            this.uiController.updatePlayerValueDisplays();
+
+            // Notify current algorithm
+            if (this.currentAlgorithm?.config.onStateChange) {
+                try {
+                    this.currentAlgorithm.config.onStateChange('playerValues', this.stateManager.getState(), this.createAlgorithmAPI());
+                } catch (error) {
+                    Logger.error('Error in algorithm onStateChange:', error);
+                }
+            }
+        });
+
+        // UI events
+        this.eventSystem.on('demo:start:clicked', () => {
+            try {
+                this.handleStartButton();
+            } catch (error) {
+                Logger.error('Error handling start button:', error);
+            }
+        });
+
+        this.eventSystem.on('algorithm:changed', ({ value }) => {
+            try {
+                this.switchAlgorithm(value);
+            } catch (error) {
+                Logger.error('Error switching algorithm:', error);
+            }
+        });
+
+        Logger.debug('Event handlers setup complete');
     }
 
-    setupStateSubscriptions() {
-        // Log state changes in debug mode
-        if (DEMO_CONFIG.DEBUG) {
-            ['cutPosition', 'cutPosition2', 'playerValues', 'currentStep'].forEach(event => {
-                this.state.subscribe(event, (newValue, oldValue) => {
-                    Logger.debug(`State change - ${event}:`, { old: oldValue, new: newValue });
-                });
-            });
-        }
-    }
-
-    setupUIEventHandlers() {
+    attachHTMLListeners() {
         // Algorithm selector
-        const algorithmSelector = document.getElementById('algorithm-selector');
-        if (algorithmSelector) {
-            algorithmSelector.addEventListener('change', (e) => {
-                this.switchAlgorithm(e.target.value);
+        const dropdown = document.getElementById('algorithm-selector');
+        if (dropdown) {
+            dropdown.addEventListener('change', (e) => {
+                try {
+                    this.eventSystem.emit('algorithm:changed', {
+                        value: e.target.value,
+                        text: e.target.selectedOptions[0]?.textContent
+                    });
+                } catch (error) {
+                    Logger.error('Error handling algorithm selection:', error);
+                }
             });
         }
 
-        // Control buttons
-        this.setupButtonHandlers();
-
-        Logger.debug('UI event handlers setup complete');
-    }
-
-    setupButtonHandlers() {
         // Start button
         const startBtn = document.getElementById('start-btn');
         if (startBtn) {
             startBtn.addEventListener('click', () => {
-                this.handleStartButton();
-            });
-        }
-
-        // Reset button
-        const resetBtn = document.getElementById('reset-btn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                this.resetAlgorithm();
+                try {
+                    this.eventSystem.emit('demo:start:clicked');
+                } catch (error) {
+                    Logger.error('Error handling start button:', error);
+                }
             });
         }
 
@@ -122,15 +115,33 @@ class FairDivisionDemoSystem {
         const makeCutBtn = document.getElementById('make-cut-btn');
         if (makeCutBtn) {
             makeCutBtn.addEventListener('click', () => {
-                this.handleMakeCut();
+                try {
+                    this.handleMakeCut();
+                } catch (error) {
+                    Logger.error('Error handling make cut button:', error);
+                }
             });
         }
+
+        // Reset button
+        const resetBtn = document.getElementById('reset-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                try {
+                    this.resetAlgorithm();
+                } catch (error) {
+                    Logger.error('Error handling reset button:', error);
+                }
+            });
+        }
+
+        Logger.debug('HTML listeners attached');
     }
 
     // ===== ALGORITHM MANAGEMENT =====
 
     register(algorithmId, config) {
-        Logger.info(`Registering algorithm: ${config.name} (${algorithmId})`);
+        Logger.debug(`Registering algorithm: ${config.name || config.metadata?.name} (${algorithmId})`);
 
         if (!this.validateAlgorithmConfig(config)) {
             Logger.error(`Invalid algorithm configuration for ${algorithmId}`);
@@ -149,23 +160,24 @@ class FairDivisionDemoSystem {
         });
 
         this.updateAlgorithmSelector();
-        this.events.emit('algorithmRegistered', { algorithmId, config });
+        this.eventSystem.emit('algorithmRegistered', { algorithmId, config });
 
-        Logger.info(`Algorithm registered successfully: ${config.name}`);
+        Logger.info(`Algorithm registered successfully: ${config.name || config.metadata?.name}`);
         return true;
     }
 
     validateAlgorithmConfig(config) {
-        const required = ['name', 'description', 'playerCount'];
-        const missing = required.filter(prop => !config[prop]);
+        const name = config.name || config.metadata?.name;
+        const description = config.description || config.metadata?.description;
+        const playerCount = config.playerCount || config.metadata?.playerCount;
 
-        if (missing.length > 0) {
-            Logger.error('Missing required algorithm properties:', missing);
+        if (!name || !description || !playerCount) {
+            Logger.error('Missing required algorithm properties: name, description, playerCount');
             return false;
         }
 
-        if (config.playerCount < 2 || config.playerCount > 3) {
-            Logger.error('Invalid player count:', config.playerCount);
+        if (playerCount < 2 || playerCount > 3) {
+            Logger.error('Invalid player count:', playerCount);
             return false;
         }
 
@@ -173,15 +185,21 @@ class FairDivisionDemoSystem {
     }
 
     enhanceAlgorithmConfig(config) {
-        // Add default handlers and validation
         const enhanced = { ...config };
 
-        // Ensure step structure exists
+        // Normalize config structure
+        if (config.metadata) {
+            enhanced.name = config.metadata.name;
+            enhanced.description = config.metadata.description;
+            enhanced.playerCount = config.metadata.playerCount;
+        }
+
+        // Ensure steps exist
         if (!enhanced.steps) {
             enhanced.steps = [];
         }
 
-        // Add default lifecycle methods if missing
+        // Add default reset handler if missing
         if (!enhanced.onReset) {
             enhanced.onReset = () => Logger.debug(`Default reset handler for ${enhanced.name}`);
         }
@@ -215,15 +233,15 @@ class FairDivisionDemoSystem {
 
         // Set new algorithm
         this.currentAlgorithm = algorithm;
-        this.state.reset();
-        this.state.setCurrentStep(0);
+        this.stateManager.reset();
+        this.stateManager.setCurrentStep(0);
 
         // Update UI
-        this.ui.updateAlgorithmInfo(algorithm.config.name, algorithm.config.description);
+        this.uiController.updateAlgorithmInfo(algorithm.config.name, algorithm.config.description);
         this.setupAlgorithmUI();
         this.initializeAlgorithm();
 
-        this.events.emit('algorithmChanged', algorithmId);
+        this.eventSystem.emit('algorithmChanged', algorithmId);
         Logger.groupEnd();
     }
 
@@ -232,9 +250,9 @@ class FairDivisionDemoSystem {
 
         // Show/hide player sections based on player count
         if (config.playerCount === 3) {
-            this.ui.showElement('player3-section');
+            this.uiController.showElement('player3-section');
         } else {
-            this.ui.hideElement('player3-section');
+            this.uiController.hideElement('player3-section');
         }
 
         // Initialize step UI if steps exist
@@ -248,7 +266,7 @@ class FairDivisionDemoSystem {
 
         // Call algorithm initialization
         if (config.onInit) {
-            config.onInit(this.state.getState(), this.createAlgorithmAPI());
+            config.onInit(this.stateManager.getState(), this.createAlgorithmAPI());
         }
 
         Logger.debug(`Algorithm initialized: ${config.name}`);
@@ -258,37 +276,59 @@ class FairDivisionDemoSystem {
     createAlgorithmAPI() {
         return {
             // State access
-            getState: () => this.state.getState(),
-            getCutPosition: () => this.state.getCutPosition(),
-            getCutPosition2: () => this.state.getCutPosition2(),
-            getPlayerValues: (player) => this.state.getPlayerValues(player),
+            getCutPosition: () => this.stateManager.getCutPosition(),
+            getCutPosition2: () => this.stateManager.getCutPosition2(),
+            getPlayerValues: (player) => this.stateManager.getPlayerValues(player),
+            getState: () => this.stateManager.getState(),
 
             // State modification
-            setCutPosition: (pos) => this.state.setCutPosition(pos),
-            setCutPosition2: (pos) => this.state.setCutPosition2(pos),
-            setAlgorithmData: (key, value) => this.state.setAlgorithmData(key, value),
+            setCutPosition: (pos) => this.stateManager.setCutPosition(pos),
+            setCutPosition2: (pos) => this.stateManager.setCutPosition2(pos),
+            setAlgorithmData: (key, value) => this.stateManager.setAlgorithmData(key, value),
 
             // Step control
             nextStep: () => this.advanceStep(),
-            setStep: (step) => this.setStep(step),
-            getCurrentStep: () => this.state.getCurrentStep(),
+            setStep: (step) => this.stateManager.setCurrentStep(step),
+            getCurrentStep: () => this.stateManager.getCurrentStep(),
 
             // UI control
-            updateInstructions: (html) => this.ui.updateInstructions(html),
-            updateStepIndicator: (text) => this.ui.updateStepIndicator(text),
-            showElement: (id) => this.ui.showElement(id),
-            hideElement: (id) => this.ui.hideElement(id),
-            enableElement: (id) => this.ui.enableElement(id),
-            disableElement: (id) => this.ui.disableElement(id),
+            updateInstructions: (html) => this.uiController.updateInstructions(html),
+            updateStepIndicator: (text) => this.uiController.updateStepIndicator(text),
+            showElement: (id) => this.uiController.showElement(id),
+            hideElement: (id) => this.uiController.hideElement(id),
+            enableElement: (id) => this.uiController.enableElement(id),
+            disableElement: (id) => this.uiController.disableElement(id),
+            resetSlider: (id) => this.uiController.resetSlider(id),
 
             // Events
-            emit: (event, data) => this.events.emit(event, data),
-            on: (event, callback) => this.events.on(event, callback),
+            emit: (event, data) => this.eventSystem.emit(event, data),
+            on: (event, callback) => this.eventSystem.on(event, callback),
 
             // Calculations
-            calculateRegionValues: (cut, bounds) => CalculationEngine.calculateRegionValues(cut, bounds),
+            calculateRegionValues: (cut) => CalculationEngine.calculateRegionValues(cut),
             calculatePlayerValue: (regions, values) => CalculationEngine.calculatePlayerValue(regions, values),
-            validatePlayerTotals: (values) => CalculationEngine.validatePlayerTotals(values)
+            validatePlayerTotals: (values) => CalculationEngine.validatePlayerTotals(values),
+
+            // Animation control
+            startAnimation: (config) => this.animationEngine.start(config),
+            stopAnimation: (id) => this.animationEngine.stop(id),
+
+            // Knife visualization
+            updateSingleKnife: (position) => this.uiController.updateSingleKnife(position),
+            updateKnifePositions: (leftPos, rightPos) => this.uiController.updateKnifePositions(leftPos, rightPos),
+            showDualKnives: () => this.uiController.showDualKnives(),
+            hideDualKnives: () => this.uiController.hideDualKnives(),
+
+            // Stop button controls
+            addStopButtons: () => this.uiController.addStopButtons(),
+            removeStopButtons: () => this.uiController.removeStopButtons(),
+            addOtherPlayerStopButton: (controllingPlayer) => this.uiController.addOtherPlayerStopButton(controllingPlayer),
+            removeOtherPlayerStopButton: () => this.uiController.removeOtherPlayerStopButton(),
+            setStartButtonState: (state) => this.uiController.setStartButtonState(state),
+
+            // Three-piece overlays
+            showThreePieceOverlays: (leftPos, rightPos) => this.uiController.showThreePieceOverlays(leftPos, rightPos),
+            hideThreePieceOverlays: () => this.uiController.hideThreePieceOverlays()
         };
     }
 
@@ -299,20 +339,32 @@ class FairDivisionDemoSystem {
         const config = this.currentAlgorithm.config;
 
         if (config.onStart) {
-            config.onStart(this.state.getState(), this.createAlgorithmAPI());
+            config.onStart(this.stateManager.getState(), this.createAlgorithmAPI());
         } else {
             // Default behavior: advance to first step
             this.advanceStep();
         }
 
-        this.events.emit('algorithmStarted');
+        this.eventSystem.emit('algorithmStarted');
     }
 
     handleMakeCut() {
         if (!this.currentAlgorithm?.config.onMakeCut) return;
 
-        this.currentAlgorithm.config.onMakeCut(this.state.getState(), this.createAlgorithmAPI());
-        this.events.emit('cutMade');
+        this.currentAlgorithm.config.onMakeCut(this.stateManager.getState(), this.createAlgorithmAPI());
+        this.eventSystem.emit('cutMade');
+    }
+
+    handlePlayerStop(playerNumber) {
+        if (this.currentAlgorithm?.config.onPlayerStop) {
+            this.currentAlgorithm.config.onPlayerStop(playerNumber, this.stateManager.getState(), this.createAlgorithmAPI());
+        }
+    }
+
+    handleOtherPlayerStop() {
+        if (this.currentAlgorithm?.config.onOtherPlayerStop) {
+            this.currentAlgorithm.config.onOtherPlayerStop(this.stateManager.getState(), this.createAlgorithmAPI());
+        }
     }
 
     // ===== STEP MANAGEMENT =====
@@ -321,18 +373,18 @@ class FairDivisionDemoSystem {
         if (!config?.steps?.[stepIndex]) return;
 
         const step = config.steps[stepIndex];
-        this.state.setCurrentStep(stepIndex);
+        this.stateManager.setCurrentStep(stepIndex);
 
         Logger.debug(`Entering step ${stepIndex}: ${step.title}`);
 
-        this.ui.updateStepIndicator(step.title);
-        this.ui.updateInstructions(step.instructions);
+        this.uiController.updateStepIndicator(step.title);
+        this.uiController.updateInstructions(step.instructions);
 
         if (step.onStepEnter) {
-            step.onStepEnter(this.state.getState(), this.createAlgorithmAPI());
+            step.onStepEnter(this.stateManager.getState(), this.createAlgorithmAPI());
         }
 
-        this.events.emit('stepEntered', { stepIndex, step });
+        this.eventSystem.emit('stepEntered', { stepIndex, step });
     }
 
     exitStep(stepIndex) {
@@ -342,14 +394,14 @@ class FairDivisionDemoSystem {
         Logger.debug(`Exiting step ${stepIndex}: ${step.title}`);
 
         if (step.onStepExit) {
-            step.onStepExit(this.state.getState(), this.createAlgorithmAPI());
+            step.onStepExit(this.stateManager.getState(), this.createAlgorithmAPI());
         }
 
-        this.events.emit('stepExited', { stepIndex, step });
+        this.eventSystem.emit('stepExited', { stepIndex, step });
     }
 
     advanceStep() {
-        const currentStep = this.state.getCurrentStep();
+        const currentStep = this.stateManager.getCurrentStep();
         const maxSteps = this.currentAlgorithm?.config.steps?.length || 0;
 
         if (currentStep < maxSteps - 1) {
@@ -357,7 +409,7 @@ class FairDivisionDemoSystem {
             this.enterStep(currentStep + 1);
         } else {
             Logger.debug('Algorithm completed - no more steps');
-            this.events.emit('algorithmCompleted');
+            this.eventSystem.emit('algorithmCompleted');
         }
     }
 
@@ -369,21 +421,19 @@ class FairDivisionDemoSystem {
 
         const config = this.currentAlgorithm.config;
         if (config.onReset) {
-            config.onReset(this.state.getState(), this.createAlgorithmAPI());
+            config.onReset(this.stateManager.getState(), this.createAlgorithmAPI());
         }
 
         this.currentAlgorithm = null;
     }
 
     resetAlgorithm() {
+        if (!this.currentAlgorithm) return;
+
         Logger.info('Resetting algorithm');
-
-        this.cleanupCurrentAlgorithm();
-        this.state.reset();
-        this.ui.updatePlayerValueDisplays();
-        this.ui.updateCutLine();
-
-        this.events.emit('algorithmReset');
+        const algorithmId = this.currentAlgorithm.id;
+        this.switchAlgorithm(algorithmId);
+        this.eventSystem.emit('algorithmReset');
     }
 
     updateAlgorithmSelector() {
@@ -411,8 +461,8 @@ class FairDivisionDemoSystem {
         return {
             algorithms: Array.from(this.algorithms.keys()),
             currentAlgorithm: this.currentAlgorithm?.id || null,
-            state: this.state.getState(),
-            eventListeners: this.events.getListenerCount(),
+            state: this.stateManager.getState(),
+            eventListeners: this.eventSystem.getListenerCount(),
             isInitialized: this.isInitialized
         };
     }
@@ -439,7 +489,6 @@ window.FairDivisionCore = {
             return true;
         }
     },
-
     getInstance: function() {
         return demoSystemInstance;
     }
@@ -447,7 +496,7 @@ window.FairDivisionCore = {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    Logger.info('DOM ready - initializing demo system');
+    Logger.debug('DOM ready - initializing demo system');
 
     try {
         demoSystemInstance = new FairDivisionDemoSystem();
@@ -458,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         algorithmRegistrationQueue.length = 0;
 
-        Logger.info('Fair Division Demo System ready');
+        Logger.debug('Fair Division Demo System ready');
 
     } catch (error) {
         Logger.error('Failed to initialize demo system:', error);
