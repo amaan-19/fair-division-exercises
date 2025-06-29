@@ -1,6 +1,5 @@
 ﻿/**
- * Steinhaus' Lone-Divider Algorithm
- * Refactored for streamlined demo system
+ * Steinhaus' Lone-Divider Plug-in
  */
 
 // ===== ALGORITHM LOGIC =====

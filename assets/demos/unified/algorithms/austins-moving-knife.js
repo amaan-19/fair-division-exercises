@@ -1,76 +1,9 @@
 ﻿/**
- * Austin's Moving Knife Algorithm
- * Refactored for streamlined demo system
+ * Austin's Moving Knife Plug-in
  */
 
 // ===== ALGORITHM LOGIC =====
 class AustinsMovingKnifeAlgorithm {
-    static validatePlayerTotals(state) {
-        const colors = ['blue', 'red', 'green', 'orange', 'pink', 'purple'];
-        const player1Total = colors.reduce((sum, color) => sum + (state.playerValues.player1[color] || 0), 0);
-        const player2Total = colors.reduce((sum, color) => sum + (state.playerValues.player2[color] || 0), 0);
-
-        return {
-            valid: Math.abs(player1Total - 100) < 0.1 && Math.abs(player2Total - 100) < 0.1,
-            player1Total,
-            player2Total
-        };
-    }
-
-    static calculateRegionValues(knifePosition) {
-        const regions = {
-            blue: { start: 0, end: 75 },
-            red: { start: 75, end: 100 },
-            green: { start: 18.75, end: 75 },
-            orange: { start: 75, end: 100 },
-            pink: { start: 0, end: 18.75 },
-            purple: { start: 18.75, end: 100 }
-        };
-
-        const leftValues = {};
-        const rightValues = {};
-
-        Object.keys(regions).forEach(color => {
-            const region = regions[color];
-            if (knifePosition <= region.start) {
-                leftValues[color] = 0;
-                rightValues[color] = 100;
-            } else if (knifePosition >= region.end) {
-                leftValues[color] = 100;
-                rightValues[color] = 0;
-            } else {
-                const total = region.end - region.start;
-                const left = knifePosition - region.start;
-                leftValues[color] = (left / total) * 100;
-                rightValues[color] = 100 - leftValues[color];
-            }
-        });
-
-        return { left: leftValues, right: rightValues };
-    }
-
-    static calculatePlayerValue(regionValues, playerValues) {
-        return Object.keys(regionValues).reduce((total, color) => {
-            const regionPercent = regionValues[color] || 0;
-            const playerValue = playerValues[color] || 0;
-            return total + (regionPercent / 100) * playerValue;
-        }, 0);
-    }
-
-    static calculateDualKnifeRegionValues(leftPos, rightPos) {
-        const leftRegions = AustinsMovingKnifeAlgorithm.calculateRegionValues(leftPos);
-        const rightBoundary = AustinsMovingKnifeAlgorithm.calculateRegionValues(rightPos);
-
-        const middleValues = {};
-        const flanksValues = {};
-
-        Object.keys(leftRegions.left).forEach(color => {
-            middleValues[color] = rightBoundary.left[color] - leftRegions.left[color];
-            flanksValues[color] = leftRegions.left[color] + leftRegions.right[color] - rightBoundary.left[color];
-        });
-
-        return { middle: middleValues, flanks: flanksValues };
-    }
 
     static startKnifeAnimation(state, api) {
         state.algorithmData.isAnimating = true;
@@ -95,11 +28,11 @@ class AustinsMovingKnifeAlgorithm {
                 api.updateSingleKnife(cutX);
 
                 // Calculate current player values
-                const regionValues = AustinsMovingKnifeAlgorithm.calculateRegionValues(state.algorithmData.knifePosition);
-                const p1Left = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.left, state.playerValues.player1);
-                const p1Right = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.right, state.playerValues.player1);
-                const p2Left = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.left, state.playerValues.player2);
-                const p2Right = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.right, state.playerValues.player2);
+                const regionValues = api.calculateRegionValues(state.algorithmData.knifePosition);
+                const p1Left = api.calculatePlayerValue(regionValues.left, state.playerValues.player1);
+                const p1Right = api.calculatePlayerValue(regionValues.right, state.playerValues.player1);
+                const p2Left = api.calculatePlayerValue(regionValues.left, state.playerValues.player2);
+                const p2Right = api.calculatePlayerValue(regionValues.right, state.playerValues.player2);
 
                 // Update player displays
                 const player1Display = document.getElementById('player1-values');
@@ -148,9 +81,9 @@ class AustinsMovingKnifeAlgorithm {
         state.algorithmData.stopPosition = state.algorithmData.knifePosition;
 
         // Calculate target middle value
-        const regionValues = AustinsMovingKnifeAlgorithm.calculateRegionValues(state.algorithmData.knifePosition);
+        const regionValues = api.calculateRegionValues(state.algorithmData.knifePosition);
         const playerKey = `player${playerNumber}`;
-        state.algorithmData.targetMiddleValue = AustinsMovingKnifeAlgorithm.calculatePlayerValue(
+        state.algorithmData.targetMiddleValue = api.calculatePlayerValue(
             regionValues.left,
             state.playerValues[playerKey]
         );
@@ -186,18 +119,23 @@ class AustinsMovingKnifeAlgorithm {
 
                 const targetLeft = state.algorithmData.stopPosition;
                 const targetRight = 100;
-                let baseSpeed = 1.5;
+                let baseSpeed = 0.5;
 
                 // Calculate current values
-                const regionValues = AustinsMovingKnifeAlgorithm.calculateDualKnifeRegionValues(
+                const regionValues = api.calculateThreeRegionValues(
                     state.algorithmData.leftKnifePosition,
                     state.algorithmData.rightKnifePosition
                 );
 
-                const p1Middle = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.middle, state.playerValues.player1);
-                const p1Flanks = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.flanks, state.playerValues.player1);
-                const p2Middle = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.middle, state.playerValues.player2);
-                const p2Flanks = AustinsMovingKnifeAlgorithm.calculatePlayerValue(regionValues.flanks, state.playerValues.player2);
+                const p1Middle = api.calculatePlayerValue(regionValues.piece2, state.playerValues.player1);
+                const p1LeftFlank = api.calculatePlayerValue(regionValues.piece1, state.playerValues.player1);
+                const p1RightFlank = api.calculatePlayerValue(regionValues.piece3, state.playerValues.player1);
+                const p1Flanks = p1LeftFlank + p1RightFlank;
+
+                const p2Middle = api.calculatePlayerValue(regionValues.piece2, state.playerValues.player2);
+                const p2LeftFlank = api.calculatePlayerValue(regionValues.piece1, state.playerValues.player2);
+                const p2RightFlank = api.calculatePlayerValue(regionValues.piece3, state.playerValues.player2);
+                const p2Flanks = p2LeftFlank + p2RightFlank;
 
                 // Slow down when approaching fairness
                 const nonControllingPlayer = state.algorithmData.controllingPlayer === 1 ? 2 : 1;
@@ -264,8 +202,8 @@ class AustinsMovingKnifeAlgorithm {
         const leftPos = state.algorithmData.leftKnifePosition;
         const rightPos = state.algorithmData.rightKnifePosition;
 
-        const leftPieceValues = AustinsMovingKnifeAlgorithm.calculateRegionValues(leftPos);
-        const rightBoundary = AustinsMovingKnifeAlgorithm.calculateRegionValues(rightPos);
+        const leftPieceValues = api.calculateRegionValues(leftPos);
+        const rightBoundary = api.calculateRegionValues(rightPos);
 
         const middlePieceValues = {};
         const rightPieceValues = {};
@@ -277,15 +215,15 @@ class AustinsMovingKnifeAlgorithm {
 
         // Calculate values for each player
         const player1Values = {
-            left: AustinsMovingKnifeAlgorithm.calculatePlayerValue(leftPieceValues.left, state.playerValues.player1),
-            middle: AustinsMovingKnifeAlgorithm.calculatePlayerValue(middlePieceValues, state.playerValues.player1),
-            right: AustinsMovingKnifeAlgorithm.calculatePlayerValue(rightPieceValues, state.playerValues.player1)
+            left: api.calculatePlayerValue(leftPieceValues.left, state.playerValues.player1),
+            middle: api.calculatePlayerValue(middlePieceValues, state.playerValues.player1),
+            right: api.calculatePlayerValue(rightPieceValues, state.playerValues.player1)
         };
 
         const player2Values = {
-            left: AustinsMovingKnifeAlgorithm.calculatePlayerValue(leftPieceValues.left, state.playerValues.player2),
-            middle: AustinsMovingKnifeAlgorithm.calculatePlayerValue(middlePieceValues, state.playerValues.player2),
-            right: AustinsMovingKnifeAlgorithm.calculatePlayerValue(rightPieceValues, state.playerValues.player2)
+            left: api.calculatePlayerValue(leftPieceValues.left, state.playerValues.player2),
+            middle: api.calculatePlayerValue(middlePieceValues, state.playerValues.player2),
+            right: api.calculatePlayerValue(rightPieceValues, state.playerValues.player2)
         };
 
         // Random assignment options
@@ -320,7 +258,7 @@ class AustinsMovingKnifeAlgorithm {
     }
 
     static displayResults(state, api) {
-        const results = api.getState().algorithmData.finalResults;
+        const results = api.getState().algorithmData.result;
         if (!results) return;
 
         const resultsHTML = `
@@ -408,7 +346,6 @@ const AUSTINS_STEPS = [
 
             state.algorithmData.phase = 2;
             state.algorithmData.leftKnifePosition = 0;
-            state.algorithmData.rightKnifePosition = 50; // Start at midpoint
 
             // Setup UI
             api.removeStopButtons();
@@ -419,8 +356,8 @@ const AUSTINS_STEPS = [
             const stopIndicator = document.getElementById('stop-position-indicator');
             if (stopIndicator && state.algorithmData.stopPosition) {
                 const stopX = (state.algorithmData.stopPosition / 100) * 800;
-                stopIndicator.setAttribute('x1', stopX);
-                stopIndicator.setAttribute('x2', stopX);
+                stopIndicator.setAttribute('x1', stopX.toString());
+                stopIndicator.setAttribute('x2', stopX.toString());
                 stopIndicator.style.display = 'block';
             }
 
@@ -486,12 +423,13 @@ const austinsMovingKnifeConfig = {
         Logger.debug("Austin's Moving Knife algorithm initialized");
         // Initialize algorithm data
         state.algorithmData = {};
+        api.disableElement('make-cut-btn');
     },
 
     onStateChange: (stateKey, state, api) => {
         // Handle validation changes
         if (stateKey === 'playerValues' && api.getCurrentStep() === 0) {
-            const validation = AustinsMovingKnifeAlgorithm.validatePlayerTotals(state);
+            const validation = api.validatePlayerTotals(state);
             if (!state.algorithmData.animationStarted) {
                 api.setStartButtonState(validation.valid ? 'enabled' : 'disabled');
             }
@@ -500,17 +438,6 @@ const austinsMovingKnifeConfig = {
 
     onStart: (state, api) => {
         Logger.info('Start button clicked for Austin\'s algorithm');
-
-        // Validate player totals
-        const validation = AustinsMovingKnifeAlgorithm.validatePlayerTotals(state);
-        if (!validation.valid) {
-            api.emit('validationError', {
-                message: 'Player valuations must sum to 100!',
-                errors: [`Player 1: ${validation.player1Total}`, `Player 2: ${validation.player2Total}`]
-            });
-            return;
-        }
-
         if (state.algorithmData.phase === 1 && !state.algorithmData.animationStarted) {
             state.algorithmData.animationStarted = true;
             api.setStartButtonState('loading');
