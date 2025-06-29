@@ -75,21 +75,6 @@ class EventSystem {
         this.events[eventName].push(callback);
     }
 
-    once(eventName, callback) {
-        const onceWrapper = (...args) => {
-            callback(...args);
-            this.off(eventName, onceWrapper);
-        };
-        this.on(eventName, onceWrapper);
-    }
-
-    off(eventName, callback) {
-        if (!this.events[eventName]) return;
-        this.events[eventName] = this.events[eventName].filter(
-            listener => listener !== callback
-        );
-    }
-
     emit(eventName, ...args) {
         if (!this.events[eventName]) return;
         this.events[eventName].forEach(callback => {
@@ -99,18 +84,6 @@ class EventSystem {
                 Logger.error(`Error in event handler for "${eventName}":`, error);
             }
         });
-    }
-
-    removeAllListeners(eventName) {
-        if (eventName) {
-            delete this.events[eventName];
-        } else {
-            this.events = {};
-        }
-    }
-
-    eventNames() {
-        return Object.keys(this.events);
     }
 
     getListenerCount() {

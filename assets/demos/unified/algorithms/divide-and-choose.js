@@ -143,9 +143,10 @@ class DivideAndChooseAlgorithm {
         }
 
         // Calculate fairness metrics
-        const isProportional = player1Value >= 50 && player2Value >= 50;
-        const isEnvyFree = player1Value >= pieceValues.player1[player2Gets] &&
-            player2Value >= pieceValues.player2[player1Gets];
+        const proportionalLowerBound = 50 - DEMO_CONFIG["VALIDATION"].TOLERANCE;
+        const proportionalUpperBound = 50 + DEMO_CONFIG["VALIDATION"].TOLERANCE;
+        const isProportional = player1Value >= proportionalLowerBound && player2Value >= proportionalUpperBound;
+        const isEnvyFree = player2Value >= pieceValues.player2[player1Gets];
 
         // Create the results HTML
         const resultsHTML = `
@@ -357,6 +358,7 @@ const divideAndChooseConfig = {
         api.hideElement('results');
         api.enableElement('cut-slider');
         api.resetSlider('cut-slider');
+        api.hideElement('cut-line');
         api.showElement('make-cut-btn');
     }
 };

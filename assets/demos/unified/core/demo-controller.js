@@ -306,6 +306,7 @@ class FairDivisionDemoSystem {
 
             // Calculations
             calculateRegionValues: (cut) => CalculationEngine.calculateRegionValues(cut),
+            calculateThreeRegionValues: (cutPosition1, cutPosition2) => CalculationEngine.calculateThreeRegionValues(cutPosition1, cutPosition2),
             calculatePlayerValue: (regions, values) => CalculationEngine.calculatePlayerValue(regions, values),
             validatePlayerTotals: (values) => CalculationEngine.validatePlayerTotals(values),
 
