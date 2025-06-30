@@ -128,7 +128,7 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 │   └── main.css         # Primary stylesheet
 ├── glossary/            # Educational content
 ├── references/          # Academic bibliography
-└── _layouts/           # Jekyll templates
+└── _layouts/            # Jekyll templates
 ```
 
 ## Research Context & Impact
@@ -141,7 +141,6 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 
 **Educational Objectives**
 - Bridge theoretical computer science and practical applications
-- Provide accessible introduction to mechanism design concepts
 - Support undergraduate and graduate coursework in algorithmic game theory
 - Enable hands-on exploration of fairness properties
 
@@ -149,7 +148,6 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 - Algorithm comparison and analysis platform
 - Educational tool for fair division courses
 - Demonstration resource for academic presentations
-- Foundation for future algorithm implementations
 
 ## Contributing
 
