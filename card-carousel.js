@@ -1,12 +1,17 @@
 ﻿// Algorithm Cards Carousel JavaScript
-// For Fair Division Algorithms website
+// For Fair Division Algorithms website - Multi-Carousel Support
 
 class AlgorithmCarousel {
-    constructor() {
-        this.track = document.getElementById('algorithm-track');
-        this.prevBtn = document.getElementById('prevBtn');
-        this.nextBtn = document.getElementById('nextBtn');
-        this.indicators = document.getElementById('indicators');
+    constructor(carouselId) {
+        this.carouselId = carouselId;
+        this.carousel = document.getElementById(carouselId);
+
+        if (!this.carousel) return;
+
+        this.track = this.carousel.querySelector('.algorithm-track');
+        this.prevBtn = this.carousel.querySelector('.carousel-btn:first-of-type');
+        this.nextBtn = this.carousel.querySelector('.carousel-btn:last-of-type');
+        this.indicators = this.carousel.querySelector('.carousel-indicators');
 
         this.currentSlide = 0;
         this.cards = [];
@@ -35,16 +40,33 @@ class AlgorithmCarousel {
 
     calculateVisibleCards() {
         const containerWidth = this.track.parentElement.offsetWidth;
-        const cardTotalWidth = this.cardWidth + this.gap;
 
-        // Calculate how many cards can fit
-        this.visibleCards = Math.floor((containerWidth + this.gap) / cardTotalWidth);
-
-        // Ensure at least 1 card is visible
-        this.visibleCards = Math.max(1, this.visibleCards);
+        // Determine how many cards should be visible based on container width
+        if (containerWidth >= 1000) {
+            this.visibleCards = 3; // Show 3 cards on large screens (lowered threshold)
+        } else if (containerWidth >= 680) {
+            this.visibleCards = 2; // Show 2 cards on medium screens
+        } else {
+            this.visibleCards = 1; // Show 1 card on small screens
+        }
 
         // Don't show more cards than we have
         this.visibleCards = Math.min(this.visibleCards, this.cards.length);
+
+        // Calculate dynamic card width and gap to fit perfectly
+        if (this.visibleCards > 1) {
+            // Use smaller gaps and add padding to prevent cards from being too wide
+            const gapSize = 24; // Reduced gap size
+            const containerPadding = 40; // Add some padding to the container
+            const totalGaps = (this.visibleCards - 1) * gapSize;
+            const availableWidth = containerWidth - totalGaps - containerPadding;
+            this.cardWidth = Math.max(280, Math.min(360, availableWidth / this.visibleCards)); // Min 280px, max 360px
+            this.gap = gapSize;
+        } else {
+            // Single card takes most of the width with some padding
+            this.cardWidth = Math.min(350, containerWidth - 40);
+            this.gap = 0;
+        }
     }
 
     createIndicators() {
@@ -108,9 +130,17 @@ class AlgorithmCarousel {
     updateCarousel() {
         if (!this.track || this.cards.length === 0) return;
 
+        // Update card widths dynamically
+        this.cards.forEach(card => {
+            card.style.width = `${this.cardWidth}px`;
+            card.style.minWidth = `${this.cardWidth}px`;
+            card.style.maxWidth = `${this.cardWidth}px`;
+        });
+
         // Calculate transform
         const translateX = -this.currentSlide * (this.cardWidth + this.gap);
         this.track.style.transform = `translateX(${translateX}px)`;
+        this.track.style.gap = `${this.gap}px`;
 
         // Update button states
         this.updateButtons();
@@ -162,11 +192,21 @@ class AlgorithmCarousel {
     }
 }
 
-// Initialize carousel when DOM is loaded
+// Initialize carousels when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Only initialize if we're on a page with the carousel
-    if (document.getElementById('algorithm-carousel')) {
-        new AlgorithmCarousel();
+    // Initialize multiple carousels
+    const carouselIds = ['divisible-carousel', 'indivisible-carousel'];
+
+    carouselIds.forEach(carouselId => {
+        const carouselElement = document.getElementById(carouselId);
+        if (carouselElement) {
+            new AlgorithmCarousel(carouselId);
+        }
+    });
+
+    // Fallback for single carousel (backward compatibility)
+    if (document.getElementById('algorithm-carousel') && !document.getElementById('divisible-carousel')) {
+        new AlgorithmCarousel('algorithm-carousel');
     }
 });
 
