@@ -78,6 +78,28 @@ title: Fair Division Algorithms
         </div>
       </div>
 
+      <!-- Selfridge-Conway Algorithm Card -->
+      <div class="algorithm-card">
+        <div class="algorithm-header">
+          <h3 class="algorithm-title">Selfridge-Conway Procedure</h3>
+          <div class="algorithm-meta">
+            <span class="meta-badge players-badge">3 Players</span>
+          </div>
+        </div>
+        <div class="algorithm-content">
+          <p class="algorithm-description">The first envy-free procedure for three players</p>
+          <div class="algorithm-properties">
+            <h4>Fairness Properties</h4>
+            <div class="property-tags">
+              <span class="property-tag">Envy-free</span>
+            </div>
+          </div>
+        </div>
+        <div class="algorithm-footer">
+          <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+        </div>
+      </div>
+
       <!-- Banach-Knaster's Last-Diminisher Algorithm Card -->
       <div class="algorithm-card">
         <div class="algorithm-header">
@@ -97,6 +119,28 @@ title: Fair Division Algorithms
         </div>
         <div class="algorithm-footer">
           <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+        </div>
+      </div>
+
+      <!-- Brams-Taylor Algorithm Card -->
+      <div class="algorithm-card">
+        <div class="algorithm-header">
+          <h3 class="algorithm-title">Brams-Taylor Procedure</h3>
+          <div class="algorithm-meta">
+            <span class="meta-badge players-badge">N Players</span>
+          </div>
+        </div>
+        <div class="algorithm-content">
+          <p class="algorithm-description">Description...</p>
+          <div class="algorithm-properties">
+            <h4>Fairness Properties</h4>
+            <div class="property-tags">
+              <span class="property-tag">Envy-free</span>
+            </div>
+          </div>
+        </div>
+        <div class="algorithm-footer">
+          <a href="{{ '/algorithms/brams-taylor/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
         </div>
       </div>
 

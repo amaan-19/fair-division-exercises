@@ -735,6 +735,115 @@ class AnimationEngine {
     }
 }
 
+class QueryCounter {
+    constructor() {
+        this.cutQueries = 0;
+        this.evalQueries = 0;
+        this.createUI();
+    }
+
+    createUI() {
+        const queryPanel = document.createElement('div');
+        queryPanel.className = 'query-panel';
+        queryPanel.innerHTML = `
+            <div class="query-header">
+                <h4>Robertson-Webb Query Count</h4>
+                <button class="info-button" onclick="showQueryInfo()">ℹ️</button>
+            </div>
+            <div class="query-stats">
+                <div class="query-stat">
+                    <span class="query-count" id="cut-count">0</span>
+                    <span class="query-label">Cut Queries</span>
+                </div>
+                <div class="query-stat">
+                    <span class="query-count" id="eval-count">0</span>
+                    <span class="query-label">Eval Queries</span>
+                </div>
+                <div class="query-stat total">
+                    <span class="query-count" id="total-count">0</span>
+                    <span class="query-label">Total</span>
+                </div>
+            </div>
+        `;
+
+        // Insert into demo interface
+        const demoContainer = document.querySelector('.demo-section');
+        demoContainer.insertBefore(queryPanel, demoContainer.firstChild);
+    }
+
+    recordCutQuery(player, position, targetValue) {
+        this.cutQueries++;
+        this.updateDisplay();
+        this.logQuery('CUT', `Player ${player} cuts at position ${position} for value ${targetValue}`);
+    }
+
+    recordEvalQuery(player, piece, value) {
+        this.evalQueries++;
+        this.updateDisplay();
+        this.logQuery('EVAL', `Player ${player} evaluates piece as ${value}`);
+    }
+
+    updateDisplay() {
+        document.getElementById('cut-count').textContent = this.cutQueries;
+        document.getElementById('eval-count').textContent = this.evalQueries;
+        document.getElementById('total-count').textContent = this.cutQueries + this.evalQueries;
+    }
+
+    logQuery(type, description) {
+        console.log(`[${type} QUERY ${this.cutQueries + this.evalQueries}] ${description}`);
+
+        // Visual feedback
+        const queryCount = document.querySelector('.query-panel');
+        queryCount.style.animation = 'highlight 0.5s ease-out';
+        setTimeout(() => {
+            queryCount.style.animation = '';
+        }, 500);
+    }
+
+    reset() {
+        this.cutQueries = 0;
+        this.evalQueries = 0;
+        this.updateDisplay();
+    }
+
+    getComplexityAnalysis(algorithm) {
+        const analyses = {
+            'divide-and-choose': {
+                theoretical: 2,
+                optimal: true,
+                explanation: 'Optimal for 2-player proportional division'
+            },
+            'austins-moving-knife': {
+                theoretical: 'O(n)',
+                optimal: false,
+                explanation: 'Continuous queries until stopping condition'
+            },
+            'steinhaus-lone-divider': {
+                theoretical: 'O(n²)',
+                optimal: false,
+                explanation: 'Multiple rounds may be needed for 3+ players'
+            }
+        };
+
+        return analyses[algorithm] || { theoretical: 'Unknown', optimal: false };
+    }
+}
+
+function showQueryInfo() {
+    const modal = document.createElement('div');
+    modal.className = 'query-info-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Robertson-Webb Query Model</h3>
+            <p><strong>Cut Queries:</strong> Ask a player to cut at a position where one piece has a specific value.</p>
+            <p><strong>Eval Queries:</strong> Ask a player to evaluate the value of a given piece.</p>
+            <p>This model measures algorithm efficiency by counting these preference queries rather than computational operations.</p>
+            <button onclick="this.parentElement.parentElement.remove()">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
 // Export for use in algorithm modules
 window.DemoSystem = {
     Logger,
@@ -743,5 +852,6 @@ window.DemoSystem = {
     CalculationEngine,
     UIController,
     AnimationEngine,
+    QueryCounter,
     DEMO_CONFIG
 };

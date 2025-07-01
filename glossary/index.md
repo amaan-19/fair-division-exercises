@@ -70,11 +70,43 @@ permalink: /glossary/
   <div class="term-card">
     <h3 class="term-name">Continuous</h3>
     <p class="term-definition">
-      
-A cake-cutting algorithm is continuous when it involves moving knives or dynamic cutting processes that can theoretically be stopped at any infinitesimal moment. In continuous algorithms, cuts evolve smoothly over time, and players can call "stop" at any point when they perceive the current division as fair according to their preferences.
+      A cake-cutting algorithm is continuous when it involves moving knives or dynamic cutting processes that can theoretically be stopped at any infinitesimal moment. In continuous algorithms, cuts evolve smoothly over time, and players can call "stop" at any point when they perceive the current division as fair according to their preferences.
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Robertson-Webb Query Model</h3>
+    <p class="term-definition">
+      A computational framework for analyzing fair division algorithms that measures complexity in terms of queries to players rather than traditional computational operations. Introduced by Robertson and Webb (1998).
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Cut Query</h3>
+    <p class="term-definition">
+      A type of query in the Robertson-Webb model asking a player to cut the resource at a position such that one piece has a specified value according to their preferences.
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Eval Query</h3>
+    <p class="term-definition">
+      A type of query in the Robertson-Webb model asking a player to evaluate the value of a given piece according to their preferences.
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Query Complexity</h3>
+    <p class="term-definition">
+      The number of queries (cut and eval) required by an algorithm to achieve a particular fairness criterion, measured in the Robertson-Webb model.
     </p>
   </div>
 
 </div>
+
+<footer class="algorithm-navigation">
+  <a href="{{ '/exercises' | relative_url }}" class="nav-button secondary">← Back to Exercises</a>
+  <a href="{{ '/references/' | relative_url }}" class="nav-button primary">References →</a>
+</footer>
 
 <script src="glossarySort.js"></script>

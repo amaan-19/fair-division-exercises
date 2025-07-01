@@ -93,6 +93,17 @@ permalink: /algorithms/divide-and-choose/
     </div>
   </section>
 
+  <!-- Complexity Analysis -->
+  <section class="content-block">
+    <h2>Computational Complexity</h2>
+    <p>Under the Robertson-Webb query model, Divide-and-Choose achieves optimal query complexity for two-player proportional division:</p>
+    <ol>
+      <li><strong>Cut Query:</strong> Player 1 makes a cut creating two pieces of equal value</li>
+      <li><strong>Eval Query:</strong> Player 2 evaluates and selects their preferred piece</li>
+    </ol>
+    <p>This 2-query bound is provably optimal - any algorithm guaranteeing proportional division for 2 players must use at least 2 queries.</p>
+  </section>
+
   <!-- Limitations -->
   <section class="content-block">
     <h2>Limitations</h2>

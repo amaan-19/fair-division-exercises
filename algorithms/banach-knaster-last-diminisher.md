@@ -9,7 +9,7 @@ permalink: /algorithms/banach-knaster-last-diminisher/
   <!-- Algorithm Header Card -->
   <div class="algorithm-header-card">
     <div class="algorithm-header-content">
-      <h1 class="algorithm-title">Banach-Knaster's Last-Diminisher</h1>
+      <h1 class="algorithm-title">Banach-Knaster Last-Diminisher</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">N Players</span>
         <span class="meta-badge complexity-badge">Discrete</span>
@@ -80,9 +80,7 @@ permalink: /algorithms/banach-knaster-last-diminisher/
     </div>
   </section>
 
-
   <!-- Fairness Properties -->
-
   <section class="content-block">
     <h2>Fairness Properties</h2>
     <p>Banach and Knaster's procedure satisfies one fairness property:</p>
@@ -106,6 +104,6 @@ permalink: /algorithms/banach-knaster-last-diminisher/
 
   <!-- Navigation -->
   <footer class="algorithm-navigation">
-    <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="nav-button secondary">← Back Steinhaus' Lone-Divider</a>
+    <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="nav-button secondary">← Back to Selfridge-Conway</a>
   </footer>
 </div>
