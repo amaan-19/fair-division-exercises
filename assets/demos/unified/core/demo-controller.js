@@ -48,6 +48,20 @@ class FairDivisionDemoSystem {
 
         this.stateManager.subscribe('cutPosition2', () => {
             this.uiController.updateDualCutLines();
+
+            // For Steinhaus algorithm, update three-piece displays
+            if (this.currentAlgorithm?.id === 'steinhaus-lone-divider') {
+                this.uiController.updatePlayerValueDisplays();
+
+                // Notify algorithm of state change
+                if (this.currentAlgorithm?.config.onStateChange) {
+                    try {
+                        this.currentAlgorithm.config.onStateChange('cutPosition2', this.stateManager.getState(), this.createAlgorithmAPI());
+                    } catch (error) {
+                        Logger.error('Error in algorithm onStateChange:', error);
+                    }
+                }
+            }
         });
 
         this.stateManager.subscribe('playerValues', () => {
