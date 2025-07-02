@@ -76,29 +76,6 @@ permalink: /analysis/
   </ul>
 </div>
 
-<div class="content-block">
-  <h2>Practical Implications</h2>
-
-  <p>When choosing algorithms for real-world applications, query complexity suggests:</p>
-
-  <div class="properties-grid">
-    <div class="property-card">
-      <h3>Low-Stakes Scenarios</h3>
-      <p>Use simple, query-efficient algorithms like Divide-and-Choose when minor inequities are acceptable.</p>
-    </div>
-
-    <div class="property-card">
-      <h3>High-Stakes Scenarios</h3>
-      <p>Consider more complex algorithms when stronger fairness properties justify additional queries.</p>
-    </div>
-    
-    <div class="property-card">
-      <h3>Automated Systems</h3>
-      <p>Query complexity becomes crucial when algorithms must elicit preferences programmatically.</p>
-    </div>
-  </div>
-</div>
-
 <footer class="algorithm-navigation">
   <a href="{{ '/exercises/' | relative_url }}" class="nav-button secondary">← Back to Exercises</a>
   <a href="{{ '/glossary/' | relative_url }}" class="nav-button primary">Glossary →</a>

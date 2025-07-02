@@ -3,6 +3,11 @@ layout: default
 title: Fair Division Algorithms
 ---
 
+<div class="page-header">
+  <h1 class="page-title">Algorithms</h1>
+  <p class="page-description">Explore our (almost!) comprehensive list of fair-division algorithms</p>
+</div>
+
 <div class="algorithms-section">
   <!-- Divisible Resources Section -->
   <div class="carousel-section">
