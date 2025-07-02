@@ -4,8 +4,8 @@ title: Fair Division Algorithms
 ---
 
 <div class="page-header">
-  <h1 class="page-title">Algorithms</h1>
-  <p class="page-description">Explore our (almost!) comprehensive list of fair-division algorithms</p>
+  <h1 class="page-title">Fair Division Algorithms</h1>
+  <p class="page-description">Explore the (almost!) comprehensive collection</p>
 </div>
 
 <div class="algorithms-section">
@@ -109,6 +109,28 @@ title: Fair Division Algorithms
           </div>
           <div class="algorithm-footer">
             <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+          </div>
+        </div>
+
+        <!-- Stromquist Moving Knife Algorithm Card -->
+        <div class="algorithm-card">
+          <div class="algorithm-header">
+            <h3 class="algorithm-title">Stromquist Moving Knife</h3>
+            <div class="algorithm-meta">
+              <span class="meta-badge players-badge">3 Players</span>
+            </div>
+          </div>
+          <div class="algorithm-content">
+            <p class="algorithm-description">Well known moving-knife procedure enabling envy-free division bewtween three parties</p>
+            <div class="algorithm-properties">
+              <h4>Fairness Properties</h4>
+              <div class="property-tags">
+                <span class="property-tag">Envy-free</span>
+              </div>
+            </div>
+          </div>
+          <div class="algorithm-footer">
+            <a href="{{ '/algorithms/stromquist/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
           </div>
         </div>
 

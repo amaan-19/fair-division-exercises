@@ -104,7 +104,7 @@ permalink: /algorithms/steinhaus-lone-divider/
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/austins-moving-knife/' | relative_url }}" class="nav-button secondary">← Back to Austin's Procedure</a>
-    <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="nav-button primary">Next: Banach-Knaster's Last-Diminisher →</a>
+    <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="nav-button primary">Next: Selfridge-Conway Procedure →</a>
   </footer>
 
 </div>
