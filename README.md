@@ -24,7 +24,7 @@ This research platform bridges the gap between theoretical fair division concept
 
 - **Jekyll 4.x** - Static site generator optimized for academic content
 - **GitHub Pages** - Deployment and hosting platform
-- **Custom CSS** - Academic typography with Inter + Crimson Text fonts
+- **Custom CSS** - Assistance provided by Claude Sonnet 4
 - **MathJax 3** - LaTeX-style mathematical notation rendering
 - **Vanilla JavaScript** - Interactive demonstrations and simulations with query counting
 - **Responsive Design** - Mobile-first approach with CSS Grid/Flexbox
@@ -129,11 +129,6 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 - Educational overlays explaining query types
 - Comparative analysis tools for complexity measurement
 
-**Legacy Demo Support**  
-- Backward compatibility with existing standalone demos
-- Iframe embedding for complex visualizations
-- Consistent user experience across demo types
-
 **Visual Components**
 - SVG-based geometric representations
 - Dynamic region highlighting and selection
@@ -154,8 +149,7 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 │   └── query-complexity.md
 ├── assets/
 │   ├── demos/           # Interactive demonstrations
-│   │   ├── unified/     # New modular demo system
-│   │   └── legacy/      # Original standalone demos
+│   │   └── unified/      # Modular demo system
 │   └── main.css         # Primary stylesheet
 ├── exercises/           # Interactive exercises
 ├── glossary/            # Educational content
@@ -173,8 +167,7 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 
 **Educational Objectives**
 - Bridge theoretical computer science and practical applications
-- Provide accessible introduction to mechanism design concepts
-- Support undergraduate and graduate coursework in algorithmic game theory
+- Support undergraduate and graduate coursework in algorithmic game theory and fair division algorithms
 - Enable hands-on exploration of fairness properties and computational complexity
 - Demonstrate Robertson-Webb query model applications
 
