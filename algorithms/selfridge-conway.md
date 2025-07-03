@@ -20,6 +20,14 @@ permalink: /algorithms/selfridge-conway/
   <!-- Overview -->
   <section class="content-block">
     <h2>Overview</h2>
+    <p>Though neither Selfridge or Conway every actually published this fundamental envy-free procedure for three players, they both discovered it independently, laying the way for the publication of more complex envy-free procedures.</p>
+    <a href="https://en.wikipedia.org/wiki/Selfridge%E2%80%93Conway_procedure" target="_blank" class="algorithm-link">Read more →</a>
+  </section>
+
+  <!-- Flowchart -->
+  <section class="content-block">
+    <h2>Algorithm Flowchart</h2>
+    {% include selfridge-conway-include.html %}
   </section>
 
   <!-- Fairness Properties -->

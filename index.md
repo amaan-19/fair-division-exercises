@@ -32,9 +32,7 @@ title: Fair Division Algorithms
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
-                <span class="property-tag">Proportional</span>
                 <span class="property-tag">Envy-free</span>
-                <span class="property-tag">Strategy-proof</span>
               </div>
             </div>
           </div>
@@ -59,7 +57,6 @@ title: Fair Division Algorithms
                 <span class="property-tag">Equitable</span>
                 <span class="property-tag">Exact</span>
                 <span class="property-tag">Envy-free</span>
-                <span class="property-tag">Strategy-proof</span>
               </div>
             </div>
           </div>

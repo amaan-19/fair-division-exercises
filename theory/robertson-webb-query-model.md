@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Theory
-permalink: /theory/
+title: Robertson-Webb Query Model
+permalink: /theory/robertson-webb-query-model/
 ---
 
 <div class="page-header">

@@ -1,5 +1,5 @@
 ﻿/**
- * Steinhaus' Lone-Divider Plug-in - CORRECTED VERSION
+ * Steinhaus' Lone-Divider Plug-in
  *
  * Implements the proper algorithm flow:
  * 1. Player 1 (divider) cuts cake into 3 equal pieces
