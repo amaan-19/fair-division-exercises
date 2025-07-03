@@ -25,6 +25,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Divide-and-Choose</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
+              <span class="meta-badge type-badge">Discrete</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -47,6 +48,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Austin Moving Knife</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
+              <span class="meta-badge type-badge">Continuous</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -71,6 +73,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Steinhaus Lone-Divider</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">3 Players</span>
+              <span class="meta-badge type-badge">Discrete</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -93,6 +96,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Selfridge-Conway Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">3 Players</span>
+              <span class="meta-badge type-badge">Discrete</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -115,6 +119,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Stromquist Moving Knife</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">3 Players</span>
+              <span class="meta-badge type-badge">Continuous</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -137,6 +142,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Banach-Knaster Last-Diminisher</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
+              <span class="meta-badge type-badge">Discrete</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -159,6 +165,7 @@ title: Fair Division Algorithms
             <h3 class="algorithm-title">Brams-Taylor Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
+              <span class="meta-badge type-badge">Discrete</span>
             </div>
           </div>
           <div class="algorithm-content">

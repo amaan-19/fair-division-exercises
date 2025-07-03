@@ -382,14 +382,9 @@ blockquote {
         color: #1e40af;
     }
 
-    .meta-badge.complexity-badge {
+    .meta-badge.type-badge {
         background: #f3e8ff;
         color: #6b21a8;
-    }
-
-    .meta-badge.type-badge {
-        background: #f0f4f7;
-        color: #4a5568;
     }
 
     .meta-badge.property {
@@ -1069,7 +1064,7 @@ blockquote {
 }
 
 .reference-content {
-    padding: 0 1.5rem;
+    padding: 0 1.5rem 1.5rem;
     flex: 1;
 }
 

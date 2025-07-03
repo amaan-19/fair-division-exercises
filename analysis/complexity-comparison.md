@@ -49,6 +49,38 @@ permalink: /analysis/
           <td><strong>5-10</strong></td>
           <td>❓ Unknown</td>
         </tr>
+        <tr>
+          <td><a href="/algorithms/selfridge-conway/">Selfridge-Conway</a></td>
+          <td>3</td>
+          <td></td>
+          <td></td>
+          <td><strong></strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="/algorithms/stromquist/">Stromquist Moving Knife</a></td>
+          <td>3</td>
+          <td></td>
+          <td></td>
+          <td><strong></strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="/algorithms/banach-knaster-last-diminisher/">Banach-Knaster Last-Diminisher</a></td>
+          <td>N</td>
+          <td></td>
+          <td></td>
+          <td><strong></strong></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="/algorithms/brams-taylor/">Brams-Taylor</a></td>
+          <td>N</td>
+          <td></td>
+          <td></td>
+          <td><strong></strong></td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
   </div>
