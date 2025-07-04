@@ -12,7 +12,7 @@ permalink: /algorithms/steinhaus-lone-divider/
       <h1 class="algorithm-title">Steinhaus' Lone-Divider</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">3 Players</span>
-        <span class="meta-badge complexity-badge">Discrete</span>
+        <span class="meta-badge type-badge">Discrete</span>
       </div>
     </div>
   </div>

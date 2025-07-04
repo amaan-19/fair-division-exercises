@@ -12,7 +12,7 @@ permalink: /algorithms/austins-moving-knife/
       <h1 class="algorithm-title">Austin's Moving Knife</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
-        <span class="meta-badge complexity-badge">Continuous</span>
+        <span class="meta-badge type-badge">Continuous</span>
       </div>
     </div>
   </div>

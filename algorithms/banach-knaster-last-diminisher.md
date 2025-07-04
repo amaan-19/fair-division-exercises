@@ -12,7 +12,7 @@ permalink: /algorithms/banach-knaster-last-diminisher/
       <h1 class="algorithm-title">Banach-Knaster Last-Diminisher</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">N Players</span>
-        <span class="meta-badge complexity-badge">Discrete</span>
+        <span class="meta-badge type-badge">Discrete</span>
       </div>
     </div>
   </div>

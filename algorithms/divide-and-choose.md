@@ -12,7 +12,7 @@ permalink: /algorithms/divide-and-choose/
       <h1 class="algorithm-title">Divide-and-Choose</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
-        <span class="meta-badge complexity-badge">Discrete</span>
+        <span class="meta-badge type-badge">Discrete</span>
       </div>
     </div>
   </div>

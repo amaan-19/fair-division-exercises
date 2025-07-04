@@ -12,7 +12,7 @@ permalink: /algorithms/selfridge-conway/
       <h1 class="algorithm-title">Selfridge-Conway Procedure</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">3 Players</span>
-        <span class="meta-badge complexity-badge">Discrete</span>
+        <span class="meta-badge type-badge">Discrete</span>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ permalink: /algorithms/selfridge-conway/
     <iframe 
       src="{{ '/assets/flowcharts/selfridge-conway-procedure.html' | relative_url }}" 
       width="100%" 
-      height="800" 
+      height="1370" 
       frameborder="0"
       style="border: 1px solid #e2e8f0; border-radius: 8px;">
       <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/selfridge-conway-procedure.html' | relative_url }}">View the flowchart directly</a>.</p>
