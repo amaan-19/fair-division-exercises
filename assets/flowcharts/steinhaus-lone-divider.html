@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steinhaus Lone-Divider Flowchart</title>
+    <link rel="stylesheet" href="flowchart-styles.css">
+</head>
+<body>
+<div class="flowchart-container">
+    <div class="flowchart-title">Steinhaus' Lone-Divider Procedure</div>
+
+    <!-- Step 1 -->
+    <div class="flowchart-step">
+        <div class="step-box player1">
+            <strong>Step 1:</strong> Player 1 (Divider) cuts cake into three equal pieces
+        </div>
+    </div>
+
+    <div class="flowchart-arrow">↓</div>
+
+    <!-- Step 2 -->
+    <div class="flowchart-step">
+        <div class="step-box player2">
+            <strong>Step 2:</strong> Players 2 & 3 identify pieces worth ≥1/3 to them
+        </div>
+    </div>
+
+    <div class="flowchart-arrow">↓</div>
+
+    <!-- Decision -->
+    <div class="flowchart-step">
+        <div class="step-box decision">
+            <strong>Question:</strong> Does at least one non-divider see ≥2 acceptable pieces?
+        </div>
+    </div>
+
+    <!-- Branches -->
+    <div class="flowchart-branches">
+        <div class="flowchart-branch">
+            <div class="branch-label case-a-branch">CASE A - YES</div>
+            <div class="step-box case-a">
+                <strong>Step 3a:</strong> Player 3 chooses first from all pieces
+            </div>
+            <div class="flowchart-arrow">↓</div>
+            <div class="step-box case-a">
+                <strong>Step 4a:</strong> Player 2 chooses from remaining pieces
+            </div>
+            <div class="flowchart-arrow">↓</div>
+            <div class="step-box case-a">
+                <strong>Step 5a:</strong> Player 1 gets the last piece
+            </div>
+        </div>
+        <div class="flowchart-branch">
+            <div class="branch-label case-b-branch">CASE B - NO</div>
+            <div class="step-box case-b">
+                <strong>Step 3b:</strong> Give Player 1 a piece both others find unacceptable
+            </div>
+            <div class="flowchart-arrow">↓</div>
+            <div class="step-box case-b">
+                <strong>Step 4b:</strong> Reassemble remaining cake pieces
+            </div>
+            <div class="flowchart-arrow">↓</div>
+            <div class="step-box case-b">
+                <strong>Step 5b:</strong> Players 2 & 3 use Divide-and-Choose on remainder
+            </div>
+        </div>
+    </div>
+
+    <div class="flowchart-arrow">↓</div>
+
+    <!-- Result -->
+    <div class="flowchart-step">
+        <div class="step-box result">
+            <strong>Result:</strong> All players guaranteed ≥1/3 of their subjective valuation
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="flowchart-legend">
+        <div class="legend-title">Color Guide</div>
+        <div class="legend-grid">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e8f4fd; border-color: #1e40af;"></div>
+                <span><strong>Player 1</strong> Actions</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ecfdf5; border-color: #059669;"></div>
+                <span><strong>Players 2&3</strong> Actions</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #dcfce7; border-color: #16a34a;"></div>
+                <span><strong>Case A</strong> Path</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #fef3c7; border-color: #ca8a04;"></div>
+                <span><strong>Case B</strong> Path</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

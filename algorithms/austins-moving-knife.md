@@ -66,6 +66,21 @@ permalink: /algorithms/austins-moving-knife/
     <p>where $k$ is the value that player assigned to the initial piece when they first called "stop". The constraint that $L(T) = R(0)$ when $R(T) = 1$ ensures the entire cake is partitioned into exactly three pieces with valuations that sum to 100.</p>
   </section>
 
+  <!-- Flowchart -->
+  <section class="content-block">
+    <h2>Algorithm Flowchart</h2>
+    <div class="iframe-container">
+      <iframe 
+        src="{{ '/assets/flowcharts/austin-moving-knife.html' | relative_url }}" 
+        width="100%" 
+        height="1160" 
+        frameborder="0"
+        style="border: 1px solid #e2e8f0; border-radius: 8px;">
+        <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/austin-moving-knife.html' | relative_url }}">View the flowchart directly</a>.</p>
+      </iframe>
+    </div>
+  </section>
+
 
   <!-- Fairness Properties -->
 

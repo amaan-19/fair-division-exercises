@@ -19,6 +19,7 @@ title: Fair Division Algorithms
     <div class="algorithm-carousel" id="divisible-carousel">
       <!-- Algorithm Track -->
       <div class="algorithm-track" id="divisible-track">
+
         <!-- Divide-and-Choose Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
@@ -26,6 +27,7 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Discrete</span>
+              <span class="meta-badge complexity-badge">$\Omega(2)$ RW</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -38,7 +40,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/divide-and-choose/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
     
@@ -49,10 +51,11 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Continuous</span>
+              <span class="meta-badge complexity-badge">$O(\infty)$ RW</span>
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">Utilizes a referee and a moving-knife mechanism for stronger fairness guarantees.</p>
+            <p class="algorithm-description">An extension of Divide-and-Choose employing a moving-knife mechanism for stronger fairness guarantees.</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -63,7 +66,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/austins-moving-knife/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/austins-moving-knife/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -74,10 +77,11 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">3 Players</span>
               <span class="meta-badge type-badge">Discrete</span>
+              <span class="meta-badge complexity-badge">$O(10)$ RW</span>
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">Rudimentary procedure enabling basic fair division among three players.</p>
+            <p class="algorithm-description">A relativley rudimentary procedure enabling basic fair division among three players.</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -86,7 +90,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -109,7 +113,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -123,7 +127,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">Well known moving-knife procedure enabling envy-free division bewtween three parties</p>
+            <p class="algorithm-description">A continuous procedure for envy-free division between three parties</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -132,7 +136,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/stromquist/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/stromquist/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -146,7 +150,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">Employs a diminishing rule to ensure proportionality for any number of players</p>
+            <p class="algorithm-description">An elegant procedure ensuring proportionality for any number of players</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -155,7 +159,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -178,7 +182,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/brams-taylor/' | relative_url }}" class="algorithm-link">Study Algorithm →</a>
+            <a href="{{ '/algorithms/brams-taylor/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -246,7 +250,7 @@ title: Fair Division Algorithms
 <div class="content-block intro-block">
   <h2>About Fair Division</h2>
   <p>Fair division theory provides mathematical frameworks for allocating resources among multiple parties in ways that satisfy rigorous fairness criteria. From ancient legal disputes to modern computational problems, these algorithms ensure equitable outcomes through elegant mathematical procedures.</p>
-  <a href="https://en.wikipedia.org/wiki/Fair_division" target="_blank" class="algorithm-link">Read more →</a>
+  <a href="https://en.wikipedia.org/wiki/Fair_division" target="_blank" class="algorithm-link">Read more!</a>
 </div>
 
 <script src="card-carousel.js"></script>

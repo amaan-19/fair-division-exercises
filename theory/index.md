@@ -5,7 +5,7 @@ permalink: /theory/
 ---
 
 <div class="page-header">
-  <h1 class="page-title">Theory</h1>
+  <h1 class="page-title">Foundational Theory</h1>
   <p class="page-description">Mathematical frameworks, computational complexity, and fundamental limitations in fair division</p>
 </div>
 

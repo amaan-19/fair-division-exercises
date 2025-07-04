@@ -420,6 +420,7 @@ blockquote {
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
+    justify-content: center;
 }
 
 .property-tag {
@@ -2687,7 +2688,6 @@ blockquote {
     justify-content: center;
     gap: 0.5rem;
     flex-wrap: wrap;
-    margin-bottom: 0.5rem;
 }
 
 .algorithm-content {
@@ -2702,13 +2702,14 @@ blockquote {
     color: #4a5568;
     margin-bottom: 1rem;
     line-height: 1.5;
-    text-align: left;
+    text-align: center;
     font-size: 0.95rem;
 }
 
 .algorithm-properties {
     margin-top: auto;
     flex-shrink: 0;
+    text-align: center;
 }
 
     .algorithm-properties h4 {
@@ -2742,6 +2743,7 @@ blockquote {
     border-top: 1px solid #e2e8f0;
     margin-top: auto;
     flex-shrink: 0;
+    text-align: center;
 }
 
 .algorithm-link {

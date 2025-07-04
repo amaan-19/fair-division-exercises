@@ -13,6 +13,7 @@ permalink: /algorithms/divide-and-choose/
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
         <span class="meta-badge type-badge">Discrete</span>
+        <span class="meta-badge complexity-badge">2 RW Queries</span>
       </div>
     </div>
   </div>
@@ -20,36 +21,27 @@ permalink: /algorithms/divide-and-choose/
   <!-- Overview -->
   <section class="content-block">
     <h2>Overview</h2>
-    <p>The divide-and-choose algorithm is the most fundamental fair division procedure.</p>
-    <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
-    <div class="procedure-steps">
-      <h3>How It Works</h3>
-      <div class="step-list">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <strong>Player 1 (Divider)</strong> cuts the resource into two pieces that they value equally
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <strong>Player 2 (Chooser)</strong> selects their preferred piece from the two options
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <strong>Player 1</strong> receives the remaining piece
-          </div>
-        </div>
-      </div>
-
-    <p>The algorithm exploits the <strong>zero-sum nature</strong> of the division problem. Let $S$ be the total resource and $v_i(S) = 100$ for each player $i$. For any partition $\{A, B\}$ where $A \cup B = S$ and $A \cap B = \emptyset$:</p>
+    <p>The divide-and-choose algorithm is the most fundamental fair division procedure. The algorithm exploits the <strong>zero-sum nature</strong> of the division problem.</p>
+    <p>Let $S$ be the total resource and $v_i(S) = 100$ for each player $i$. For any partition $\{A, B\}$ where $A \cup B = S$ and $A \cap B = \emptyset$:</p>
   
     $$v_i(A) + v_i(B) = v_i(S) = 100$$
   
     <p>Player 1 uses this constraint by creating pieces such that $v_1(A) \approx v_1(B) \approx 50$, guaranteeing they cannot receive less than 50% regardless of Player 2's choice. Player 2 then optimizes: $v_2(\text{chosen piece}) = \max(v_2(A), v_2(B)) \geq 50$.</p>
+    <a href="https://en.wikipedia.org/wiki/Divide_and_choose" target="_blank" class="algorithm-link">Read more →</a>
+  </section>
+
+  <!-- Flowchart -->
+  <section class="content-block">
+    <h2>Algorithm Flowchart</h2>
+    <div class="iframe-container">
+      <iframe 
+        src="{{ '/assets/flowcharts/divide-and-choose-procedure.html' | relative_url }}" 
+        width="100%" 
+        height="915" 
+        frameborder="0"
+        style="border: 1px solid #e2e8f0; border-radius: 8px;">
+        <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/divide-and-choose-procedure.html' | relative_url }}">View the flowchart directly</a>.</p>
+      </iframe>
     </div>
   </section>
 
@@ -91,6 +83,8 @@ permalink: /algorithms/divide-and-choose/
     
       <p><em>Player 2:</em> Given two pieces, choosing the piece with lower value according to their true valuations $v_2$ gives a worse outcome than choosing the piece with higher value. Therefore, misrepresenting preferences cannot improve Player 2's outcome.</p>
     </div>
+
+    <a href="/theory/fairness-properties/" target="_blank" class="algorithm-link">Learn more about fairness properties (Coming soon!) →</a>
   </section>
 
   <!-- Complexity Analysis -->
@@ -102,17 +96,7 @@ permalink: /algorithms/divide-and-choose/
       <li><strong>Eval Query:</strong> Player 2 evaluates and selects their preferred piece</li>
     </ol>
     <p>This 2-query bound is provably optimal - any algorithm guaranteeing proportional division for 2 players must use at least 2 queries.</p>
-  </section>
-
-  <!-- Limitations -->
-  <section class="content-block">
-    <h2>Limitations</h2>
-    <ul>
-      <li>Limited to exactly two players</li>
-      <li>May not achieve Pareto efficiency</li>
-      <li>Requires divisible resources</li>
-      <li>Fairness may not be guaranteed in cases where one party hopes to minimize the other's value. (Explore why this is the case with the demo!)</li>
-    </ul>
+    <a href="/analysis/" target="_blank" class="algorithm-link">Compare with other procedures →</a>
   </section>
 
   <!-- Navigation -->

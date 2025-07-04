@@ -12,7 +12,7 @@ permalink: /exercises/
 <div class="content-block">
   <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;">
     <div>
-      <label for="exercise-list" style="font-weight: 500; margin-right: 0.5rem;">Select Exercise:</label>
+      <label for="exercise-list" style="font-weight: 500; margin-right: 0.5rem;"></label>
       <select id="exercise-list" class="algorithm-dropdown">
         <option value="">Choose an Exercise</option>
       </select>

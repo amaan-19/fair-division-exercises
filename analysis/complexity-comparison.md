@@ -17,69 +17,69 @@ permalink: /analysis/
       <thead>
         <tr>
           <th>Algorithm</th>
-          <th>Players</th>
-          <th>Cut Queries</th>
-          <th>Eval Queries</th>
-          <th>Total</th>
-          <th>Optimality</th>
+          <th style="text-align: center">Players</th>
+          <th style="text-align: center">Cut Queries</th>
+          <th style="text-align: center">Eval Queries</th>
+          <th style="text-align: center">Total</th>
+          <th style="text-align: center">Optimality</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><a href="/algorithms/divide-and-choose/">Divide-and-Choose</a></td>
-          <td>2</td>
-          <td>1</td>
-          <td>1</td>
-          <td><strong>2</strong></td>
-          <td>✅ Optimal</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center"><strong>2</strong></td>
+          <td style="text-align: center">✅ Optimal</td>
         </tr>
         <tr>
           <td><a href="/algorithms/austins-moving-knife/">Austin's Moving Knife</a></td>
-          <td>2</td>
-          <td>0</td>
-          <td>O(∞)*</td>
-          <td><strong>O(∞)</strong></td>
-          <td>❌ Continuous</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">O(∞)*</td>
+          <td style="text-align: center"><strong>O(∞)</strong></td>
+          <td style="text-align: center">❌ Continuous</td>
         </tr>
         <tr>
           <td><a href="/algorithms/steinhaus-lone-divider/">Steinhaus Lone-Divider</a></td>
-          <td>3</td>
-          <td>2-4</td>
-          <td>3-6</td>
-          <td><strong>5-10</strong></td>
-          <td>❓ Unknown</td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center">2-4</td>
+          <td style="text-align: center">3-6</td>
+          <td style="text-align: center"><strong>5-10</strong></td>
+          <td style="text-align: center">❓ Unknown</td>
         </tr>
         <tr>
           <td><a href="/algorithms/selfridge-conway/">Selfridge-Conway</a></td>
-          <td>3</td>
-          <td></td>
-          <td></td>
-          <td><strong></strong></td>
-          <td></td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong></strong></td>
+          <td style="text-align: center"></td>
         </tr>
         <tr>
           <td><a href="/algorithms/stromquist/">Stromquist Moving Knife</a></td>
-          <td>3</td>
-          <td></td>
-          <td></td>
-          <td><strong></strong></td>
-          <td></td>
+          <td style="text-align: center">3</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong></strong></td>
+          <td style="text-align: center"></td>
         </tr>
         <tr>
           <td><a href="/algorithms/banach-knaster-last-diminisher/">Banach-Knaster Last-Diminisher</a></td>
-          <td>N</td>
-          <td></td>
-          <td></td>
-          <td><strong></strong></td>
-          <td></td>
+          <td style="text-align: center">N</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong></strong></td>
+          <td style="text-align: center"></td>
         </tr>
         <tr>
           <td><a href="/algorithms/brams-taylor/">Brams-Taylor</a></td>
-          <td>N</td>
-          <td></td>
-          <td></td>
-          <td><strong></strong></td>
-          <td></td>
+          <td style="text-align: center">N</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"><strong></strong></td>
+          <td style="text-align: center"></td>
         </tr>
       </tbody>
     </table>
