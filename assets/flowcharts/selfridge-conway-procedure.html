@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selfridge-Conway Flowchart</title>
+  <style>
+    /* Clean step styling */
+    .flowchart-container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .flowchart-title {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 2rem;
+    }
+
+    .flowchart-step {
+      text-align: center;
+    }
+
+    .step-box {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin: 0 auto;
+      max-width: 400px;
+      border: 2px solid;
+      display: inline-block;
+    }
+
+    /* Player colors */
+    .flowchart-container .player1 {
+      background: #87CEEB;
+      border-color: #4682B4;
+      color: #1a365d;
+    }
+
+    .flowchart-container .player2 {
+      background: #FFB6C1;
+      border-color: #CD919E;
+      color: #702459;
+    }
+
+    .flowchart-container .player3 {
+      background: #DDA0DD;
+      border-color: #BA55D3;
+      color: #553c9a;
+    }
+
+    .flowchart-container .decision {
+      background: #fff5f5;
+      border-color: #e53e3e;
+      color: #c53030;
+      border-radius: 25px;
+      font-weight: 600;
+    }
+
+    /* Simple arrow */
+    .flowchart-arrow {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #4a5568;
+      margin: 0.5rem 0;
+    }
+
+    /* Branch layout */
+    .flowchart-branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .flowchart-branch {
+      text-align: center;
+    }
+
+    .branch-label {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+
+    .yes-branch {
+      color: #38a169;
+      background: #f0fff4;
+    }
+
+    .no-branch {
+      color: #e53e3e;
+      background: #fff5f5;
+    }
+
+    .bypass {
+      padding: 2rem 1rem;
+      color: #718096;
+      font-style: italic;
+      border: 2px dashed #e2e8f0;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+
+    /* Convergence indicator */
+    .converge {
+      text-align: center;
+      margin: 0 0 1rem 0;
+      font-size: 0.9rem;
+      color: #718096;
+      font-style: italic;
+    }
+
+    /* Legend */
+    .flowchart-legend {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .legend-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: #4a5568;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      border: 2px solid;
+      flex-shrink: 0;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .flowchart-container {
+        padding: 1rem;
+      }
+
+      .flowchart-branches {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .step-box {
+        max-width: 100%;
+        font-size: 0.9rem;
+      }
+
+      .legend-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Hover effects */
+    .step-box:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<div class="flowchart-container">
+  <!-- Step 1 -->
+  <div class="flowchart-step">
+    <div class="step-box player1">
+      <strong>Step 1:</strong> Player 1 divides cake into three equal pieces
+    </div>
+  </div>
+
+  <div class="flowchart-arrow">↓</div>
+
+  <!-- Decision -->
+  <div class="flowchart-step">
+    <div class="step-box decision">
+      <strong>Question:</strong> Is there a single largest piece?
+    </div>
+  </div>
+
+  <!-- Branches -->
+  <div class="flowchart-branches">
+    <div class="flowchart-branch">
+      <div class="branch-label yes-branch">YES</div>
+      <div class="step-box player2">
+        <strong>Step 2a:</strong> Player 2 trims the largest piece to equal the second-largest
+      </div>
+      <div class="flowchart-arrow">↓</div>
+    </div>
+    <div class="flowchart-branch">
+      <div class="branch-label no-branch">NO</div>
+      <div class="bypass">
+        <strong>Skip to Step 3</strong><br>
+        (No trimming needed)
+      </div>
+      <div class="flowchart-arrow">↓</div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="flowchart-step">
+    <div class="step-box player3">
+      <strong>Step 3:</strong> Player 3 chooses one piece (trimmed or untrimmed)
+    </div>
+  </div>
+
+  <div class="flowchart-arrow">↓</div>
+
+  <!-- Decision 2 -->
+  <div class="flowchart-step">
+    <div class="step-box decision">
+      <strong>Question:</strong> Did Player 3 choose the trimmed piece?
+    </div>
+  </div>
+
+  <!-- Final branches -->
+  <div class="flowchart-branches">
+    <div class="flowchart-branch">
+      <div class="branch-label yes-branch">YES</div>
+      <div class="step-box player2">
+        <strong>Step 4a:</strong> Player 2 picks from remaining pieces
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player1">
+        <strong>Step 5a:</strong> Player 1 gets the last piece
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player2">
+        <strong>Step 6a:</strong> Player 2 (who didn't get trimmed piece) divides the trimmings
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player3">
+        <strong>Step 7a:</strong> Player 3 (who got trimmed piece) picks from trimming pieces
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player1">
+        <strong>Step 8a:</strong> Player 1 picks from remaining trimming pieces
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player2">
+        <strong>Step 9a:</strong> Player 2 (divider) gets the last trimming piece
+      </div>
+    </div>
+    <div class="flowchart-branch">
+      <div class="branch-label no-branch">NO</div>
+      <div class="step-box player2">
+        <strong>Step 4b:</strong> Player 2 must take the trimmed piece
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player1">
+        <strong>Step 5b:</strong> Player 1 gets the last piece
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player3">
+        <strong>Step 6b:</strong> Player 3 (who didn't get trimmed piece) divides the trimmings
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player2">
+        <strong>Step 7b:</strong> Player 2 (who got trimmed piece) picks from trimming pieces
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player1">
+        <strong>Step 8b:</strong> Player 1 picks from remaining trimming pieces
+      </div>
+      <div class="flowchart-arrow">↓</div>
+      <div class="step-box player3">
+        <strong>Step 9b:</strong> Player 3 (divider) gets the last trimming piece
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="flowchart-legend">
+    <div class="legend-title">Color Guide</div>
+    <div class="legend-grid">
+      <div class="legend-item">
+        <div class="legend-color" style="background: #87CEEB; border-color: #4682B4;"></div>
+        <span><strong>Player 1</strong> Actions</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #FFB6C1; border-color: #CD919E;"></div>
+        <span><strong>Player 2</strong> Actions</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #DDA0DD; border-color: #BA55D3;"></div>
+        <span><strong>Player 3</strong> Actions</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #fff5f5; border-color: #e53e3e;"></div>
+        <span><strong>Decision</strong> Points</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
