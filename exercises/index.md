@@ -35,14 +35,31 @@ permalink: /exercises/
 
   <div id="exercise-instructions" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;"></div>
 
-  <div style="text-align: center;">
-    <a href="{{ '/' | relative_url }}" class="nav-button primary">Go to the simulator!</a>
+  <h3 style="text-align: center">Try it out on the simulator!</h3>
+</div>
+
+<div class="content-block demo-section">
+  <div class="demo-header">
+    <h2>Algorithm Simulator</h2>
   </div>
+
+  <!-- Demo Interface Container -->
+  <div class="unified-demo-container">
+    <iframe 
+      src="{{ '/assets/demos/unified/index.html' | relative_url }}" 
+      width="100%" 
+      height="1200" 
+      frameborder="0"
+      style="display: block; border: none;">
+      <p>Your browser does not support iframes. <a href="{{ '/assets/demos/unified/index.html' | relative_url }}">View the demo directly</a>.</p>
+    </iframe>
+  </div>
+
 </div>
 
 <footer class="algorithm-navigation">
   <a href="{{ '/theory/' | relative_url }}" class="nav-button secondary">← Back to Theory</a>
-  <a href="{{ '/glossary/' | relative_url }}" class="nav-button primary">Glossary →</a>
+  <a href="{{ '/analysis/' | relative_url }}" class="nav-button primary">Analysis →</a>
 </footer>
 
 <script src="{{ '/assets/exercises/exercises.js' | relative_url }}"></script>

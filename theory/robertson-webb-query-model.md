@@ -18,6 +18,7 @@ permalink: /theory/robertson-webb-query-model/
   <h2>Query Types</h2>
 
   <div class="properties-grid">
+
     <div class="property-card">
       <h3>Cut Queries</h3>
       <p class="property-description">
