@@ -102,6 +102,146 @@ permalink: /glossary/
     </p>
   </div>
 
+  <div class="term-card">
+    <h3 class="term-name">Lone Divider Method</h3>
+    <p class="term-definition">
+      The general approach where one player divides and others choose
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Trimming</h3>
+    <p class="term-definition">
+      The process of reducing piece size in algorithms like Selfridge-Conway
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Reconstruction</h3>
+    <p class="term-definition">
+      When initial allocations fail and pieces must be recombined
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Case A/Case B</h3>
+    <p class="term-definition">
+      The two scenarios in Steinhaus' algorithm based on acceptable pieces
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Exact Division</h3>
+    <p class="term-definition">
+      Perfect mathematical equality (not just inequalities)
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Pareto Efficiency</h3>
+    <p class="term-definition">
+      No allocation improvements without harming someone
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Atomlessness</h3>
+    <p class="term-definition">
+      Property that any valuable piece can be subdivided
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Additivity</h3>
+    <p class="term-definition">
+      Property that combining pieces adds their values
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Intermediate Value Theorem</h3>
+    <p class="term-definition">
+      Key topological foundation for existence proofs
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Measure Theory</h3>
+    <p class="term-definition">
+      Mathematical framework underlying valuation functions
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Brouwer Fixed Point Theorem</h3>
+    <p class="term-definition">
+      Used in existence proofs
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Sperner's Lemma</h3>
+    <p class="term-definition">
+      Combinatorial tool for fair division proofs
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Lower Bound</h3>
+    <p class="term-definition">
+      Minimum queries required for a fairness property
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Approximation Algorithm</h3>
+    <p class="term-definition">
+      Procedure that achieves near-optimal fairness
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Continuous vs Discrete Trade-off</h3>
+    <p class="term-definition">
+      Precision vs implementability
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Impossibility Result</h3>
+    <p class="term-definition">
+      Combinations of properties that cannot be achieved
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Preferential Elicitation</h3>
+    <p class="term-definition">
+      Methods for learning player valuations
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Mechanism Design</h3>
+    <p class="term-definition">
+      Game-theoretic approach to algorithm design
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Incentive Compatibility</h3>
+    <p class="term-definition">
+      Broader term encompassing strategy-proofness
+    </p>
+  </div>
+
+  <div class="term-card">
+    <h3 class="term-name">Dominant Strategy</h3>
+    <p class="term-definition">
+      Best choice regardless of others' actions
+    </p>
+  </div>
+
 </div>
 
 <footer class="algorithm-navigation">
