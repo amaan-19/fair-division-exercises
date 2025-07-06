@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Fairness Properties Framework
-permalink: /theory/fairness-properties/
+permalink: /fairness-properties/
 ---
 
 <div class="page-header">

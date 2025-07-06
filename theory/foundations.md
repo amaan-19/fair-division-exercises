@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Mathematical Foundations
-permalink: /theory/foundations/
+permalink: /foundations/
 ---
 
 <div class="page-header">
