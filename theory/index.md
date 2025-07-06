@@ -15,8 +15,8 @@ permalink: /theory/
     <h3>What makes a division "fair"?</h3>
     <p>Explore the mathematical definitions of fairness and their relationships</p>
     <div class="question-links">
-      <a href="/theory/foundations/">Mathematical Foundations</a>
-      <a href="/theory/fairness-properties/">Fairness Properties Framework</a>
+      <a href="{{ '/theory/foundations/' | relative_url }}">Mathematical Foundations</a>
+      <a href="{{ '/theory/fairness-properties/' | relative_url }}">Fairness Properties Framework</a>
     </div>
   </div>
 
@@ -24,7 +24,7 @@ permalink: /theory/
     <h3>How efficient can fair division algorithms be?</h3>
     <p>Understand computational complexity and query bounds</p>
     <div class="question-links">
-      <a href="/theory/robertson-webb-query-model/">Robertson-Webb Model</a>
+      <a href="{{ '/theory/robertson-webb-query-model/' | relative_url }}">Robertson-Webb Model</a>
       <a href="/theory/complexity/">Extended Complexity Analysis (Coming soon!)</a>
     </div>
   </div>
