@@ -15,8 +15,8 @@ permalink: /theory/
     <h3>What makes a division "fair"?</h3>
     <p>Explore the mathematical definitions of fairness and their relationships</p>
     <div class="question-links">
-      <a href="{{ '/theory/foundations/' | relative_url }}">Mathematical Foundations</a>
-      <a href="{{ '/theory/fairness-properties/' | relative_url }}">Fairness Properties Framework</a>
+      <a href="{{ '/foundations/' | relative_url }}">Mathematical Foundations</a>
+      <a href="{{ '/fairness-properties/' | relative_url }}">Fairness Properties Framework</a>
     </div>
   </div>
 
