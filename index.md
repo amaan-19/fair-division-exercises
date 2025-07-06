@@ -5,7 +5,7 @@ title: Fair Division Algorithms
 
 <div class="page-header">
   <h1 class="page-title">Fair Division Algorithms</h1>
-  <p class="page-description">Explore the (in-progress) comprehensive collection</p>
+  <p class="page-description">Explore the (almost) comprehensive collection</p>
 </div>
 
 <div class="algorithms-section">
@@ -226,12 +226,6 @@ title: Fair Division Algorithms
       </div>
     </div>
   </div>
-</div>
-
-<div class="content-block intro-block">
-  <h2>About Fair Division</h2>
-  <p>Fair division theory provides mathematical frameworks for allocating resources among multiple parties in ways that satisfy rigorous fairness criteria. From ancient legal disputes to modern computational problems, these algorithms ensure equitable outcomes through elegant mathematical procedures.</p>
-  <a href="https://en.wikipedia.org/wiki/Fair_division" target="_blank" class="algorithm-link">Read more!</a>
 </div>
 
 <script src="card-carousel.js"></script>

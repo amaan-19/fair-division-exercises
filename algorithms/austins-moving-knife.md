@@ -22,47 +22,9 @@ permalink: /algorithms/austins-moving-knife/
     <h2>Overview</h2>
     <p>Austin's procedure introduces a moving-knife mechanism to making a fair cake division. The procedure builds on Divide-and-Choose by guaranteeing exact divisions for two parties, rather than merely a proportional one.</p>
     <a href="https://en.wikipedia.org/wiki/Austin_moving-knife_procedures" target="_blank" class="algorithm-link">Read more →</a>
-    
-    <div class="procedure-steps">
-      <h3>How It Works</h3>
-      <div class="step-list">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            Beginning at the left end of the cake, a <strong>referee</strong> moves the knife across the cake while ensuring it remains parallel to the starting edge of the cake.
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <strong>Either player</strong> is free to request the <strong>referee</strong> to "stop" at the point that which they believe the piece to the left of the knife has a value of exactly $\frac{1}{2}$.
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            Whichever player, say <strong>Player 1</strong>, requests the knife to "stop" first, introduces a second moving knife to the left edge of the cake, and gains control of both knives. 
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <strong>Player 1</strong> proceeds by moving both knives in parallel across the cake such that (1) their personal valuation of the piece between the knives remains the same, (2) by the time the right knife reaches the end of the cake, the left knife must line up with the original stopping position of the right knife.
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">5</div>
-          <div class="step-content">
-            While <strong>Player 1</strong> moves the knives, <strong>Player 2</strong> requests the knives to "stop" at the point where they believe the division is exactly $\frac{1}{2}$. Pieces are then randomly assigned to the players.
-          </div>
-        </div>
-      </div>
-    </div>
     <p>Austin's procedure relies on the <strong>intermediate value theorem</strong> to guarantee exact divisions. Let $f(x)$ represent Player 1's valuation of the cake from position 0 to position $x$, where the cake spans $[0,1]$. Since Player 1's valuation function is continuous and $f(0) = 0$ while $f(1) = 100$, there exists some position $x^* \in (0,1)$ such that $f(x^*) = 50$.</p>
     <p>During the knife-moving phase, the player in control maintains two knives at positions $L(t)$ and $R(t)$ such that their valuation of the piece between the knives remains constant:</p>
-
     $$v_1([L(t), R(t)]) = k \text{ for all } t$$
-
     <p>where $k$ is the value that player assigned to the initial piece when they first called "stop". The constraint that $L(T) = R(0)$ when $R(T) = 1$ ensures the entire cake is partitioned into exactly three pieces with valuations that sum to 100.</p>
   </section>
 
@@ -80,7 +42,6 @@ permalink: /algorithms/austins-moving-knife/
       </iframe>
     </div>
   </section>
-
 
   <!-- Fairness Properties -->
 

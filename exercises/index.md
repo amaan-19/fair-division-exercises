@@ -9,14 +9,13 @@ permalink: /exercises/
   <p class="page-description">Practice fair division algorithms through guided exercises and comparative analysis</p>
 </div>
 
-<div class="content-block">
-  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;">
-    <div>
-      <label for="exercise-list" style="font-weight: 500; margin-right: 0.5rem;"></label>
+
+<div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;">
+  <div>
+    <label for="exercise-list" style="font-weight: 500; margin-right: 0.5rem;"></label>
       <select id="exercise-list" class="algorithm-dropdown">
         <option value="">Choose an Exercise</option>
       </select>
-    </div>
   </div>
 </div>
 
