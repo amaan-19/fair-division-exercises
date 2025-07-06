@@ -5,7 +5,6 @@ title: Fair Division Algorithms
 
 <div class="page-header">
   <h1 class="page-title">Fair Division Algorithms</h1>
-  <p class="page-description">Explore the (almost) comprehensive collection</p>
 </div>
 
 <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
@@ -62,7 +61,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">An extension of Divide-and-Choose employing a moving-knife mechanism for stronger fairness guarantees.</p>
+            <p class="algorithm-description">An extension of Divide-and-Choose employing a moving-knife mechanism.</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">

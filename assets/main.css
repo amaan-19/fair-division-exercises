@@ -3215,6 +3215,10 @@ blockquote {
     letter-spacing: -0.01em;
 }
 
+.question-links a.coming-soon {
+    opacity: 0.7;
+}
+
 .question-links a:hover {
     background: linear-gradient(135deg, #dbeafe, #bfdbfe);
     color: #1e40af;

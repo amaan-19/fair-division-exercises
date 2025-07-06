@@ -58,7 +58,7 @@ class AlgorithmCarousel {
             // Use smaller gaps and add padding to prevent cards from being too wide
             const gapSize = 24; // Reduced gap size
             const containerPadding = 40; // Add some padding to the container
-            const totalGaps = (this.visibleCards - 1) * gapSize;
+            const totalGaps = (this.visibleCards - 2) * gapSize;
             const availableWidth = containerWidth - totalGaps - containerPadding;
             this.cardWidth = Math.max(280, Math.min(360, availableWidth / this.visibleCards)); // Min 280px, max 360px
             this.gap = gapSize;
