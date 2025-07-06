@@ -8,6 +8,13 @@ title: Fair Division Algorithms
   <p class="page-description">Explore the (almost) comprehensive collection</p>
 </div>
 
+<div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
+  <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
+    <strong>Note:</strong> This site is actively being developed. New algorithms and features are added regularly. 
+    <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress →</a>
+  </p>
+</div>
+
 <div class="algorithms-section">
   <!-- Divisible Resources Section -->
   <div class="carousel-section">
@@ -62,6 +69,7 @@ title: Fair Division Algorithms
                 <span class="property-tag">Equitable</span>
                 <span class="property-tag">Exact</span>
                 <span class="property-tag">Envy-free</span>
+                <span class="property-tag">Strategy-proof</span>
               </div>
             </div>
           </div>

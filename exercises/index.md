@@ -34,7 +34,7 @@ permalink: /exercises/
 
   <div id="exercise-instructions" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;"></div>
 
-  <h3 style="text-align: center">Try it out on the simulator!</h3>
+  <h3 style="text-align: center">Try it out below!</h3>
 </div>
 
 <div class="content-block demo-section">

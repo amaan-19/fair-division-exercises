@@ -84,7 +84,7 @@ permalink: /algorithms/divide-and-choose/
       <p><em>Player 2:</em> Given two pieces, choosing the piece with lower value according to their true valuations $v_2$ gives a worse outcome than choosing the piece with higher value. Therefore, misrepresenting preferences cannot improve Player 2's outcome.</p>
     </div>
 
-    <a href="/theory/fairness-properties/" target="_blank" class="algorithm-link">Learn more about fairness properties (Coming soon!) →</a>
+    <a href="/theory/fairness-properties/" target="_blank" class="algorithm-link">Learn more about fairness properties →</a>
   </section>
 
   <!-- Complexity Analysis -->

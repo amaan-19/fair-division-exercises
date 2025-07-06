@@ -114,7 +114,7 @@ permalink: /theory/fairness-properties/
         <p><strong>Example of Non-Strategy-Proof Mechanism:</strong> "Highest bidder wins" auction isn't strategy-proof because players benefit from underbidding. In contrast, second-price auctions are strategy-proof.</p>
       </div>
 
-      <p><strong>Algorithm Examples:</strong> Divide-and-Choose, Austin's Moving Knife, Random Serial Dictatorship</p>
+      <p><strong>Algorithm Examples:</strong> Austin's Moving Knife</p>
     </div>
 
     <div class="property-card">

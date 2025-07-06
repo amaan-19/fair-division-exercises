@@ -21,11 +21,11 @@ permalink: /algorithms/austins-moving-knife/
   <section class="content-block">
     <h2>Overview</h2>
     <p>Austin's procedure introduces a moving-knife mechanism to making a fair cake division. The procedure builds on Divide-and-Choose by guaranteeing exact divisions for two parties, rather than merely a proportional one.</p>
-    <a href="https://en.wikipedia.org/wiki/Austin_moving-knife_procedures" target="_blank" class="algorithm-link">Read more →</a>
     <p>Austin's procedure relies on the <strong>intermediate value theorem</strong> to guarantee exact divisions. Let $f(x)$ represent Player 1's valuation of the cake from position 0 to position $x$, where the cake spans $[0,1]$. Since Player 1's valuation function is continuous and $f(0) = 0$ while $f(1) = 100$, there exists some position $x^* \in (0,1)$ such that $f(x^*) = 50$.</p>
     <p>During the knife-moving phase, the player in control maintains two knives at positions $L(t)$ and $R(t)$ such that their valuation of the piece between the knives remains constant:</p>
     $$v_1([L(t), R(t)]) = k \text{ for all } t$$
     <p>where $k$ is the value that player assigned to the initial piece when they first called "stop". The constraint that $L(T) = R(0)$ when $R(T) = 1$ ensures the entire cake is partitioned into exactly three pieces with valuations that sum to 100.</p>
+    <a href="https://en.wikipedia.org/wiki/Austin_moving-knife_procedures" target="_blank" class="algorithm-link">Read more →</a>
   </section>
 
   <!-- Flowchart -->
@@ -88,21 +88,14 @@ permalink: /algorithms/austins-moving-knife/
 
       <p><em>Phase 2 (Player 2):</em> Calling "stop" before truly believing in a 50-50 division risks receiving a piece worth less than 50% according to their true valuation. Waiting longer allows Player 1 to potentially create a division more favorable to Player 1.</p>
     </div>
+
+    <a href="/theory/fairness-properties/" target="_blank" class="algorithm-link">Learn more about fairness properties →</a>
   </section>
 
-  <!-- Limitations -->
+  <!-- Complexity Analysis -->
   <section class="content-block">
-    <h2>Limitations</h2>
-    <ul>
-      <li>Limited to exactly two players (for optimal number of fairness guarantees)</li>
-      <li>Requires continuous monitoring and infinite precision in theory</li>
-      <li>Implementation requires discrete approximations that may compromise exactness</li>
-      <li>More complex coordination between players compared to divide-and-choose</li>
-      <li>Assumes players can accurately maintain constant valuations during knife movement</li>
-      <li>Requires divisible and spatially contiguous resources</li>
-      <li>May not achieve Pareto efficiency in all cases</li>
-      <li>Vulnerable to timing manipulation if players can anticipate others' strategies</li>
-    </ul>
+    <h2>Computational Complexity</h2>
+    <a href="/analysis/" target="_blank" class="algorithm-link">Compare with other procedures →</a>
   </section>
 
   <!-- Navigation -->
