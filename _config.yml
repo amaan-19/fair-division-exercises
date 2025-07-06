@@ -1,13 +1,18 @@
 ﻿title: Fair Division Algorithms
 description: Interactive educational platform developed by Amaan Khan with guidance from Dr. Ron Cytron
 
+baseurl: "/fair-division-exercises"  # Must match your repository name exactly
+url: "https://amaan-19.github.io"    # Your GitHub username
+
+# Ensure proper permalink structure
+permalink: pretty
+
 markdown: kramdown
 kramdown:
   math_engine: mathjax
   math_engine_opts:
     preview: true
 highlighter: rouge
-permalink: pretty
 
 # Add/fix SASS configuration
 sass:
