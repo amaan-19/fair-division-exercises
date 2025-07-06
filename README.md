@@ -4,7 +4,7 @@ An academic Jekyll website developing comprehensive interactive educational reso
 
 ## Current Status
 
-**Actively Maintained & Expanding** - This project has grown significantly from its initial conception, now featuring multiple implemented algorithms, interactive demonstrations, computational complexity analysis, and comprehensive educational content.
+**Actively Maintained & Expanding** - This project has grown significantly from its initial conception, now featuring multiple fully-implemented algorithms, sophisticated interactive demonstrations, comprehensive educational content, and real-time computational complexity analysis.
 
 ## Quick Start
 
@@ -14,147 +14,164 @@ An academic Jekyll website developing comprehensive interactive educational reso
 
 This research platform bridges the gap between theoretical fair division concepts and practical understanding through:
 
-- **Interactive Algorithm Demonstrations** - Hands-on simulations for major fair division algorithms with real-time query complexity analysis
+- **Interactive Algorithm Demonstrations** - Hands-on simulations for major fair division algorithms with real-time query complexity analysis and step-by-step execution
 - **Mathematical Rigor** - Formal proofs, theorem statements, and rigorous analysis including Robertson-Webb computational complexity
-- **Educational Resources** - Comprehensive glossary, references, and step-by-step explanations
-- **Theoretical Foundations** - Query complexity analysis and algorithmic trade-offs
-- **Responsive Design** - Modern, accessible interface optimized for all devices
+- **Educational Resources** - Comprehensive glossary, references, guided exercises, and step-by-step explanations
+- **Theoretical Foundations** - Query complexity analysis, algorithmic trade-offs, and mathematical foundations
+- **Responsive Design** - Modern, accessible interface optimized for all devices with mobile-first approach
 
 ## Technology Stack
 
 - **Jekyll 4.x** - Static site generator optimized for academic content
 - **GitHub Pages** - Deployment and hosting platform
-- **Custom CSS** - Assistance provided by Claude Sonnet 4
+- **Custom CSS** - Modern responsive design with assistance from Claude Sonnet 4
 - **MathJax 3** - LaTeX-style mathematical notation rendering
 - **Vanilla JavaScript** - Interactive demonstrations and simulations with query counting
+- **SVG Graphics** - Dynamic geometric visualizations for cake-cutting algorithms
 - **Responsive Design** - Mobile-first approach with CSS Grid/Flexbox
-
-## Implemented Algorithms
-
-### 1. Divide-and-Choose
-- **Players**: 2
-- **Type**: Discrete
-- **Properties**: Proportional, Envy-free, Strategy-proof
-- **Query Complexity**: 2 queries (1 cut, 1 eval) - Optimal
-- **Demo Features**: Interactive cutting interface, real-time value calculations, fairness analysis
-
-### 2. Austin's Moving Knife
-- **Players**: 2  
-- **Type**: Continuous
-- **Properties**: Equitable, Exact, Envy-free, Strategy-proof
-- **Query Complexity**: O(∞) continuous eval queries
-- **Demo Features**: Animated knife movement, dual-knife phase, random assignment
-
-### 3. Steinhaus' Lone-Divider
-- **Players**: 3
-- **Type**: Discrete  
-- **Properties**: Proportional
-- **Query Complexity**: 5-10 queries (2-4 cut, 3-6 eval)
-- **Demo Features**: Three-piece division, case analysis (A/B), reconstruction procedures
 
 ## Features & Capabilities
 
-### Interactive Learning
-**Geometric Visualization Engine**
-- Real-time manipulation of colored regions representing different goods
-- Dynamic value calculations as users adjust preferences
-- Visual feedback showing cut positions and piece boundaries
+### Interactive Learning System
+**Advanced Geometric Visualization Engine**
+- Real-time manipulation of colored regions representing heterogeneous goods
+- Dynamic value calculations as users adjust player preferences
+- Visual feedback showing cut positions, piece boundaries, and overlays
+- SVG-based graphics with smooth animations and transitions
 
-**Algorithm-Specific Interfaces**
-- Divide-and-Choose: Slider-based cutting with immediate value feedback
-- Austin's Moving Knife: Animated continuous movement with player stop controls
-- Steinhaus: Multi-cut interface with three-piece selection mechanics
+**Algorithm-Specific Interactive Interfaces**
+- **Divide-and-Choose**: Slider-based cutting with immediate value feedback and clickable piece selection
+- **Austin's Moving Knife**: Multi-phase animated procedure with player stop controls and knife synchronization
+- **Steinhaus**: Dual-slider interface for three-piece creation with case-based logic and reconstruction
 
-**Educational Enhancements**
-- Step-by-step algorithm walkthroughs
-- Real-time fairness property verification
-- Robertson-Webb query counting and complexity analysis
-- Comparative analysis between algorithms
+**Educational Enhancement Features**
+- Step-by-step algorithm walkthroughs with guided progression
+- Real-time fairness property verification and violation detection
+- Robertson-Webb query counting with educational explanations
+- Comparative analysis tools between different algorithms
+- Interactive exercises with structured learning objectives
 
-### Mathematical Rigor
-**Formal Analysis**
-- Complete proof sketches for all fairness properties
-- Theorem statements with proper mathematical notation
-- Complexity analysis and algorithmic trade-offs
-- Robertson-Webb query model integration
+### Mathematical Rigor & Analysis
+**Formal Mathematical Framework**
+- Complete proof sketches for all fairness properties with expandable content
+- Theorem statements with proper mathematical notation using MathJax 3
+- Complexity analysis and algorithmic trade-offs documentation
+- Robertson-Webb query model integration throughout
 
-**Computational Complexity**
+**Computational Complexity Analysis**
 - Real-time query counting during algorithm execution
+- Educational overlays explaining cut vs. eval query types
 - Comparative complexity analysis across algorithms
 - Lower bound proofs and optimality results
+- Query complexity visualization and tracking
 
-**LaTeX Integration**
+**Advanced Mathematical Integration**
 - Full MathJax 3 support for complex mathematical expressions
-- Inline and display math rendering
+- Inline and display math rendering with proper formatting
 - Formatted theorem environments and proof structures
+- Mathematical foundations including measure theory and topology
 
-### Content Management
-**Comprehensive Glossary**
-- Searchable definitions for all key terms
-- Cross-referenced concepts with automatic linking
-- Mathematical formulations for formal definitions
-- Robertson-Webb model terminology
+### Comprehensive Content Management
+**Educational Resource Architecture**
+- Searchable glossary with 30+ key terms and cross-references
+- Academic bibliography with one-click citation copying
+- Algorithm flowcharts as embedded interactive diagrams
+- Structured navigation between related concepts
 
-**Academic References**
-- One-click citation copying functionality
-- DOI links and publication metadata
-- Foundational texts including Robertson & Webb (1998)
-
-**Algorithm Catalog**
-- Detailed algorithm pages with complete analysis
-- Navigation between related algorithms
+**Research-Grade Documentation**
+- Individual algorithm pages with complete theoretical analysis
+- Navigation system connecting related algorithms and concepts
 - Comparison matrices for algorithm properties and query complexity
+- Foundational theory sections covering mathematical prerequisites
 
 ## Development Architecture
 
-### Content Creation Workflow
+### Modular Interactive Demo System
+**Core Framework Architecture**
+```javascript
+FairDivisionDemoSystem {
+  ├── StateManager (centralized state with event system)
+  ├── UIController (responsive interface management)
+  ├── AnimationEngine (smooth algorithm visualizations)
+  ├── CalculationEngine (real-time value computations)
+  └── AlgorithmRegistry (modular algorithm loading)
+}
+```
+
+**Algorithm Plugin System**
+- Standardized API for algorithm implementations
+- Event-driven architecture for user interactions
+- Modular step-based execution with lifecycle hooks
+- Real-time Robertson-Webb query counting integration
+
+**Visual & Interaction Components**
+- SVG-based geometric representations with dynamic updates
+- Responsive controls that adapt to algorithm requirements
+- Real-time value displays and fairness property verification
+- Query complexity visualization panels with educational context
+
+### Content Creation & Management Workflow
 ```
 Markdown (Front Matter) → Jekyll Processing → Static HTML
-├── Algorithm pages with YAML metadata
-├── Interactive demos as standalone HTML
-├── MathJax processing for equations
+├── Algorithm pages with YAML metadata and flowcharts
+├── Interactive demos as standalone HTML applications
+├── MathJax processing for equations and theorem environments
 ├── Query complexity analysis integration
-└── Custom CSS for academic styling
+├── Responsive CSS with mobile-first design
+└── JavaScript modules for interactive features
 ```
 
-### Interactive Demo System
-**Unified Demo Framework**
-- Core JavaScript system managing algorithm state
-- Modular algorithm definitions with standardized API
-- Event-driven architecture for user interactions
-- Real-time Robertson-Webb query counting
-
-**Query Complexity Integration**
-- Live query counting during algorithm execution
-- Educational overlays explaining query types
-- Comparative analysis tools for complexity measurement
-
-**Visual Components**
-- SVG-based geometric representations
-- Dynamic region highlighting and selection
-- Responsive controls adapting to algorithm requirements
-- Query complexity visualization panels
-
-## Content Organization
+## Content Organization & Structure
 
 ```
-📁 Root
-├── algorithms/           # Individual algorithm pages
-│   ├── divide-and-choose.md
-│   ├── austins-moving-knife.md
-│   └── steinhaus-lone-divider.md
-├── theory/              # Theoretical foundations
-│   └── robertson-webb-model.md
-├── analysis/            # Comparative analysis
-│   └── query-complexity.md
+📁 Fair Division Algorithms Platform
+├── algorithms/                    # Individual algorithm pages
+│   ├── divide-and-choose.md       # Complete with proofs & complexity
+│   ├── austins-moving-knife.md    # Multi-phase continuous procedure
+│   ├── steinhaus-lone-divider.md  # Three-player case analysis
+│   ├── selfridge-conway.md        # Envy-free with trimming
+│   ├── banach-knaster-last-diminisher.md
+│   ├── stromquist.md              # Continuous 3-player envy-free
+│   └── brams-taylor.md            # N-player envy-free
+├── theory/                        # Theoretical foundations
+│   ├── index.md                   # Theory overview with key questions
+│   ├── foundations.md             # Mathematical foundations & topology
+│   ├── fairness-properties.md     # Comprehensive property framework
+│   ├── robertson-webb-query-model.md  # Complexity model
+│   ├── complexity.md              # Extended complexity analysis
+│   ├── impossibility.md           # Fundamental limitations
+│   └── tradeoffs.md               # Property trade-offs
 ├── assets/
-│   ├── demos/           # Interactive demonstrations
-│   │   └── unified/      # Modular demo system
-│   └── main.css         # Primary stylesheet
-├── exercises/           # Interactive exercises
-├── glossary/            # Educational content
-├── references/          # Academic bibliography
-└── _layouts/           # Jekyll templates
+│   ├── demos/unified/             # Modular demo system
+│   │   ├── index.html             # Main demo interface
+│   │   ├── core/                  # Demo system framework
+│   │   │   ├── demo-system.js     # Core classes & utilities
+│   │   │   └── demo-controller.js # Main controller & API
+│   │   └── algorithms/            # Algorithm implementations
+│   │       ├── divide-and-choose.js
+│   │       ├── austins-moving-knife.js
+│   │       ├── steinhaus-lone-divider.js
+│   │       └── selfridge-conway.js
+│   ├── flowcharts/                # Algorithm flowcharts
+│   │   ├── divide-and-choose-procedure.html
+│   │   ├── austin-moving-knife.html
+│   │   ├── steinhaus-lone-divider.html
+│   │   └── selfridge-conway-procedure.html
+│   ├── exercises/                 # Interactive exercises
+│   │   └── exercises.js           # Exercise framework
+│   └── main.css                   # Primary stylesheet (2000+ lines)
+├── exercises/                     # Interactive learning
+│   └── index.md                   # Guided exercises with demo integration
+├── analysis/                      # Comparative analysis
+│   └── complexity-comparison.md    # Query complexity comparison tables
+├── glossary/                      # Educational glossary
+│   ├── index.md                   # 30+ terms with definitions
+│   └── glossarySort.js            # Alphabetical sorting
+├── references/                    # Academic bibliography
+│   ├── index.md                   # Comprehensive reference collection
+│   └── citationsFunctions.js      # Citation copying functionality
+└── _layouts/                      # Jekyll templates
+    └── default.html               # Main layout with MathJax integration
 ```
 
 ## Research Context & Impact
@@ -165,57 +182,77 @@ Markdown (Front Matter) → Jekyll Processing → Static HTML
 - **Institution**: Washington University in St. Louis
 - **Funding**: Mozilla Educational Initiatives for responsible computer science education
 
-**Educational Objectives**
-- Bridge theoretical computer science and practical applications
-- Support undergraduate and graduate coursework in algorithmic game theory and fair division algorithms
+**Educational Impact & Objectives**
+- Bridge theoretical computer science and practical algorithmic implementation
+- Support undergraduate and graduate coursework in algorithmic game theory
 - Enable hands-on exploration of fairness properties and computational complexity
-- Demonstrate Robertson-Webb query model applications
+- Demonstrate Robertson-Webb query model applications in real-time
+- Provide research-grade educational resources for academic institutions
 
-**Research Applications**
-- Algorithm comparison and analysis platform
-- Educational tool for fair division courses
-- Demonstration resource for academic presentations
-- Foundation for future algorithm implementations
-- Query complexity analysis and visualization
+**Research Applications & Use Cases**
+- Algorithm comparison and complexity analysis platform
+- Educational tool for fair division and mechanism design courses
+- Demonstration resource for academic presentations and conferences
+- Foundation for future algorithm implementations and research
+- Query complexity analysis and visualization for theoretical computer science
 
-## Contributing
+## Technical Implementation Details
 
-This is an academic research project with specific educational objectives.
+### Query Complexity Integration
+- **Real-time Tracking**: Live query counting during algorithm execution
+- **Educational Context**: Explanatory overlays for different query types
+- **Comparative Analysis**: Side-by-side complexity comparisons
+- **Theoretical Bounds**: Integration with lower bound proofs and optimality results
 
-For collaboration inquiries, research partnerships, or technical contributions:
+### Advanced Animation System
+- **Continuous Procedures**: Smooth knife movement with variable speed
+- **Discrete Steps**: Clear phase transitions with user controls
+- **Synchronization**: Multi-knife coordination in complex algorithms
+- **Interactive Controls**: Player stop buttons and real-time decision points
+
+### Responsive Design Architecture
+- **Mobile-First Approach**: Optimized for tablets and smartphones
+- **Adaptive Layouts**: Grid systems that reflow for different screen sizes
+- **Touch Support**: Gesture recognition for mobile interactions
+- **Performance Optimization**: Efficient rendering for complex visualizations
+
+## Contributing & Collaboration
+
+This is an academic research project with specific educational and research objectives.
 
 **Contact Information**
-- Research team via Washington University computer science department
-- Technical issues via GitHub Issues
-- Educational applications via institutional channels
+- **Academic Partnerships**: Through Washington University CS department
+- **Technical Issues**: GitHub repository issue tracking
+- **Educational Applications**: Institutional academic channels
 
 ## License & Attribution
 
 - **License**: Creative Commons Attribution-ShareAlike 4.0 International
-- **Code Components**: Open source under CC BY-SA 4.0
-- **Academic Content**: Proper attribution required for educational use
-- **Research Data**: Available for academic and educational purposes
+- **Code Components**: Open source under CC BY-SA 4.0 with full source availability
+- **Academic Content**: Proper attribution required for educational and research use
+- **Research Data**: Available for academic and educational purposes with citation
 
-## Technical Requirements
+## Technical Requirements & Browser Support
 
 **Development Environment**
-- Ruby 2.7+ with Jekyll 4.x
-- Node.js for asset processing (optional)
-- Git for version control
+- Ruby 2.7+ with Jekyll 4.x for static site generation
+- Node.js for asset processing and development tools (optional)
+- Git for version control and collaborative development
 
-**Browser Support**  
-- Modern browsers with ES6+ support
-- MathJax 3 compatibility required
-- Responsive design supports mobile devices
+**Browser Compatibility**  
+- Modern browsers with ES6+ JavaScript support
+- MathJax 3 compatibility for mathematical notation rendering
+- SVG support for geometric visualizations
+- Responsive design supports all mobile devices and tablets
 
-**Performance Optimization**
-- Static site generation for fast loading
-- Optimized SVG assets for geometric visualizations
-- Compressed CSS and minimized JavaScript
-- Efficient query counting algorithms
+**Performance & Optimization**
+- Static site generation for optimal loading speeds
+- Optimized SVG assets for complex geometric visualizations
+- Compressed CSS and minimized JavaScript for production
+- Efficient algorithms for real-time query counting and animation
 
 ---
 
-*Last updated: Current development cycle focuses on expanding the algorithm catalog, enhancing interactive demonstrations, integrating Robertson-Webb computational complexity analysis, and improving educational accessibility.*
+*Last Updated: Current development cycle focuses on completing the algorithm catalog, enhancing interactive demonstrations with advanced features, deepening Robertson-Webb computational complexity integration, and expanding educational accessibility for diverse learning environments.*
 
-**Development Status**: Active maintenance with regular feature additions and educational content expansion.
+**Development Status**: Active maintenance with regular feature additions, educational content expansion, and continuous improvement of user experience and academic rigor.
