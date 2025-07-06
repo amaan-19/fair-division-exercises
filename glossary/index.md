@@ -75,7 +75,7 @@ permalink: /glossary/
   </div>
 
   <div class="term-card">
-    <h3 class="term-name">Robertson-Webb Query Model</h3>
+    <h3 class="term-name">Robertson-Webb (RW) Query Model</h3>
     <p class="term-definition">
       A computational framework for analyzing fair division algorithms that measures complexity in terms of queries to players rather than traditional computational operations. Introduced by Robertson and Webb (1998).
     </p>

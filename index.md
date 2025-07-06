@@ -57,7 +57,7 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Continuous</span>
-              <span class="meta-badge complexity-badge">$O(\infty)$ RW</span>
+              <span class="meta-badge complexity-badge">$\infty$ RW</span>
             </div>
           </div>
           <div class="algorithm-content">
