@@ -48,27 +48,39 @@ body {
 
 /* Player colors - optimized for accessibility */
 .player1 {
-    background: #e8f4fd;
-    border-color: #1e40af;
-    color: #1e3a8a;
+    background: #dbeafe;
+    border-color: #2563eb;
+    color: #1e40af;
+    font-weight: 500;
 }
 
 .player2 {
-    background: #ecfdf5;
-    border-color: #059669;
-    color: #064e3b;
+    background: #dcfce7;
+    border-color: #16a34a;
+    color: #15803d;
+    font-weight: 500;
 }
 
 .player3 {
-    background: #fef3c7;
-    border-color: #d97706;
-    color: #92400e;
+    background: #fed7aa;
+    border-color: #ea580c;
+    color: #c2410c;
+    font-weight: 500;
+}
+
+.player4 {
+    background: #e0e7ff;
+    border-color: #6366f1;
+    color: #4338ca;
+    font-weight: 500;
 }
 
 .referee {
     background: #f3e8ff;
-    border-color: #7c3aed;
-    color: #581c87;
+    border-color: #8b5cf6;
+    color: #6b21a8;
+    font-weight: 600;
+    border-width: 2px;
 }
 
 .decision {
@@ -76,33 +88,38 @@ body {
     border-color: #dc2626;
     color: #991b1b;
     border-radius: 20px;
-    font-weight: 600;
+    font-weight: 700;
+    border-width: 2px;
 }
 
-.strategy {
-    background: #fef3c7;
-    border-color: #d97706;
-    color: #92400e;
+.information {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    color: #0c4a6e;
     font-style: italic;
+    border-style: dashed;
 }
 
 .result {
-    background: #f0f9ff;
-    border-color: #0369a1;
-    color: #0c4a6e;
+    background: #f1f5f9;
+    border-color: #475569;
+    color: #334155;
     font-weight: 600;
+    border-width: 2px;
 }
 
 .case-a {
     background: #dcfce7;
     border-color: #16a34a;
     color: #14532d;
+    font-weight: 500;
 }
 
 .case-b {
     background: #fef3c7;
-    border-color: #ca8a04;
-    color: #713f12;
+    border-color: #eab308;
+    color: #a16207;
+    font-weight: 500;
 }
 
 /* Compact arrows */

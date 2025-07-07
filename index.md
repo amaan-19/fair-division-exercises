@@ -9,7 +9,9 @@ title: Fair Division Algorithms
 
 <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
   <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
-    <strong>Note:</strong> This site is actively being developed. New algorithms and features are added regularly. 
+    <strong>Note:</strong> This site is actively being developed. Some content may be incomplete. New algorithms and features are added regularly.
+  </p>
+  <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
     <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress →</a>
   </p>
 </div>
