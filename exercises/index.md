@@ -42,6 +42,20 @@ permalink: /exercises/
     <h2>Algorithm Simulator</h2>
   </div>
 
+  <div class="content-block" style="background: #f0fff4; border-left: 4px solid #38a169;">
+      <h3>🎯 User Testing Instructions</h3>
+      <p><strong>Try this:</strong> Select "Divide-and-Choose" from the dropdown, adjust the colored sliders to see how players value different parts of the "cake," then click "Start" to see the algorithm in action!</p>
+      <details>
+        <summary><strong>What am I looking at?</strong></summary>
+        <ul>
+          <li><strong>Colored regions:</strong> Different parts of a resource (imagine cake flavors)</li>
+          <li><strong>Player values:</strong> How much each person values each part (adjustable on right)</li>
+          <li><strong>Cut line:</strong> Where to divide the resource</li>
+          <li><strong>Goal:</strong> Create a division both players think is fair</li>
+        </ul>
+      </details>
+  </div>
+
   <!-- Demo Interface Container -->
   <div class="unified-demo-container">
     <iframe 

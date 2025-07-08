@@ -9,11 +9,16 @@ title: Fair Division Algorithms
 
 <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
   <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
-    <strong>Note:</strong> This site is actively being developed. Some content may be incomplete. New algorithms and features are added regularly.
+    <strong>Note:</strong> This site is actively being developed. Some content may be incomplete and/or incorrect. New algorithms and features are added regularly.
   </p>
   <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
-    <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress →</a>
+    <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress on GitHub →</a>
   </p>
+</div>
+
+<div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
+  <h2>👋 New Here?</h2>
+  <p><strong>Start here:</strong> This platform teaches algorithms for fairly dividing resources. Browse our collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or jump right in with guided, interactive exercises in our <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
 </div>
 
 <div class="algorithms-section">
@@ -31,7 +36,7 @@ title: Fair Division Algorithms
         <!-- Divide-and-Choose Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
-            <h3 class="algorithm-title">Divide-and-Choose</h3>
+            <h3 class="algorithm-title">Divide-and-Choose Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Discrete</span>
@@ -55,7 +60,7 @@ title: Fair Division Algorithms
         <!-- Austin's Moving Knife Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
-            <h3 class="algorithm-title">Austin Moving Knife</h3>
+            <h3 class="algorithm-title">Austin Moving Knife Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Continuous</span>
@@ -82,7 +87,7 @@ title: Fair Division Algorithms
         <!-- Steinhaus' Lone-Divider Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
-            <h3 class="algorithm-title">Steinhaus Lone-Divider</h3>
+            <h3 class="algorithm-title">Steinhaus Lone-Divider Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">3 Players</span>
               <span class="meta-badge type-badge">Discrete</span>
@@ -90,7 +95,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">A relativley rudimentary procedure enabling basic fair division among three players.</p>
+            <p class="algorithm-description">A rudimentary procedure enabling basic fair division among three players.</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -129,7 +134,7 @@ title: Fair Division Algorithms
         <!-- Stromquist Moving Knife Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
-            <h3 class="algorithm-title">Stromquist Moving Knife</h3>
+            <h3 class="algorithm-title">Stromquist Moving Knife Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">3 Players</span>
               <span class="meta-badge type-badge">Continuous</span>
@@ -152,7 +157,7 @@ title: Fair Division Algorithms
         <!-- Banach-Knaster's Last-Diminisher Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
-            <h3 class="algorithm-title">Banach-Knaster Last-Diminisher</h3>
+            <h3 class="algorithm-title">Banach-Knaster Last-Diminisher Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
               <span class="meta-badge type-badge">Discrete</span>

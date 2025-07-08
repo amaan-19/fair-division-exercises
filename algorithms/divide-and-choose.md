@@ -37,7 +37,7 @@ permalink: /algorithms/divide-and-choose/
       <iframe 
         src="{{ '/assets/flowcharts/divide-and-choose-procedure.html' | relative_url }}" 
         width="100%" 
-        height="915" 
+        height="680" 
         frameborder="0"
         style="border: 1px solid #e2e8f0; border-radius: 8px;">
         <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/divide-and-choose-procedure.html' | relative_url }}">View the flowchart directly</a>.</p>
@@ -49,7 +49,7 @@ permalink: /algorithms/divide-and-choose/
 
   <section class="content-block">
     <h2>Fairness Properties</h2>
-    <p>The divide-and-choose algorithm satisfies three fundamental fairness properties:</p>
+    <p>The Divide-and-Choose algorithm satisfies three fundamental fairness properties:</p>
 
     <h3>Proportionality</h3>
     <p>Both players receive at least 50% of their subjective valuation of the resource.</p>

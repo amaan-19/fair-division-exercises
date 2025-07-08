@@ -92,18 +92,9 @@ permalink: /algorithms/banach-knaster-last-diminisher/
     </div>
   </section>
 
-  <!-- Limitations -->
-  <section class="content-block">
-    <h2>Limitations</h2>
-    <ul>
-      <li>May not be Pareto-efficient</li>
-      <li>Assumes the good can be freely cut and recombined, which may not hold for discrete items or goods with indivisible components</li>
-      <li>The sequential nature means the procedure takes n rounds, and later participants may have advantages in terms of information about others' preferences</li>
-    </ul>
-  </section>
-
   <!-- Navigation -->
   <footer class="algorithm-navigation">
-    <a href="{{ '/algorithms/selfridge-conway/' | relative_url }}" class="nav-button secondary">← Back to Selfridge-Conway</a>
+    <a href="{{ '/algorithms/stromquist/' | relative_url }}" class="nav-button secondary">← Back to Stromquist</a>
+    <a href="{{ '/algorithms/brams-taylor/' | relative_url }}" class="nav-button primary"> Next: Brams-Taylor →</a>
   </footer>
 </div>

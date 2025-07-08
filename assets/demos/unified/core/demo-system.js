@@ -543,6 +543,7 @@ class UIController {
                 displayElement.textContent = `Left: ${leftValue.toFixed(1)} | Right: ${rightValue.toFixed(1)}`;
             }
         });
+        return playerValues;
     }
 
     // ===== ADDITIONAL UI METHODS =====

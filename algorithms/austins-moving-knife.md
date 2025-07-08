@@ -94,10 +94,42 @@ permalink: /algorithms/austins-moving-knife/
   </section>
 
   <!-- Complexity Analysis -->
-  <section class="content-block">
-    <h2>Computational Complexity</h2>
-    <a href="/analysis/" target="_blank" class="algorithm-link">Compare with other procedures →</a>
-  </section>
+<section class="content-block">
+  <h2>Computational Complexity</h2>
+  <p>Austin's moving knife procedure presents a fundamental challenge in the Robertson-Webb query model due to its continuous nature:</p>
+
+  <h3>Theoretical Query Complexity: O(∞)</h3>
+  <p>Unlike discrete algorithms, Austin's procedure requires <strong>unbounded query complexity</strong> because:</p>
+  <ol>
+    <li><strong>Phase 1:</strong> Continuous evaluation as the knife moves - players must assess "Is the left piece exactly 50%?" at every infinitesimal position</li>
+    <li><strong>Phase 2:</strong> Dual knife coordination requiring continuous monitoring of piece values while maintaining geometric constraints</li>
+    <li><strong>Exactness Requirement:</strong> Achieving perfect 50-50 division fundamentally requires infinite precision</li>
+  </ol>
+
+  <a href="/analysis/" target="_blank" class="algorithm-link">Compare with other algorithms →</a>
+
+  <h3>ε-Approximate Implementation: O(log(1/ε))</h3>
+  <p>For any approximation parameter ε > 0, we can achieve an <strong>ε-exact division</strong> where each player receives a piece valued between $(50-ε)$ and $(50+ε)$ percent of their total valuation.</p>
+
+  <div class="definition-box" style="background: #f0f9ff; padding: 1rem; border-left: 4px solid #3182ce; margin: 1rem 0;">
+    <h4>Definition: ε-Exact Division</h4>
+    <p>A division is <strong>ε-exact</strong> if for each player $i$:</p>
+    $$|v_i(\text{piece}_i) - 50| \leq ε$$
+    <p>where $v_i(\text{piece}_i)$ is player $i$'s valuation of their allocated piece as a percentage of their total valuation.</p>
+  </div>
+
+  <p><strong>Query Complexity Result:</strong> Any ε-exact division for 2 players can be computed using <strong>O(log(1/ε))</strong> Robertson-Webb queries.</p>
+
+  <div class="proof-sketch">
+    <p><strong>Intuition for the O(log(1/ε)) Bound:</strong></p>
+    <p>Binary search can locate a cut position within ε-precision of the exact 50% point. Each query halves the search interval, so achieving precision ε requires approximately $\log_2(1/ε)$ queries.</p>
+
+    <p><strong>Mathematical Example:</strong> To guarantee each player receives between 49.9% and 50.1% (ε = 0.1), we need $\log_2(10) ≈ 3.3$ queries, so at most 4 Robertson-Webb queries suffice.</p>
+    
+    <p><strong>The Exactness Barrier:</strong> True exactness (ε = 0) requires $\log(1/0) = ∞$ queries, which is why Austin's theoretical guarantee of perfect 50-50 division cannot be achieved with finite Robertson-Webb queries.</p>
+  </div>
+  
+</section>
 
   <!-- Navigation -->
   <footer class="algorithm-navigation">

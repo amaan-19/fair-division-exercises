@@ -40,7 +40,7 @@ permalink: /theory/robertson-webb-query-model/
 <div class="content-block">
   <h2>Applications to Fair Division</h2>
 
-<h3>Query Complexity Analysis</h3>
+  <h3>Query Complexity Analysis</h3>
   <p>Different algorithms require different numbers of queries:</p>
 
   <ul>
@@ -49,9 +49,15 @@ permalink: /theory/robertson-webb-query-model/
     <li><strong>Steinhaus Lone-Divider:</strong> 2 cut queries + multiple eval queries</li>
   </ul>
 
-<h3>Lower Bounds</h3>
+  <h3>Lower Bounds</h3>
   <p>The model helps establish theoretical limits on algorithm efficiency. For example, any proportional division algorithm for $n$ players requires at least $n-1$ queries.</p>
+
+  <div class="proof-sketch">
+    <p>We use an adversarial argument with a communication complexity reduction. Consider the following problem: given $n-1$ bits, $b_1, b_2, ..., b_{n-1}$, compute their OR. We can reduce this to a proportional division problem as follows:</p>
+    <li></li>
+  </div>
 </div>
+
 
 <div class="content-block">
   <h2>Significance</h2>

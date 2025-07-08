@@ -25,7 +25,6 @@ permalink: /theory/
     <p>Understand computational complexity and query bounds</p>
     <div class="question-links">
       <a href="{{ '/theory/robertson-webb-query-model/' | relative_url }}">Robertson-Webb Model</a>
-      <a href="/theory/complexity/">Extended Complexity Analysis</a>
     </div>
   </div>
 
@@ -35,6 +34,14 @@ permalink: /theory/
     <div class="question-links coming-soon">
       <a href="/theory/impossibility/">Impossibility Result</a>
       <a href="/theory/tradeoffs/">Property Trade-offs</a>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <h3>Where is fair division theory heading?</h3>
+    <p>Explore current developments and emerging challenges</p>
+    <div class="question-links coming-soon">
+      <a href="/theory/impossibility/">Coming Soon!</a>
     </div>
   </div>
 </div>

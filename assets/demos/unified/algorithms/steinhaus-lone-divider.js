@@ -454,7 +454,8 @@ const STEINHAUS_STEPS = [
             api.enableElement('cut-slider-2');
 
             // Initial piece value calculation
-            SteinhausLoneDividerAlgorithm.updatePieceDisplays(state, api);
+            api.updatePlayerValueDisplays();
+            api.setAlgorithmData('pieceValues', values);
         },
 
         onStepExit: (state, api) => {

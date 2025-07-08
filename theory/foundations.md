@@ -26,7 +26,7 @@ permalink: /foundations/
     <ul>
       <li><strong>Resource Space:</strong> $X = [0,1]$ (the "cake")</li>
       <li><strong>Players:</strong> $N = \{1, 2, \ldots, n\}$</li>
-      <li><strong>Valuation Functions:</strong> $v_i: 2^X \rightarrow \mathbb{R}_{\geq 0}$ for each player $i \in N$</li>
+      <li><strong>Valuation Functions:</strong> $v_i: 2^X \rightarrow \mathbb{R}^+$ for each player $i \in N$</li>
       <li><strong>Allocation:</strong> A partition $(A_1, A_2, \ldots, A_n)$ where $A_i \subseteq X$, $A_i \cap A_j = \emptyset$ for $i \neq j$, and $\bigcup_{i=1}^n A_i = X$</li>
     </ul>
   </div>
@@ -124,40 +124,6 @@ permalink: /foundations/
       <p><strong>Construction:</strong> Create a continuous "improvement" map that takes any allocation and moves it toward better fairness properties.</p>
       <p><strong>Fixed Point:</strong> A fixed point of this map corresponds to an allocation that cannot be improved - i.e., a fair allocation.</p>
       <p><strong>Limitation:</strong> These proofs are non-constructive and don't provide algorithmic procedures.</p>
-    </div>
-  </div>
-</div>
-<div class="content-block">
-  <h2>Computational Complexity Framework</h2>
-  <h3>The Robertson-Webb Query Model</h3>
-  <p>Computational complexity in fair division requires specialized models that account for the continuous nature of preferences:</p>
-  <div class="definition-box">
-    <h4>Definition: Query Types</h4>
-    <ul>
-      <li><strong>Cut Query $\text{Cut}_i(x, \alpha)$:</strong> "Player $i$, make a cut such that the piece $[0,x]$ has value exactly $\alpha$ according to your valuation."</li>
-      <li><strong>Eval Query $\text{Eval}_i(A)$:</strong> "Player $i$, what is the value of piece $A$ according to your valuation?"</li>
-    </ul>
-  </div>
-  <h3>Complexity Lower Bounds</h3>
-  <div class="theorem-box">
-    <h4>Theorem (Two-Player Proportional Lower Bound)</h4>
-    <p><strong>Statement:</strong> Any algorithm that guarantees proportional division for 2 players requires at least 2 queries in the Robertson-Webb model.</p>
-    <div class="proof-sketch">
-      <p><strong>Proof Strategy:</strong> Adversarial argument showing that with fewer than 2 queries, an adversary can construct valuations that force non-proportional outcomes.</p>
-      <p><strong>Optimality:</strong> Divide-and-Choose achieves this lower bound with exactly 2 queries (1 Cut + 1 Eval), proving its optimality.</p>
-    </div>
-  </div>
-  <h3>Information-Theoretic Limits</h3>
-  <p>Some results establish fundamental limits on what's achievable with finite information:</p>
-  <div class="concept-box">
-    <h4>Approximation vs. Exactness Trade-offs</h4>
-    <p>There's a fundamental tension between algorithmic efficiency and precision of fairness guarantees:</p>
-    <div class="proof-sketch">
-      <ul>
-        <li><strong>Exact Fairness:</strong> Often requires continuous procedures (infinite query complexity)</li>
-        <li><strong>$\epsilon$-Approximate Fairness:</strong> Can be achieved with finite queries, but complexity grows as $\epsilon \to 0$</li>
-        <li><strong>Discrete Approximation:</strong> Any finite algorithm can only approximate continuous fairness properties</li>
-      </ul>
     </div>
   </div>
 </div>
