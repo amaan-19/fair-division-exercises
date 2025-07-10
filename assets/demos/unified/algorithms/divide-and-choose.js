@@ -1,18 +1,31 @@
 ﻿/**
- * Divide-and-Choose Plug-in
+ * Divide-and-Choose Demo
  */
 
-// ===== ALGORITHM LOGIC =====
+/**
+ * Defines the demo plug-in and additional methods
+ * @class
+ */
 class DivideAndChooseAlgorithm {
+    /**
+     * Represents the Divide-and-Choose Plug-in object
+     * @constructor
+     */
     constructor() {
         this.currentStep = 1;
         this.selectedPiece = null;
         this.cutMade = false;
-        this.gameComplete = false;
     }
 
-    // Validation logic
+    /**
+     * Validates the cut operation
+     *
+     * @param state - StateManager state
+     * @param api - FairDivisionDemoSystem api
+     * @returns {boolean} - True, if cut is valid; False, if cut is invalid
+     */
     static validateCut(state, api) {
+        // validate player totals
         const validation = api.validatePlayerTotals(state.playerValues);
 
         if (!validation.player1.valid || !validation.player2.valid) {
@@ -360,6 +373,7 @@ const divideAndChooseConfig = {
         api.resetSlider('cut-slider');
         api.hideElement('cut-line');
         api.showElement('make-cut-btn');
+        api.updateCutPositionDisplay(0);
     }
 };
 

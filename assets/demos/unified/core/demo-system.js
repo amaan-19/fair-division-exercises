@@ -234,8 +234,33 @@ class StateManager {
     }
 }
 
-// ===== CALCULATION UTILITIES =====
+/**
+ * Defines the CalculationEngine
+ * @class
+ */
 class CalculationEngine {
+    /**
+     * Validates player totals (valuations add up to the correct amount)
+     * @param playerValues - player valuations for each color region
+     * @returns {{}} - object with validation results for each player
+     */
+    static validatePlayerTotals(playerValues) {
+        const results = {};
+
+        Object.entries(playerValues).forEach(([player, values]) => {
+            const total = DEMO_CONFIG.COLORS.reduce((sum, color) => sum + (values[color] || 0), 0);
+            const isValid = Math.abs(total - DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL) <= DEMO_CONFIG.VALIDATION.TOLERANCE;
+
+            results[player] = {
+                total,
+                valid: isValid,
+                expected: DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL
+            };
+        });
+
+        return results;
+    }
+
     static calculateRegionValues(cutPosition) {
         const leftValues = {};
         const rightValues = {};
@@ -304,22 +329,6 @@ class CalculationEngine {
         }, 0);
     }
 
-    static validatePlayerTotals(playerValues) {
-        const results = {};
-
-        Object.entries(playerValues).forEach(([player, values]) => {
-            const total = DEMO_CONFIG.COLORS.reduce((sum, color) => sum + (values[color] || 0), 0);
-            const isValid = Math.abs(total - DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL) <= DEMO_CONFIG.VALIDATION.TOLERANCE;
-
-            results[player] = {
-                total,
-                valid: isValid,
-                expected: DEMO_CONFIG.VALIDATION.REQUIRED_TOTAL
-            };
-        });
-
-        return results;
-    }
 }
 
 // ===== UI CONTROLLER =====

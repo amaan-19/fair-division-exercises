@@ -333,6 +333,8 @@ class FairDivisionDemoSystem {
             updateKnifePositions: (leftPos, rightPos) => this.uiController.updateKnifePositions(leftPos, rightPos),
             showDualKnives: () => this.uiController.showDualKnives(),
             hideDualKnives: () => this.uiController.hideDualKnives(),
+            updateCutPositionDisplay: (position) => this.uiController.updateCutPositionDisplay(position),
+            updatePlayerValueDisplays: () => this.uiController.updatePlayerValueDisplays(),
 
             // Stop button controls
             addStopButtons: () => this.uiController.addStopButtons(),
