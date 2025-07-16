@@ -32,8 +32,8 @@ permalink: /theory/
     <h3>What's impossible in fair division?</h3>
     <p>Learn about fundamental limitations and trade-offs</p>
     <div class="question-links coming-soon">
-      <a href="/theory/impossibility/">Impossibility Result</a>
-      <a href="/theory/tradeoffs/">Property Trade-offs</a>
+      <a href="{{ '/theory/impossibility/' | relative_url }}">Finite-Protocol-Impossibility</a>
+      <a href="{{ '/theory/tradeoffs/' | relative_url }}">Property Trade-offs</a>
     </div>
   </div>
 

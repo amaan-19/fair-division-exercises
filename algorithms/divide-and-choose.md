@@ -96,7 +96,7 @@ permalink: /algorithms/divide-and-choose/
       <li><strong>Eval Query:</strong> Player 2 evaluates and selects their preferred piece</li>
     </ol>
     <p>This 2-query bound is provably optimal - any algorithm guaranteeing proportional division for 2 players must use at least 2 queries.</p>
-    <a href="/analysis/" target="_blank" class="algorithm-link">Compare with other procedures →</a>
+    <a href="/analysis" target="_blank" class="algorithm-link">Compare with other procedures →</a>
   </section>
 
   <!-- Navigation -->
