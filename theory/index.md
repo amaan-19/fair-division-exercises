@@ -24,7 +24,7 @@ permalink: /theory/
     <h3>How efficient can fair division algorithms be?</h3>
     <p>Understand computational complexity and query bounds</p>
     <div class="question-links">
-      <a href="{{ '/theory/robertson-webb-query-model/' | relative_url }}">Robertson-Webb Model</a>
+      <a href="{{ '/robertson-webb-query-model/' | relative_url }}">Robertson-Webb Model</a>
     </div>
   </div>
 
@@ -32,8 +32,8 @@ permalink: /theory/
     <h3>What's impossible in fair division?</h3>
     <p>Learn about fundamental limitations and trade-offs</p>
     <div class="question-links coming-soon">
-      <a href="{{ '/theory/impossibility/' | relative_url }}">Finite-Protocol-Impossibility</a>
-      <a href="{{ '/theory/tradeoffs/' | relative_url }}">Property Trade-offs</a>
+      <a href="{{ '/impossibility/' | relative_url }}">Finite Protocol Impossibility</a>
+      <a href="{{ '/tradeoffs/' | relative_url }}">Property Trade-offs</a>
     </div>
   </div>
 

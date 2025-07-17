@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Property Trade-offs
-permalink: /theory/tradeoffs/
+permalink: /tradeoffs/
 ---
 
 <div class="page-header">
@@ -129,80 +129,6 @@ permalink: /theory/tradeoffs/
 </div>
 
 <div class="content-block">
-  <h2>Trade-off Navigation Strategies</h2>
-
-<h3>Lexicographic Optimization</h3>
-  <p>Prioritize properties in order: first achieve property A, then optimize property B subject to maintaining A.</p>
-  <div class="example-box">
-    <p><strong>Example:</strong> First ensure proportionality for all players, then maximize total welfare subject to that constraint.</p>
-  </div>
-
-<h3>Weighted Combinations</h3>
-  <p>Create objective functions that balance multiple properties: $\alpha \cdot \text{Fairness} + \beta \cdot \text{Efficiency}$</p>
-  <div class="example-box">
-    <p><strong>Challenge:</strong> How do you choose weights $\alpha$ and $\beta$? Different stakeholders may have different preferences.</p>
-  </div>
-
-<h3>Approximation with Guarantees</h3>
-  <p>Accept approximate versions of properties while maintaining worst-case bounds.</p>
-  <div class="example-box">
-    <p><strong>Example:</strong> ε-envy-free algorithms that guarantee no player envies others by more than ε, with efficient computation.</p>
-  </div>
-
-<h3>Context-Dependent Selection</h3>
-  <p>Choose different algorithms for different applications based on which trade-offs are acceptable.</p>
-  <div class="example-box">
-    <p><strong>High-stakes allocation:</strong> Prioritize fairness over efficiency</p>
-    <p><strong>Repeated interactions:</strong> Prioritize simplicity and strategy-proofness</p>
-    <p><strong>Time-critical decisions:</strong> Prioritize computational efficiency</p>
-  </div>
-</div>
-
-<div class="content-block">
-  <h2>Real-World Implications</h2>
-
-<h3>Algorithm Selection Guide</h3>
-  <div class="selection-grid">
-    <div class="selection-item">
-      <h4>When Efficiency Matters Most</h4>
-      <p><strong>Use:</strong> Market-based mechanisms, auctions</p>
-      <p><strong>Accept:</strong> Potential unfairness to some participants</p>
-      <p><strong>Examples:</strong> Financial markets, resource allocation in companies</p>
-    </div>
-
-    <div class="selection-item">
-      <h4>When Fairness is Paramount</h4>
-      <p><strong>Use:</strong> Envy-free procedures, proportional methods</p>
-      <p><strong>Accept:</strong> Lower total welfare, higher complexity</p>
-      <p><strong>Examples:</strong> Divorce settlements, inheritance disputes</p>
-    </div>
-
-    <div class="selection-item">
-      <h4>When Simplicity is Key</h4>
-      <p><strong>Use:</strong> Divide-and-choose, round-robin selection</p>
-      <p><strong>Accept:</strong> Weaker fairness guarantees</p>
-      <p><strong>Examples:</strong> Classroom activities, informal group decisions</p>
-    </div>
-
-    <div class="selection-item">
-      <h4>When Strategy-Proofness is Critical</h4>
-      <p><strong>Use:</strong> Randomized mechanisms, restricted procedures</p>
-      <p><strong>Accept:</strong> Suboptimal outcomes, complexity</p>
-      <p><strong>Examples:</strong> Public resource allocation, competitive environments</p>
-    </div>
-  </div>
-
-<h3>Communication Strategy</h3>
-  <p>When implementing fair division systems, it's crucial to:</p>
-  <ul>
-    <li><strong>Be Transparent:</strong> Explain which trade-offs your algorithm makes and why</li>
-    <li><strong>Set Expectations:</strong> Help stakeholders understand what fairness properties are and aren't guaranteed</li>
-    <li><strong>Provide Options:</strong> When possible, offer multiple algorithms with different trade-offs</li>
-    <li><strong>Monitor Outcomes:</strong> Track whether your chosen trade-offs work well in practice</li>
-  </ul>
-</div>
-
-<div class="content-block">
   <h2>Exploring Trade-offs in Practice</h2>
   <p>Use our algorithm simulator to see these trade-offs in action:</p>
 
@@ -228,6 +154,6 @@ permalink: /theory/tradeoffs/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/theory/impossibility/' | relative_url }}" class="nav-button secondary">← Finite Protocol Impossibility</a>
+  <a href="{{ '/impossibility/' | relative_url }}" class="nav-button secondary">← Impossibility</a>
   <a href="{{ '/theory/' | relative_url }}" class="nav-button primary">Back to Theory →</a>
 </footer>

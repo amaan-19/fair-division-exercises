@@ -172,7 +172,7 @@ permalink: /fairness-properties/
 </div>
 
 <div class="content-block">
-  <h2>Property Relationships & Implications</h2>
+  <h2>Property Relationships</h2>
   <h3>Hierarchy of Fairness</h3>
   <p>Understanding how these properties relate helps in algorithm design and evaluation:</p>
   <div class="relationship-diagram">
@@ -197,49 +197,6 @@ permalink: /fairness-properties/
       <p>Strategy-proofness is largely independent of outcome-based fairness properties.</p>
     </div>
   </div>
-
-  <h3>Impossibility Results</h3>
-  <p>Some combinations of properties cannot be simultaneously achieved:</p>
-  <ul>
-    <li><strong>Proportional + Pareto Efficient:</strong> Not always compatible with finite discrete algorithms</li>
-    <li><strong>Envy-Free + Pareto Efficient:</strong> Difficult to achieve simultaneously in general settings</li>
-    <li><strong>Strategy-Proof + Efficient:</strong> The Gibbard-Satterthwaite theorem suggests limitations</li>
-  </ul>
-</div>
-
-<div class="content-block">
-  <h2>Computational Considerations</h2>
-  <h3>Query Complexity by Property</h3>
-  <p>Different fairness properties require different amounts of information from players:</p>
-  <div class="complexity-analysis">
-
-    <div class="complexity-item">
-      <h4>Proportional Division</h4>
-      <p><strong>Lower Bound:</strong> n-1 queries for n players</p>
-      <p><strong>Optimal Algorithm:</strong> Divide-and-Choose (2 queries for 2 players)</p>
-    </div>
-
-    <div class="complexity-item">
-      <h4>Envy-Free Division</h4>
-      <p><strong>Lower Bound:</strong> n queries for n players</p>
-      <p><strong>Best Known:</strong> Selfridge-Conway for 3 players</p>
-    </div>
-
-    <div class="complexity-item">
-      <h4>Exact Division</h4>
-      <p><strong>Complexity:</strong> Requires continuous procedures (infinite queries)</p>
-      <p><strong>Practical Approximation:</strong> Discrete algorithms with high precision</p>
-    </div>
-
-  </div>
-  <h3>Algorithm Design Trade-offs</h3>
-  <p>Algorithm designers must balance multiple considerations:</p>
-  <ul>
-    <li><strong>Fairness vs. Efficiency:</strong> Stronger fairness often requires more queries</li>
-    <li><strong>Simplicity vs. Optimality:</strong> Simple algorithms may sacrifice some properties</li>
-    <li><strong>Discrete vs. Continuous:</strong> Practical implementation vs. theoretical elegance</li>
-    <li><strong>Robustness vs. Performance:</strong> Strategy-proofness may limit achievable outcomes</li>
-  </ul>
 </div>
 
 <div class="content-block">
@@ -268,6 +225,6 @@ permalink: /fairness-properties/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/theory/foundations/' | relative_url }}" class="nav-button secondary">← Back to Mathematical Foundations</a>
-  <a href="{{ '/theory/' | relative_url }}" class="nav-button primary">Back to Theory →</a>
+  <a href="{{ '/foundations/' | relative_url }}" class="nav-button secondary">← Back to Mathematical Foundations</a>
+  <a href="{{ '/robertson-webb-query-model/' | relative_url }}" class="nav-button primary">Robertson-Webb Model →</a>
 </footer>

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Robertson-Webb Query Model
-permalink: /theory/robertson-webb-query-model/
+permalink: /robertson-webb-query-model/
 ---
 
 <div class="page-header">
@@ -70,6 +70,6 @@ permalink: /theory/robertson-webb-query-model/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/' | relative_url }}" class="nav-button secondary">← Back to Home</a>
-  <a href="{{ '/exercises/' | relative_url }}" class="nav-button primary">Exercises →</a>
+  <a href="{{ '/fairness-properties/' | relative_url }}" class="nav-button secondary">← Back to Fairness Properties</a>
+  <a href="{{ '/impossibility/' | relative_url }}" class="nav-button primary">Impossibility →</a>
 </footer>

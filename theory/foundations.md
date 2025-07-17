@@ -213,5 +213,5 @@ permalink: /foundations/
 </div>
 <footer class="algorithm-navigation">
   <a href="{{ '/theory/' | relative_url }}" class="nav-button secondary">← Back to Theory</a>
-  <a href="{{ '/theory/fairness-properties/' | relative_url }}" class="nav-button primary">Fairness Properties Framework →</a>
+  <a href="{{ '/fairness-properties/' | relative_url }}" class="nav-button primary">Fairness Properties Framework →</a>
 </footer>

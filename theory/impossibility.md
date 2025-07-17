@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Finite Protocol Impossibility
-permalink: /theory/impossibility/
+permalink: /impossibility/
 ---
 
 <div class="page-header">
@@ -133,18 +133,7 @@ permalink: /theory/impossibility/
   <p>These results collectively show that perfect solutions are often impossible in strategic and computational settings, leading to a rich theory of approximation and mechanism design.</p>
 </div>
 
-<div class="content-block">
-  <h2>Open Questions</h2>
-  <p>Stromquist's result opens several avenues for future research:</p>
-  <ul>
-    <li><strong>Bounded Protocols:</strong> What if we allow a large but fixed number of queries? Are there interesting positive results?</li>
-    <li><strong>Randomized Algorithms:</strong> Can randomization help circumvent this impossibility?</li>
-    <li><strong>Multi-dimensional Extensions:</strong> How do these impossibilities extend to multiple goods or complex preference structures?</li>
-    <li><strong>Average-Case Analysis:</strong> While worst-case instances are impossible, what about typical cases?</li>
-  </ul>
-</div>
-
 <footer class="algorithm-navigation">
-  <a href="{{ '/theory/robertson-webb-query-model/' | relative_url }}" class="nav-button secondary">← Robertson-Webb Model</a>
-  <a href="{{ '/theory/tradeoffs/' | relative_url }}" class="nav-button primary">Property Trade-offs →</a>
+  <a href="{{ '/robertson-webb-query-model/' | relative_url }}" class="nav-button secondary">← Robertson-Webb Model</a>
+  <a href="{{ '/tradeoffs/' | relative_url }}" class="nav-button primary">Property Trade-offs →</a>
 </footer>
