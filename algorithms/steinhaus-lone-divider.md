@@ -27,15 +27,17 @@ permalink: /algorithms/steinhaus-lone-divider/
   <!-- Flowchart -->
   <section class="content-block">
     <h2>Algorithm Flowchart</h2>
-    <div class="iframe-container">
-      <iframe 
-        src="{{ '/assets/flowcharts/steinhaus-lone-divider.html' | relative_url }}" 
-        width="100%" 
-        height="1085" 
-        frameborder="0"
-        style="border: 1px solid #e2e8f0; border-radius: 8px;">
-        <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/steinhaus-lone-divider.html' | relative_url }}">View the flowchart directly</a>.</p>
-      </iframe>
+    <div id="enhanced-steinhaus" data-enhanced-flowchart="steinhaus-lone-divider"></div>
+
+    <div class="animation-controls">
+      <button class="animation-btn primary" 
+        onclick="animateAlgorithm('enhanced-steinhaus', 1200)">
+        ▶️ Animate Steps
+      </button>
+      <button class="animation-btn secondary" 
+        onclick="resetAlgorithm('enhanced-steinhaus')">
+        🔄 Reset
+      </button>
     </div>
   </section>
 

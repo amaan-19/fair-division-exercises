@@ -3416,3 +3416,1261 @@ blockquote {
     }
 }
 
+/* ========================================
+   ENHANCED FLOWCHART SYSTEM - COMPLETE
+   ======================================== */
+
+/* Main Container - Matches your content-block styling */
+.algorithm-flowchart-enhanced {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+}
+
+.algorithm-flowchart-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section - Matches your page headers */
+.flowchart-header-enhanced {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+}
+
+.flowchart-title-enhanced {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.complexity-overview-enhanced {
+    display: inline-flex;
+    align-items: center;
+    background: #3182ce;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    transition: all 0.2s ease;
+    letter-spacing: -0.01em;
+}
+
+.complexity-overview-enhanced:hover {
+    background: #2c5282;
+}
+
+.complexity-icon {
+    width: 14px;
+    height: 14px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* Layout Container */
+.flowchart-content-enhanced {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.flowchart-steps-enhanced {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Floating Sidebar - Matches your site navigation styling */
+.complexity-sidebar-enhanced {
+    width: 240px;
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 120px;
+    margin-left: 2rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar-title-enhanced {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+}
+
+.query-metric-enhanced {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.query-metric-enhanced:hover {
+    transform: translateX(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.query-metric-enhanced.cut-metric {
+    border-left-color: #e53e3e;
+}
+
+.query-metric-enhanced.eval-metric {
+    border-left-color: #805ad5;
+}
+
+.metric-label-enhanced {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: #4a5568;
+    font-weight: 400;
+}
+
+.metric-value-enhanced {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    min-width: 2ch;
+    text-align: right;
+    transition: all 0.3s ease;
+}
+
+.total-complexity-enhanced {
+    border-top: 2px solid #e2e8f0;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.total-label-enhanced {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #1a202c;
+    font-size: 0.9rem;
+}
+
+.total-value-enhanced {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #e53e3e;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    display: inline-block;
+}
+
+.optimality-indicator-enhanced {
+    text-align: center;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+}
+
+.optimality-indicator-enhanced.optimal {
+    background: #f0fff4;
+    color: #276749;
+    border: 1px solid #9ae6b4;
+}
+
+.optimality-indicator-enhanced.suboptimal {
+    background: #fffbeb;
+    color: #744210;
+    border: 1px solid #fbd38d;
+}
+
+.optimality-indicator-enhanced.unknown {
+    background: #f7fafc;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+}
+
+/* Step Nodes - Matches your algorithm card styling */
+.flow-step-enhanced {
+    position: relative;
+    margin: 1.5rem auto;
+    max-width: 350px;
+    z-index: 1;
+    transition-property: opacity, transform, visibility;
+    transition-duration: 0.6s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-content-enhanced {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #4a5568;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-content-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e0;
+}
+
+/* Node Type Styles - Using your site's color palette */
+.flow-step-enhanced.step-start .step-content-enhanced {
+    background: #3182ce;
+    color: white;
+    border-color: #2c5282;
+    box-shadow: 0 4px 12px rgba(49, 130, 206, 0.25);
+}
+
+.flow-step-enhanced.step-query .step-content-enhanced {
+    background: #805ad5;
+    color: white;
+    border-color: #6b46c1;
+    box-shadow: 0 4px 12px rgba(128, 90, 213, 0.25);
+}
+
+.flow-step-enhanced.step-decision .step-content-enhanced {
+    background: #fffbeb;
+    border-color: #d69e2e;
+    color: #744210;
+    border-radius: 20px;
+    position: relative;
+    border-width: 2px;
+}
+
+.flow-step-enhanced.step-decision .step-content-enhanced::before {
+    content: '?';
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    background: #d69e2e;
+    color: white;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(214, 158, 46, 0.3);
+}
+
+.flow-step-enhanced.step-action .step-content-enhanced {
+    background: #ebf8ff;
+    border-color: #3182ce;
+    color: #2c5282;
+}
+
+.flow-step-enhanced.step-end .step-content-enhanced {
+    background: #38a169;
+    color: white;
+    border-color: #2f855a;
+    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.25);
+}
+
+/* Step text styling */
+.step-text strong {
+    font-weight: 600;
+    color: inherit;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Query Badges - Matches your meta badge styling */
+.query-badge-enhanced {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    border: 3px solid white;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.query-badge-enhanced.cut {
+    background: #e53e3e;
+    color: white;
+}
+
+.query-badge-enhanced.eval {
+    background: #805ad5;
+    color: white;
+}
+
+.query-badge-enhanced.mixed {
+    background: linear-gradient(45deg, #e53e3e 50%, #805ad5 50%);
+    color: white;
+}
+
+.query-badge-enhanced:hover {
+    transform: scale(1.1);
+}
+
+/* Tooltips - Matches your site's tooltip styling */
+.query-tooltip-enhanced {
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 20;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.query-tooltip-enhanced::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #2d3748;
+}
+
+.flow-step-enhanced.step-query:hover .query-tooltip-enhanced {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* Connectors - More subtle to match site aesthetic */
+.flow-connector-enhanced {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    position: relative;
+    margin: 0;
+}
+
+.connector-line-enhanced {
+    width: 2px;
+    height: 100%;
+    background: #cbd5e0;
+    position: relative;
+    border-radius: 1px;
+}
+
+.connector-arrow-enhanced {
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #cbd5e0;
+}
+
+/* ===== BRANCHING SYSTEM FOR DECISION POINTS ===== */
+
+.flow-branches-enhanced {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin: 2rem 0;
+    position: relative;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    transition: opacity 0.6s ease;
+}
+
+.branch-connector-enhanced {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 60%;
+    transform: translateX(-50%);
+    height: 2px;
+    background: #cbd5e0;
+    border-radius: 1px;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+.branch-connector-enhanced::before,
+.branch-connector-enhanced::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    width: 2px;
+    height: 40px;
+    background: #cbd5e0;
+    border-radius: 1px;
+    transition: all 0.4s ease;
+}
+
+.branch-connector-enhanced::before {
+    left: 0;
+}
+
+.branch-connector-enhanced::after {
+    right: 0;
+}
+
+.flow-branch-enhanced {
+    flex: 1;
+    max-width: 280px;
+    position: relative;
+    margin-top: 30px;
+    transition: all 0.6s ease;
+}
+
+.branch-label-enhanced {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    background: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 2px solid #e2e8f0;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.branch-label-enhanced.branch-yes {
+    border-color: #38a169;
+    color: #276749;
+    background: #f0fff4;
+}
+
+.branch-label-enhanced.branch-no {
+    border-color: #e53e3e;
+    color: #c53030;
+    background: #fff5f5;
+}
+
+.branch-label-enhanced small {
+    font-size: 0.6rem;
+    font-weight: 400;
+    opacity: 0.8;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.branch-steps-enhanced {
+    position: relative;
+}
+
+.flow-branch-enhanced:hover .branch-label-enhanced {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.flow-branch-enhanced .step-content-enhanced {
+    font-size: 0.85rem;
+    padding: 1.25rem;
+    min-height: 70px;
+}
+
+/* ===== PROGRESSIVE COUNTER ANIMATIONS ===== */
+
+@keyframes numberUpdate {
+    0% {
+        transform: scale(1);
+        color: inherit;
+    }
+    50% {
+        transform: scale(1.2);
+        color: #3182ce;
+        font-weight: 700;
+    }
+    100% {
+        transform: scale(1);
+        color: inherit;
+    }
+}
+
+@keyframes metricHighlight {
+    0% {
+        background-color: white;
+        transform: scale(1);
+    }
+    30% {
+        background-color: #ebf8ff;
+        transform: scale(1.02);
+        border-left-color: #3182ce;
+    }
+    100% {
+        background-color: white;
+        transform: scale(1);
+    }
+}
+
+@keyframes sidebarStateChange {
+    0% {
+        background-color: inherit;
+        border-color: inherit;
+    }
+    50% {
+        transform: scale(1.01);
+    }
+    100% {
+        background-color: inherit;
+        border-color: inherit;
+        transform: scale(1);
+    }
+}
+
+@keyframes stepAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+        visibility: visible;
+    }
+    60% {
+        opacity: 0.8;
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        visibility: visible;
+    }
+}
+
+@keyframes badgeReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(180deg);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.2) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes indicatorAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes queryPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 4px 16px rgba(229, 62, 62, 0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+}
+
+@keyframes metricPulse {
+    0% {
+        transform: scale(1);
+        background-color: white;
+    }
+    50% {
+        transform: scale(1.05);
+        background-color: #ebf8ff;
+    }
+    100% {
+        transform: scale(1);
+        background-color: white;
+    }
+}
+
+/* ===== SIDEBAR STATE STYLING ===== */
+
+.complexity-sidebar-enhanced.empty-state {
+    background: #f8fafc !important;
+    border-color: #cbd5e0 !important;
+}
+
+.complexity-sidebar-enhanced.ready-state {
+    background: #f0f9ff !important;
+    border-color: #3182ce !important;
+    animation: sidebarStateChange 0.8s ease-out;
+}
+
+.complexity-sidebar-enhanced.animating-state {
+    background: #fffbeb !important;
+    border-color: #f59e0b !important;
+}
+
+.complexity-sidebar-enhanced.complete-state {
+    background: #f0fff4 !important;
+    border-color: #38a169 !important;
+    animation: sidebarStateChange 0.8s ease-out;
+}
+
+/* ===== ENHANCED QUERY METRICS ===== */
+
+.query-metric-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(49, 130, 206, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.query-metric-enhanced.updating::before {
+    left: 100%;
+}
+
+.total-value-enhanced::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #3182ce;
+    transition: width 0.6s ease;
+}
+
+.total-value-enhanced.updating::after {
+    width: 100%;
+}
+
+.metric-value-enhanced.counting-up,
+.total-value-enhanced.counting-up {
+    color: #3182ce;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(49, 130, 206, 0.3);
+}
+
+/* ===== ANIMATION CLASSES ===== */
+
+.animate-query {
+    animation: queryPulse 0.8s ease-in-out;
+}
+
+.animate-metric {
+    animation: metricPulse 0.8s ease-in-out;
+}
+
+.animate-step {
+    animation: stepFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.flow-step-enhanced.appearing {
+    animation: stepAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.query-badge-enhanced.revealing {
+    animation: badgeReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.completion-indicator,
+.ready-indicator {
+    animation: indicatorAppear 0.6s ease-out forwards;
+}
+
+/* ===== ANIMATION BUTTON STYLES ===== */
+
+.animation-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.animation-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.625rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.animation-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.animation-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.animation-btn.primary {
+    background: #3182ce;
+    color: white;
+}
+
+.animation-btn.primary:hover:not(:disabled) {
+    background: #2c5282;
+}
+
+.animation-btn.secondary {
+    background: #4a5568;
+    color: white;
+}
+
+.animation-btn.secondary:hover:not(:disabled) {
+    background: #2d3748;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 1024px) {
+    .flowchart-content-enhanced {
+        flex-direction: column;
+    }
+
+    .complexity-sidebar-enhanced {
+        position: static;
+        width: 100%;
+        margin: 1.5rem 0 0 0;
+        order: -1;
+    }
+
+    .algorithm-flowchart-enhanced {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .algorithm-flowchart-enhanced {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .flowchart-title-enhanced {
+        font-size: 1.75rem;
+    }
+
+    .step-content-enhanced {
+        font-size: 0.875rem;
+        padding: 1.25rem;
+        min-height: 70px;
+    }
+
+    .query-badge-enhanced {
+        top: -12px;
+        right: -12px;
+        min-width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+
+    .flow-step-enhanced {
+        max-width: 100%;
+        margin: 1rem auto;
+    }
+
+    .complexity-sidebar-enhanced {
+        padding: 1.25rem;
+    }
+
+    .flow-branches-enhanced {
+        flex-direction: column;
+        gap: 2rem;
+        padding-top: 0;
+    }
+
+    .branch-connector-enhanced {
+        display: none;
+    }
+
+    .flow-branch-enhanced {
+        max-width: 100%;
+        margin-top: 0;
+    }
+
+    .branch-label-enhanced {
+        font-size: 0.8rem;
+    }
+
+    .flow-branch-enhanced .step-content-enhanced {
+        font-size: 0.8rem;
+        padding: 1rem;
+    }
+
+    .animation-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .animation-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-content-enhanced {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+
+    .flowchart-title-enhanced {
+        font-size: 1.5rem;
+    }
+
+    .complexity-overview-enhanced {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .query-metric-enhanced {
+        margin: 0.5rem 0;
+        padding: 0.6rem;
+    }
+
+    .total-complexity-enhanced {
+        padding: 0.8rem;
+    }
+
+    .ready-indicator,
+    .completion-indicator {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+        margin-top: 0.75rem;
+    }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+
+.flow-step-enhanced:focus-within {
+    outline: 2px solid #3182ce;
+    outline-offset: 2px;
+}
+
+.animation-btn:focus {
+    outline: 2px solid #3182ce;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.query-badge-enhanced:focus {
+    outline: 2px solid #3182ce;
+    outline-offset: 2px;
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+    .algorithm-flowchart-enhanced {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+    }
+
+    .complexity-sidebar-enhanced {
+        position: static;
+        width: 100%;
+        margin: 1rem 0;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .animation-controls {
+        display: none;
+    }
+
+    .query-badge-enhanced {
+        background: #ccc !important;
+        color: black !important;
+    }
+
+    .flow-step-enhanced .step-content-enhanced {
+        background: white !important;
+        color: black !important;
+        border: 1px solid #ccc !important;
+    }
+}
+
+/* ===== GROWING CONTAINER ANIMATIONS ===== */
+
+/* Enhanced container with growth animation */
+.algorithm-flowchart-enhanced {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden; /* Changed from visible to hidden for growth effect */
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 200px; /* Start with minimal height */
+    transform-origin: top center; /* Scale from top */
+}
+
+.algorithm-flowchart-enhanced:hover {
+    transform: translateY(-2px) scale(1.005); /* Slightly enhanced hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Growing animation state */
+.algorithm-flowchart-enhanced.growing-animation {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12); /* Enhanced shadow during growth */
+}
+
+/* Steps container with constrained height during animation */
+.flowchart-steps-enhanced {
+    flex: 1;
+    min-width: 0;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden; /* Hide content that exceeds max-height */
+    min-height: 0; /* Allow shrinking */
+}
+
+/* Content reveal animations */
+.flowchart-content-enhanced {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    transition: opacity 0.4s ease;
+}
+
+/* Enhanced step animations with container awareness */
+.flow-step-enhanced {
+    position: relative;
+    margin: 1.5rem auto;
+    max-width: 350px;
+    z-index: 1;
+    transition-property: opacity, transform, visibility;
+    transition-duration: 0.8s; /* Slightly longer for smoother growth sync */
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container size states */
+.algorithm-flowchart-enhanced.size-small {
+    min-height: 200px;
+    transform: scale(0.95);
+}
+
+.algorithm-flowchart-enhanced.size-growing {
+    min-height: 400px;
+    transform: scale(1);
+}
+
+.algorithm-flowchart-enhanced.size-large {
+    min-height: 600px;
+    transform: scale(1);
+}
+
+.algorithm-flowchart-enhanced.size-complete {
+    min-height: auto;
+    transform: scale(1);
+    overflow: visible;
+}
+
+/* Sidebar responsiveness during growth */
+.complexity-sidebar-enhanced {
+    width: 240px;
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 120px;
+    margin-left: 2rem;
+    flex-shrink: 0;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Ensure sidebar doesn't get cut off during growth */
+    align-self: flex-start;
+}
+
+/* Enhanced branch container growth */
+.flow-branches-enhanced {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin: 2rem 0;
+    position: relative;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.flow-branches-enhanced.revealing {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Container growth pulse effects */
+@keyframes containerGrowPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    50% {
+        transform: scale(1.01);
+        box-shadow: 0 8px 20px rgba(49, 130, 206, 0.15);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+}
+
+@keyframes containerExpand {
+    0% {
+        min-height: 200px;
+        transform: scale(0.95);
+    }
+    100% {
+        min-height: var(--target-height, 400px);
+        transform: scale(1);
+    }
+}
+
+.algorithm-flowchart-enhanced.expanding {
+    animation: containerExpand 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.algorithm-flowchart-enhanced.pulse-grow {
+    animation: containerGrowPulse 0.6s ease-out;
+}
+
+/* Responsive growth behavior */
+@media (max-width: 1024px) {
+    .flowchart-content-enhanced {
+        flex-direction: column;
+    }
+
+    .complexity-sidebar-enhanced {
+        position: static;
+        width: 100%;
+        margin: 1.5rem 0 0 0;
+        order: -1;
+        /* Prevent sidebar from affecting container growth on mobile */
+        flex-shrink: 1;
+    }
+
+    .algorithm-flowchart-enhanced {
+        padding: 1.5rem;
+    }
+
+    /* Adjust growth calculations for mobile */
+    .algorithm-flowchart-enhanced.size-small {
+        min-height: 180px;
+    }
+
+    .algorithm-flowchart-enhanced.size-growing {
+        min-height: 350px;
+    }
+
+    .algorithm-flowchart-enhanced.size-large {
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .algorithm-flowchart-enhanced {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        min-height: 160px;
+    }
+
+    .algorithm-flowchart-enhanced.size-small {
+        min-height: 160px;
+        transform: scale(0.98);
+    }
+
+    .algorithm-flowchart-enhanced.size-growing {
+        min-height: 300px;
+    }
+
+    .algorithm-flowchart-enhanced.size-large {
+        min-height: 450px;
+    }
+
+    .flowchart-steps-enhanced {
+        /* Tighter constraints on mobile */
+        max-height: none; /* Let content flow naturally on mobile */
+    }
+}
+
+/* Content overflow handling during animation */
+.flowchart-steps-enhanced::-webkit-scrollbar {
+    display: none; /* Hide scrollbar during growth animation */
+}
+
+.flowchart-steps-enhanced {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Smooth height transitions for different algorithm complexities */
+.algorithm-flowchart-enhanced[data-algorithm="divide-and-choose"] {
+    --min-final-height: 400px;
+}
+
+.algorithm-flowchart-enhanced[data-algorithm="austins-moving-knife"] {
+    --min-final-height: 450px;
+}
+
+.algorithm-flowchart-enhanced[data-algorithm="steinhaus-lone-divider"] {
+    --min-final-height: 600px;
+}
+
+/* Loading state for container */
+.algorithm-flowchart-enhanced.preparing {
+    min-height: 120px;
+    opacity: 0.8;
+    transform: scale(0.9);
+}
+
+.algorithm-flowchart-enhanced.ready {
+    min-height: 200px;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Final completion state */
+.algorithm-flowchart-enhanced.animation-complete {
+    overflow: visible; /* Allow full content visibility */
+    min-height: auto;
+    box-shadow: 0 8px 25px rgba(56, 161, 105, 0.15); /* Green tint for completion */
+    border-color: #68d391;
+}
+
+/* Ensure proper stacking during growth */
+.algorithm-flowchart-enhanced {
+    z-index: 1;
+}
+
+.algorithm-flowchart-enhanced.growing-animation {
+    z-index: 2; /* Bring to front during animation */
+}
+
+/* Quick fix - add to your main.css */
+.algorithm-flowchart-enhanced {
+    overflow: visible !important;
+    padding: 3rem 2.5rem !important;
+}
+
+.flowchart-steps-enhanced {
+    overflow: visible !important;
+    padding: 1rem !important;
+}
+
+.flow-step-enhanced {
+    margin: 2rem auto !important;
+}
+
+/* Mobile fix */
+@media (max-width: 768px) {
+    .query-badge-enhanced {
+        top: 8px !important;
+        right: 8px !important;
+        min-width: 24px !important;
+        height: 24px !important;
+    }
+}

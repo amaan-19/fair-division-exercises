@@ -33,16 +33,22 @@ permalink: /algorithms/divide-and-choose/
   <!-- Flowchart -->
   <section class="content-block">
     <h2>Algorithm Flowchart</h2>
-    <div class="iframe-container">
-      <iframe 
-        src="{{ '/assets/flowcharts/divide-and-choose-procedure.html' | relative_url }}" 
-        width="100%" 
-        height="680" 
-        frameborder="0"
-        style="border: 1px solid #e2e8f0; border-radius: 8px;">
-        <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/divide-and-choose-procedure.html' | relative_url }}">View the flowchart directly</a>.</p>
-      </iframe>
+
+    <!-- Enhanced Flowchart Container -->
+    <div id="enhanced-divide-choose" data-enhanced-flowchart="divide-and-choose"></div>
+    
+    <!-- Animation Controls -->
+    <div class="animation-controls">
+        <button class="animation-btn primary" 
+                onclick="animateAlgorithm('enhanced-divide-choose', 1000)">
+            ▶️ Animate Steps
+        </button>
+        <button class="animation-btn secondary" 
+                onclick="resetAlgorithm('enhanced-divide-choose')">
+            🔄 Reset
+        </button>
     </div>
+    
   </section>
 
   <!-- Fairness Properties -->

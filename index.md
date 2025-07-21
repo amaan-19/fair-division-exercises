@@ -6,8 +6,8 @@ title: Fair Division Algorithms
 <div class="page-header" style="padding: 0"></div>
 
 <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
-  <p style="margin: 0; color: #6c757d; font-size: larger;">
-    This site is actively being developed. Some content may be incomplete and/or incorrect. New algorithms and features are added regularly.
+  <p style="margin: 0; color: #6c757d;">
+    This site is actively being developed. Some content may be incomplete and/or incorrect. New algorithms, features, and citations are added regularly.
   </p>
   <p style="margin: 0; color: #6c757d; padding-top: 1rem;">
     <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress on GitHub →</a>
@@ -16,7 +16,7 @@ title: Fair Division Algorithms
 
 <div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
   <h2>👋 New Here?</h2>
-  <p style="font-size: larger">This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or jump right in with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
+  <p style="font-size: larger">This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
 </div>
 
 <div class="algorithms-section">
@@ -38,7 +38,7 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Discrete</span>
-              <span class="meta-badge complexity-badge">$\Omega(2)$ RW</span>
+              <span class="meta-badge complexity-badge">2 RW Queries</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -64,7 +64,7 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">2 Players</span>
               <span class="meta-badge type-badge">Continuous</span>
-              <span class="meta-badge complexity-badge">$\infty$ RW</span>
+              <span class="meta-badge complexity-badge">$\infty$ RW Queries</span>
             </div>
           </div>
           <div class="algorithm-content">

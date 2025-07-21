@@ -13,7 +13,7 @@ permalink: /algorithms/austins-moving-knife/
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
         <span class="meta-badge type-badge">Continuous</span>
-        <span class="meta-badge complexity-badge">$\infty$ RW</span>
+        <span class="meta-badge complexity-badge">$\infty$ RW Queries</span>
       </div>
     </div>
   </div>
@@ -32,17 +32,20 @@ permalink: /algorithms/austins-moving-knife/
   <!-- Flowchart -->
   <section class="content-block">
     <h2>Algorithm Flowchart</h2>
-    <div class="iframe-container">
-      <iframe 
-        src="{{ '/assets/flowcharts/austin-moving-knife.html' | relative_url }}" 
-        width="100%" 
-        height="1210" 
-        frameborder="0"
-        style="border: 1px solid #e2e8f0; border-radius: 8px;">
-        <p>Your browser does not support iframes. <a href="{{ '/assets/flowcharts/austin-moving-knife.html' | relative_url }}">View the flowchart directly</a>.</p>
-      </iframe>
-    </div>
+    <div id="enhanced-austins" data-enhanced-flowchart="austins-moving-knife"></div>
   </section>
+
+  <!--  Animation Controls -->
+  <div class="animation-controls">
+    <button class="animation-btn primary" 
+            onclick="animateAlgorithm('enhanced-austins', 1200)">
+        ▶️ Animate Steps
+    </button>
+    <button class="animation-btn secondary" 
+            onclick="resetAlgorithm('enhanced-austins')">
+        🔄 Reset
+    </button>
+  </div>
 
   <!-- Fairness Properties -->
 
