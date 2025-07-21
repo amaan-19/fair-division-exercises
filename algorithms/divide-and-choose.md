@@ -90,7 +90,7 @@ permalink: /algorithms/divide-and-choose/
       <p><em>Player 2:</em> Given two pieces, choosing the piece with lower value according to their true valuations $v_2$ gives a worse outcome than choosing the piece with higher value. Therefore, misrepresenting preferences cannot improve Player 2's outcome.</p>
     </div>
 
-    <a href="/theory/fairness-properties/" target="_blank" class="algorithm-link">Learn more about fairness properties →</a>
+    <a href="{{ '/fairness-properties/' | relative_url }}" target=_blank >Learn more about fairness properties →</a>
   </section>
 
   <!-- Complexity Analysis -->
@@ -102,7 +102,7 @@ permalink: /algorithms/divide-and-choose/
       <li><strong>Eval Query:</strong> Player 2 evaluates and selects their preferred piece</li>
     </ol>
     <p>This 2-query bound is provably optimal - any algorithm guaranteeing proportional division for 2 players must use at least 2 queries.</p>
-    <a href="/analysis" target="_blank" class="algorithm-link">Compare with other procedures →</a>
+    <a href="{{ '/analysis/' | relative_url }}" target=_blank >Compare →</a>
   </section>
 
   <!-- Navigation -->

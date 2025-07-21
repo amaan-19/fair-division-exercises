@@ -31,10 +31,6 @@ class EnhancedFlowchart {
             <div class="algorithm-flowchart-enhanced">
                 <div class="flowchart-header-enhanced">
                     <div class="flowchart-title-enhanced">${algorithm.name}</div>
-                    <div class="complexity-overview-enhanced">
-                        <div class="complexity-icon">Q</div>
-                        ${complexity.display}
-                    </div>
                 </div>
                 
                 <div class="flowchart-content-enhanced">
@@ -55,9 +51,6 @@ class EnhancedFlowchart {
                         <div class="total-complexity-enhanced">
                             <span class="total-label-enhanced">Total:</span>
                             <span class="total-value-enhanced" id="total-count-${this.container.id}">0</span>
-                        </div>
-                        <div class="optimality-indicator-enhanced ${complexity.optimality.toLowerCase()}">
-                            Final: ${this.getOptimalityText(complexity.optimality)}
                         </div>
                     </div>
                 </div>
@@ -179,9 +172,9 @@ class EnhancedFlowchart {
 
     getOptimalityText(optimality) {
         const texts = {
-            'optimal': '✅ Optimal',
-            'suboptimal': '⚠️ Suboptimal',
-            'unknown': '❓ Unknown'
+            'optimal': 'Optimal',
+            'suboptimal': 'Suboptimal',
+            'unknown': 'Unknown'
         };
         return texts[optimality.toLowerCase()] || '❓ Unknown';
     }
@@ -237,7 +230,7 @@ class EnhancedFlowchart {
             if (!readyIndicator) {
                 readyIndicator = document.createElement('div');
                 readyIndicator.className = 'ready-indicator';
-                readyIndicator.innerHTML = '▶️ Ready to animate';
+                readyIndicator.innerHTML = 'Ready to animate';
                 readyIndicator.style.cssText = `
                     text-align: center;
                     color: #3182ce;
@@ -355,7 +348,7 @@ class EnhancedFlowchart {
         await new Promise(resolve => setTimeout(resolve, 300));
     }
 
-// NEW METHOD: Calculate expected height
+    // NEW METHOD: Calculate expected height
     calculateExpectedHeight(stepCount) {
         const baseHeight = 300; // Header + sidebar minimum
         const stepHeight = 140; // Approximate height per step including connector
@@ -732,7 +725,7 @@ class EnhancedFlowchart {
 // Algorithm data templates
 const ALGORITHM_FLOWCHART_DATA = {
     'divide-and-choose': {
-        algorithm: { name: 'Divide-and-Choose Algorithm' },
+        algorithm: { name: 'Divide-and-Choose Procedure' },
         complexity: {
             cut: 1,
             evalQueries: 1,
@@ -765,13 +758,13 @@ const ALGORITHM_FLOWCHART_DATA = {
             {
                 type: 'end',
                 title: 'Result',
-                description: 'Proportional division achieved<br><small>Both players receive ≥50% by their valuation</small>'
+                description: 'Proportional and envy-free division achieved<br><small>Both players receive ≥50% by their valuation</small>'
             }
         ]
     },
 
     'austins-moving-knife': {
-        algorithm: { name: 'Austin\'s Moving Knife Algorithm' },
+        algorithm: { name: 'Austin\'s Moving Knife Procedure' },
         complexity: {
             cut: 0,
             evalQueries: '∞',
@@ -789,7 +782,7 @@ const ALGORITHM_FLOWCHART_DATA = {
                 type: 'query',
                 title: 'Continuous Evaluation',
                 description: 'Both players continuously evaluate the value of the left piece as the knife moves',
-                queries: { evalQueries: 999 }
+                queries: { evalQueries: Infinity }
             },
             {
                 type: 'decision',
@@ -808,7 +801,6 @@ const ALGORITHM_FLOWCHART_DATA = {
             }
         ]
     },
-
     'steinhaus-lone-divider': {
         algorithm: { name: 'Steinhaus Lone-Divider Algorithm' },
         complexity: {
@@ -839,47 +831,59 @@ const ALGORITHM_FLOWCHART_DATA = {
             {
                 type: 'decision',
                 title: 'Conflict Check',
-                description: 'Do both choosers want different pieces as their first choice?',
+                description: 'Does at least one non-divider see ≥2 acceptable pieces?',
                 branches: [
                     {
-                        condition: 'yes',
-                        label: 'NO CONFLICT',
-                        probability: 'Common case',
+                        condition: 'YES',
+                        label: 'Yes - Sequential Selection',
+                        probability: '~60%',
                         steps: [
                             {
                                 type: 'action',
-                                description: 'Simple resolution: Each chooser gets their preferred piece, divider gets the remaining piece'
+                                title: 'Step 3a: First Choice',
+                                description: 'Player with more acceptable pieces (or Player 3 if tied) chooses first from all pieces'
                             },
                             {
-                                type: 'end',
-                                title: 'Success',
-                                description: 'Proportional division achieved<br><small>Total queries used: 8 (2 cut + 6 eval)</small>'
+                                type: 'action',
+                                title: 'Step 4a: Second Choice',
+                                description: 'Other non-divider chooses from remaining two pieces'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 5a: Final Allocation',
+                                description: 'Divider (Player 1) receives the last remaining piece'
                             }
                         ]
                     },
                     {
-                        condition: 'no',
-                        label: 'CONFLICT',
-                        probability: 'Complex case',
+                        condition: 'NO',
+                        label: 'No - Reconstruction Required',
+                        probability: '~40%',
                         steps: [
                             {
-                                type: 'query',
-                                title: 'Conflict Resolution',
-                                description: 'Additional cutting and evaluation rounds needed to resolve competing claims',
-                                queries: { cut: 2, evalQueries: 3 }
+                                type: 'action',
+                                title: 'Step 3b: Give Divider Unacceptable Piece',
+                                description: 'Player 1 receives a piece that both other players find unacceptable'
                             },
                             {
                                 type: 'action',
-                                description: 'Complex allocation procedure ensures each player gets acceptable piece'
+                                title: 'Step 4b: Cake Reconstruction',
+                                description: 'Reassemble the remaining two pieces into a single cake'
                             },
                             {
-                                type: 'end',
-                                title: 'Success',
-                                description: 'Proportional division achieved<br><small>Total queries used: 11 (4 cut + 9 eval)</small>'
+                                type: 'query',
+                                title: 'Step 5b: Divide-and-Choose',
+                                description: 'Players 2 & 3 use standard divide-and-choose on the reconstructed cake',
+                                queries: { cut: 1, evalQueries: 1 }
                             }
                         ]
                     }
                 ]
+            },
+            {
+                type: 'end',
+                title: 'Result',
+                description: 'All players guaranteed ≥1/3 of their subjective valuation<br><small>Proportional but not necessarily envy-free</small>'
             }
         ]
     }

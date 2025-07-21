@@ -10,12 +10,12 @@ title: Fair Division Algorithms
     This site is actively being developed. Some content may be incomplete and/or incorrect. New algorithms, features, and citations are added regularly.
   </p>
   <p style="margin: 0; color: #6c757d; padding-top: 1rem;">
-    <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress on GitHub →</a>
+    <a href="https://github.com/amaan-19/fair-division-exercises" target="_blank" style="color: #3182ce;">View development progress on GitHub →</a>
   </p>
 </div>
 
 <div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
-  <h2>👋 New Here?</h2>
+  <h2>New Here?</h2>
   <p style="font-size: larger">This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
 </div>
 
