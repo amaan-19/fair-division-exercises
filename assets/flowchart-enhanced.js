@@ -762,7 +762,6 @@ const ALGORITHM_FLOWCHART_DATA = {
             }
         ]
     },
-
     'austins-moving-knife': {
         algorithm: { name: 'Austin\'s Moving Knife Procedure' },
         complexity: {
@@ -802,7 +801,7 @@ const ALGORITHM_FLOWCHART_DATA = {
         ]
     },
     'steinhaus-lone-divider': {
-        algorithm: { name: 'Steinhaus Lone-Divider Algorithm' },
+        algorithm: { name: 'Steinhaus Lone-Divider Procedure' },
         complexity: {
             cut: '2-4',
             evalQueries: '3-6',
@@ -884,6 +883,35 @@ const ALGORITHM_FLOWCHART_DATA = {
                 type: 'end',
                 title: 'Result',
                 description: 'All players guaranteed ≥1/3 of their subjective valuation<br><small>Proportional but not necessarily envy-free</small>'
+            }
+        ]
+    },
+    'selfridge-conway': {
+        algorithm: { name: 'Selfridge-Conway Procedure' },
+        complexity: {
+            cut: '2-5',
+            evalQueries: '5-12',
+            total: '7-17',
+            display: 'Complexity: 7-17 queries (Variable)',
+            optimality: 'unknown'
+        },
+        steps: [
+            {
+                type: 'start',
+                title: 'Start',
+                description: 'Three players participate: Player 1 begins'
+            },
+            {
+                type: 'query',
+                title: 'Phase 1: Division',
+                description: 'Player 1 cuts the cake into 3 pieces they value equally (requires 2 cuts)',
+                queries: { cut: 2 }
+            },
+            {
+                type: 'query',
+                title: 'Phase 2: Evaluation',
+                description: 'Player 2 evaluates the two largest pieces in their view to determine if a trimming is needed',
+                queries: { evalQueries: 2 }
             }
         ]
     }

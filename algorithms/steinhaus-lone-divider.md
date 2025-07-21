@@ -13,6 +13,7 @@ permalink: /algorithms/steinhaus-lone-divider/
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">3 Players</span>
         <span class="meta-badge type-badge">Discrete</span>
+        <span class="meta-badge complexity-badge">8-10 RW Queries</span>
       </div>
     </div>
   </div>

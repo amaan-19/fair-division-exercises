@@ -6,7 +6,7 @@ permalink: /references/
 
 <div class="page-header">
   <h1 class="page-title">References</h1>
-  <p class="page-description">Academic sources and foundational texts in fair division theory</p>
+  <p class="page-description">Academic sources and foundational texts used while developing this platform</p>
 </div>
 
 <div class="references-grid">
