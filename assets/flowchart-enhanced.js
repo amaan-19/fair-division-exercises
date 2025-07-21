@@ -829,7 +829,7 @@ const ALGORITHM_FLOWCHART_DATA = {
             },
             {
                 type: 'decision',
-                title: 'Conflict Check',
+                title: 'Branching Step',
                 description: 'Does at least one non-divider see ≥2 acceptable pieces?',
                 branches: [
                     {
@@ -903,15 +903,91 @@ const ALGORITHM_FLOWCHART_DATA = {
             },
             {
                 type: 'query',
-                title: 'Phase 1: Division',
+                title: 'Step 1: Division',
                 description: 'Player 1 cuts the cake into 3 pieces they value equally (requires 2 cuts)',
                 queries: { cut: 2 }
             },
             {
                 type: 'query',
-                title: 'Phase 2: Evaluation',
-                description: 'Player 2 evaluates the two largest pieces in their view to determine if a trimming is needed',
-                queries: { evalQueries: 2 }
+                title: 'Step 2: Evaluation',
+                description: 'Player 2 evaluates the two largest pieced to determine whether a trimming is needed',
+                queries: { evalQueries: 2 },
+                branches: [
+                    {
+                        condition: 'NO',
+                        label: 'No - Sequential Selection',
+                        steps: [
+                            {
+                                type: 'action',
+                                title: 'Step 3a: First Choice',
+                                description: 'Player 3 chooses the piece they prefer'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 4a: Second Choice',
+                                description: 'Player 2 chooses the piece they prefer'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 5a: Final Allocation',
+                                description: 'Player 1 receives the last remaining piece'
+                            }
+                        ]
+                    },
+                    {
+                        condition: 'YES',
+                        label: 'Yes - Trimming Step',
+                        steps: [
+                            {
+                                type: 'query',
+                                title: 'Step 3b: Trimming',
+                                description: 'Player 2 trims the largest piece so that the two largest pieces are tied in value. The trimming is set aside.',
+                                queries: { cut: 1 }
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 4b: First Choice',
+                                description: 'Player 3 chooses the piece they prefer from the post-trimmed pieces'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 5b: Second Choice',
+                                description: 'If Player 3 does NOT choose the trimmed piece, Player 2 must choose it. Otherwise, they choose their preferred piece.'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 6b: Third Choice',
+                                description: 'Player 1 chooses the last piece.'
+                            },
+                            {
+                                type: 'query',
+                                title: 'Step 7b: Trimming Division',
+                                description: 'The trimmed piece was chosen by either Player 2 or 3. The player who did NOT choose the trimmed piece now divides the trimming into three equal pieces.',
+                                queries: { cut: 2 }
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 8b: First Trimming Choice',
+                                description: 'The player who chose the original trimmed piece gets to pick a divided trimming.'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 9b: Second Trimming Choice',
+                                description: 'Player 1 gets to pick a divided trimming.'
+                            },
+                            {
+                                type: 'action',
+                                title: 'Step 10b: Final Allocation',
+                                description: 'The remaining player chooses the final trimming piece.'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'end',
+                title: 'Result',
+                description: 'All players guaranteed ≥1/3 of their subjective valuation<br><small>Proportional but not necessarily envy-free</small>'
             }
         ]
     }
