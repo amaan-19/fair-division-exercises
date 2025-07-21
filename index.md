@@ -3,22 +3,20 @@ layout: default
 title: Fair Division Algorithms
 ---
 
-<div class="page-header">
-  <h1 class="page-title">Fair Division Algorithms</h1>
-</div>
+<div class="page-header" style="padding: 0"></div>
 
 <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
-  <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
-    <strong>Note:</strong> This site is actively being developed. Some content may be incomplete and/or incorrect. New algorithms and features are added regularly.
+  <p style="margin: 0; color: #6c757d; font-size: larger;">
+    This site is actively being developed. Some content may be incomplete and/or incorrect. New algorithms and features are added regularly.
   </p>
-  <p style="margin: 0; color: #6c757d; font-size: 0.95rem;">
+  <p style="margin: 0; color: #6c757d; padding-top: 1rem;">
     <a href="https://github.com/amaan-19/fair-division-exercises" style="color: #3182ce;">View development progress on GitHub →</a>
   </p>
 </div>
 
 <div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
   <h2>👋 New Here?</h2>
-  <p><strong>Start here:</strong> This platform teaches algorithms for fairly dividing resources. Browse our collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or jump right in with guided, interactive exercises in our <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
+  <p style="font-size: larger">This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or jump right in with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
 </div>
 
 <div class="algorithms-section">
@@ -48,7 +46,9 @@ title: Fair Division Algorithms
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
+                <span class="property-tag">Proportional</span>
                 <span class="property-tag">Envy-free</span>
+                <span class="property-tag">Strategy-proof</span>
               </div>
             </div>
           </div>
@@ -73,7 +73,6 @@ title: Fair Division Algorithms
               <h4>Fairness Properties</h4>
               <div class="property-tags">
                 <span class="property-tag">Equitable</span>
-                <span class="property-tag">Exact</span>
                 <span class="property-tag">Envy-free</span>
                 <span class="property-tag">Strategy-proof</span>
               </div>

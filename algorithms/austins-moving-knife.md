@@ -60,13 +60,6 @@ permalink: /algorithms/austins-moving-knife/
       <p>Player 2 calls "stop" when they believe the division creates pieces worth exactly 50 each according to their valuation. Since pieces are randomly assigned, both players receive exactly 50% in expectation according to their own valuations.</p>
     </div>
 
-    <h3>Exact</h3>
-    <p>The division achieves perfect equality rather than just proportionality.</p>
-    <div class="proof-sketch">
-      <p><strong>Formal Statement:</strong> The procedure produces pieces such that each player values their piece at exactly $\frac{100}{2} = 50$</p>
-      <p><strong>Proof:</strong> Unlike divide-and-choose which only guarantees $v_i(\text{piece}_i) \geq 50$, Austin's procedure allows each player to specify exactly when they believe a 50-50 division has been achieved. The intermediate value theorem guarantees such points exist, and the procedure terminates only when a player declares the division to be exact according to their valuation.</p>
-    </div>
-
     <h3>Envy-free</h3>
     <p>Neither player prefers the other's allocation to their own.</p>
     <div class="proof-sketch">
