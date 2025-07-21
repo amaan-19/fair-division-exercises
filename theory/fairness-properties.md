@@ -225,6 +225,6 @@ permalink: /fairness-properties/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/foundations/' | relative_url }}" class="nav-button secondary">← Back to Mathematical Foundations</a>
+  <a href="{{ '/foundations/' | relative_url }}" class="nav-button secondary">← Mathematical Foundations</a>
   <a href="{{ '/robertson-webb-query-model/' | relative_url }}" class="nav-button primary">Robertson-Webb Model →</a>
 </footer>

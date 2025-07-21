@@ -48,5 +48,5 @@ permalink: /theory/
 
 <footer class="algorithm-navigation">
   <a href="{{ '/' | relative_url }}" class="nav-button secondary">← Algorithms</a>
-  <a href="{{ '/exercises/' | relative_url }}" class="nav-button primary">Exercises →</a>
+  <a href="{{ '/exercises/' | relative_url }}" class="nav-button primary">Exercises + Simulator →</a>
 </footer>

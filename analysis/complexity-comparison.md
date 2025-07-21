@@ -109,7 +109,7 @@ permalink: /analysis/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/exercises/' | relative_url }}" class="nav-button secondary">← Back to Exercises</a>
+  <a href="{{ '/exercises/' | relative_url }}" class="nav-button secondary">← Exercises + Simulator</a>
   <a href="{{ '/glossary/' | relative_url }}" class="nav-button primary">Glossary →</a>
 </footer>
 

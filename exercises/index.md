@@ -71,7 +71,7 @@ permalink: /exercises/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/theory/' | relative_url }}" class="nav-button secondary">← Back to Theory</a>
+  <a href="{{ '/theory/' | relative_url }}" class="nav-button secondary">← Theory</a>
   <a href="{{ '/analysis/' | relative_url }}" class="nav-button primary">Analysis →</a>
 </footer>
 

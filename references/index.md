@@ -375,8 +375,8 @@ permalink: /references/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/glossary/' | relative_url }}" class="nav-button secondary">← Back to Glossary</a>
-  <a href="{{ '/' | relative_url }}" class="nav-button primary">Go Home →</a>
+  <a href="{{ '/glossary/' | relative_url }}" class="nav-button secondary">← Glossary</a>
+  <a href="{{ '/' | relative_url }}" class="nav-button primary">Algorithms →</a>
 </footer>
 
 <script src="citationsFunctions.js"></script>

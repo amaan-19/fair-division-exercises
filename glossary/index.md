@@ -245,7 +245,7 @@ permalink: /glossary/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/analysis/' | relative_url }}" class="nav-button secondary">← Back to Analysis</a>
+  <a href="{{ '/analysis/' | relative_url }}" class="nav-button secondary">← Analysis</a>
   <a href="{{ '/references/' | relative_url }}" class="nav-button primary">References →</a>
 </footer>
 

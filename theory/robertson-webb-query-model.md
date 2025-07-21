@@ -70,6 +70,6 @@ permalink: /robertson-webb-query-model/
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="{{ '/fairness-properties/' | relative_url }}" class="nav-button secondary">← Back to Fairness Properties</a>
+  <a href="{{ '/fairness-properties/' | relative_url }}" class="nav-button secondary">← Fairness Properties</a>
   <a href="{{ '/impossibility/' | relative_url }}" class="nav-button primary">Impossibility →</a>
 </footer>
