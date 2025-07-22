@@ -14,6 +14,7 @@ permalink: /algorithms/knaster-sealed-bids/
         <span class="meta-badge players-badge">N Players</span>
         <span class="meta-badge type-badge">Discrete Items</span>
         <span class="meta-badge mechanism-badge">Auction</span>
+        <span class="meta-badge complexity-badge">O(N) Rounds</span>
       </div>
     </div>
   </div>
@@ -45,7 +46,7 @@ permalink: /algorithms/knaster-sealed-bids/
       <p>The redistribution mechanism ensures this equals at least $\frac{1}{n} \sum_j v_i^j$.</p>
     </div>
 
-    <h3>Truthfulness (Strategy-Proof)</h3>
+    <h3>Strategy-Proof</h3>
     <div class="proof-sketch">
       <p><strong>Intuition:</strong> Bidding true valuations is a dominant strategy because overbidding risks overpaying, while underbidding risks losing valuable items.</p>
     </div>

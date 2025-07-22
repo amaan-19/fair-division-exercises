@@ -90,72 +90,10 @@ permalink: /algorithms/lucas-method-of-markers/
     <p>The algorithm may leave surplus goods that are distributed to the remaining players, improving overall efficiency.</p>
   </section>
 
-  <!-- Computational Complexity -->
-  <section class="content-block">
-    <h2>Computational Complexity</h2>
-
-    <div class="property-card">
-      <h4>Time Complexity</h4>
-      <p><strong>Marker Placement Phase:</strong> Each player must determine optimal marker positions, which requires evaluating potential segments. For continuous goods, this can be done in $O(1)$ time per marker using calculus. For discrete goods, this may require $O(m)$ time where $m$ is the number of items.</p>
-      
-      <p><strong>Allocation Phase:</strong> Finding the leftmost marker in each round takes $O(n)$ time, with $n$ rounds total, giving $O(n^2)$ for the allocation phase.</p>
-      
-      <p><strong>Overall:</strong> $O(n \cdot m + n^2)$ where $n$ is the number of players and $m$ is the number of discrete items (or $O(n^2)$ for continuous goods).</p>
-    </div>
-
-    <div class="property-card">
-      <h4>Information Requirements</h4>
-      <p>Unlike query-based algorithms, the Method of Markers requires players to compute and report their complete preferences through marker placement. This is more information-intensive than procedures using Robertson-Webb queries.</p>
-    </div>
-  </section>
-
-  <!-- Practical Considerations -->
-  <section class="content-block">
-    <h2>Practical Considerations</h2>
-
-    <h3>Applicability</h3>
-    <p>The Method of Markers is particularly well-suited for:</p>
-    <ul>
-      <li><strong>Linear Resources:</strong> Gold chains, ribbons, linear plots of land</li>
-      <li><strong>Ordered Collections:</strong> Books on shelves, sequential time slots, adjacent seating arrangements</li>
-      <li><strong>Modular Systems:</strong> Where goods naturally form contiguous segments</li>
-    </ul>
-
-    <h3>Limitations</h3>
-    <div class="property-card">
-      <h4>Linearity Requirement</h4>
-      <p>The algorithm only works when goods can be meaningfully arranged in a linear order. This excludes many practical scenarios with heterogeneous goods that don't have natural ordering.</p>
-    </div>
-
-    <div class="property-card">
-      <h4>Contiguity Constraint</h4>
-      <p>Players can only receive contiguous segments, which may be inefficient if their preferences are non-contiguous (e.g., preferring alternating items).</p>
-    </div>
-  </section>
-
-  <!-- Historical Context -->
-  <section class="content-block">
-    <h2>Historical Context</h2>
-
-    <p>William F. Lucas developed this procedure around 1994 as part of research into fair division of indivisible goods. The algorithm represents an important bridge between continuous fair division procedures (like the moving knife methods) and discrete allocation mechanisms.</p>
-
-    <p>Lucas's contribution was recognizing that many practical fair division problems involve goods that are neither perfectly divisible nor completely independent—they have some linear structure that can be exploited for fair allocation.</p>
-  </section>
-
-  <!-- Extensions and Variants -->
-  <section class="content-block">
-    <h2>Extensions and Variants</h2>
-
-    <h3>Weighted Proportionality</h3>
-    <p>The basic algorithm can be modified to handle situations where players have different entitlements. Player $i$ with weight $w_i$ places markers to create segments worth $\frac{w_i \cdot v_i(G)}{\sum_j w_j}$ each.</p>
-
-    <h3>Approximate Implementations</h3>
-    <p>For very large discrete collections, players might place markers approximately, trading perfect proportionality for computational efficiency.</p>
-  </section>
-
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/knaster-sealed-bids/' | relative_url }}" class="nav-button secondary">← Knaster's Sealed Bids</a>
+    <a href="{{ '/' | relative_url }}" class="nav-button primary">To Algorithms →</a>
   </footer>
 
 </div>

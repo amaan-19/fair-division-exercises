@@ -24,7 +24,7 @@ title: Fair Division Algorithms
   <div class="carousel-section">
     <div class="carousel-section-header">
       <h2>Divisible Resources</h2>
-      <p class="carousel-section-description">Algorithms for resources that can be cut and divided continuously, like cake or land</p>
+      <p>Algorithms for resources that can be cut and divided continuously, like cake or land</p>
     </div>
 
     <div class="algorithm-carousel" id="divisible-carousel">
@@ -246,8 +246,7 @@ title: Fair Division Algorithms
               <h4>Fairness Properties</h4>
               <div class="property-tags">
                 <span class="property-tag">Proportional*</span>
-                <span class="property-tag">Truthful</span>
-                <span class="property-tag">Budget-Balanced</span>
+                <span class="property-tag">Strategy-proof</span>
               </div>
               <small class="property-note">*With monetary compensation</small>
             </div>
