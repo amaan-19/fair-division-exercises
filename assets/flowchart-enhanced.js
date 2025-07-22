@@ -990,6 +990,125 @@ const ALGORITHM_FLOWCHART_DATA = {
                 description: 'All players guaranteed ≥1/3 of their subjective valuation<br><small>Proportional but not necessarily envy-free</small>'
             }
         ]
+    },
+    'knaster-sealed-bids': {
+        algorithm: { name: 'Knaster\'s Sealed Bids Procedure' },
+        complexity: {
+            cut: 0,
+            evalQueries: 0, // Changed from eval to evalQueries to match existing pattern
+            total: 'N bids', // N players submit bids
+            display: 'Complexity: N bid submissions (Non-query based)',
+            optimality: 'unknown'
+        },
+        steps: [
+            {
+                type: 'start',
+                title: 'Start',
+                description: 'N players want to fairly divide indivisible items through auction'
+            },
+            {
+                type: 'input',
+                title: 'Sealed Bidding Round',
+                description: 'Each player i submits sealed bids b<sub>i</sub><sup>j</sup> for each item j, representing their private valuation',
+                queries: {} // No RW queries - uses sealed bid mechanism instead
+            },
+            {
+                type: 'allocation',
+                title: 'Item Allocation',
+                description: 'Each item j is awarded to the highest bidder: Player i gets item j if b<sub>i</sub><sup>j</sup> = max<sub>k</sub> b<sub>k</sub><sup>j</sup>',
+                queries: {}
+            },
+            {
+                type: 'payment',
+                title: 'Payment Calculation',
+                description: 'Each player pays their winning bids: payment<sub>i</sub> = Σ<sub>j∈S<sub>i</sub></sub> b<sub>i</sub><sup>j</sup>',
+                queries: {}
+            },
+            {
+                type: 'payment',
+                title: 'Equal Redistribution',
+                description: 'Total payments divided equally: each player receives (Σ<sub>i</sub> payment<sub>i</sub>)/N back',
+                queries: {}
+            },
+            {
+                type: 'end',
+                title: 'Result',
+                description: 'Proportional allocation with monetary transfers<br><small>Each player gets ≥1/N value through items + cash compensation</small>'
+            }
+        ]
+    },
+
+    'lucas-method-markers': {
+        algorithm: { name: 'Lucas\' Method of Markers' },
+        complexity: {
+            cut: 0,
+            evalQueries: 0, // Changed from eval to evalQueries
+            total: 'N×(N-1) markers', // N players place N-1 markers each
+            display: 'Complexity: N² marker placements + N allocation rounds',
+            optimality: 'unknown'
+        },
+        steps: [
+            {
+                type: 'start',
+                title: 'Start',
+                description: 'N players want to fairly divide goods arranged in linear order (books, land strips, etc.)'
+            },
+            {
+                type: 'marker',
+                title: 'Linear Arrangement',
+                description: 'Arrange all goods in a single line from left to right, creating one continuous resource',
+                queries: {}
+            },
+            {
+                type: 'marker',
+                title: 'Marker Placement Phase',
+                description: 'Each player i places exactly (N-1) markers, dividing the line into N segments. Each segment must be worth ≥1/N to that player',
+                queries: {}
+            },
+            {
+                type: 'round',
+                title: 'Round 1: First Allocation',
+                description: 'Find the leftmost among all first markers. That marker\'s owner gets the leftmost segment and exits',
+                queries: {}
+            },
+            {
+                type: 'round',
+                title: 'Round k: Subsequent Allocations',
+                description: 'Among remaining players, find the leftmost of their next markers. Owner gets segment and exits',
+                queries: {},
+                branches: [
+                    {
+                        condition: 'yes',
+                        label: 'Players Remaining',
+                        probability: 'k < N',
+                        steps: [
+                            {
+                                type: 'round',
+                                description: 'Continue allocation rounds until all players have received segments',
+                                queries: {}
+                            }
+                        ]
+                    },
+                    {
+                        condition: 'no',
+                        label: 'All Allocated',
+                        probability: 'k = N',
+                        steps: [
+                            {
+                                type: 'end',
+                                description: 'Final player receives remaining segment automatically',
+                                queries: {}
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'end',
+                title: 'Result',
+                description: 'Proportional division of linear goods<br><small>Each player receives ≥1/N value in contiguous segment by their own valuation</small>'
+            }
+        ]
     }
 };
 

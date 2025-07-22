@@ -24,43 +24,12 @@ permalink: /algorithms/knaster-sealed-bids/
     <p>Knaster's sealed bid procedure enables fair division of indivisible goods through a truthful auction mechanism combined with monetary transfers to ensure proportional outcomes.</p>
   </section>
 
-  <!-- Algorithm Steps -->
-  <section class="content-block">
-    <div class="procedure-steps">
-      <h3>Procedure</h3>
-      <div class="step-list">
-
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <strong>Sealed Bidding Round:</strong> Each player $i$ submits sealed bids $b_i^j$ for each item $j$, representing their valuation.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <strong>Allocation Phase:</strong> Each item is awarded to the highest bidder. Player $i$ receives items $S_i = \{j : b_i^j = \max_k b_k^j\}$.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <strong>Payment Calculation:</strong> Each player pays their winning bids: $payment_i = \sum_{j \in S_i} b_i^j$.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <strong>Redistribution:</strong> Total payments are divided equally: each player receives $\frac{\sum_i payment_i}{n}$ back.
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
+  <!-- Flowchart -->
+  <div id="enhanced-knaster" data-enhanced-flowchart="knaster-sealed-bids"></div>
+  <div class="animation-controls">
+    <button class="animation-btn primary" onclick="animateAlgorithm('enhanced-knaster', 1000)">▶️ Animate Steps</button>
+    <button class="animation-btn secondary" onclick="resetAlgorithm('enhanced-knaster')">🔄 Reset</button>
+  </div>
 
   <!-- Fairness Properties -->
   <section class="content-block">
@@ -82,5 +51,11 @@ permalink: /algorithms/knaster-sealed-bids/
     </div>
 
   </section>
+
+  <!-- Navigation -->
+  <footer class="algorithm-navigation">
+    <a href="{{ '/algorithms/' | relative_url }}" class="nav-button secondary">← Back to Algorithms</a>
+    <a href="{{ '/algorithms/lucas-method-of-markers/' | relative_url }}" class="nav-button primary">Next: Lucas' Marker Method →</a>
+  </footer>
 
 </div>

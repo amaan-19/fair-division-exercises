@@ -27,50 +27,11 @@ permalink: /algorithms/lucas-method-of-markers/
     <p>Each player places markers to indicate segments they would accept as fair, with the algorithm ensuring everyone receives a proportional share according to their own valuation.</p>
   </section>
 
-  <!-- Algorithm Steps -->
-  <section class="content-block">
-    <div class="procedure-steps">
-      <h3>Procedure</h3>
-      <div class="step-list">
-
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <strong>Linear Arrangement:</strong> Arrange all goods in a linear order (physical or conceptual) from left to right.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <strong>Marker Placement:</strong> Each player $i$ places exactly $(n-1)$ markers on the line, dividing it into $n$ segments. Player $i$ must value each segment as worth at least $\frac{1}{n}$ of the total value according to their preferences.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <strong>First Allocation Round:</strong> Find the leftmost among all first markers. The owner of this marker receives the leftmost segment (from the start to their first marker) and exits the procedure. Remove all remaining markers belonging to this player.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <strong>Subsequent Rounds:</strong> Among remaining players, find the leftmost of their next markers. The owner receives the segment from the previous division point to their current marker, then exits. Remove their remaining markers.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">5</div>
-          <div class="step-content">
-            <strong>Final Player:</strong> The last remaining player receives all remaining goods (which may include surplus beyond their markers).
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
+  <div id="enhanced-lucas" data-enhanced-flowchart="lucas-method-markers"></div>
+  <div class="animation-controls">
+    <button class="animation-btn primary" onclick="animateAlgorithm('enhanced-lucas', 1000)">▶️ Animate Steps</button>
+    <button class="animation-btn secondary" onclick="resetAlgorithm('enhanced-lucas')">🔄 Reset</button>
+  </div>
 
   <!-- Mathematical Framework -->
   <section class="content-block">
