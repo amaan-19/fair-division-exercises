@@ -79,7 +79,7 @@ permalink: /algorithms/selfridge-conway/
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="nav-button secondary">← Back to Steinhaus</a>
-    <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="nav-button primary">Next: Banach-Knaster →</a>
+    <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="nav-button primary">Next: Stromquist →</a>
   </footer>
 
 </div>

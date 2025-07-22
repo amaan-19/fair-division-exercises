@@ -151,7 +151,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-footer">
-            <a href="{{ '/algorithms/stromquist/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
+            <a href="{{ '/algorithms/stromquist-moving-knife/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
         </div>
 
@@ -162,10 +162,11 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
               <span class="meta-badge type-badge">Discrete</span>
+              <span class="meta-badge complexity-badge">$O(n^2)$ RW Queries</span>
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">An elegant procedure ensuring proportionality for any number of players</p>
+            <p class="algorithm-description">An elegant procedure ensuring proportionality for $N$ players</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -185,10 +186,11 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
               <span class="meta-badge type-badge">Discrete</span>
+              <span class="meta-badge complexity-badge">$\Omega(n)$ RW Queries</span>
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">Description...</p>
+            <p class="algorithm-description">Uses sophisticated iterative trimming and reallocation mechanisms.</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">

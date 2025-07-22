@@ -1109,7 +1109,197 @@ const ALGORITHM_FLOWCHART_DATA = {
                 description: 'Proportional division of linear goods<br><small>Each player receives ≥1/N value in contiguous segment by their own valuation</small>'
             }
         ]
-    }
+    },
+    'stromquist-moving-knife': {
+        algorithm: { name: 'Stromquist Moving Knife Procedure' },
+        complexity: {
+            cut: 0,
+            evalQueries: '∞',
+            total: '∞',
+            display: 'Complexity: Continuous queries (Infinite)',
+            optimality: 'impossible-finite'
+        },
+        steps: [
+            {
+                type: 'start',
+                title: 'Start',
+                description: 'Three players and four knives: one referee sword + three player knives'
+            },
+            {
+                type: 'action',
+                title: 'Initial Setup',
+                description: 'Referee positions sword at leftmost edge. Each player positions knife to divide entire cake into equal halves'
+            },
+            {
+                type: 'query',
+                title: 'Continuous Movement Phase',
+                description: 'Referee moves sword left-to-right. Players continuously adjust knives to maintain equal division of right piece',
+                queries: { evalQueries: 'Infinity' }
+            },
+            {
+                type: 'decision',
+                title: 'Strategic Decision',
+                description: 'Each player follows strategy: Call "STOP" when Left piece equals the piece you\'d get by staying silent',
+                branches: [
+                    {
+                        condition: 'leftmost_knife',
+                        label: 'If your knife is leftmost',
+                        probability: '33%',
+                        steps: [
+                            {
+                                type: 'condition',
+                                description: 'Call "STOP" when: Left = Middle piece value'
+                            }
+                        ]
+                    },
+                    {
+                        condition: 'middle_knife',
+                        label: 'If your knife is middle',
+                        probability: '33%',
+                        steps: [
+                            {
+                                type: 'condition',
+                                description: 'Call "STOP" when: Left = Middle = Right (all equal)'
+                            }
+                        ]
+                    },
+                    {
+                        condition: 'rightmost_knife',
+                        label: 'If your knife is rightmost',
+                        probability: '33%',
+                        steps: [
+                            {
+                                type: 'condition',
+                                description: 'Call "STOP" when: Left = Right piece value'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'action',
+                title: 'Cut Execution',
+                description: 'When any player calls "STOP": Cut at sword position AND at the middle knife position (2 cuts total)'
+            },
+            {
+                type: 'action',
+                title: 'Piece Allocation',
+                description: 'Allocate three pieces:<br>• LEFT → Player who called "STOP"<br>• MIDDLE → Player whose knife is closest to sword<br>• RIGHT → Remaining player'
+            },
+            {
+                type: 'end',
+                title: 'Envy-Free Result',
+                description: 'Each player receives largest/tied-for-largest piece by their valuation<br><small>First envy-free procedure for 3 players with connected pieces</small>'
+            }
+        ]
+    },
+    'banach-knaster-last-diminisher': {
+        algorithm: { name: 'Banach-Knaster Last-Diminisher' },
+        complexity: {
+            cut: 'O(n²)',
+            evalQueries: 'O(n²)',
+            total: 'O(n²)',
+            display: 'Complexity: O(n²) queries (Worst case)',
+            optimality: 'suboptimal'
+        },
+        steps: [
+            {
+                type: 'start',
+                title: 'Start',
+                description: 'N players want to divide a cake proportionally'
+            },
+            {
+                type: 'action',
+                title: 'Round 1 Setup',
+                description: 'Begin with n players and whole cake. Target share: 1/n for each player'
+            },
+            {
+                type: 'query',
+                title: 'Initial Cut',
+                description: 'Player 1 cuts a piece they value as exactly 1/n of the total cake',
+                queries: { cut: 1 }
+            },
+            {
+                type: 'decision',
+                title: 'Sequential Evaluation',
+                description: 'Pass piece to Player 2, then 3, ..., up to Player n. Each decides: trim or pass?',
+                branches: [
+                    {
+                        condition: 'piece_too_large',
+                        label: 'If piece > 1/n value',
+                        probability: 'Variable',
+                        steps: [
+                            {
+                                type: 'query',
+                                title: 'Trim Piece',
+                                description: 'Player trims piece to exactly 1/n of their valuation',
+                                queries: { cut: 1, evalQueries: 1 }
+                            }
+                        ]
+                    },
+                    {
+                        condition: 'piece_acceptable',
+                        label: 'If piece ≤ 1/n value',
+                        probability: 'Variable',
+                        steps: [
+                            {
+                                type: 'action',
+                                title: 'Pass Unchanged',
+                                description: 'Player passes piece to next player without modification'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'action',
+                title: 'Last Diminisher Wins',
+                description: 'The player who made the final trim receives the piece. All trimmings return to main cake'
+            },
+            {
+                type: 'decision',
+                title: 'Continue or Finish?',
+                description: 'Check if more players remain for division',
+                branches: [
+                    {
+                        condition: 'players_remaining',
+                        label: 'More than 1 player left',
+                        probability: 'n-1 rounds',
+                        steps: [
+                            {
+                                type: 'action',
+                                title: 'Next Round Setup',
+                                description: 'Remove last diminisher from game. Remaining players target 1/(n-k) share'
+                            },
+                            {
+                                type: 'query',
+                                title: 'Next Round Cut',
+                                description: 'First remaining player cuts piece valued at 1/(remaining players)',
+                                queries: { cut: 1 }
+                            }
+                        ]
+                    },
+                    {
+                        condition: 'final_player',
+                        label: 'Only 1 player left',
+                        probability: 'Final round',
+                        steps: [
+                            {
+                                type: 'action',
+                                title: 'Final Allocation',
+                                description: 'Last remaining player receives all remaining cake'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'end',
+                title: 'Proportional Result',
+                description: 'Each player guaranteed ≥1/n of cake by their own valuation<br><small>Proportional but not necessarily envy-free</small>'
+            }
+        ]
+    },
 };
 
 function createEnhancedFlowchart(containerId, algorithmName, customData = null) {

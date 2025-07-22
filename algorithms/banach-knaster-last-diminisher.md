@@ -13,6 +13,7 @@ permalink: /algorithms/banach-knaster-last-diminisher/
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">N Players</span>
         <span class="meta-badge type-badge">Discrete</span>
+        <span class="meta-badge complexity-badge">$O(n^2)$ RW Queries</span>
       </div>
     </div>
   </div>
@@ -22,61 +23,22 @@ permalink: /algorithms/banach-knaster-last-diminisher/
     <h2>Overview</h2>
     <p>The Banach-Knaster procedure guarantees each of n participants receives at least 1/n of a divisible good according to their own valuation, operating through rounds where players can trim a proposed piece to their desired share, with the last person to make a trim receiving that piece.</p>
     <a href="https://en.wikipedia.org/wiki/Last_diminisher" target="_blank" class="algorithm-link">Read more →</a>
-    <div class="procedure-steps">
-      <h3>How It Works</h3>
-      <div class="step-list">
-        <h4>Round 1:</h4>
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <strong>Player 1</strong> makes a cut such that they value the piece as exactly $\frac{1}{N}$ of the cake.
-          </div>
-        </div>
+  </section>
 
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            The piece is then passed sequentially to <strong>Players 2, 3, ..., N</strong>. Each player, depending on their personal valuation of the piece, chooses to either (a) trim the piece such that they value it at exactly $\frac{1}{N}$ of the cake, or (b) pass it along unchanged.
-          </div>
-        </div>
+  <!-- Flowchart -->
+  <section class="content-block">
+    <h2>Algorithm Flowchart</h2>
+    <div id="enhanced-banach-knaster" data-enhanced-flowchart="banach-knaster-last-diminisher"></div>
 
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            Once the piece has been evaluated by each player, whoever made the <strong>final</strong> trim recieves the piece from that round and all trimmings are returned to the cake.
-          </div>
-        </div>
-
-        <h4>Rounds 2, 3, ..., N:</h4>
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            The <strong>first remaining player</strong> makes a cut such that they value the piece as exactly $\frac{1}{N-1}$ of the cake.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            The piece is then passed sequentially to all <strong>remaining players</strong>. Each player, depending on their personal valuation of the piece, chooses to either (a) trim the piece such that they value it at exactly $\frac{1}{N-1}$ of the cake, or (b) pass it along unchanged.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            Once the piece has been evaluated by each player, whoever made the <strong>final</strong> trim recieves the piece from that round and all trimmings are returned to the cake.
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            This procedure is then repeated until only one player remains.
-          </div>
-        </div>
-
-      </div>
+    <div class="animation-controls">
+      <button class="animation-btn primary" 
+        onclick="animateAlgorithm('enhanced-banach-knaster', 1200)">
+        ▶️ Animate Steps
+      </button>
+      <button class="animation-btn secondary" 
+        onclick="resetAlgorithm('enhanced-banach-knaster')">
+        🔄 Reset
+      </button>
     </div>
   </section>
 
@@ -94,7 +56,7 @@ permalink: /algorithms/banach-knaster-last-diminisher/
 
   <!-- Navigation -->
   <footer class="algorithm-navigation">
-    <a href="{{ '/algorithms/stromquist/' | relative_url }}" class="nav-button secondary">← Back to Stromquist</a>
+    <a href="{{ '/algorithms/stromquist-moving-knife/' | relative_url }}" class="nav-button secondary">← Back to Stromquist</a>
     <a href="{{ '/algorithms/brams-taylor/' | relative_url }}" class="nav-button primary"> Next: Brams-Taylor →</a>
   </footer>
 </div>
