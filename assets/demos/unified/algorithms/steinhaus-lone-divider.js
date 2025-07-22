@@ -625,7 +625,7 @@ const steinhausConfig = {
         }
     },
 
-    // NEW: Track trimming if it occurs
+    // Track trimming if it occurs
     onTrimPiece: (state, api, player, piece, trimAmount) => {
         if (api.recordCutQuery) {
             api.recordCutQuery(player,
@@ -638,5 +638,5 @@ const steinhausConfig = {
 };
 
 // ===== REGISTRATION =====
-window.FairDivisionCore.register('steinhaus-lone-divider', steinhausLoneDividerConfig);
-Logger.info(`${steinhausLoneDividerConfig.name} algorithm loaded and registered`);
+window.FairDivisionCore.register('steinhaus-lone-divider', steinhausConfig);
+Logger.info(`${steinhausConfig.name} algorithm loaded and registered`);
