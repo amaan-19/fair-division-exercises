@@ -54,7 +54,7 @@ permalink: /algorithms/knaster-sealed-bids/
 
   <!-- Navigation -->
   <footer class="algorithm-navigation">
-    <a href="{{ '/algorithms/' | relative_url }}" class="nav-button secondary">← Back to Algorithms</a>
+    <a href="{{ '/' | relative_url }}" class="nav-button secondary">← Back to Algorithms</a>
     <a href="{{ '/algorithms/lucas-method-of-markers/' | relative_url }}" class="nav-button primary">Next: Lucas' Marker Method →</a>
   </footer>
 

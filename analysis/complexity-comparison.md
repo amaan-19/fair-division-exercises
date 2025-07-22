@@ -21,7 +21,6 @@ permalink: /analysis/
           <th style="text-align: center">Cut Queries</th>
           <th style="text-align: center">Eval Queries</th>
           <th style="text-align: center">Total</th>
-          <th style="text-align: center">Optimality</th>
         </tr>
       </thead>
       <tbody>
@@ -31,15 +30,13 @@ permalink: /analysis/
           <td style="text-align: center">1</td>
           <td style="text-align: center">1</td>
           <td style="text-align: center"><strong>2</strong></td>
-          <td style="text-align: center">✅ Optimal</td>
         </tr>
         <tr>
           <td><a href="/algorithms/austins-moving-knife/">Austin's Moving Knife*</a></td>
           <td style="text-align: center">2</td>
-          <td style="text-align: center">1</td>
-          <td style="text-align: center">∞</td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center">-</td>
           <td style="text-align: center"><strong>∞</strong></td>
-          <td style="text-align: center">❌ Continuous</td>
         </tr>
         <tr>
           <td><a href="/algorithms/steinhaus-lone-divider/">Steinhaus Lone-Divider</a></td>
@@ -47,7 +44,6 @@ permalink: /analysis/
           <td style="text-align: center">2-3</td>
           <td style="text-align: center">6-7</td>
           <td style="text-align: center"><strong>8-10</strong></td>
-          <td style="text-align: center">❓ Unknown</td>
         </tr>
         <tr>
           <td><a href="/algorithms/selfridge-conway/">Selfridge-Conway</a></td>
@@ -55,31 +51,27 @@ permalink: /analysis/
           <td style="text-align: center">2-5</td>
           <td style="text-align: center">5-12</td>
           <td style="text-align: center"><strong>7-17</strong></td>
-          <td style="text-align: center"></td>
         </tr>
         <tr>
           <td><a href="/algorithms/stromquist/">Stromquist Moving Knife*</a></td>
           <td style="text-align: center">3</td>
-          <td style="text-align: center"></td>
-          <td style="text-align: center"></td>
-          <td style="text-align: center"><strong></strong></td>
-          <td style="text-align: center"></td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center"><strong>∞</strong></td>
         </tr>
         <tr>
           <td><a href="/algorithms/banach-knaster-last-diminisher/">Banach-Knaster Last-Diminisher</a></td>
           <td style="text-align: center">N</td>
-          <td style="text-align: center"></td>
-          <td style="text-align: center"></td>
-          <td style="text-align: center"><strong></strong></td>
-          <td style="text-align: center"></td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center"><strong>O(N²)</strong></td>
         </tr>
         <tr>
           <td><a href="/algorithms/brams-taylor/">Brams-Taylor</a></td>
           <td style="text-align: center">N</td>
-          <td style="text-align: center"></td>
-          <td style="text-align: center"></td>
-          <td style="text-align: center"><strong></strong></td>
-          <td style="text-align: center"></td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center">-</td>
+          <td style="text-align: center"><strong>$\Omega$(N)</strong></td>
         </tr>
       </tbody>
     </table>

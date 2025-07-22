@@ -156,7 +156,6 @@ permalink: /algorithms/lucas-method-of-markers/
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/knaster-sealed-bids/' | relative_url }}" class="nav-button secondary">← Knaster's Sealed Bids</a>
-    <a href="{{ '/algorithms/' | relative_url }}" class="nav-button primary">Algorithm Index →</a>
   </footer>
 
 </div>
