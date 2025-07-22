@@ -162,7 +162,7 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
               <span class="meta-badge type-badge">Discrete</span>
-              <span class="meta-badge complexity-badge">$O(n^2)$ RW Queries</span>
+              <span class="meta-badge complexity-badge">O(N²) RW Queries</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -186,7 +186,7 @@ title: Fair Division Algorithms
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
               <span class="meta-badge type-badge">Discrete</span>
-              <span class="meta-badge complexity-badge">$\Omega(n)$ RW Queries</span>
+              <span class="meta-badge complexity-badge">$\Omega$(N) RW Queries</span>
             </div>
           </div>
           <div class="algorithm-content">
@@ -260,7 +260,7 @@ title: Fair Division Algorithms
         <!-- Lucas' Method of Markers Algorithm Card -->
         <div class="algorithm-card">
             <div class="algorithm-header">
-                <h3 class="algorithm-title">Lucas Method of Markers</h3>
+                <h3 class="algorithm-title">Lucas Markers Method</h3>
                 <div class="algorithm-meta">
                     <span class="meta-badge players-badge">N Players</span>
                     <span class="meta-badge type-badge">Linear Arrangement</span>
