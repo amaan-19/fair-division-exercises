@@ -13,7 +13,8 @@ const DEMO_CONFIG = {
     DEFAULT_PLAYER_VALUES: {
         player1: { blue: 20, red: 15, green: 25, orange: 10, pink: 15, purple: 15 },
         player2: { blue: 15, red: 25, green: 20, orange: 20, pink: 10, purple: 10 },
-        player3: { blue: 30, red: 10, green: 15, orange: 5, pink: 25, purple: 15 }
+        player3: { blue: 30, red: 10, green: 15, orange: 5, pink: 25, purple: 15 },
+        player4: { blue: 25, red: 15, green: 10, orange: 15, pink: 5, purple: 30}
     },
     COLORS: ['blue', 'red', 'green', 'orange', 'pink', 'purple'],
     BOUNDS: {
@@ -388,9 +389,8 @@ class UIController {
     }
 
     setupPlayerValueListeners() {
-        ['p1', 'p2', 'p3'].forEach(playerPrefix => {
-            const playerKey = playerPrefix === 'p1' ? 'player1' :
-                playerPrefix === 'p2' ? 'player2' : 'player3';
+        ['p1', 'p2', 'p3', 'p4'].forEach(playerPrefix => {
+            const playerKey = playerPrefix === 'p1' ? 'player1' : playerPrefix === 'p2' ? 'player2' : playerPrefix === 'p3' ? 'player3' : 'player4';
 
             DEMO_CONFIG.COLORS.forEach(color => {
                 const input = document.getElementById(`${playerPrefix}-${color}`);
@@ -791,7 +791,6 @@ class QueryTracker {
         queryPanel.innerHTML = `
             <div class="query-header">
                 <h4>Robertson-Webb Query Analysis</h4>
-                <button class="info-button" onclick="showQueryInfo()" title="Learn about the RW query model">ℹ️</button>
             </div>
             <div class="query-stats">
                 <div class="query-stat">

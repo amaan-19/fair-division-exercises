@@ -258,7 +258,7 @@ title: Fair Division Algorithms
         <!-- Lucas' Method of Markers Algorithm Card -->
         <div class="algorithm-card">
             <div class="algorithm-header">
-                <h3 class="algorithm-title">Lucas' Method of Markers</h3>
+                <h3 class="algorithm-title">Lucas Method of Markers</h3>
                 <div class="algorithm-meta">
                     <span class="meta-badge players-badge">N Players</span>
                     <span class="meta-badge type-badge">Linear Arrangement</span>
