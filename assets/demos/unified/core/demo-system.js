@@ -823,7 +823,7 @@ class QueryTracker {
         // Insert into demo interface (same location as original)
         const demoContainer = document.querySelector('.demo-section');
         if (demoContainer) {
-            demoContainer.insertBefore(queryPanel, demoContainer.firstChild);
+            demoContainer.insertBefore(queryPanel, demoContainer.lastChild);
         }
     }
 
