@@ -230,7 +230,7 @@ title: Fair Division Algorithms
         <!-- Knaster's Sealed Bids Algorithm Card -->
         <div class="algorithm-card">
           <div class="algorithm-header">
-            <h3 class="algorithm-title">Knaster's Procedure of Sealed Bids</h3>
+            <h3 class="algorithm-title">Knaster Sealed Bids Procedure</h3>
             <div class="algorithm-meta">
               <span class="meta-badge players-badge">N Players</span>
               <span class="meta-badge type-badge">Discrete Items</span>
@@ -239,7 +239,7 @@ title: Fair Division Algorithms
             </div>
           </div>
           <div class="algorithm-content">
-            <p class="algorithm-description">A truthful auction mechanism for fairly dividing indivisible goods using sealed bids and monetary transfers</p>
+            <p class="algorithm-description">A truthful auction mechanism using sealed bids and monetary transfers</p>
             <div class="algorithm-properties">
               <h4>Fairness Properties</h4>
               <div class="property-tags">
@@ -253,6 +253,34 @@ title: Fair Division Algorithms
           <div class="algorithm-footer">
             <a href="{{ '/algorithms/knaster-sealed-bids/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
           </div>
+        </div>
+
+        <!-- Lucas' Method of Markers Algorithm Card -->
+        <div class="algorithm-card">
+            <div class="algorithm-header">
+                <h3 class="algorithm-title">Lucas' Method of Markers</h3>
+                <div class="algorithm-meta">
+                    <span class="meta-badge players-badge">N Players</span>
+                    <span class="meta-badge type-badge">Linear Arrangement</span>
+                    <span class="meta-badge mechanism-badge">Marker Placement</span>
+                    <span class="meta-badge complexity-badge">O(N²)</span>
+                </div>
+            </div>
+            <div class="algorithm-content">
+                <p class="algorithm-description">A procedure for linearly arranged goods using a 'marking' mechanism.</p>
+                <div class="algorithm-properties">
+                    <h4>Fairness Properties</h4>
+                    <div class="property-tags">
+                        <span class="property-tag">Proportional</span>
+                        <span class="property-tag">Strategy-proof</span>
+                        <span class="property-tag">Remainder-efficient</span>
+                    </div>
+                    <small class="property-note">Works for both continuous and discrete goods in linear arrangement</small>
+                </div>
+            </div>
+            <div class="algorithm-footer">
+                <a href="{{ '/algorithms/lucas-method-of-markers/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
+            </div>
         </div>
 
         <!-- Placeholder for future algorithms -->
