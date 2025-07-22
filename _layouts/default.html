@@ -1,191 +1,205 @@
-﻿<!DOCTYPE html> <!-- Default Layout Page -->
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/indivisible-goods.css' | relative_url }}">
-    <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon/favicon/favicon.svg' | relative_url }}">
-    <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon/favicon.ico' | relative_url }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon/favicon-32x32.png' | relative_url }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/favicon-16x16.png' | relative_url }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/favicon/apple-touch-icon.png' | relative_url }}">
+
+    <!-- Fixed CSS paths -->
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/indivisible-goods.css">
+
+    <!-- Fixed favicon paths -->
+    <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png">
+
     <meta name="theme-color" content="#3182ce">
+
+    <!-- MathJax Configuration - MUST come before script load -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+
     {% seo %}
 </head>
 <body>
-    <!-- Site Header -->
-    <header class="site-header">
-        <div class="container">
-            <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
-            <nav class="site-nav">
-                <a href="{{ '/theory/' | relative_url }}" {% if page.url contains '/theory/' %}class="active" {% endif %}>Theory</a>
-                <a href="{{ '/exercises/' | relative_url }}" {% if page.url contains '/exercises/' %}class="active" {% endif %}>Exercises + Simulator</a>
-                <a href="{{ '/analysis/' | relative_url }}" {% if page.url contains '/analysis/' %}class="active" {% endif %}>Analysis</a>
-                <a href="{{ '/glossary/' | relative_url }}" {% if page.url contains '/glossary/' %}class="active" {% endif %}>Glossary</a>
-                <a href="{{ '/references/' | relative_url }}" {% if page.url contains '/references/' %}class="active" {% endif %}>References</a>
-            </nav>
-        </div>
-    </header>
+<!-- Site Header -->
+<header class="site-header">
+    <div class="container">
+        <a href="{{ site.baseurl }}/" class="site-title">{{ site.title }}</a>
+        <nav class="site-nav">
+            <a href="{{ site.baseurl }}/theory/">Theory</a>
+            <a href="{{ site.baseurl }}/exercises/">Exercises + Simulator</a>
+            <a href="{{ site.baseurl }}/analysis/">Analysis</a>
+            <a href="{{ site.baseurl }}/glossary/">Glossary</a>
+            <a href="{{ site.baseurl }}/references/">References</a>
+        </nav>
+    </div>
+</header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            {{ content }}
-        </div>
-    </main>
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        {{ content }}
+    </div>
+</main>
 
-    <!-- Site Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <h3 class="footer-title">{{ site.title }}</h3>
-            <p class="footer-description">{{ site.description }}.</p>
-            <p class="footer-credits">Washington University received financial support for Responsible Computer Science from Mozilla</p>
-        </div>
-    </footer>
+<!-- Site Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <h3 class="footer-title">{{ site.title }}</h3>
+        <p class="footer-description">{{ site.description }}</p>
+        <p class="footer-credits">Developed by Amaan Khan under the guidance of Dr. Ron Cytron</p>
+        <p class="footer-credits">Washington University in St. Louis • Computer Science Department</p>
+    </div>
+</footer>
 
-    <!-- LaTex Scripts -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+<!-- JavaScript Libraries -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Proof Sketches and Interactive Elements -->
+<script>
+    // Initialize collapsible proof sketches after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for MathJax to finish rendering before initializing proof sketches
+        if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(() => {
+                initializeProofSketches();
+            });
+        } else {
+            // Fallback if MathJax isn't loaded
+            setTimeout(initializeProofSketches, 500);
         }
-      };
-    </script>
+    });
 
-    <!-- Proof Sketches Scripts -->
-    <script>
-        // Initialize collapsible proof sketches after MathJax is ready
-        document.addEventListener('DOMContentLoaded', function () {
-            // Wait for MathJax to finish rendering before initializing proof sketches
-            if (window.MathJax && window.MathJax.startup) {
-                window.MathJax.startup.promise.then(() => {
-                    initializeProofSketches();
-                });
-            } else {
-                // Fallback if MathJax isn't loaded
-                setTimeout(initializeProofSketches, 500);
+    function initializeProofSketches() {
+        // Find all existing proof-sketch divs and convert them
+        const proofSketches = document.querySelectorAll('.proof-sketch');
+
+        proofSketches.forEach(function (proofSketch, index) {
+            // Skip if already initialized
+            if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                return;
             }
-        });
 
-        function initializeProofSketches() {
-            // Find all existing proof-sketch divs and convert them
-            const proofSketches = document.querySelectorAll('.proof-sketch');
+            // Get the current content (preserving MathJax rendering)
+            const originalContent = proofSketch.innerHTML;
 
-            proofSketches.forEach(function (proofSketch, index) {
-                // Skip if already initialized
-                if (proofSketch.classList.contains('proof-sketch-initialized')) {
-                    return;
-                }
+            // Create the new structure
+            const proofId = `proof-sketch-${index}`;
 
-                // Get the current content (preserving MathJax rendering)
-                const originalContent = proofSketch.innerHTML;
+            // Create header element
+            const header = document.createElement('div');
+            header.className = 'proof-sketch-header';
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('aria-controls', `${proofId}-content`);
+            header.setAttribute('data-proof-toggle', '');
 
-                // Create the new structure
-                const proofId = `proof-sketch-${index}`;
-
-                // Create header element
-                const header = document.createElement('div');
-                header.className = 'proof-sketch-header';
-                header.setAttribute('role', 'button');
-                header.setAttribute('tabindex', '0');
-                header.setAttribute('aria-expanded', 'false');
-                header.setAttribute('aria-controls', `${proofId}-content`);
-                header.setAttribute('data-proof-toggle', '');
-
-                header.innerHTML = `
+            header.innerHTML = `
                     <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
                     <span class="proof-sketch-toggle">▼</span>
                 `;
 
-                // Create content wrapper
-                const contentWrapper = document.createElement('div');
-                contentWrapper.className = 'proof-sketch-content';
-                contentWrapper.id = `${proofId}-content`;
-                contentWrapper.setAttribute('role', 'region');
-                contentWrapper.setAttribute('aria-hidden', 'true');
-                contentWrapper.innerHTML = originalContent;
+            // Create content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'proof-sketch-content';
+            contentWrapper.id = `${proofId}-content`;
+            contentWrapper.setAttribute('role', 'region');
+            contentWrapper.setAttribute('aria-hidden', 'true');
+            contentWrapper.innerHTML = originalContent;
 
-                // Clear the original content and add new structure
-                proofSketch.innerHTML = '';
-                proofSketch.appendChild(header);
-                proofSketch.appendChild(contentWrapper);
+            // Clear the original content and add new structure
+            proofSketch.innerHTML = '';
+            proofSketch.appendChild(header);
+            proofSketch.appendChild(contentWrapper);
 
-                // Mark as initialized
-                proofSketch.classList.add('proof-sketch-initialized');
+            // Mark as initialized
+            proofSketch.classList.add('proof-sketch-initialized');
 
-                // Add click event listener
-                header.addEventListener('click', function () {
-                    toggleProofSketch(proofSketch);
-                });
-
-                // Add keyboard support (Enter and Space)
-                header.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleProofSketch(proofSketch);
-                    }
-                });
+            // Add click event listener
+            header.addEventListener('click', function () {
+                toggleProofSketch(proofSketch);
             });
+
+            // Add keyboard support (Enter and Space)
+            header.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleProofSketch(proofSketch);
+                }
+            });
+        });
+    }
+
+    function toggleProofSketch(proofSketch) {
+        const header = proofSketch.querySelector('.proof-sketch-header');
+        const content = proofSketch.querySelector('.proof-sketch-content');
+        const title = proofSketch.querySelector('.proof-sketch-title');
+
+        const isExpanded = proofSketch.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            proofSketch.classList.remove('expanded');
+            header.setAttribute('aria-expanded', 'false');
+            content.setAttribute('aria-hidden', 'true');
+            title.textContent = 'Show Proof';
+
+            // Reset max-height to 0 for smooth collapse
+            content.style.maxHeight = '0px';
+
+            // Reset padding after animation completes
+            setTimeout(() => {
+                if (!proofSketch.classList.contains('expanded')) {
+                    content.style.padding = '0';
+                }
+            }, 400);
+
+        } else {
+            // Expand
+            proofSketch.classList.add('expanded');
+            header.setAttribute('aria-expanded', 'true');
+            content.setAttribute('aria-hidden', 'false');
+            title.textContent = 'Hide Proof';
+
+            // Set padding first
+            content.style.padding = '1rem';
+
+            // Calculate proper max-height based on content (with some buffer)
+            const contentHeight = content.scrollHeight;
+            const bufferHeight = 50; // Add buffer for safety
+            content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+            // Optional: Scroll the proof into view if it's partially hidden
+            setTimeout(() => {
+                const rect = proofSketch.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight) {
+                    proofSketch.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }, 300);
         }
-
-        function toggleProofSketch(proofSketch) {
-            const header = proofSketch.querySelector('.proof-sketch-header');
-            const content = proofSketch.querySelector('.proof-sketch-content');
-            const title = proofSketch.querySelector('.proof-sketch-title');
-
-            const isExpanded = proofSketch.classList.contains('expanded');
-
-            if (isExpanded) {
-                // Collapse
-                proofSketch.classList.remove('expanded');
-                header.setAttribute('aria-expanded', 'false');
-                content.setAttribute('aria-hidden', 'true');
-                title.textContent = 'Show Proof';
-
-                // Reset max-height to 0 for smooth collapse
-                content.style.maxHeight = '0px';
-
-                // Reset padding after animation completes
-                setTimeout(() => {
-                    if (!proofSketch.classList.contains('expanded')) {
-                        content.style.padding = '0';
-                    }
-                }, 400);
-
-            } else {
-                // Expand
-                proofSketch.classList.add('expanded');
-                header.setAttribute('aria-expanded', 'true');
-                content.setAttribute('aria-hidden', 'false');
-                title.textContent = 'Hide Proof';
-
-                // Set padding first
-                content.style.padding = '1rem';
-
-                // Calculate proper max-height based on content (with some buffer)
-                const contentHeight = content.scrollHeight;
-                const bufferHeight = 50; // Add buffer for safety
-                content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
-
-                // Optional: Scroll the proof into view if it's partially hidden
-                setTimeout(() => {
-                    const rect = proofSketch.getBoundingClientRect();
-                    if (rect.bottom > window.innerHeight) {
-                        proofSketch.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest'
-                        });
-                    }
-                }, 300);
-            }
-        }
-    </script>
-
-    <script src="{{ '/assets/flowchart-enhanced.js' | relative_url }}"></script>
+    }
+</script>
 </body>
 </html>
