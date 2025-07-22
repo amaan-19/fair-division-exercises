@@ -16,7 +16,7 @@ title: Fair Division Algorithms
 
 <div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
   <h2>New Here?</h2>
-  <p style="font-size: larger">This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
+  <p>This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
 </div>
 
 <div class="algorithms-section">
@@ -226,14 +226,43 @@ title: Fair Division Algorithms
     <div class="algorithm-carousel" id="indivisible-carousel">
       <!-- Algorithm Track -->
       <div class="algorithm-track" id="indivisible-track">
+
+        <!-- Knaster's Sealed Bids Algorithm Card -->
+        <div class="algorithm-card">
+          <div class="algorithm-header">
+            <h3 class="algorithm-title">Knaster's Procedure of Sealed Bids</h3>
+            <div class="algorithm-meta">
+              <span class="meta-badge players-badge">N Players</span>
+              <span class="meta-badge type-badge">Discrete Items</span>
+              <span class="meta-badge mechanism-badge">Auction</span>
+              <span class="meta-badge complexity-badge">O(N) Rounds</span>
+            </div>
+          </div>
+          <div class="algorithm-content">
+            <p class="algorithm-description">A truthful auction mechanism for fairly dividing indivisible goods using sealed bids and monetary transfers</p>
+            <div class="algorithm-properties">
+              <h4>Fairness Properties</h4>
+              <div class="property-tags">
+                <span class="property-tag">Proportional*</span>
+                <span class="property-tag">Truthful</span>
+                <span class="property-tag">Budget-Balanced</span>
+              </div>
+              <small class="property-note">*With monetary compensation</small>
+            </div>
+          </div>
+          <div class="algorithm-footer">
+            <a href="{{ '/algorithms/knaster-sealed-bids/' | relative_url }}" class="algorithm-link">Study Algorithm</a>
+          </div>
+        </div>
+
         <!-- Placeholder for future algorithms -->
         <div class="algorithm-card coming-soon">
           <div class="algorithm-header">
             <h3 class="algorithm-title">Coming Soon!</h3>
           </div>
         </div>
-      </div>
 
+      </div>
       <div class="carousel-controls">
           <button class="carousel-btn" id="indivisible-prevBtn">‹</button>
           <div class="carousel-indicators" id="indivisible-indicators"></div>

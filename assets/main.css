@@ -3420,7 +3420,7 @@ blockquote {
    ENHANCED FLOWCHART SYSTEM - COMPLETE
    ======================================== */
 
-/* Main Container - Matches your content-block styling */
+/* Main Container */
 .algorithm-flowchart-enhanced {
     background: white;
     border-radius: 12px;
@@ -4434,17 +4434,6 @@ blockquote {
     transition: opacity 0.4s ease;
 }
 
-/* Enhanced step animations with container awareness */
-.flow-step-enhanced {
-    position: relative;
-    margin: 1.5rem auto;
-    max-width: 350px;
-    z-index: 1;
-    transition-property: opacity, transform, visibility;
-    transition-duration: 0.8s; /* Slightly longer for smoother growth sync */
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 /* Container size states */
 .algorithm-flowchart-enhanced.size-small {
     min-height: 200px;
@@ -4661,10 +4650,6 @@ blockquote {
     padding: 1rem !important;
 }
 
-.flow-step-enhanced {
-    margin: 2rem auto !important;
-}
-
 /* Mobile fix */
 @media (max-width: 768px) {
     .query-badge-enhanced {
@@ -4673,4 +4658,17 @@ blockquote {
         min-width: 24px !important;
         height: 24px !important;
     }
+}
+
+/* New badge types for indivisible resources */
+.mechanism-badge {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.property-note {
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
 }
