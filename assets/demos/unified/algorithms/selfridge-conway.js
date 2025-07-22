@@ -572,104 +572,95 @@ const selfridgeConwayConfig = {
     playerCount: 3,
     steps: SELFRIDGE_CONWAY_STEPS,
 
+    // ADD THIS: Robertson-Webb Complexity Metadata
+    complexity: {
+        theoretical: {
+            cut: "3-5",    // Initial division + possible trimming + phase 2 cuts
+            eval: "6-9",   // Multiple evaluation rounds in both phases
+            total: "9-14"
+        },
+        worstCase: {
+            cut: 5,        // Phase 1 trimming + Phase 2 subdivisions
+            eval: 9,       // Full evaluation in both phases
+            total: 14
+        },
+        bestCase: {
+            cut: 3,        // Minimal trimming needed
+            eval: 6,       // Basic evaluation requirements
+            total: 9
+        },
+        optimal: false,
+        bounds: "Complexity depends on trimming requirements and phase 2 subdivisions",
+        queryPattern: "Phase 1: Division and trimming. Phase 2: Trimmings subdivision",
+        significance: "First discrete algorithm achieving envy-freeness for 3 players",
+        tradeoffs: "Envy-freeness vs. significantly increased complexity",
+        references: [
+            "Selfridge (1960) - Unpublished manuscript",
+            "Conway (1967) - Personal communication",
+            "Brams & Taylor (1996) - Fair Division"
+        ]
+    },
+
     onInit: (state, api) => {
         Logger.debug("Selfridge-Conway algorithm initialized");
-
-        // Initialize with reasonable default cut positions for three pieces
-        api.setCutPosition(33);  // First cut at 33%
-        api.setCutPosition2(67); // Second cut at 67%
-
-        // Update the actual slider elements to match
-        api.resetSlider('cut-slider');
-        api.resetSlider('cut-slider-2');
-        const cutSlider1 = document.getElementById('cut-slider');
-        const cutSlider2 = document.getElementById('cut-slider-2');
-        if (cutSlider1) cutSlider1.value = 33;
-        if (cutSlider2) cutSlider2.value = 67;
-
-        // Update displays
+        api.setCutPosition(33);
+        api.setCutPosition2(67);
         SelfridgeConwayAlgorithm.updatePieceDisplays(state, api);
-    },
 
-    onStateChange: (stateKey, state, api) => {
-        // Handle real-time updates during cutting phase
-        if ((stateKey === 'cutPosition' || stateKey === 'cutPosition2') && api.getCurrentStep() === 0) {
-            SelfridgeConwayAlgorithm.updatePieceDisplays(state, api);
+        // Initialize complexity tracking
+        if (api.setCurrentAlgorithm) {
+            api.setCurrentAlgorithm('selfridge-conway');
         }
-
-        // Handle validation changes
-        if (stateKey === 'playerValues') {
-            const validation = api.validatePlayerTotals(state.playerValues);
-            const allValid = validation.player1.valid && validation.player2.valid && validation.player3.valid;
-            api.setStartButtonState(allValid ? 'enabled' : 'disabled');
-
-            if (api.getCurrentStep() === 0) {
-                SelfridgeConwayAlgorithm.updatePieceDisplays(state, api);
-            }
-        }
-    },
-
-    onStart: (state, api) => {
-        Logger.info('Start button clicked for Selfridge-Conway algorithm');
-        api.nextStep(); // Go to cutting phase
     },
 
     onMakeCut: (state, api) => {
-        Logger.info('Make Cut button clicked for Selfridge-Conway algorithm');
+        const currentStep = api.getCurrentStep();
 
-        // Validate that all player values sum to 100
-        if (!SelfridgeConwayAlgorithm.validateCut(state, api)) {
-            return;
+        if (currentStep === 0) {
+            // ENHANCED: Record initial division queries
+            if (api.recordCutQuery) {
+                api.recordCutQuery(1,
+                    `Divider creates first cut at ${state.cutPosition} for equal-value pieces`);
+                api.recordCutQuery(1,
+                    `Divider creates second cut at ${state.cutPosition2} for three equal pieces`);
+            }
+
+            api.nextStep();
         }
-
-        // Calculate piece values for divider and check equality
-        const equalityCheck = SelfridgeConwayAlgorithm.validateDividerEquality(state, api);
-
-        // Warn if pieces are not reasonably equal (but allow to proceed)
-        if (!equalityCheck.isEqual) {
-            const proceed = confirm(
-                `Warning: Your pieces are not equally valued!\n\n` +
-                `Piece 1: ${equalityCheck.values[0].toFixed(1)} points\n` +
-                `Piece 2: ${equalityCheck.values[1].toFixed(1)} points\n` +
-                `Piece 3: ${equalityCheck.values[2].toFixed(1)} points\n\n` +
-                `Max difference: ${equalityCheck.maxDiff.toFixed(1)} points\n\n` +
-                `Proceed anyway?`
-            );
-            if (!proceed) return;
-        }
-
-        Logger.info(`Cut finalized with positions: ${state.cutPosition}, ${state.cutPosition2}`);
-
-        // Move to trimming analysis
-        api.nextStep();
     },
 
-    onReset: (state, api) => {
-        Logger.info('Selfridge-Conway algorithm reset');
+    // ENHANCED: Track trimming phase
+    onTrimmingPhase: (state, api) => {
+        const pieceValues = api.calculateThreePieceValues(state.cutPosition, state.cutPosition2);
 
-        // Reset algorithm state
-        api.setAlgorithmData('algorithm', null);
-        api.setAlgorithmData('pieceValues', null);
-        api.setAlgorithmData('needsTrimming', null);
-        api.setAlgorithmData('trimmedPiece', null);
-        api.setAlgorithmData('trimmingAmount', null);
-        api.setAlgorithmData('mainAllocation', null);
-        api.setAlgorithmData('trimmedPieceHolder', null);
-        api.setAlgorithmData('trimmingsCutter', null);
-        api.setAlgorithmData('trimmingsAllocation', null);
+        if (api.recordEvalQuery) {
+            // Trimmer evaluates to determine largest piece
+            api.recordEvalQuery(2, 'all-pieces', 'comparison',
+                'Trimmer evaluates all pieces to identify the largest');
+        }
 
-        // Reset cut positions to reasonable defaults
-        api.setCutPosition(33);
-        api.setCutPosition2(67);
+        // Check if trimming is needed
+        const needsTrimming = SelfridgeConwayAlgorithm.checkTrimmingNeeded(pieceValues);
 
-        // Clean up UI
-        SelfridgeConwayAlgorithm.clearPieceSelection();
-        api.hideElement('cut-control-2');
-        api.hideElement('results');
-        api.setStartButtonState('enabled');
+        if (needsTrimming && api.recordCutQuery) {
+            api.recordCutQuery(2,
+                'Trimmer cuts the largest piece to make it tied for largest');
+        }
+    },
 
-        // Update displays
-        SelfridgeConwayAlgorithm.updatePieceDisplays(state, api);
+    // ENHANCED: Track Phase 2 complexity
+    onPhase2Start: (state, api) => {
+        if (api.recordCutQuery) {
+            // Phase 2 may require additional subdivision of trimmings
+            api.recordCutQuery(1, 'Phase 2: Subdividing trimmings for fair allocation');
+        }
+
+        if (api.recordEvalQuery) {
+            // All players evaluate trimmings
+            api.recordEvalQuery(1, 'trimmings', 'subdivision', 'Player 1 evaluates trimmings portions');
+            api.recordEvalQuery(2, 'trimmings', 'subdivision', 'Player 2 evaluates trimmings portions');
+            api.recordEvalQuery(3, 'trimmings', 'subdivision', 'Player 3 evaluates trimmings portions');
+        }
     }
 };
 

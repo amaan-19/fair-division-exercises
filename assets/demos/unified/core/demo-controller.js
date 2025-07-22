@@ -14,6 +14,7 @@ class FairDivisionDemoSystem {
         this.stateManager = new StateManager(this.eventSystem);
         this.uiController = new UIController(this.stateManager, this.eventSystem);
         this.animationEngine = new AnimationEngine();
+        this.queryTracker = new QueryTracker();
 
         // Algorithm management
         this.algorithms = new Map();
@@ -23,6 +24,7 @@ class FairDivisionDemoSystem {
         // Initialize system
         this.setupEventHandlers();
         this.attachHTMLListeners();
+        this.setupComplexityIntegration();
 
         this.isInitialized = true;
         this.processRegistrationQueue();
@@ -275,6 +277,18 @@ class FairDivisionDemoSystem {
         }
     }
 
+    setupComplexityIntegration() {
+        // Listen for algorithm changes
+        this.eventSystem.on('algorithmChanged', (algorithmId) => {
+            this.queryTracker.setCurrentAlgorithm(algorithmId);
+        });
+
+        // Listen for algorithm resets
+        this.eventSystem.on('algorithmReset', () => {
+            this.queryTracker.reset();
+        });
+    }
+
     initializeAlgorithm() {
         const config = this.currentAlgorithm.config;
 
@@ -345,7 +359,36 @@ class FairDivisionDemoSystem {
 
             // Three-piece overlays
             showThreePieceOverlays: (leftPos, rightPos) => this.uiController.showThreePieceOverlays(leftPos, rightPos),
-            hideThreePieceOverlays: () => this.uiController.hideThreePieceOverlays()
+            hideThreePieceOverlays: () => this.uiController.hideThreePieceOverlays(),
+
+            // Enhanced query tracking methods
+            recordCutQuery: (player, context) => {
+                return this.queryTracker.recordCutQuery(player, context);
+            },
+
+            recordEvalQuery: (player, piece, value, context) => {
+                return this.queryTracker.recordEvalQuery(player, piece, value, context);
+            },
+
+            getComplexityAnalysis: () => {
+                return this.queryTracker.getComplexityAnalysis();
+            },
+
+            // Convenience methods for common patterns
+            trackDividerCut: (position) => {
+                return this.queryTracker.recordCutQuery(1,
+                    `Divider cuts at position ${position} to create equal-value pieces`);
+            },
+
+            trackChooserEvaluation: (piece, value) => {
+                return this.queryTracker.recordEvalQuery(2, piece, value,
+                    `Chooser evaluates ${piece} and finds it worth ${value}% of total value`);
+            },
+
+            trackTrimmingEvaluation: (player, piece, value) => {
+                return this.queryTracker.recordEvalQuery(player, piece, value,
+                    `Player ${player} evaluates ${piece} to determine if trimming is needed`);
+            }
         };
     }
 

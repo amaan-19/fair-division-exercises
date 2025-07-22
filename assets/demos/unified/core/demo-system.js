@@ -745,11 +745,44 @@ class AnimationEngine {
     }
 }
 
-class QueryCounter {
+/**
+ * Enhanced QueryTracker - Drop-in replacement for existing QueryCounter
+ * Integrates Robertson-Webb complexity analysis with educational context
+ */
+
+class QueryTracker {
     constructor() {
         this.cutQueries = 0;
         this.evalQueries = 0;
+        this.queryHistory = [];
+        this.currentAlgorithm = null;
+        this.complexityData = this.initializeComplexityData();
         this.createUI();
+    }
+
+    initializeComplexityData() {
+        return {
+            'divide-and-choose': {
+                theoretical: { cut: 1, eval: 1, total: 2 },
+                optimal: true,
+                explanation: 'Optimal for 2-player proportional division'
+            },
+            'austins-moving-knife': {
+                theoretical: { cut: 0, eval: '∞', total: '∞' },
+                optimal: false,
+                explanation: 'Continuous eval queries until stopping condition'
+            },
+            'steinhaus-lone-divider': {
+                theoretical: { cut: '2-4', eval: '3-6', total: '5-10' },
+                optimal: false,
+                explanation: 'May require multiple rounds for 3+ players'
+            },
+            'selfridge-conway': {
+                theoretical: { cut: '3-4', eval: '6-9', total: '9-13' },
+                optimal: false,
+                explanation: 'Envy-free for 3 players with trimming'
+            }
+        };
     }
 
     createUI() {
@@ -757,8 +790,8 @@ class QueryCounter {
         queryPanel.className = 'query-panel';
         queryPanel.innerHTML = `
             <div class="query-header">
-                <h4>Robertson-Webb Query Count</h4>
-                <button class="info-button" onclick="showQueryInfo()">ℹ️</button>
+                <h4>Robertson-Webb Query Analysis</h4>
+                <button class="info-button" onclick="showQueryInfo()" title="Learn about the RW query model">ℹ️</button>
             </div>
             <div class="query-stats">
                 <div class="query-stat">
@@ -774,81 +807,317 @@ class QueryCounter {
                     <span class="query-label">Total</span>
                 </div>
             </div>
+            <div class="complexity-analysis" id="complexity-analysis">
+                <div class="complexity-comparison">
+                    <span class="theoretical-label">Theoretical:</span>
+                    <span class="theoretical-value" id="theoretical-value">-</span>
+                </div>
+                <div class="optimality-indicator" id="optimality-indicator">
+                    <span class="optimality-status">Select algorithm</span>
+                </div>
+            </div>
+            <div class="query-context" id="query-context" style="display: none;">
+                <div class="context-content" id="context-content"></div>
+            </div>
         `;
 
-        // Insert into demo interface
+        // Insert into demo interface (same location as original)
         const demoContainer = document.querySelector('.demo-section');
-        demoContainer.insertBefore(queryPanel, demoContainer.firstChild);
+        if (demoContainer) {
+            demoContainer.insertBefore(queryPanel, demoContainer.firstChild);
+        }
     }
 
-    recordCutQuery(player, position, targetValue) {
+    // =====  CORE QUERY TRACKING METHODS =====
+    recordCutQuery(player, context = null) {
+        const query = {
+            type: 'cut',
+            player,
+            timestamp: Date.now(),
+            algorithm: this.currentAlgorithm,
+            context: context || this.generateCutContext(player)
+        };
+
         this.cutQueries++;
+        this.queryHistory.push(query);
         this.updateDisplay();
-        this.logQuery('CUT', `Player ${player} cuts at position ${position} for value ${targetValue}`);
+        this.showQueryContext(query);
+        this.logQuery('CUT', query);
+
+        return query;
     }
 
-    recordEvalQuery(player, piece, value) {
+    recordEvalQuery(player, piece, value, context = null) {
+        const query = {
+            type: 'eval',
+            player,
+            piece,
+            value,
+            timestamp: Date.now(),
+            algorithm: this.currentAlgorithm,
+            context: context || this.generateEvalContext(player, piece, value)
+        };
+
         this.evalQueries++;
+        this.queryHistory.push(query);
         this.updateDisplay();
-        this.logQuery('EVAL', `Player ${player} evaluates piece as ${value}`);
+        this.showQueryContext(query);
+        this.logQuery('EVAL', query);
+
+        return query;
     }
 
+    // ===== ALGORITHM INTEGRATION =====
+    setCurrentAlgorithm(algorithmId) {
+        this.currentAlgorithm = algorithmId;
+        this.updateComplexityAnalysis();
+    }
+
+    updateComplexityAnalysis() {
+        const analysis = this.complexityData[this.currentAlgorithm];
+        if (!analysis) return;
+
+        const theoreticalElement = document.getElementById('theoretical-value');
+        const optimalityElement = document.getElementById('optimality-indicator');
+
+        if (theoreticalElement) {
+            theoreticalElement.textContent = `${analysis.theoretical.total} queries`;
+        }
+
+        if (optimalityElement) {
+            const statusClass = analysis.optimal ? 'optimal' : 'suboptimal';
+            const statusText = analysis.optimal ? '✓ Optimal' : '⚠ Suboptimal';
+
+            optimalityElement.innerHTML = `
+                <span class="optimality-status ${statusClass}">${statusText}</span>
+            `;
+        }
+    }
+
+    // ===== EDUCATIONAL CONTEXT GENERATION =====
+    generateCutContext(player) {
+        const contexts = {
+            'divide-and-choose': {
+                1: 'The divider creates two pieces they value equally',
+                2: 'Not applicable - chooser does not make cuts'
+            },
+            'steinhaus-lone-divider': {
+                1: 'The lone divider creates three equal-value pieces',
+                2: 'Player 2 may trim the largest piece',
+                3: 'Player 3 may trim the largest piece'
+            },
+            'selfridge-conway': {
+                1: 'Initial division into three equal pieces',
+                2: 'May need to trim for envy-freeness',
+                3: 'May need to trim for envy-freeness'
+            }
+        };
+
+        return contexts[this.currentAlgorithm]?.[player] ||
+            `Player ${player} makes a strategic cut based on their preferences`;
+    }
+
+    generateEvalContext(player, piece, value) {
+        const contexts = {
+            'divide-and-choose': {
+                1: 'Divider implicitly evaluates pieces as equal',
+                2: 'Chooser evaluates both pieces to select the preferred one'
+            },
+            'steinhaus-lone-divider': {
+                1: 'Lone divider ensures equal valuation across all three pieces',
+                2: 'Evaluates pieces to determine if trimming is needed',
+                3: 'Evaluates pieces to determine if trimming is needed'
+            }
+        };
+
+        return contexts[this.currentAlgorithm]?.[player] ||
+            `Player ${player} evaluates ${piece} as worth ${value}% of total cake value`;
+    }
+
+    // ===== UI UPDATE METHODS =====
     updateDisplay() {
-        document.getElementById('cut-count').textContent = this.cutQueries;
-        document.getElementById('eval-count').textContent = this.evalQueries;
-        document.getElementById('total-count').textContent = this.cutQueries + this.evalQueries;
+        const cutCountEl = document.getElementById('cut-count');
+        const evalCountEl = document.getElementById('eval-count');
+        const totalCountEl = document.getElementById('total-count');
+
+        if (cutCountEl) cutCountEl.textContent = this.cutQueries;
+        if (evalCountEl) evalCountEl.textContent = this.evalQueries;
+        if (totalCountEl) totalCountEl.textContent = this.cutQueries + this.evalQueries;
+
+        this.updateEfficiencyIndicator();
     }
 
-    logQuery(type, description) {
-        console.log(`[${type} QUERY ${this.cutQueries + this.evalQueries}] ${description}`);
+    updateEfficiencyIndicator() {
+        const analysis = this.complexityData[this.currentAlgorithm];
+        if (!analysis) return;
 
-        // Visual feedback
-        const queryCount = document.querySelector('.query-panel');
-        queryCount.style.animation = 'highlight 0.5s ease-out';
+        const totalQueries = this.cutQueries + this.evalQueries;
+        const theoretical = analysis.theoretical.total;
+
+        // Only show efficiency for algorithms with numeric theoretical bounds
+        if (typeof theoretical === 'number' && totalQueries > 0) {
+            const efficiency = Math.min(100, (theoretical / totalQueries) * 100);
+            const efficiencyClass = efficiency >= 90 ? 'excellent' : efficiency >= 70 ? 'good' : 'suboptimal';
+
+            // Visual feedback
+            const queryPanel = document.querySelector('.query-panel');
+            if (queryPanel) {
+                queryPanel.setAttribute('data-efficiency', efficiencyClass);
+            }
+        }
+    }
+
+    showQueryContext(query) {
+        const contextEl = document.getElementById('query-context');
+        const contentEl = document.getElementById('context-content');
+
+        if (!contextEl || !contentEl) return;
+
+        contentEl.innerHTML = `
+            <div class="query-explanation">
+                <div class="query-type">${query.type.toUpperCase()} Query #${this.queryHistory.length}</div>
+                <div class="query-description">${query.context}</div>
+                <div class="query-significance">${this.getQuerySignificance(query)}</div>
+            </div>
+        `;
+
+        contextEl.style.display = 'block';
+
+        // Auto-hide after a few seconds
         setTimeout(() => {
-            queryCount.style.animation = '';
-        }, 500);
+            contextEl.style.display = 'none';
+        }, 4000);
+    }
+
+    getQuerySignificance(query) {
+        const significance = {
+            'divide-and-choose': {
+                cut: 'This is the optimal first step - no algorithm can achieve proportional division with fewer than 1 cut query.',
+                eval: 'This completes the minimum query requirement for 2-player fair division. The algorithm is provably optimal.'
+            },
+            'steinhaus-lone-divider': {
+                cut: 'Creating equal-value pieces is essential for proportional fairness among 3 players.',
+                eval: 'Evaluation determines whether trimming is needed to maintain fairness properties.'
+            }
+        };
+
+        return significance[this.currentAlgorithm]?.[query.type] ||
+            'This query helps the algorithm gather necessary preference information for fair division.';
+    }
+
+    // ===== UTILITY METHODS =====
+    logQuery(type, query) {
+        Logger.info(`[${type} QUERY #${this.queryHistory.length}] Player ${query.player}: ${query.context}`);
+
+        // Visual feedback animation
+        const queryPanel = document.querySelector('.query-panel');
+        if (queryPanel) {
+            queryPanel.style.animation = 'query-pulse 0.5s ease-out';
+            setTimeout(() => {
+                queryPanel.style.animation = '';
+            }, 500);
+        }
     }
 
     reset() {
         this.cutQueries = 0;
         this.evalQueries = 0;
+        this.queryHistory = [];
         this.updateDisplay();
+
+        // Hide context
+        const contextEl = document.getElementById('query-context');
+        if (contextEl) {
+            contextEl.style.display = 'none';
+        }
+
+        Logger.debug('Query tracker reset');
     }
 
-    getComplexityAnalysis(algorithm) {
-        const analyses = {
-            'divide-and-choose': {
-                theoretical: 2,
-                optimal: true,
-                explanation: 'Optimal for 2-player proportional division'
-            },
-            'austins-moving-knife': {
-                theoretical: 'O(n)',
-                optimal: false,
-                explanation: 'Continuous queries until stopping condition'
-            },
-            'steinhaus-lone-divider': {
-                theoretical: 'O(n²)',
-                optimal: false,
-                explanation: 'Multiple rounds may be needed for 3+ players'
-            }
+    // ===== ANALYSIS METHODS =====
+    getComplexityAnalysis() {
+        const analysis = this.complexityData[this.currentAlgorithm];
+        if (!analysis) {
+            return { error: 'Unknown algorithm' };
+        }
+
+        const actual = {
+            cut: this.cutQueries,
+            eval: this.evalQueries,
+            total: this.cutQueries + this.evalQueries
         };
 
-        return analyses[algorithm] || { theoretical: 'Unknown', optimal: false };
+        return {
+            algorithm: this.currentAlgorithm,
+            theoretical: analysis.theoretical,
+            actual,
+            optimal: analysis.optimal,
+            explanation: analysis.explanation,
+            efficiency: this.calculateEfficiency(analysis.theoretical, actual)
+        };
+    }
+
+    calculateEfficiency(theoretical, actual) {
+        if (typeof theoretical.total !== 'number' || actual.total === 0) {
+            return null;
+        }
+
+        return {
+            percentage: Math.min(100, (theoretical.total / actual.total) * 100),
+            status: actual.total <= theoretical.total ? 'optimal' : 'suboptimal'
+        };
+    }
+
+    // ===== BACKWARD COMPATIBILITY =====
+    // Keep the original method names for existing algorithm code
+    recordCutQuery_legacy(player, position, targetValue) {
+        return this.recordCutQuery(player, `Cut at position ${position} targeting value ${targetValue}`);
+    }
+
+    recordEvalQuery_legacy(player, piece, value) {
+        return this.recordEvalQuery(player, piece, value);
     }
 }
 
+// Enhanced info modal function
 function showQueryInfo() {
     const modal = document.createElement('div');
     modal.className = 'query-info-modal';
     modal.innerHTML = `
         <div class="modal-content">
-            <h3>Robertson-Webb Query Model</h3>
-            <p><strong>Cut Queries:</strong> Ask a player to cut at a position where one piece has a specific value.</p>
-            <p><strong>Eval Queries:</strong> Ask a player to evaluate the value of a given piece.</p>
-            <p>This model measures algorithm efficiency by counting these preference queries rather than computational operations.</p>
-            <button onclick="this.parentElement.parentElement.remove()">Close</button>
+            <div class="modal-header">
+                <h3>Robertson-Webb Query Model</h3>
+                <button onclick="this.parentElement.parentElement.remove()" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="query-type-explanation">
+                    <h4>Query Types</h4>
+                    <div class="query-type">
+                        <strong>Cut Queries:</strong> Ask a player to cut the cake at a position where 
+                        one piece has a specific value according to their preferences.
+                    </div>
+                    <div class="query-type">
+                        <strong>Eval Queries:</strong> Ask a player to evaluate the value of a given 
+                        piece according to their preferences.
+                    </div>
+                </div>
+                
+                <div class="significance-explanation">
+                    <h4>Why This Matters</h4>
+                    <p>The Robertson-Webb model measures algorithm efficiency by counting preference 
+                    queries rather than computational operations. This is realistic because:</p>
+                    <ul>
+                        <li>Players' preferences are private information</li>
+                        <li>Each query has a real cost in practical situations</li>
+                        <li>It enables fair comparison between different algorithmic approaches</li>
+                    </ul>
+                </div>
+                
+                <div class="educational-note">
+                    <p><strong>Educational Goal:</strong> Watch how different algorithms achieve 
+                    fairness with different query patterns and efficiency trade-offs.</p>
+                </div>
+            </div>
         </div>
     `;
     document.body.appendChild(modal);
@@ -862,6 +1131,6 @@ window.DemoSystem = {
     CalculationEngine,
     UIController,
     AnimationEngine,
-    QueryCounter,
+    QueryTracker,
     DEMO_CONFIG
 };

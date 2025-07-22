@@ -111,6 +111,7 @@ class DivideAndChooseAlgorithm {
         api.disableElement('right-piece-overlay');
 
         api.emit('pieceSelected', { piece, player: 'player2' });
+        api.recordEvalQuery('player2', piece);
     }
 
     static highlightSelectedPiece(piece, api) {
@@ -311,37 +312,63 @@ const DIVIDE_CHOOSE_STEPS = [
 
 // ===== ALGORITHM CONFIGURATION OBJECT =====
 const divideAndChooseConfig = {
-    name: 'Divide-and-Choose',
-    description: 'Fundamental fair division procedure for two players',
+    name: "Divide-and-Choose",
+    description: "Classic two-player fair division procedure for two players",
     playerCount: 2,
     steps: DIVIDE_CHOOSE_STEPS,
 
-    // Lifecycle handlers
+    // ADD THIS: Robertson-Webb Complexity Metadata
+    complexity: {
+        theoretical: {
+            cut: 1,        // Divider makes one cut
+            eval: 1,       // Chooser evaluates both pieces
+            total: 2
+        },
+        worstCase: {
+            cut: 1,
+            eval: 1,
+            total: 2
+        },
+        bestCase: {
+            cut: 1,
+            eval: 1,
+            total: 2
+        },
+        optimal: true,
+        bounds: "Proven optimal for 2-player proportional division",
+        queryPattern: "One cut query (divider) followed by one eval query (chooser)",
+        significance: "This is the theoretical minimum for any 2-player proportional algorithm",
+        references: [
+            "Robertson & Webb (1998) - Cake Cutting Algorithms",
+            "Stromquist (1980) - How to cut a cake fairly"
+        ]
+    },
+
+    // Enhanced lifecycle handlers with query tracking
     onInit: (state, api) => {
         Logger.debug('Divide-and-Choose algorithm initialized');
         api.setCutPosition(0);
         api.resetSlider('cut-slider');
         DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
-    },
 
-    onStateChange: (stateKey, state, api) => {
-        // Handle real-time updates during cutting phase
-        if (stateKey === 'cutPosition' && api.getCurrentStep() === 0) {
-            DivideAndChooseAlgorithm.updatePieceDisplays(state, api);
+        // Initialize complexity tracking if QueryTracker is available
+        if (api.setCurrentAlgorithm) {
+            api.setCurrentAlgorithm('divide-and-choose');
         }
-    },
-
-    onStart: (state, api) => {
-        Logger.info('Divide-and-Choose algorithm started');
-        api.nextStep();
     },
 
     onMakeCut: (state, api) => {
         Logger.info('Make Cut button clicked');
 
-        // Validate before proceeding
         if (!DivideAndChooseAlgorithm.validateCut(state, api)) {
             return;
+        }
+
+        // ENHANCED: Record the cut query with educational context
+        if (api.trackDividerCut) {
+            api.trackDividerCut(state.cutPosition);
+        } else if (api.recordCutQuery) {
+            api.recordCutQuery(1, `Divider cuts at position ${state.cutPosition} to create two equal-value pieces`);
         }
 
         // Mark cut as made
@@ -351,29 +378,40 @@ const divideAndChooseConfig = {
         }
 
         Logger.info(`Cut finalized at position: ${state.cutPosition}`);
-
-        // Show piece overlays and advance to choosing
         DivideAndChooseAlgorithm.showPieceOverlays(state.cutPosition);
         api.nextStep();
     },
 
+    // NEW: Enhanced piece selection with eval query tracking
+    onPieceSelected: (state, api, piece) => {
+        const pieceValues = api.calculateRegionValues(state.cutPosition);
+        const selectedValue = piece === 'left' ? pieceValues.left.player2 : pieceValues.right.player2;
+
+        // Record the evaluation query
+        if (api.trackChooserEvaluation) {
+            api.trackChooserEvaluation(piece, selectedValue);
+        } else if (api.recordEvalQuery) {
+            api.recordEvalQuery(2, piece, selectedValue,
+                `Chooser selects ${piece} piece valued at ${selectedValue.toFixed(1)}%`);
+        }
+
+        // Show results with complexity analysis
+        const results = {
+            allocation: { player1: piece === 'left' ? 'right' : 'left', player2: piece },
+            pieceValues,
+            complexityAnalysis: api.getComplexityAnalysis ? api.getComplexityAnalysis() : null
+        };
+
+        api.showResults(results);
+    },
+
     onReset: (state, api) => {
         Logger.info('Divide-and-Choose algorithm reset');
-        // Clear visual elements
         DivideAndChooseAlgorithm.clearPieceOverlays();
-
-        // Reset algorithm state
         api.setAlgorithmData('algorithm', null);
         api.setAlgorithmData('pieceValues', null);
         api.setAlgorithmData('finalResults', null);
-
-        // Reset UI
         api.hideElement('results');
-        api.enableElement('cut-slider');
-        api.resetSlider('cut-slider');
-        api.hideElement('cut-line');
-        api.showElement('make-cut-btn');
-        api.updateCutPositionDisplay(0);
     }
 };
 

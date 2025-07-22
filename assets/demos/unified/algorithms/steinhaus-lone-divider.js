@@ -537,104 +537,103 @@ const STEINHAUS_STEPS = [
 ];
 
 // ===== ALGORITHM CONFIGURATION =====
-const steinhausLoneDividerConfig = {
-    name: "Steinhaus' Lone-Divider",
-    description: "Three-player fair division using the lone divider method with case-based analysis",
+const steinhausConfig = {
+    name: "Steinhaus Lone-Divider",
+    description: "Proportional division procedure for three players",
     playerCount: 3,
     steps: STEINHAUS_STEPS,
 
+    // ADD THIS: Robertson-Webb Complexity Metadata
+    complexity: {
+        theoretical: {
+            cut: "2-4",    // Initial 2 cuts, possibly more for trimming
+            eval: "3-6",   // Each player evaluates pieces, possible re-evaluation
+            total: "5-10"
+        },
+        worstCase: {
+            cut: 4,        // Multiple trimming rounds
+            eval: 6,       // Re-evaluation after each trim
+            total: 10
+        },
+        bestCase: {
+            cut: 2,        // No trimming needed
+            eval: 3,       // Simple evaluation and selection
+            total: 5
+        },
+        optimal: false,
+        bounds: "Upper bound depends on number of trimming rounds required",
+        queryPattern: "Initial division (2 cuts), then evaluation and possible trimming cycles",
+        significance: "First extension beyond 2 players, shows complexity increase",
+        tradeoffs: "Proportionality for 3 players vs. increased query complexity",
+        references: [
+            "Steinhaus (1948) - The problem of fair division",
+            "Dubins & Spanier (1961) - How to cut a cake fairly"
+        ]
+    },
+
     onInit: (state, api) => {
-        Logger.debug("Steinhaus' Lone-Divider algorithm initialized");
+        Logger.debug("Steinhaus algorithm initialized");
+        api.setCutPosition(33);
+        api.setCutPosition2(67);
+        SteinhausAlgorithm.updatePieceDisplays(state, api);
 
-        // Initialize with reasonable default cut positions
-        api.setCutPosition(33);  // First cut at 33%
-        api.setCutPosition2(67); // Second cut at 67%
-
-        // Update the actual slider elements to match
-        const cutSlider1 = document.getElementById('cut-slider');
-        const cutSlider2 = document.getElementById('cut-slider-2');
-        if (cutSlider1) cutSlider1.value = 33;
-        if (cutSlider2) cutSlider2.value = 67;
-
-        // Update displays
-        SteinhausLoneDividerAlgorithm.updatePieceDisplays(state, api);
-    },
-
-    onStateChange: (stateKey, state, api) => {
-        // Handle real-time updates during cutting phase
-        if ((stateKey === 'cutPosition' || stateKey === 'cutPosition2')) {
-            SteinhausLoneDividerAlgorithm.updatePieceDisplays(state, api);
+        // Initialize complexity tracking
+        if (api.setCurrentAlgorithm) {
+            api.setCurrentAlgorithm('steinhaus-lone-divider');
         }
-
-        // Handle validation changes
-        if (stateKey === 'playerValues') {
-            const validation = SteinhausLoneDividerAlgorithm.validatePlayerTotals(state);
-            api.setStartButtonState(validation.valid ? 'enabled' : 'disabled');
-            SteinhausLoneDividerAlgorithm.updatePieceDisplays(state, api);
-        }
-    },
-
-    onStart: (state, api) => {
-        Logger.info('Start button clicked for Steinhaus algorithm');
-        api.nextStep(); // Go to cutting phase
     },
 
     onMakeCut: (state, api) => {
-        Logger.info('Make Cut button clicked for Steinhaus algorithm');
+        const currentStep = api.getCurrentStep();
 
-        // Validate that all player values sum to 100
-        const validation = SteinhausLoneDividerAlgorithm.validatePlayerTotals(state);
-        if (!validation.valid) {
-            api.emit('validationError', {
-                message: 'Player valuations must sum to 100!',
-                errors: validation.errors
-            });
-            return;
+        if (currentStep === 0) {
+            // ENHANCED: Record the two cut queries for creating three pieces
+            if (api.recordCutQuery) {
+                api.recordCutQuery(1,
+                    `Lone divider makes first cut at position ${state.cutPosition} to separate left piece`);
+                api.recordCutQuery(1,
+                    `Lone divider makes second cut at position ${state.cutPosition2} to create three equal-value pieces`);
+            }
+
+            // Move to evaluation phase
+            SteinhausAlgorithm.evaluatePhase(state, api);
+            api.nextStep();
         }
-
-        // Calculate piece values for divider
-        const pieceValues = SteinhausLoneDividerAlgorithm.calculateThreePieceValues(state);
-        const equalityCheck = SteinhausLoneDividerAlgorithm.checkDividerEquality(pieceValues.player1);
-
-        // Warn if pieces are not reasonably equal (but allow to proceed)
-        if (!equalityCheck.isEqual) {
-            const proceed = confirm(
-                `Warning: Your pieces are not equally valued!\n\n` +
-                `Piece 1: ${pieceValues.player1[0].toFixed(1)} points\n` +
-                `Piece 2: ${pieceValues.player1[1].toFixed(1)} points\n` +
-                `Piece 3: ${pieceValues.player1[2].toFixed(1)} points\n\n` +
-                `Max difference: ${equalityCheck.maxDiff.toFixed(1)} points\n\n` +
-                `Proceed anyway?`
-            );
-            if (!proceed) return;
-        }
-
-        // Store piece values and move to analysis
-        api.setAlgorithmData('pieceValues', pieceValues);
-        api.nextStep();
     },
 
-    onReset: (state, api) => {
-        Logger.info('Steinhaus algorithm reset');
+    // ENHANCED: Track evaluation queries
+    onEvaluationPhase: (state, api) => {
+        const pieceValues = api.calculateThreePieceValues(state.cutPosition, state.cutPosition2);
 
-        // Reset algorithm state
-        api.setAlgorithmData('pieceValues', null);
-        api.setAlgorithmData('acceptablePieces', null);
-        api.setAlgorithmData('algorithmCase', null);
-        api.setAlgorithmData('finalAllocation', null);
+        // Record evaluation queries for choosers
+        if (api.recordEvalQuery) {
+            // Player 2 evaluations
+            api.recordEvalQuery(2, 'piece-1', pieceValues.piece1.player2,
+                'Player 2 evaluates left piece to determine preference');
+            api.recordEvalQuery(2, 'piece-2', pieceValues.piece2.player2,
+                'Player 2 evaluates middle piece to determine preference');
+            api.recordEvalQuery(2, 'piece-3', pieceValues.piece3.player2,
+                'Player 2 evaluates right piece to determine preference');
 
-        // Reset cut positions to reasonable defaults
-        api.setCutPosition(33);
-        api.setCutPosition2(67);
+            // Player 3 evaluations
+            api.recordEvalQuery(3, 'piece-1', pieceValues.piece1.player3,
+                'Player 3 evaluates left piece to determine preference');
+            api.recordEvalQuery(3, 'piece-2', pieceValues.piece2.player3,
+                'Player 3 evaluates middle piece to determine preference');
+            api.recordEvalQuery(3, 'piece-3', pieceValues.piece3.player3,
+                'Player 3 evaluates right piece to determine preference');
+        }
+    },
 
-        // Clean up UI
-        SteinhausLoneDividerAlgorithm.clearPieceSelection();
-        api.hideElement('cut-control-2');
-        api.hideElement('results');
-        api.setStartButtonState('enabled');
+    // NEW: Track trimming if it occurs
+    onTrimPiece: (state, api, player, piece, trimAmount) => {
+        if (api.recordCutQuery) {
+            api.recordCutQuery(player,
+                `Player ${player} trims ${piece} by ${trimAmount} to ensure proportionality`);
+        }
 
-        // Update displays
-        SteinhausLoneDividerAlgorithm.updatePieceDisplays(state, api);
+        // Update visualization and continue
+        SteinhausAlgorithm.updateAfterTrim(state, api, piece, trimAmount);
     }
 };
 

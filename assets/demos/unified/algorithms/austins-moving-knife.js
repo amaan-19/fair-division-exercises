@@ -1,4 +1,4 @@
-﻿// Austin's Moving Knife Plug-in - FIXED VERSION
+﻿// Austin's Moving Knife Plug-in
 
 // ===== ALGORITHM LOGIC =====
 class AustinsMovingKnifeAlgorithm {
@@ -498,68 +498,74 @@ const austinsMovingKnifeConfig = {
     playerCount: 2,
     steps: AUSTINS_STEPS,
 
-    onInit: (state, api) => {
-        Logger.debug("Austin's Moving Knife algorithm initialized");
-        // Initialize algorithm data
-        state.algorithmData = {};
-        api.disableElement('make-cut-btn');
+    // ADD THIS: Robertson-Webb Complexity Metadata
+    complexity: {
+        theoretical: {
+            cut: 0,        // No traditional cuts made
+            eval: "∞",     // Continuous evaluation queries
+            total: "∞"
+        },
+        worstCase: {
+            cut: 0,
+            eval: "∞",
+            total: "∞"
+        },
+        bestCase: {
+            cut: 0,
+            eval: "∞",
+            total: "∞"
+        },
+        optimal: false,
+        bounds: "Requires continuous (infinite) evaluation queries",
+        queryPattern: "Continuous eval queries as knife moves until players call 'stop'",
+        significance: "Achieves exact fairness but impractical due to continuous queries",
+        tradeoffs: "Perfect fairness vs. practical implementation",
+        references: [
+            "Austin (1982) - Sharing a cake",
+            "Brams & Taylor (1996) - Fair Division"
+        ]
     },
 
-    onStateChange: (stateKey, state, api) => {
-        // Handle validation changes
-        if (stateKey === 'playerValues' && api.getCurrentStep() === 0) {
-            const validation = api.validatePlayerTotals(state);
-            if (!state.algorithmData.animationStarted) {
-                api.setStartButtonState(validation.valid ? 'enabled' : 'disabled');
-            }
+    onInit: (state, api) => {
+        Logger.debug("Austin's Moving Knife algorithm initialized");
+        state.algorithmData = {};
+        api.disableElement('make-cut-btn');
+
+        // Initialize complexity tracking
+        if (api.setCurrentAlgorithm) {
+            api.setCurrentAlgorithm('austins-moving-knife');
         }
     },
 
     onStart: (state, api) => {
         Logger.info('Start button clicked for Austin\'s algorithm');
         if (state.algorithmData.phase === 1 && !state.algorithmData.animationStarted) {
+
+            // ENHANCED: Record start of continuous evaluation
+            if (api.recordEvalQuery) {
+                api.recordEvalQuery(1, 'left-piece', 'continuous',
+                    'Player 1 begins continuous evaluation as knife moves');
+                api.recordEvalQuery(2, 'left-piece', 'continuous',
+                    'Player 2 begins continuous evaluation as knife moves');
+            }
+
             state.algorithmData.animationStarted = true;
             api.setStartButtonState('loading');
             api.updateInstructions("The knife is moving! Click 'STOP' when the left piece equals exactly 50% of your valuation.");
 
-            // Start animation
             AustinsMovingKnifeAlgorithm.startKnifeAnimation(state, api);
         }
     },
 
-    onPlayerStop: (playerNumber, state, api) => {
-        AustinsMovingKnifeAlgorithm.handlePlayerStop(playerNumber, state, api);
-    },
-
-    onOtherPlayerStop: (state, api) => {
-        AustinsMovingKnifeAlgorithm.handleOtherPlayerStop(state, api);
-    },
-
-    onReset: (state, api) => {
-        Logger.info('Austin\'s algorithm reset');
-
-        // Stop any animations
-        if (state.algorithmData && state.algorithmData.animationId) {
-            api.stopAnimation(state.algorithmData.animationId);
+    // NEW: Track player stop actions
+    onPlayerStop: (state, api, player, position) => {
+        if (api.recordEvalQuery) {
+            api.recordEvalQuery(player, 'left-piece', 50.0,
+                `Player ${player} stops at position ${position}, evaluating left piece as exactly 50%`);
         }
 
-        // Reset state
-        state.algorithmData = {};
-
-        // Clean up UI
-        api.hideDualKnives();
-        api.hideThreePieceOverlays();
-        api.removeStopButtons();
-        api.removeOtherPlayerStopButton();
-        api.setStartButtonState('enabled');
-        api.hideElement('results');
-
-        // Hide indicators
-        const stopIndicator = document.getElementById('stop-position-indicator');
-        if (stopIndicator) stopIndicator.style.display = 'none';
-
-        const movingKnife = document.getElementById('moving-knife-line');
-        if (movingKnife) movingKnife.style.display = 'none';
+        // Continue with existing logic
+        AustinsMovingKnifeAlgorithm.handlePlayerStop(state, api, player, position);
     }
 };
 
