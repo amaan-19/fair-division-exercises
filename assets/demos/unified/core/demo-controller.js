@@ -233,6 +233,7 @@ class FairDivisionDemoSystem {
         this.registrationQueue = [];
     }
 
+    // Enhanced algorithm switching to handle goods types
     switchAlgorithm(algorithmId) {
         if (!algorithmId) return;
 
@@ -251,6 +252,12 @@ class FairDivisionDemoSystem {
         this.currentAlgorithm = algorithm;
         this.stateManager.reset();
         this.stateManager.setCurrentStep(0);
+
+        // Initialize indivisible goods extensions if needed
+        const needsExtensions = algorithm.config.goodsType && algorithm.config.goodsType !== 'divisible';
+        if (needsExtensions && !this.indivisibleExtensions) {
+            this.initializeIndivisibleGoodsExtensions();
+        }
 
         // Update UI
         this.uiController.updateAlgorithmInfo(algorithm.config.name, algorithm.config.description);
@@ -302,7 +309,7 @@ class FairDivisionDemoSystem {
 
     // ===== ALGORITHM API =====
     createAlgorithmAPI() {
-        return {
+        const baseAPI = {
             // State access
             getCutPosition: () => this.stateManager.getCutPosition(),
             getCutPosition2: () => this.stateManager.getCutPosition2(),
@@ -390,6 +397,53 @@ class FairDivisionDemoSystem {
                     `Player ${player} evaluates ${piece} to determine if trimming is needed`);
             }
         };
+
+        // Add indivisible goods API methods if extensions are loaded
+        if (this.indivisibleExtensions) {
+            const indivisibleAPI = {
+                // Goods type management
+                setGoodsType: (type) => {
+                    this.indivisibleExtensions.state.setGoodsType(type);
+                    this.indivisibleExtensions.ui.switchInterface(type);
+                },
+                getGoodsType: () => this.indivisibleExtensions.state.getGoodsType(),
+
+                // Item management (Knaster)
+                setItems: (items) => this.indivisibleExtensions.state.setItems(items),
+                submitBid: (playerId, itemId, amount) => this.indivisibleExtensions.state.submitBid(playerId, itemId, amount),
+                allocateItem: (itemId, winnerId) => this.indivisibleExtensions.state.allocateItem(itemId, winnerId),
+                areAllBidsComplete: () => this.indivisibleExtensions.state.areAllBidsComplete(),
+                setAuctionPhase: (phase) => this.indivisibleExtensions.state.setAuctionPhase(phase),
+
+                // Linear goods management (Lucas)
+                setupLinearGoods: (config) => this.indivisibleExtensions.state.setupLinearGoods(config),
+                placeMarker: (playerId, index, position) => this.indivisibleExtensions.state.placeMarker(playerId, index, position),
+                areAllMarkersPlaced: () => this.indivisibleExtensions.state.areAllMarkersPlaced(),
+                setSegmentAllocations: (allocations) => this.indivisibleExtensions.state.setSegmentAllocations(allocations),
+
+                // Payment management
+                calculateKnasterPayments: () => this.indivisibleExtensions.state.calculateKnasterPayments(),
+                setPlayerPayments: (payments) => this.stateManager.setState('playerPayments', payments),
+                setMonetaryTransfers: (transfers) => this.stateManager.setState('monetaryTransfers', transfers),
+
+                // UI management
+                updateItemsDisplay: (items) => this.indivisibleExtensions.ui.updateItemsDisplay(items),
+                setupLinearGoodsDisplay: (config) => this.indivisibleExtensions.ui.setupLinearGoodsDisplay(config),
+                updateMarkersDisplay: () => this.indivisibleExtensions.ui.updateMarkersDisplay(),
+                updateMarkerControls: () => this.indivisibleExtensions.ui.updateMarkerControls(),
+                displayKnasterResults: (allocations, payments, transfers) =>
+                    this.indivisibleExtensions.ui.displayKnasterResults(allocations, payments, transfers),
+                displayLucasResults: (allocations) =>
+                    this.indivisibleExtensions.ui.displayLucasResults(allocations),
+                switchInterface: (type) => this.indivisibleExtensions.ui.switchInterface(type),
+                showInterface: (id) => this.indivisibleExtensions.ui.showInterface(id),
+                hideInterface: (id) => this.indivisibleExtensions.ui.hideInterface(id)
+            };
+
+            return { ...baseAPI, ...indivisibleAPI };
+        }
+
+        return baseAPI;
     }
 
     // ===== EVENT HANDLERS =====
@@ -488,11 +542,28 @@ class FairDivisionDemoSystem {
     }
 
     resetAlgorithm() {
-        if (!this.currentAlgorithm) return;
+        Logger.debug("Resetting algorithm");
 
-        Logger.info('Resetting algorithm');
-        const algorithmId = this.currentAlgorithm.id;
-        this.switchAlgorithm(algorithmId);
+        if (this.currentAlgorithm) {
+            // Call algorithm-specific reset
+            if (this.currentAlgorithm.config.onReset) {
+                this.currentAlgorithm.config.onReset(this.stateManager.getState(), this.createAlgorithmAPI());
+            }
+
+            // Reset indivisible goods interfaces
+            if (this.indivisibleExtensions) {
+                this.indivisibleExtensions.ui.hideInterface('bidding-interface');
+                this.indivisibleExtensions.ui.hideInterface('marker-interface');
+                this.indivisibleExtensions.ui.hideInterface('indivisible-results');
+            }
+        }
+
+        // Reset state
+        this.stateManager.reset();
+
+        // Reset UI
+        this.uiController.reset();
+
         this.eventSystem.emit('algorithmReset');
     }
 
@@ -517,20 +588,45 @@ class FairDivisionDemoSystem {
     }
 
     // ===== DEBUG UTILITIES =====
+    // Enhanced debug info
     getDebugInfo() {
-        return {
-            algorithms: Array.from(this.algorithms.keys()),
-            currentAlgorithm: this.currentAlgorithm?.id || null,
-            state: this.stateManager.getState(),
-            eventListeners: this.eventSystem.getListenerCount(),
+        const baseInfo = {
+            currentAlgorithm: this.currentAlgorithm?.id || 'none',
+            algorithmCount: this.algorithms.size,
+            currentStep: this.stateManager.getCurrentStep(),
             isInitialized: this.isInitialized
         };
+
+        if (this.indivisibleExtensions) {
+            baseInfo.goodsType = this.indivisibleExtensions.state.getGoodsType();
+            baseInfo.hasIndivisibleExtensions = true;
+        }
+
+        return baseInfo;
     }
 
     logDebugInfo() {
         Logger.group('Debug Information');
         console.table(this.getDebugInfo());
         Logger.groupEnd();
+    }
+
+    initializeIndivisibleGoodsExtensions() {
+        Logger.debug("Initializing indivisible goods extensions");
+
+        if (window.IndivisibleGoodsExtensions) {
+            const stateExtensions = new window.IndivisibleGoodsExtensions.IndivisibleGoodsStateManager(this.stateManager);
+            const uiExtensions = new window.IndivisibleGoodsExtensions.IndivisibleGoodsUIController(this.uiController, stateExtensions);
+
+            this.indivisibleExtensions = {
+                state: stateExtensions,
+                ui: uiExtensions
+            };
+
+            Logger.debug("Indivisible goods extensions initialized successfully");
+        } else {
+            Logger.error("Indivisible goods extensions not loaded");
+        }
     }
 }
 

@@ -636,14 +636,83 @@
         </div>
     </div>
 
-    <!-- Load Core System -->
+    <!-- Replace the above scripts with: -->
     <script src="core/demo-system.js"></script>
     <script src="core/demo-controller.js"></script>
 
-    <!-- Load Algorithms -->
+    <!-- Add indivisible goods extensions -->
+    <script src="core/indivisible-goods-extensions.js"></script>
+
+    <!-- Existing algorithms -->
     <script src="algorithms/divide-and-choose.js"></script>
     <script src="algorithms/austins-moving-knife.js"></script>
     <script src="algorithms/steinhaus-lone-divider.js"></script>
     <script src="algorithms/selfridge-conway.js"></script>
+
+    <!-- Add indivisible goods algorithms -->
+    <script src="algorithms/knaster-sealed-bids.js"></script>
+    <script src="algorithms/lucas-method-markers.js"></script>
+
+    <!-- Add indivisible goods CSS -->
+    <link rel="stylesheet" href="../../css/indivisible-goods.css">
+
+    <!-- Enhanced algorithm selector -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                enhanceAlgorithmSelector();
+            }, 100);
+        });
+
+        function enhanceAlgorithmSelector() {
+            const selector = document.getElementById('algorithm-selector');
+            if (!selector) return;
+
+            const demoSystem = window.FairDivisionCore.getInstance();
+            if (!demoSystem) return;
+
+            selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+            const algorithmsByType = {
+                'divisible': [],
+                'discrete-items': [],
+                'linear-arrangement': []
+            };
+
+            demoSystem.algorithms.forEach((algorithm, id) => {
+                const goodsType = algorithm.config.goodsType || 'divisible';
+                if (algorithmsByType[goodsType]) {
+                    algorithmsByType[goodsType].push({ id, config: algorithm.config });
+                }
+            });
+
+            Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+                if (algorithms.length > 0) {
+                    const optgroup = document.createElement('optgroup');
+
+                    switch(type) {
+                        case 'divisible':
+                            optgroup.label = 'Divisible Goods (Continuous)';
+                            break;
+                        case 'discrete-items':
+                            optgroup.label = 'Indivisible Goods (Discrete Items)';
+                            break;
+                        case 'linear-arrangement':
+                            optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                            break;
+                    }
+
+                    algorithms.forEach(({ id, config }) => {
+                        const option = document.createElement('option');
+                        option.value = id;
+                        option.textContent = config.name;
+                        optgroup.appendChild(option);
+                    });
+
+                    selector.appendChild(optgroup);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
