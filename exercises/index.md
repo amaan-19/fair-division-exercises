@@ -47,7 +47,7 @@ permalink: /exercises/
     <iframe 
       src="{{ '/assets/demos/unified/index.html' | relative_url }}" 
       width="100%" 
-      height="1200" 
+      height="1050" 
       frameborder="0"
       style="display: block; border: none;">
       <p>Your browser does not support iframes. <a href="{{ '/assets/demos/unified/index.html' | relative_url }}">View the demo directly</a>.</p>
