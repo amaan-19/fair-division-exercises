@@ -589,7 +589,7 @@ const lucasMethodConfig = {
             approximateMarkers: {
                 description: "Allow approximate marker placement for large collections",
                 modification: "Accept marker positions within tolerance bounds",
-                applications: "Very large discrete collections, computational efficiency"
+                applications: "Very large discrete collections, models efficiency"
             },
             multipleRounds: {
                 description: "Multiple rounds of marker placement and allocation",

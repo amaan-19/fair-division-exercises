@@ -1,13 +1,15 @@
-// Enhanced Flowchart System for Fair Division Algorithms
+/**
+ * Enhanced Flowchart System for Fair Division Algorithms
+ */
 
 class EnhancedFlowchart {
     constructor(containerId, algorithmData) {
         this.container = document.getElementById(containerId);
         this.data = algorithmData;
-        this.queryCount = { cut: 0, evalQueries: 0 }; // Changed from eval to evalQueries
+        this.queryCount = { cut: 0, evalQueries: 0 };
         this.currentStep = 0;
         this.isAnimating = false;
-        this.runningTotals = { cut: 0, evalQueries: 0 }; // Changed from eval to evalQueries
+        this.runningTotals = { cut: 0, evalQueries: 0 };
 
         if (this.container) {
             console.log('Initializing enhanced flowchart for:', containerId);
@@ -18,6 +20,7 @@ class EnhancedFlowchart {
         }
     }
 
+    // ===== INITIALIZATION METHODS =====
     init() {
         this.render();
         this.attachEventListeners();
@@ -60,6 +63,7 @@ class EnhancedFlowchart {
         console.log('Enhanced flowchart rendered with empty initial state');
     }
 
+    // ===== RENDERING METHODS =====
     renderSteps(steps) {
         return steps.map((step, index) => {
             const isLast = index === steps.length - 1;
@@ -170,15 +174,7 @@ class EnhancedFlowchart {
         }).join('');
     }
 
-    getOptimalityText(optimality) {
-        const texts = {
-            'optimal': 'Optimal',
-            'suboptimal': 'Suboptimal',
-            'unknown': 'Unknown'
-        };
-        return texts[optimality.toLowerCase()] || '❓ Unknown';
-    }
-
+    // ===== STATE MANAGEMENT METHODS =====
     initializeEmptyState() {
         const allSteps = this.container.querySelectorAll('.flow-step-enhanced');
         const allConnectors = this.container.querySelectorAll('.flow-connector-enhanced');
@@ -206,7 +202,7 @@ class EnhancedFlowchart {
         // Start with minimal container size
         if (flowchartContainer) {
             flowchartContainer.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-            flowchartContainer.style.minHeight = '200px'; // Minimal height
+            flowchartContainer.style.minHeight = '200px';
             flowchartContainer.style.overflow = 'hidden';
         }
 
@@ -214,7 +210,7 @@ class EnhancedFlowchart {
         if (stepsContainer) {
             stepsContainer.style.transition = 'all 0.6s ease';
             stepsContainer.style.minHeight = '0px';
-            stepsContainer.style.maxHeight = '80px'; // Just enough for "ready" state
+            stepsContainer.style.maxHeight = '80px';
         }
 
         this.updateQueryCounterDisplay(0, 0, 0);
@@ -231,22 +227,36 @@ class EnhancedFlowchart {
                 readyIndicator = document.createElement('div');
                 readyIndicator.className = 'ready-indicator';
                 readyIndicator.innerHTML = 'Ready to animate';
-                readyIndicator.style.cssText = `
-                    text-align: center;
-                    color: #3182ce;
-                    font-weight: 600;
-                    font-size: 0.8rem;
-                    margin-top: 1rem;
-                    padding: 0.5rem;
-                    background: white;
-                    border-radius: 6px;
-                    border: 1px solid #3182ce;
-                `;
                 sidebar.appendChild(readyIndicator);
             }
         }
     }
 
+    resetSidebarToAnimationState() {
+        const sidebar = this.container.querySelector('.complexity-sidebar-enhanced');
+        if (sidebar) {
+            sidebar.className = 'complexity-sidebar-enhanced animating-state';
+
+            const readyIndicator = sidebar.querySelector('.ready-indicator');
+            if (readyIndicator) {
+                readyIndicator.remove();
+            }
+        }
+    }
+
+    showCompletionState() {
+        const sidebar = this.container.querySelector('.complexity-sidebar-enhanced');
+        if (sidebar) {
+            sidebar.className = 'complexity-sidebar-enhanced complete-state';
+
+            const completionIndicator = document.createElement('div');
+            completionIndicator.className = 'completion-indicator';
+            completionIndicator.innerHTML = '✅ Animation complete';
+            sidebar.appendChild(completionIndicator);
+        }
+    }
+
+    // ===== ANIMATION METHODS =====
     async animateSteps(speed = 1000) {
         if (this.isAnimating) {
             console.log('Animation already in progress');
@@ -321,20 +331,16 @@ class EnhancedFlowchart {
         this.showCompletionState();
     }
 
-    // NEW METHOD: Start container growth
+    // ===== CONTAINER GROWTH METHODS =====
     async startContainerGrowth() {
         const flowchartContainer = this.container.querySelector('.algorithm-flowchart-enhanced');
         const stepsContainer = this.container.querySelector('.flowchart-steps-enhanced');
 
         if (flowchartContainer) {
-            // Add growing animation class
             flowchartContainer.classList.add('growing-animation');
-
-            // Start with minimal size
             flowchartContainer.style.minHeight = '200px';
             flowchartContainer.style.transform = 'scale(0.95)';
 
-            // Begin growth
             setTimeout(() => {
                 flowchartContainer.style.transform = 'scale(1)';
                 flowchartContainer.style.minHeight = '300px';
@@ -348,23 +354,20 @@ class EnhancedFlowchart {
         await new Promise(resolve => setTimeout(resolve, 300));
     }
 
-    // NEW METHOD: Calculate expected height
     calculateExpectedHeight(stepCount) {
-        const baseHeight = 300; // Header + sidebar minimum
-        const stepHeight = 140; // Approximate height per step including connector
-        const branchHeight = 200; // Additional height for branches
+        const baseHeight = 300;
+        const stepHeight = 140;
+        const branchHeight = 200;
 
         let totalHeight = baseHeight + (stepCount * stepHeight);
 
-        // Add extra height if algorithm has branches
         if (this.data.steps.some(step => step.branches)) {
             totalHeight += branchHeight;
         }
 
-        return Math.min(totalHeight, 1200); // Cap at reasonable max
+        return Math.min(totalHeight, 1200);
     }
 
-// NEW METHOD: Grow container to specific height
     async growContainerToHeight(targetHeight) {
         const flowchartContainer = this.container.querySelector('.algorithm-flowchart-enhanced');
         const stepsContainer = this.container.querySelector('.flowchart-steps-enhanced');
@@ -380,21 +383,18 @@ class EnhancedFlowchart {
         await new Promise(resolve => setTimeout(resolve, 400));
     }
 
-// NEW METHOD: Grow for individual step
     async growForStep(stepIndex, totalSteps) {
         const flowchartContainer = this.container.querySelector('.algorithm-flowchart-enhanced');
         const stepsContainer = this.container.querySelector('.flowchart-steps-enhanced');
 
         if (flowchartContainer && stepsContainer) {
-            const progressRatio = (stepIndex + 1) / totalSteps;
             const currentHeight = parseInt(flowchartContainer.style.minHeight) || 300;
-            const growthIncrement = 80; // Grow by 80px per step
+            const growthIncrement = 80;
             const newHeight = currentHeight + growthIncrement;
 
             flowchartContainer.style.minHeight = `${newHeight}px`;
             stepsContainer.style.maxHeight = `${newHeight - 100}px`;
 
-            // Add a subtle scale pulse for each growth
             flowchartContainer.style.transform = 'scale(1.01)';
             setTimeout(() => {
                 flowchartContainer.style.transform = 'scale(1)';
@@ -404,19 +404,17 @@ class EnhancedFlowchart {
         await new Promise(resolve => setTimeout(resolve, 200));
     }
 
-// NEW METHOD: Grow for branches
     async growForBranches() {
         const flowchartContainer = this.container.querySelector('.algorithm-flowchart-enhanced');
         const stepsContainer = this.container.querySelector('.flowchart-steps-enhanced');
 
         if (flowchartContainer && stepsContainer) {
             const currentHeight = parseInt(flowchartContainer.style.minHeight) || 500;
-            const branchHeight = currentHeight + 300; // Significant growth for branches
+            const branchHeight = currentHeight + 300;
 
             flowchartContainer.style.minHeight = `${branchHeight}px`;
             stepsContainer.style.maxHeight = `${branchHeight - 100}px`;
 
-            // Dramatic scale effect for branches
             flowchartContainer.style.transform = 'scale(1.02)';
             setTimeout(() => {
                 flowchartContainer.style.transform = 'scale(1)';
@@ -426,18 +424,15 @@ class EnhancedFlowchart {
         await new Promise(resolve => setTimeout(resolve, 400));
     }
 
-// NEW METHOD: Finalize container size
     async finalizeContainerSize() {
         const flowchartContainer = this.container.querySelector('.algorithm-flowchart-enhanced');
         const stepsContainer = this.container.querySelector('.flowchart-steps-enhanced');
 
         if (flowchartContainer) {
-            // Remove height constraints to let content determine size
             flowchartContainer.style.minHeight = 'auto';
             flowchartContainer.style.maxHeight = 'none';
             flowchartContainer.classList.remove('growing-animation');
 
-            // Final "completion" scale effect
             flowchartContainer.style.transform = 'scale(1.01)';
             setTimeout(() => {
                 flowchartContainer.style.transform = 'scale(1)';
@@ -451,6 +446,7 @@ class EnhancedFlowchart {
         await new Promise(resolve => setTimeout(resolve, 300));
     }
 
+    // ===== QUERY PROCESSING METHODS =====
     async processStepQueries(step, speed) {
         const badge = step.querySelector('.query-badge-enhanced');
         if (badge && badge.dataset.queries) {
@@ -554,51 +550,7 @@ class EnhancedFlowchart {
         }
     }
 
-    resetSidebarToAnimationState() {
-        const sidebar = this.container.querySelector('.complexity-sidebar-enhanced');
-        if (sidebar) {
-            sidebar.className = 'complexity-sidebar-enhanced animating-state';
-
-            const readyIndicator = sidebar.querySelector('.ready-indicator');
-            if (readyIndicator) {
-                readyIndicator.remove();
-            }
-        }
-    }
-
-    showCompletionState() {
-        const sidebar = this.container.querySelector('.complexity-sidebar-enhanced');
-        if (sidebar) {
-            sidebar.className = 'complexity-sidebar-enhanced complete-state';
-
-            const completionIndicator = document.createElement('div');
-            completionIndicator.className = 'completion-indicator';
-            completionIndicator.innerHTML = '✅ Animation complete';
-            completionIndicator.style.cssText = `
-                text-align: center;
-                color: #38a169;
-                font-weight: 600;
-                font-size: 0.8rem;
-                margin-top: 1rem;
-                padding: 0.5rem;
-                background: white;
-                border-radius: 6px;
-                border: 1px solid #38a169;
-            `;
-            sidebar.appendChild(completionIndicator);
-        }
-    }
-
-    updateQueryCounterDisplay(cut, evalQueries, total) {
-        const cutElement = this.container.querySelector(`#cut-count-${this.container.id}`);
-        const evalElement = this.container.querySelector(`#eval-count-${this.container.id}`);
-        const totalElement = this.container.querySelector(`#total-count-${this.container.id}`);
-
-        if (cutElement) cutElement.textContent = cut;
-        if (evalElement) evalElement.textContent = evalQueries;
-        if (totalElement) totalElement.textContent = total;
-    }
-
+    // ===== RESET METHODS =====
     resetAnimation() {
         console.log('Resetting to small container state');
         this.isAnimating = false;
@@ -615,7 +567,6 @@ class EnhancedFlowchart {
             flowchartContainer.style.maxHeight = 'none';
             flowchartContainer.style.transform = 'scale(0.98)';
 
-            // Quick scale back to normal
             setTimeout(() => {
                 flowchartContainer.style.transform = 'scale(1)';
             }, 100);
@@ -638,6 +589,7 @@ class EnhancedFlowchart {
         }, 200);
     }
 
+    // ===== EVENT HANDLING METHODS =====
     attachEventListeners() {
         this.container.addEventListener('mouseenter', (e) => {
             if (e.target.classList.contains('query-badge-enhanced')) {
@@ -693,6 +645,7 @@ class EnhancedFlowchart {
         }
     }
 
+    // ===== QUERY COUNTER METHODS =====
     updateQueryCounter(queries, highlight = false) {
         const cutElement = this.container.querySelector(`#cut-count-${this.container.id}`);
         const evalElement = this.container.querySelector(`#eval-count-${this.container.id}`);
@@ -720,9 +673,19 @@ class EnhancedFlowchart {
             evalElement.style.fontWeight = '700';
         }
     }
+
+    updateQueryCounterDisplay(cut, evalQueries, total) {
+        const cutElement = this.container.querySelector(`#cut-count-${this.container.id}`);
+        const evalElement = this.container.querySelector(`#eval-count-${this.container.id}`);
+        const totalElement = this.container.querySelector(`#total-count-${this.container.id}`);
+
+        if (cutElement) cutElement.textContent = cut;
+        if (evalElement) evalElement.textContent = evalQueries;
+        if (totalElement) totalElement.textContent = total;
+    }
 }
 
-// Algorithm data templates
+// ===== ALGORITHM DATA TEMPLATES =====
 const ALGORITHM_FLOWCHART_DATA = {
     'divide-and-choose': {
         algorithm: { name: 'Divide-and-Choose Procedure' },
@@ -762,6 +725,7 @@ const ALGORITHM_FLOWCHART_DATA = {
             }
         ]
     },
+
     'austins-moving-knife': {
         algorithm: { name: 'Austin\'s Moving Knife Procedure' },
         complexity: {
@@ -800,92 +764,7 @@ const ALGORITHM_FLOWCHART_DATA = {
             }
         ]
     },
-    'steinhaus-lone-divider': {
-        algorithm: { name: 'Steinhaus Lone-Divider Procedure' },
-        complexity: {
-            cut: '2-4',
-            evalQueries: '3-6',
-            total: '5-10',
-            display: 'Complexity: 5-10 queries (Variable)',
-            optimality: 'unknown'
-        },
-        steps: [
-            {
-                type: 'start',
-                title: 'Start',
-                description: 'Three players participate: one chosen as the divider, two as choosers'
-            },
-            {
-                type: 'query',
-                title: 'Phase 1: Division',
-                description: 'The divider cuts the cake into 3 pieces they value equally (requires 2 cuts)',
-                queries: { cut: 2 }
-            },
-            {
-                type: 'query',
-                title: 'Phase 2: Evaluation',
-                description: 'Each chooser evaluates all 3 pieces and identifies which ones are acceptable (≥1/3 value)',
-                queries: { evalQueries: 6 }
-            },
-            {
-                type: 'decision',
-                title: 'Branching Step',
-                description: 'Does at least one non-divider see ≥2 acceptable pieces?',
-                branches: [
-                    {
-                        condition: 'YES',
-                        label: 'Yes - Sequential Selection',
-                        probability: '~60%',
-                        steps: [
-                            {
-                                type: 'action',
-                                title: 'Step 3a: First Choice',
-                                description: 'Player with more acceptable pieces (or Player 3 if tied) chooses first from all pieces'
-                            },
-                            {
-                                type: 'action',
-                                title: 'Step 4a: Second Choice',
-                                description: 'Other non-divider chooses from remaining two pieces'
-                            },
-                            {
-                                type: 'action',
-                                title: 'Step 5a: Final Allocation',
-                                description: 'Divider (Player 1) receives the last remaining piece'
-                            }
-                        ]
-                    },
-                    {
-                        condition: 'NO',
-                        label: 'No - Reconstruction Required',
-                        probability: '~40%',
-                        steps: [
-                            {
-                                type: 'action',
-                                title: 'Step 3b: Give Divider Unacceptable Piece',
-                                description: 'Player 1 receives a piece that both other players find unacceptable'
-                            },
-                            {
-                                type: 'action',
-                                title: 'Step 4b: Cake Reconstruction',
-                                description: 'Reassemble the remaining two pieces into a single cake'
-                            },
-                            {
-                                type: 'query',
-                                title: 'Step 5b: Divide-and-Choose',
-                                description: 'Players 2 & 3 use standard divide-and-choose on the reconstructed cake',
-                                queries: { cut: 1, evalQueries: 1 }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'end',
-                title: 'Result',
-                description: 'All players guaranteed ≥1/3 of their subjective valuation<br><small>Proportional but not necessarily envy-free</small>'
-            }
-        ]
-    },
+
     'selfridge-conway': {
         algorithm: { name: 'Selfridge-Conway Procedure' },
         complexity: {
@@ -910,7 +789,7 @@ const ALGORITHM_FLOWCHART_DATA = {
             {
                 type: 'query',
                 title: 'Step 2: Evaluation',
-                description: 'Player 2 evaluates the two largest pieced to determine whether a trimming is needed',
+                description: 'Player 2 evaluates the two largest pieces to determine whether trimming is needed',
                 queries: { evalQueries: 2 },
                 branches: [
                     {
@@ -990,318 +869,10 @@ const ALGORITHM_FLOWCHART_DATA = {
                 description: 'All players guaranteed ≥1/3 of their subjective valuation<br><small>Proportional but not necessarily envy-free</small>'
             }
         ]
-    },
-    'knaster-sealed-bids': {
-        algorithm: { name: 'Knaster\'s Sealed Bids Procedure' },
-        complexity: {
-            cut: 0,
-            evalQueries: 0, // Changed from eval to evalQueries to match existing pattern
-            total: 'N bids', // N players submit bids
-            display: 'Complexity: N bid submissions (Non-query based)',
-            optimality: 'unknown'
-        },
-        steps: [
-            {
-                type: 'start',
-                title: 'Start',
-                description: 'N players want to fairly divide indivisible items through auction'
-            },
-            {
-                type: 'input',
-                title: 'Sealed Bidding Round',
-                description: 'Each player i submits sealed bids b<sub>i</sub><sup>j</sup> for each item j, representing their private valuation',
-                queries: {} // No RW queries - uses sealed bid mechanism instead
-            },
-            {
-                type: 'allocation',
-                title: 'Item Allocation',
-                description: 'Each item j is awarded to the highest bidder: Player i gets item j if b<sub>i</sub><sup>j</sup> = max<sub>k</sub> b<sub>k</sub><sup>j</sup>',
-                queries: {}
-            },
-            {
-                type: 'payment',
-                title: 'Payment Calculation',
-                description: 'Each player pays their winning bids: payment<sub>i</sub> = Σ<sub>j∈S<sub>i</sub></sub> b<sub>i</sub><sup>j</sup>',
-                queries: {}
-            },
-            {
-                type: 'payment',
-                title: 'Equal Redistribution',
-                description: 'Total payments divided equally: each player receives (Σ<sub>i</sub> payment<sub>i</sub>)/N back',
-                queries: {}
-            },
-            {
-                type: 'end',
-                title: 'Result',
-                description: 'Proportional allocation with monetary transfers<br><small>Each player gets ≥1/N value through items + cash compensation</small>'
-            }
-        ]
-    },
-
-    'lucas-method-markers': {
-        algorithm: { name: 'Lucas\' Method of Markers' },
-        complexity: {
-            cut: 0,
-            evalQueries: 0, // Changed from eval to evalQueries
-            total: 'N×(N-1) markers', // N players place N-1 markers each
-            display: 'Complexity: N² marker placements + N allocation rounds',
-            optimality: 'unknown'
-        },
-        steps: [
-            {
-                type: 'start',
-                title: 'Start',
-                description: 'N players want to fairly divide goods arranged in linear order (books, land strips, etc.)'
-            },
-            {
-                type: 'marker',
-                title: 'Linear Arrangement',
-                description: 'Arrange all goods in a single line from left to right, creating one continuous resource',
-                queries: {}
-            },
-            {
-                type: 'marker',
-                title: 'Marker Placement Phase',
-                description: 'Each player i places exactly (N-1) markers, dividing the line into N segments. Each segment must be worth ≥1/N to that player',
-                queries: {}
-            },
-            {
-                type: 'round',
-                title: 'Round 1: First Allocation',
-                description: 'Find the leftmost among all first markers. That marker\'s owner gets the leftmost segment and exits',
-                queries: {}
-            },
-            {
-                type: 'round',
-                title: 'Round k: Subsequent Allocations',
-                description: 'Among remaining players, find the leftmost of their next markers. Owner gets segment and exits',
-                queries: {},
-                branches: [
-                    {
-                        condition: 'yes',
-                        label: 'Players Remaining',
-                        probability: 'k < N',
-                        steps: [
-                            {
-                                type: 'round',
-                                description: 'Continue allocation rounds until all players have received segments',
-                                queries: {}
-                            }
-                        ]
-                    },
-                    {
-                        condition: 'no',
-                        label: 'All Allocated',
-                        probability: 'k = N',
-                        steps: [
-                            {
-                                type: 'end',
-                                description: 'Final player receives remaining segment automatically',
-                                queries: {}
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'end',
-                title: 'Result',
-                description: 'Proportional division of linear goods<br><small>Each player receives ≥1/N value in contiguous segment by their own valuation</small>'
-            }
-        ]
-    },
-    'stromquist-moving-knife': {
-        algorithm: { name: 'Stromquist Moving Knife Procedure' },
-        complexity: {
-            cut: 0,
-            evalQueries: '∞',
-            total: '∞',
-            display: 'Complexity: Continuous queries (Infinite)',
-            optimality: 'impossible-finite'
-        },
-        steps: [
-            {
-                type: 'start',
-                title: 'Start',
-                description: 'Three players and four knives: one referee sword + three player knives'
-            },
-            {
-                type: 'action',
-                title: 'Initial Setup',
-                description: 'Referee positions sword at leftmost edge. Each player positions knife to divide entire cake into equal halves'
-            },
-            {
-                type: 'query',
-                title: 'Continuous Movement Phase',
-                description: 'Referee moves sword left-to-right. Players continuously adjust knives to maintain equal division of right piece',
-                queries: { evalQueries: 'Infinity' }
-            },
-            {
-                type: 'decision',
-                title: 'Strategic Decision',
-                description: 'Each player follows strategy: Call "STOP" when Left piece equals the piece you\'d get by staying silent',
-                branches: [
-                    {
-                        condition: 'leftmost_knife',
-                        label: 'If your knife is leftmost',
-                        probability: '33%',
-                        steps: [
-                            {
-                                type: 'condition',
-                                description: 'Call "STOP" when: Left = Middle piece value'
-                            }
-                        ]
-                    },
-                    {
-                        condition: 'middle_knife',
-                        label: 'If your knife is middle',
-                        probability: '33%',
-                        steps: [
-                            {
-                                type: 'condition',
-                                description: 'Call "STOP" when: Left = Middle = Right (all equal)'
-                            }
-                        ]
-                    },
-                    {
-                        condition: 'rightmost_knife',
-                        label: 'If your knife is rightmost',
-                        probability: '33%',
-                        steps: [
-                            {
-                                type: 'condition',
-                                description: 'Call "STOP" when: Left = Right piece value'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'action',
-                title: 'Cut Execution',
-                description: 'When any player calls "STOP": Cut at sword position AND at the middle knife position (2 cuts total)'
-            },
-            {
-                type: 'action',
-                title: 'Piece Allocation',
-                description: 'Allocate three pieces:<br>• LEFT → Player who called "STOP"<br>• MIDDLE → Player whose knife is closest to sword<br>• RIGHT → Remaining player'
-            },
-            {
-                type: 'end',
-                title: 'Envy-Free Result',
-                description: 'Each player receives largest/tied-for-largest piece by their valuation<br><small>First envy-free procedure for 3 players with connected pieces</small>'
-            }
-        ]
-    },
-    'banach-knaster-last-diminisher': {
-        algorithm: { name: 'Banach-Knaster Last-Diminisher' },
-        complexity: {
-            cut: 'O(n²)',
-            evalQueries: 'O(n²)',
-            total: 'O(n²)',
-            display: 'Complexity: O(n²) queries (Worst case)',
-            optimality: 'suboptimal'
-        },
-        steps: [
-            {
-                type: 'start',
-                title: 'Start',
-                description: 'N players want to divide a cake proportionally'
-            },
-            {
-                type: 'action',
-                title: 'Round 1 Setup',
-                description: 'Begin with n players and whole cake. Target share: 1/n for each player'
-            },
-            {
-                type: 'query',
-                title: 'Initial Cut',
-                description: 'Player 1 cuts a piece they value as exactly 1/n of the total cake',
-                queries: { cut: 1 }
-            },
-            {
-                type: 'decision',
-                title: 'Sequential Evaluation',
-                description: 'Pass piece to Player 2, then 3, ..., up to Player n. Each decides: trim or pass?',
-                branches: [
-                    {
-                        condition: 'piece_too_large',
-                        label: 'If piece > 1/n value',
-                        probability: 'Variable',
-                        steps: [
-                            {
-                                type: 'query',
-                                title: 'Trim Piece',
-                                description: 'Player trims piece to exactly 1/n of their valuation',
-                                queries: { cut: 1, evalQueries: 1 }
-                            }
-                        ]
-                    },
-                    {
-                        condition: 'piece_acceptable',
-                        label: 'If piece ≤ 1/n value',
-                        probability: 'Variable',
-                        steps: [
-                            {
-                                type: 'action',
-                                title: 'Pass Unchanged',
-                                description: 'Player passes piece to next player without modification'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'action',
-                title: 'Last Diminisher Wins',
-                description: 'The player who made the final trim receives the piece. All trimmings return to main cake'
-            },
-            {
-                type: 'decision',
-                title: 'Continue or Finish?',
-                description: 'Check if more players remain for division',
-                branches: [
-                    {
-                        condition: 'players_remaining',
-                        label: 'More than 1 player left',
-                        probability: 'n-1 rounds',
-                        steps: [
-                            {
-                                type: 'action',
-                                title: 'Next Round Setup',
-                                description: 'Remove last diminisher from game. Remaining players target 1/(n-k) share'
-                            },
-                            {
-                                type: 'query',
-                                title: 'Next Round Cut',
-                                description: 'First remaining player cuts piece valued at 1/(remaining players)',
-                                queries: { cut: 1 }
-                            }
-                        ]
-                    },
-                    {
-                        condition: 'final_player',
-                        label: 'Only 1 player left',
-                        probability: 'Final round',
-                        steps: [
-                            {
-                                type: 'action',
-                                title: 'Final Allocation',
-                                description: 'Last remaining player receives all remaining cake'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'end',
-                title: 'Proportional Result',
-                description: 'Each player guaranteed ≥1/n of cake by their own valuation<br><small>Proportional but not necessarily envy-free</small>'
-            }
-        ]
-    },
+    }
 };
 
+// ===== FACTORY FUNCTIONS =====
 function createEnhancedFlowchart(containerId, algorithmName, customData = null) {
     const data = customData || ALGORITHM_FLOWCHART_DATA[algorithmName];
     if (!data) {
@@ -1312,6 +883,7 @@ function createEnhancedFlowchart(containerId, algorithmName, customData = null) 
     return new EnhancedFlowchart(containerId, data);
 }
 
+// ===== GLOBAL ANIMATION FUNCTIONS =====
 function animateAlgorithm(containerId, speed = 1000) {
     const container = document.getElementById(containerId);
     if (container && container.enhancedFlowchart) {
@@ -1359,12 +931,9 @@ function resetAlgorithm(containerId) {
     }
 }
 
+// ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, looking for enhanced flowcharts...');
-
-    const style = document.createElement('style');
-    style.textContent = animationCSS;
-    document.head.appendChild(style);
 
     const flowchartElements = document.querySelectorAll('[data-enhanced-flowchart]');
     console.log(`Found ${flowchartElements.length} enhanced flowchart elements`);
@@ -1386,39 +955,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-const animationCSS = `
-@keyframes queryPulse {
-    0% { 
-        transform: scale(1); 
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-    50% { 
-        transform: scale(1.15); 
-        box-shadow: 0 4px 16px rgba(229, 62, 62, 0.4);
-    }
-    100% { 
-        transform: scale(1); 
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-}
-
-@keyframes metricPulse {
-    0% { 
-        transform: scale(1); 
-        background-color: white;
-    }
-    50% { 
-        transform: scale(1.05); 
-        background-color: #ebf8ff;
-    }
-    100% { 
-        transform: scale(1); 
-        background-color: white;
-    }
-}
-`;
-
-// Make functions globally available
+// ===== GLOBAL EXPORTS =====
 window.EnhancedFlowchart = EnhancedFlowchart;
 window.createEnhancedFlowchart = createEnhancedFlowchart;
 window.ALGORITHM_FLOWCHART_DATA = ALGORITHM_FLOWCHART_DATA;

@@ -379,4 +379,4 @@ permalink: /references/
   <a href="{{ '/' | relative_url }}" class="nav-button primary">Algorithms →</a>
 </footer>
 
-<script src="citationsFunctions.js"></script>
+<script src="js/citationsFunctions.js"></script>

@@ -420,4 +420,4 @@ permalink: /glossary/
   <a href="{{ '/references/' | relative_url }}" class="nav-button primary">References →</a>
 </footer>
 
-<script src="glossarySort.js"></script>
+<script src="js/glossarySort.js"></script>

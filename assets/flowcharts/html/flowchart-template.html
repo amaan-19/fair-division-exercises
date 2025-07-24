@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Flowchart Template</title>
+  <link rel="stylesheet" href="flowchart-enhanced.css">
+</head>
+<body>
+<!--
+This is the base HTML template structure for enhanced flowcharts.
+The JavaScript will dynamically populate this structure with algorithm-specific content.
+-->
+
+<!-- Main Container Structure -->
+<div class="algorithm-flowchart-enhanced" id="flowchart-container">
+  <!-- Header Section -->
+  <div class="flowchart-header-enhanced">
+    <div class="flowchart-title-enhanced">[Algorithm Name]</div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="flowchart-content-enhanced">
+    <!-- Algorithm Steps Container -->
+    <div class="flowchart-steps-enhanced">
+      <!-- Steps will be dynamically inserted here -->
+    </div>
+
+    <!-- Query Complexity Sidebar -->
+    <div class="complexity-sidebar-enhanced empty-state">
+      <div class="sidebar-title-enhanced">Query Complexity</div>
+
+      <!-- Cut Queries Metric -->
+      <div class="query-metric-enhanced cut-metric">
+        <span class="metric-label-enhanced">Cut Queries:</span>
+        <span class="metric-value-enhanced" id="cut-count">0</span>
+      </div>
+
+      <!-- Evaluation Queries Metric -->
+      <div class="query-metric-enhanced eval-metric">
+        <span class="metric-label-enhanced">Eval Queries:</span>
+        <span class="metric-value-enhanced" id="eval-count">0</span>
+      </div>
+
+      <!-- Total Complexity -->
+      <div class="total-complexity-enhanced">
+        <span class="total-label-enhanced">Total:</span>
+        <span class="total-value-enhanced" id="total-count">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animation Controls (Optional) -->
+  <div class="animation-controls" style="margin-top: 1.5rem; text-align: center;">
+    <button class="animation-btn" onclick="animateAlgorithm('flowchart-container')">
+      ▶️ Animate Steps
+    </button>
+    <button class="animation-btn secondary" onclick="resetAlgorithm('flowchart-container')">
+      🔄 Reset
+    </button>
+  </div>
+</div>
+
+<!-- Step Template Structure (Hidden, used by JavaScript) -->
+<template id="step-template">
+  <div class="flow-step-enhanced" data-step="">
+    <div class="step-content-enhanced">
+      <div class="step-text">
+        <!-- Step content inserted here -->
+      </div>
+    </div>
+    <!-- Query badge and tooltip inserted here -->
+  </div>
+</template>
+
+<!-- Connector Template -->
+<template id="connector-template">
+  <div class="flow-connector-enhanced">
+    <div class="connector-line-enhanced">
+      <div class="connector-arrow-enhanced"></div>
+    </div>
+  </div>
+</template>
+
+<!-- Branch Template -->
+<template id="branch-template">
+  <div class="flow-branches-enhanced">
+    <div class="branch-connector-enhanced"></div>
+    <!-- Branch content inserted here -->
+  </div>
+</template>
+
+<!-- Individual Branch Template -->
+<template id="individual-branch-template">
+  <div class="flow-branch-enhanced">
+    <div class="branch-label-enhanced">
+      <!-- Branch label and probability -->
+    </div>
+    <div class="branch-steps-enhanced">
+      <!-- Branch steps inserted here -->
+    </div>
+  </div>
+</template>
+
+<!-- Query Badge Template -->
+<template id="query-badge-template">
+  <div class="query-badge-enhanced" data-queries="">
+    <!-- Badge text -->
+  </div>
+</template>
+
+<!-- Query Tooltip Template -->
+<template id="query-tooltip-template">
+  <div class="query-tooltip-enhanced">
+    <!-- Tooltip content -->
+  </div>
+</template>
+
+<script src="js/flowchart-enhanced.js"></script>
+</body>
+</html>
