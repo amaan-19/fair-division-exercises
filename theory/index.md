@@ -22,7 +22,7 @@ permalink: /theory/
 
   <div class="question-block">
     <h3>How are fair division problems computationally modeled?</h3>
-    <p>Understand different computational models and how they enable the design of different algorithms</p>
+    <p>Understand different computational models and how they enable the design and analysis of algorithms</p>
     <div class="question-links">
       <a href="{{ '/robertson-webb-query-model/' | relative_url }}">Robertson-Webb Model</a>
       <a href="{{ '/moving-knife-model/' | relative_url }}">Moving-Knife Model</a>

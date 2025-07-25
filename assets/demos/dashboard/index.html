@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fair Division Dashboard</title>
+
+  <!-- Site CSS (maintains consistency) -->
+  <link rel="stylesheet" href="../../css/main.css">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/widgets.css">
+</head>
+<body>
+
+<main class="main-content">
+  <div class="container">
+    <!-- Dashboard Container -->
+    <div id="dashboard-container" class="dashboard-container">
+      <div class="loading-message">
+        <h2>🍰 Initializing Dashboard...</h2>
+        <p>Loading modular widget system...</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Dashboard System -->
+<script src="core/event-bus.js"></script>
+<script src="core/widget-registry.js"></script>
+<script src="core/dashboard.js"></script>
+<script src="core/widget.js"></script>
+<script src="core/layout-manager.js"></script>
+
+<!-- Widgets -->
+<script src="widgets/algorithm/algorithm-selector.js"></script>
+<script src="widgets/educational/instructions.js"></script>
+<script src="widgets/visualization/cake-visualization.js"></script>
+
+<!-- Initialize -->
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const dashboard = new Dashboard('dashboard-container', {
+      layout: 'standard',
+      theme: 'academic',
+      debug: true
+    });
+
+    await dashboard.initialize();
+  });
+</script>
+</body>
+</html>

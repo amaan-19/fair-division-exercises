@@ -1,0 +1,392 @@
+/**
+ * Fair Division Dashboard - Core CSS
+ *
+ * File Location: assets/demos/dashboard/css/dashboard.css
+ *
+ * Maintains consistency with existing site styling (main.css) while extending
+ * for modular dashboard functionality. Uses the same color palette, typography,
+ * and component patterns as the rest of the site.
+ */
+
+/* ===== DASHBOARD CONTAINER ===== */
+.dashboard-container {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    background: #f7fafc; /* Matches body background from main.css */
+}
+
+.dashboard-container.initializing {
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-container.ready {
+    /* Ready state - no specific styling needed */
+}
+
+.dashboard-container.layout-standard {
+    /* Standard layout specific styles */
+}
+
+.dashboard-container.layout-research {
+    /* Research layout specific styles */
+}
+
+/* ===== LOADING & ERROR STATES ===== */
+.loading-message {
+    text-align: center;
+    padding: 3rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.loading-message h2 {
+    font-family: 'Crimson Text', Georgia, serif; /* Matches site headings */
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: #3182ce; /* Primary blue from main.css */
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.loading-message p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #4a5568; /* Secondary text color from main.css */
+    line-height: 1.6;
+}
+
+.error-message {
+    text-align: center;
+    padding: 3rem;
+    background: #fed7d7; /* Light red background */
+    border: 1px solid #fc8181;
+    border-radius: 12px;
+    margin: 2rem;
+}
+
+.error-message h2 {
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #e53e3e;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.error-message p {
+    color: #742a2a;
+    margin-bottom: 1rem;
+}
+
+/* ===== LAYOUT SYSTEM ===== */
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 1200px; /* Matches .container from main.css */
+    margin: 0 auto;
+    padding: 0 2rem; /* Matches .container padding */
+}
+
+.layout-region {
+    /* Base styles for all layout regions */
+}
+
+/* Standard Layout Regions */
+.region-header {
+    background: white; /* Matches site header */
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.25rem 0;
+    margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.region-main {
+    display: flex;
+    flex: 1;
+    gap: 2rem;
+    min-height: 600px;
+}
+
+.region-visualization {
+    flex: 1;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px; /* Matches component styling from main.css */
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.region-visualization:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Matches hover effects */
+    border-color: #cbd5e0;
+}
+
+.region-sidebar {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Research Layout Regions */
+.region-mainLeft {
+    flex: 2;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.region-mainRight {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.region-bottomLeft,
+.region-bottomRight {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+}
+
+.region-bottomLeft {
+    flex: 2;
+}
+
+.region-bottomRight {
+    width: 350px;
+}
+
+/* Minimal Layout */
+.region-center {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ===== WIDGET DROP ZONES ===== */
+.widget-drop-zone {
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.widget-drop-zone.drag-over {
+    background: #ebf8ff; /* Light blue background */
+    border: 2px dashed #3182ce;
+    box-shadow: 0 0 0 4px rgba(49, 130, 206, 0.1);
+}
+
+.widget-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+/* ===== RESIZE HANDLES ===== */
+.resize-handle {
+    position: absolute;
+    background: #3182ce;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+}
+
+.resize-handle:hover,
+.resize-handle.active {
+    opacity: 0.7;
+}
+
+.resize-right {
+    top: 0;
+    right: -2px;
+    width: 4px;
+    height: 100%;
+    cursor: ew-resize;
+}
+
+.resize-bottom {
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    cursor: ns-resize;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .layout-wrapper {
+        padding: 0 1rem; /* Reduced padding for mobile */
+    }
+
+    .region-main {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .region-sidebar {
+        width: 100%;
+        order: -1; /* Put sidebar on top on mobile */
+    }
+
+    .region-visualization {
+        min-height: 400px;
+    }
+
+    /* Research layout becomes single column */
+    .region-mainLeft,
+    .region-mainRight {
+        width: 100%;
+    }
+
+    .region-bottomLeft,
+    .region-bottomRight {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .loading-message,
+    .error-message {
+        padding: 2rem 1rem;
+        margin: 1rem;
+    }
+
+    .loading-message h2 {
+        font-size: 1.75rem;
+    }
+
+    .region-header {
+        padding: 1rem 0;
+        position: relative; /* Remove sticky on small screens */
+    }
+}
+
+/* ===== BREAKPOINT INDICATORS (Development) ===== */
+.breakpoint-indicator {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    background: #2d3748;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+}
+
+/* Show breakpoint indicator in debug mode */
+.dashboard-container[data-debug="true"] .breakpoint-indicator {
+    display: block;
+}
+
+.breakpoint-indicator::before {
+    content: 'Mobile';
+}
+
+@media (min-width: 640px) {
+    .breakpoint-indicator::before {
+        content: 'Tablet';
+    }
+}
+
+@media (min-width: 1024px) {
+    .breakpoint-indicator::before {
+        content: 'Desktop';
+    }
+}
+
+@media (min-width: 1280px) {
+    .breakpoint-indicator::before {
+        content: 'Large';
+    }
+}
+
+/* ===== THEME VARIATIONS ===== */
+[data-theme="dark"] .dashboard-container {
+    background: #1a202c;
+}
+
+[data-theme="dark"] .region-header,
+[data-theme="dark"] .region-visualization,
+[data-theme="dark"] .region-mainLeft,
+[data-theme="dark"] .region-bottomLeft,
+[data-theme="dark"] .region-bottomRight {
+    background: #2d3748;
+    border-color: #4a5568;
+}
+
+[data-theme="dark"] .loading-message h2 {
+    color: #63b3ed;
+}
+
+[data-theme="dark"] .loading-message p {
+    color: #e2e8f0;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.dashboard-container:focus-within {
+    /* Enhanced focus visibility for keyboard navigation */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .layout-region,
+    .widget-drop-zone,
+    .resize-handle {
+        transition: none;
+    }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: more) {
+    .region-header,
+    .region-visualization,
+    .region-mainLeft,
+    .region-bottomLeft,
+    .region-bottomRight {
+        border-width: 2px;
+    }
+
+    .widget-drop-zone.drag-over {
+        border-width: 3px;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .dashboard-container {
+        background: white;
+        box-shadow: none;
+    }
+
+    .resize-handle,
+    .breakpoint-indicator {
+        display: none;
+    }
+
+    .region-main {
+        flex-direction: column;
+    }
+
+    .region-sidebar {
+        width: 100%;
+    }
+}
