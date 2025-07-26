@@ -57,6 +57,9 @@ class Dashboard {
         this.handleWidgetCreationRequest = this.handleWidgetCreationRequest.bind(this);
         this.handleAlgorithmSelection = this.handleAlgorithmSelection.bind(this);
         this.handleWidgetRemovalRequest = this.handleWidgetRemovalRequest.bind(this);
+
+        // Register widget factories
+        this.processQueuedWidgetRegistrations();
     }
 
     // ===== INITIALIZATION =====
@@ -95,23 +98,42 @@ class Dashboard {
                 await this.loadPersistedState();
             }
 
-            // 7. Auto-load widgets if enabled
-            if (this.config.autoLoadWidgets) {
-                await this.loadDefaultWidgets();
-            }
+            // Global widget registration queue
+            const widgetRegistrationQueue = [];
+
+            // Public widget registration API
+            window.FairDivisionDashboard = {
+                widgetRegistrationQueue: widgetRegistrationQueue,
+
+                registerWidget: function(type, factory, metadata = {}) {
+                    // If dashboard instance exists and is ready, register immediately
+                    if (window.dashboardInstance && window.dashboardInstance.widgetRegistry) {
+                        try {
+                            window.dashboardInstance.widgetRegistry.registerWidget(type, factory, metadata);
+                            console.log(`Widget registered immediately: ${type}`);
+                            return true;
+                        } catch (error) {
+                            console.error(`Failed to register widget ${type}:`, error);
+                            return false;
+                        }
+                    } else {
+                        // Queue for later registration
+                        console.log(`Dashboard not ready, queueing widget registration: ${type}`);
+                        widgetRegistrationQueue.push({ type, factory, metadata });
+                        return true;
+                    }
+                },
+
+                getInstance: function() {
+                    return window.dashboardInstance;
+                }
+            };
 
             // Mark as initialized
             this.isInitialized = true;
             this.performanceMetrics.initTime = performance.now() - startTime;
 
             console.log(`Dashboard initialized in ${this.performanceMetrics.initTime.toFixed(2)}ms`);
-
-            // Emit initialization complete event
-            this.eventBus.emit('dashboard-initialized', {
-                initTime: this.performanceMetrics.initTime,
-                config: this.config,
-                sessionId: this.generateSessionId()
-            });
 
         } catch (error) {
             console.error('Failed to initialize dashboard:', error);
@@ -136,6 +158,7 @@ class Dashboard {
         this.container.className = 'dashboard-container initializing';
         this.container.setAttribute('data-dashboard-version', '2.0');
         this.container.setAttribute('data-theme', this.config.theme);
+        console.log('Container initialized!');
     }
 
     /**
@@ -157,17 +180,23 @@ class Dashboard {
             this.eventBus.use(EventBus.PerformanceMiddleware());
         }
 
+        console.log('Event Bus initialized!');
+
         // 2. Widget Registry - manages widget factories and instances
         this.widgetRegistry = new WidgetRegistry(this.eventBus);
+        console.log('Initialized widget registery!');
 
         // 3. Layout Manager - handles layout and regions
         this.layoutManager = new LayoutManager(this.eventBus, {
             enablePersistence: this.config.enablePersistence,
             enableResponsive: this.config.enableResponsive
         });
+        console.log('Initialized layout manager!');
 
         // Set container for layout manager
         this.layoutManager.setContainer(this.container);
+
+        this.eventBus.emit('core-services-active');
 
         console.log('Core services initialized');
     }
@@ -881,33 +910,38 @@ class Dashboard {
 
         console.log('Dashboard destroyed');
     }
+
+    processQueuedWidgetRegistrations() {
+        if (window.FairDivisionDashboard && window.FairDivisionDashboard.widgetRegistrationQueue) {
+            window.FairDivisionDashboard.widgetRegistrationQueue.forEach(({ type, factory, metadata }) => {
+                try {
+                    this.widgetRegistry.registerWidget(type, factory, metadata);
+                    console.log(`Successfully registered queued widget: ${type}`);
+                } catch (error) {
+                    console.error(`Failed to register queued widget ${type}:`, error);
+                }
+            });
+            // Clear the queue
+            window.FairDivisionDashboard.widgetRegistrationQueue = [];
+        }
+    }
 }
 
-// Global API for backward compatibility
-window.FairDivisionDashboard = Dashboard;
+// When dashboard is initialized (modify your dashboard initialization code):
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        // Initialize dashboard
+        window.dashboardInstance = new Dashboard('unified-demo-container');
 
-window.DashboardRegistry = {
-    widgetFactories: new Map(),
-    dashboardInstance: null,
+        // Make sure the instance is available for widget registration
+        window.FairDivisionDashboard.dashboardInstance = window.dashboardInstance;
 
-    registerWidgetFactory: function(type, factory) {
-        if (this.dashboardInstance) {
-            this.dashboardInstance.widgetRegistry.registerFactory(type, factory);
-        } else {
-            // Queue for later registration
-            this.widgetFactories.set(type, factory);
-        }
-    },
+        console.log('Dashboard initialized and available for widget registration');
 
-    setDashboardInstance: function(instance) {
-        this.dashboardInstance = instance;
-        // Process queued factories
-        this.widgetFactories.forEach((factory, type) => {
-            instance.widgetRegistry.registerFactory(type, factory);
-        });
-        this.widgetFactories.clear();
+    } catch (error) {
+        console.error('Failed to initialize dashboard:', error);
     }
-};
+});
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {

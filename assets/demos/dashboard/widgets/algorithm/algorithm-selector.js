@@ -637,12 +637,8 @@ function createAlgorithmSelectorWidget(id, config = {}) {
     return new AlgorithmSelectorWidget(id, config);
 }
 
-// Auto-register with widget registry when available
-if (typeof window !== 'undefined') {
-    // Wait for widget registry to be available
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.WidgetRegistry || window.FairDivisionDashboard) {
-            // Register factory function
+function selfRegister() {
+    // Register factory function
             const registry = window.WidgetRegistry || window.FairDivisionDashboard?.widgetRegistry;
             if (registry && typeof registry.registerFactory === 'function') {
                 registry.registerFactory('algorithm-selector', createAlgorithmSelectorWidget, {
@@ -663,9 +659,10 @@ if (typeof window !== 'undefined') {
 
                 console.log('Algorithm Selector widget registered');
             }
-        }
-    });
 }
+
+// Auto-register with widget registry when available
+this.eventBus.on('core-services-active', this.selfRegister());
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
