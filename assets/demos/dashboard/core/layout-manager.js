@@ -6,7 +6,7 @@
  */
 
 class LayoutManager {
-    constructor(container, eventBus) {
+    constructor(container, eventBus, options = {}) {
         // Core state
         this.container = container;
         this.eventBus = eventBus;
@@ -14,6 +14,19 @@ class LayoutManager {
         this.currentLayout = null;
         this.regions = new Map();
         this.widgetPlacements = new Map();
+
+        // Initialize options with defaults
+        this.options = {
+            enableResponsive: true,
+            enablePersistence: false,
+            defaultLayout: 'standard',
+            mobileBreakpoint: 768,
+            tabletBreakpoint: 1024,
+            ...options
+        };
+
+        // Initialize current breakpoint
+        this.currentBreakpoint = this.getCurrentBreakpoint();
 
         // Performance tracking
         this.layoutStats = {
@@ -25,7 +38,30 @@ class LayoutManager {
         // Initialize with default layouts
         this.registerDefaultLayouts();
 
-        eventBus.emit(EventBus.Events.LAYOUT_MANAGER_READY);
+        // Setup responsive handling if enabled
+        if (this.options.enableResponsive) {
+            this.setupResponsiveHandling();
+        }
+
+        if (this.eventBus) {
+            this.eventBus.emit('layout-manager-ready');
+        }
+    }
+
+    /**
+     * Get current breakpoint based on window width
+     */
+    getCurrentBreakpoint() {
+        if (typeof window === 'undefined') return 'desktop';
+
+        const width = window.innerWidth;
+        if (width < this.options.mobileBreakpoint) {
+            return 'mobile';
+        } else if (width < this.options.tabletBreakpoint) {
+            return 'tablet';
+        } else {
+            return 'desktop';
+        }
     }
 
     /**

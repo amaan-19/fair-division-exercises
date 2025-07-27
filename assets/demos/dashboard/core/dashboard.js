@@ -1,5 +1,5 @@
 /**
- * Widget Dashboard System
+ * Widget Dashboard System - Fixed Version
  */
 class Dashboard {
     constructor(containerId) {
@@ -61,13 +61,117 @@ class Dashboard {
     }
 
     /**
-     * Initialize layout management system
+     * Initialize layout management system - FIXED VERSION
      */
     async initializeLayoutManager(layout) {
-        this.layoutManager = new LayoutManager(this.container, this.eventBus);
-        await this.applyLayout(layout);
-        await this.layoutManager.placeDefaultWidgets(layout);
+        const layoutOptions = {
+            enableResponsive: true,
+            enablePersistence: true,
+            defaultLayout: 'standard',
+            mobileBreakpoint: 768,
+            tabletBreakpoint: 1024
+        };
+
+        this.layoutManager = new LayoutManager(this.container, this.eventBus, layoutOptions);
+
+        // Apply the layout through layout manager
+        await this.layoutManager.applyLayout(layout, {
+            includeDefaultWidgets: false // Don't let layout manager handle widgets
+        });
+
+        // Handle widget creation ourselves
+        await this.createDefaultWidgets(layout);
+
         console.log(`Layout system initialized. ${layout} layout applied.`);
+    }
+
+    /**
+     * Create default widgets for a layout - NEW METHOD
+     */
+    async createDefaultWidgets(layoutName) {
+        const layout = this.layoutManager.getLayout(layoutName);
+        if (!layout || !layout.defaultWidgets) {
+            console.log('No default widgets to create');
+            return;
+        }
+
+        console.log('Creating default widgets...');
+
+        // Create widgets for each region
+        for (const [regionName, widgets] of Object.entries(layout.defaultWidgets)) {
+            const region = this.layoutManager.getRegion(regionName);
+            if (!region) {
+                console.warn(`Region not found: ${regionName}`);
+                continue;
+            }
+
+            // Create each widget in the region
+            for (const widgetConfig of widgets) {
+                try {
+                    await this.createAndPlaceWidget(widgetConfig.type, regionName, widgetConfig.config);
+                } catch (error) {
+                    console.error(`Failed to create widget ${widgetConfig.type} in ${regionName}:`, error);
+                }
+            }
+        }
+    }
+
+    /**
+     * Create and place a widget in a region - NEW METHOD
+     */
+    async createAndPlaceWidget(widgetType, regionName, config = {}) {
+        if (!this.widgetRegistry.hasWidgetType(widgetType)) {
+            console.warn(`Widget type not found: ${widgetType}, skipping`);
+            return null;
+        }
+
+        const widgetId = `${widgetType}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+        try {
+            // Create widget instance
+            const widget = this.widgetRegistry.createWidget(widgetType, widgetId, config);
+
+            // Get the region element
+            const region = this.layoutManager.getRegion(regionName);
+            if (!region) {
+                throw new Error(`Region not found: ${regionName}`);
+            }
+
+            // Initialize widget if it has an initialize method
+            if (typeof widget.initialize === 'function') {
+                await widget.initialize(region, { eventBus: this.eventBus });
+            }
+
+            // Render widget
+            let widgetElement;
+            if (typeof widget.render === 'function') {
+                widgetElement = widget.render();
+            } else {
+                // Create a basic wrapper if widget doesn't have render method
+                widgetElement = document.createElement('div');
+                widgetElement.className = `widget ${widgetType}-widget`;
+                widgetElement.setAttribute('data-widget-id', widgetId);
+                widgetElement.innerHTML = `<p>Widget: ${widgetType}</p>`;
+            }
+
+            if (widgetElement) {
+                widgetElement.setAttribute('data-widget-id', widgetId);
+                widgetElement.setAttribute('data-widget-type', widgetType);
+
+                // Add to region using layout manager
+                this.layoutManager.addWidgetToRegion(widgetElement, regionName);
+
+                // Store widget reference
+                this.widgets.set(widgetId, widget);
+
+                console.log(`✅ Widget created and placed: ${widgetId} (${widgetType}) in ${regionName}`);
+
+                return widget;
+            }
+        } catch (error) {
+            console.error(`❌ Failed to create widget ${widgetType}:`, error);
+            throw error;
+        }
     }
 
     /**
@@ -82,7 +186,7 @@ class Dashboard {
      */
     async initializeWidgetRegistry() {
         this.widgetRegistry = new WidgetRegistry(this.eventBus);
-        console.log('Widget registery initialized');
+        console.log('Widget registry initialized');
         this.widgetRegistry.getRegisteredWidgets();
     }
 
@@ -162,49 +266,54 @@ class Dashboard {
             // Emit widget removed event
             this.eventBus.emit('widget-removed', { widgetId });
 
-            console.log(`Widget removed: ${widgetId}`);
+            console.log(`Widget removed successfully: ${widgetId}`);
             return true;
 
         } catch (error) {
-            console.error(`Error removing widget ${widgetId}:`, error);
+            console.error(`Failed to remove widget ${widgetId}:`, error);
             return false;
         }
     }
 
     /**
-     * Get widget by ID
+     * Get dashboard statistics
      */
-    getWidget(widgetId) {
-        return this.widgets.get(widgetId);
-    }
-
-    /**
-     * Get all widgets of a specific type
-     */
-    getWidgetsByType(type) {
-        return Array.from(this.widgets.values()).filter(widget => widget.type === type);
-    }
-
-    /**
-     * Check if dashboard is ready for operations
-     */
-    isReady() {
-        return this.isInitialized && this.widgetRegistry.isReady;
-    }
-
-    /**
-     * Get dashboard status for debugging
-     */
-    getStatus() {
+    getStats() {
         return {
-            initialized: this.isInitialized,
-            registryReady: this.widgetRegistry.isReady,
+            isInitialized: this.isInitialized,
             widgetCount: this.widgets.size,
-            availableWidgetTypes: this.widgetRegistry.getAllWidgetTypes(),
-            registeredLayouts: this.layoutManager ? this.layoutManager.getRegisteredLayouts() : []
+            currentLayout: this.layout,
+            containerReady: !!this.container
         };
+    }
+
+    /**
+     * Destroy dashboard and cleanup
+     */
+    destroy() {
+        // Destroy all widgets
+        for (const [widgetId, widget] of this.widgets) {
+            if (typeof widget.destroy === 'function') {
+                widget.destroy();
+            }
+        }
+
+        // Clear widgets
+        this.widgets.clear();
+
+        // Destroy layout manager
+        if (this.layoutManager) {
+            this.layoutManager.destroy();
+        }
+
+        this.isInitialized = false;
+        console.log('Dashboard destroyed');
     }
 }
 
-// Export for use by other modules
-window.Dashboard = Dashboard;
+// Export for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Dashboard;
+} else {
+    window.Dashboard = Dashboard;
+}
