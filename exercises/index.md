@@ -43,7 +43,7 @@ permalink: /exercises/
   </div>
 
   <!-- Demo Interface Container -->
-  <div class="unified-demo-container">
+  <div class="dashboard-container">
     <iframe 
       src="{{ '/assets/demos/dashboard/index.html' | relative_url }}" 
       width="100%" 

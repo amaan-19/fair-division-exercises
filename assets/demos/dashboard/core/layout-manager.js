@@ -1,32 +1,19 @@
 /**
- * Layout Manager for Fair Division Dashboard
+ * Layout Manager for Widget Dashboard
  *
  * Manages dashboard layouts, regions, and responsive design for the educational platform.
  * Supports dynamic layout switching, widget positioning, and educational layout patterns.
  */
 
 class LayoutManager {
-    constructor(eventBus = null, options = {}) {
-        this.eventBus = eventBus;
-        this.options = {
-            enablePersistence: true,
-            enableResponsive: true,
-            defaultLayout: 'standard',
-            mobileBreakpoint: 768,
-            tabletBreakpoint: 1024,
-            ...options
-        };
-
+    constructor(container, eventBus) {
         // Core state
+        this.container = container;
+        this.eventBus = eventBus;
         this.layouts = new Map();
         this.currentLayout = null;
-        this.container = null;
         this.regions = new Map();
         this.widgetPlacements = new Map();
-
-        // Responsive state
-        this.currentBreakpoint = 'desktop';
-        this.resizeObserver = null;
 
         // Performance tracking
         this.layoutStats = {
@@ -37,7 +24,8 @@ class LayoutManager {
 
         // Initialize with default layouts
         this.registerDefaultLayouts();
-        this.setupResponsiveHandling();
+
+        eventBus.emit(EventBus.Events.LAYOUT_MANAGER_READY);
     }
 
     /**

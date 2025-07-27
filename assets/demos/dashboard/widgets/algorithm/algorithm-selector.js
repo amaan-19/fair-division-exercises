@@ -9,11 +9,10 @@ class AlgorithmSelectorWidget extends Widget {
     constructor(id, config = {}) {
         super(id, {
             type: 'algorithm-selector',
-            title: config.title || 'Algorithm Selection',
+            title: 'Algorithm Selection',
             category: 'algorithm',
             resizable: false,
             collapsible: false,
-            ...config
         });
 
         // Algorithm selector specific state
@@ -25,16 +24,6 @@ class AlgorithmSelectorWidget extends Widget {
             showMetadata: config.showMetadata !== false,
             showComplexity: config.showComplexity !== false
         };
-
-        // Educational context
-        this.learningObjectives = [
-            'Understand different approaches to fair division',
-            'Compare algorithm complexities and properties',
-            'Select appropriate algorithms for different scenarios'
-        ];
-
-        // Performance tracking
-        this.selectionHistory = [];
     }
 
     /**
@@ -660,9 +649,6 @@ function selfRegister() {
                 console.log('Algorithm Selector widget registered');
             }
 }
-
-// Auto-register with widget registry when available
-this.eventBus.on('core-services-active', this.selfRegister());
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
