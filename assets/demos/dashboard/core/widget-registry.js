@@ -173,6 +173,31 @@ class WidgetRegistry {
             category: 'algorithm'
         });
 
+        // Exercise Selector Widget
+        this.registerFactory('exercise-selector', (id, config) => {
+            return {
+                id,
+                type: 'exercise-selector',
+                render() {
+                    const div = document.createElement('div');
+                    div.className = 'widget exercise-selector-widget';
+                    div.innerHTML = `
+                        <h3>Exercise Selector</h3>
+                        <select style="width: 100%; padding: 8px; margin-top: 8px;">
+                        </select>
+                        <p style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                            Select an exercise for guided work
+                        </p>
+                    `;
+                    return div;
+                }
+            };
+        }, {
+            name: 'Exercise Selector',
+            description: 'Dropdown for selecting exercises',
+            category: 'exercise'
+        });
+
         // Cake Visualization Widget
         this.registerFactory('cake-visualization', (id, config) => {
             return {

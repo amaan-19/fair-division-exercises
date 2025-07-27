@@ -139,10 +139,42 @@ class LayoutManager {
             // Determine which layout variant to use based on screen size
             const effectiveLayout = this.getResponsiveLayout(layout);
 
-            // Clear existing layout
-            await this.clearCurrentLayout();
+            // ✅ FIXED: Only clear layout if NOT preserving widgets
+            if (!options.preserveWidgets) {
+                // Clear existing layout
+                await this.clearCurrentLayout();
+            } else {
+                // Just update container classes without clearing content
+                this.container.className = `dashboard-container layout-${layout.name} breakpoint-${this.currentBreakpoint}`;
 
-            // Apply new layout
+                // Apply responsive styling to existing regions
+                if (this.regions && this.regions.size > 0) {
+                    this.applyResponsiveStyles(effectiveLayout);
+
+                    // Store updated layout info
+                    this.currentLayout = {
+                        name: layoutName,
+                        config: effectiveLayout,
+                        regions: this.regions,
+                        appliedAt: Date.now(),
+                        breakpoint: this.currentBreakpoint
+                    };
+
+                    console.log(`Layout updated responsively: ${layoutName} (${this.currentBreakpoint})`);
+
+                    if (this.eventBus) {
+                        this.eventBus.emit('layout-updated', {
+                            layoutName,
+                            layout: effectiveLayout,
+                            breakpoint: this.currentBreakpoint
+                        });
+                    }
+
+                    return this.regions;
+                }
+            }
+
+            // Apply new layout (full recreation)
             const regions = await this.createLayoutStructure(effectiveLayout, options);
 
             // Store current layout info
@@ -199,6 +231,23 @@ class LayoutManager {
 
             throw error;
         }
+    }
+
+    applyResponsiveStyles(layout) {
+        if (!this.regions || !layout.responsive) return;
+
+        const responsive = layout.responsive[this.currentBreakpoint];
+        if (!responsive || !responsive.regions) return;
+
+        // Apply responsive styles to existing regions
+        Object.entries(responsive.regions).forEach(([regionName, regionConfig]) => {
+            const regionElement = this.regions.get(regionName);
+            if (regionElement && regionConfig.style) {
+                Object.assign(regionElement.style, regionConfig.style);
+            }
+        });
+
+        console.log(`✅ Applied responsive styles for ${this.currentBreakpoint}`);
     }
 
     /**
@@ -263,17 +312,37 @@ class LayoutManager {
         // Set container classes
         this.container.className = `dashboard-container layout-${layout.name} breakpoint-${this.currentBreakpoint}`;
 
-        // Create layout wrapper if needed
+        // Create layout wrapper
         const layoutWrapper = document.createElement('div');
         layoutWrapper.className = 'layout-wrapper';
         this.container.appendChild(layoutWrapper);
 
-        // Create regions based on layout configuration
-        Object.entries(layout.regions).forEach(([regionName, regionConfig]) => {
-            const regionElement = this.createRegionElement(regionName, regionConfig, layout);
-            layoutWrapper.appendChild(regionElement);
-            regions.set(regionName, regionElement);
-        });
+        // Special handling for standard layout to create proper nesting
+        if (layout.name === 'standard') {
+
+            // 2. Create content container
+            const contentElement = this.createRegionElement('content', layout.regions.content, layout);
+            layoutWrapper.appendChild(contentElement);
+            regions.set('content', contentElement);
+
+            // 3. Create visualization and sidebar INSIDE content
+            const visualizationElement = this.createRegionElement('visualization', layout.regions.visualization, layout);
+            const sidebarElement = this.createRegionElement('sidebar', layout.regions.sidebar, layout);
+
+            contentElement.appendChild(visualizationElement);
+            contentElement.appendChild(sidebarElement);
+
+            regions.set('visualization', visualizationElement);
+            regions.set('sidebar', sidebarElement);
+
+        } else {
+            // For other layouts, create regions sequentially (original logic)
+            Object.entries(layout.regions).forEach(([regionName, regionConfig]) => {
+                const regionElement = this.createRegionElement(regionName, regionConfig, layout);
+                layoutWrapper.appendChild(regionElement);
+                regions.set(regionName, regionElement);
+            });
+        }
 
         // Store regions
         this.regions = regions;
@@ -576,35 +645,51 @@ class LayoutManager {
     setupResponsiveHandling() {
         if (!this.options.enableResponsive) return;
 
+        // ✅ FIXED: Add debouncing to prevent excessive re-layouts
+        let resizeTimeout;
+
         const checkBreakpoint = () => {
-            const width = window.innerWidth;
-            let newBreakpoint;
-
-            if (width < this.options.mobileBreakpoint) {
-                newBreakpoint = 'mobile';
-            } else if (width < this.options.tabletBreakpoint) {
-                newBreakpoint = 'tablet';
-            } else {
-                newBreakpoint = 'desktop';
+            // Clear existing timeout
+            if (resizeTimeout) {
+                clearTimeout(resizeTimeout);
             }
 
-            if (newBreakpoint !== this.currentBreakpoint) {
-                const oldBreakpoint = this.currentBreakpoint;
-                this.currentBreakpoint = newBreakpoint;
+            // Debounce the resize check
+            resizeTimeout = setTimeout(() => {
+                const width = window.innerWidth;
+                let newBreakpoint;
 
-                if (this.eventBus) {
-                    this.eventBus.emit('breakpoint-changed', {
-                        oldBreakpoint,
-                        newBreakpoint,
-                        width
-                    });
+                if (width < this.options.mobileBreakpoint) {
+                    newBreakpoint = 'mobile';
+                } else if (width < this.options.tabletBreakpoint) {
+                    newBreakpoint = 'tablet';
+                } else {
+                    newBreakpoint = 'desktop';
                 }
 
-                // Re-apply current layout with new breakpoint
-                if (this.currentLayout) {
-                    this.applyLayout(this.currentLayout.name, { preserveWidgets: true });
+                if (newBreakpoint !== this.currentBreakpoint) {
+                    const oldBreakpoint = this.currentBreakpoint;
+                    this.currentBreakpoint = newBreakpoint;
+
+                    console.log(`📱 Breakpoint changed: ${oldBreakpoint} → ${newBreakpoint} (${width}px)`);
+
+                    if (this.eventBus) {
+                        this.eventBus.emit('breakpoint-changed', {
+                            oldBreakpoint,
+                            newBreakpoint,
+                            width
+                        });
+                    }
+
+                    // ✅ FIXED: Re-apply current layout with widget preservation
+                    if (this.currentLayout) {
+                        this.applyLayout(this.currentLayout.name, {
+                            preserveWidgets: true,
+                            includeDefaultWidgets: false  // Don't recreate widgets
+                        });
+                    }
                 }
-            }
+            }, 100); // 100ms debounce
         };
 
         // Initial check
@@ -710,29 +795,27 @@ class LayoutManager {
             },
             regions: {
                 header: {
-                    style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '1rem',
-                        backgroundColor: '#f8f9fa',
-                        borderBottom: '1px solid #e2e8f0',
-                        minHeight: '80px'
-                    },
-                    allowWidgets: true
+                    allowWidgets: false
                 },
-                main: {
+                // Create a wrapper that contains visualization and sidebar
+                content: {
                     style: {
                         display: 'flex',
                         flex: '1',
+                        gap: '2rem',
                         minHeight: '600px'
                     },
-                    className: 'main-content-area'
+                    className: 'main-content-area',
+                    allowWidgets: false  // This is just a container
                 },
                 visualization: {
                     style: {
                         flex: '1',
-                        padding: '1rem',
-                        backgroundColor: '#ffffff'
+                        padding: '1.5rem',
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
                     },
                     allowWidgets: true,
                     resizable: true,
@@ -743,42 +826,41 @@ class LayoutManager {
                         width: '400px',
                         minWidth: '300px',
                         maxWidth: '600px',
-                        padding: '1rem',
+                        padding: '1.5rem',
                         backgroundColor: '#fff',
-                        borderLeft: '1px solid #e2e8f0'
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '1rem'
                     },
                     allowWidgets: true,
                     resizable: true
                 }
             },
             defaultWidgets: {
-                header: [
-                    { type: 'algorithm-selector', config: { priority: 1 } }
-                ],
                 visualization: [
-                    { type: 'cake-visualization', config: { priority: 1 } }
+                    { type: 'cake-visualization', config: { priority: 1 } },
+                    { type: 'player-input', config: { priority: 2 } },
                 ],
                 sidebar: [
-                    { type: 'instructions', config: { priority: 1 } },
-                    { type: 'player-input', config: { priority: 2 } },
-                    { type: 'action-buttons', config: { priority: 3 } }
+                    { type: 'algorithm-selector', config: { priority: 1 } },
+                    { type: 'instructions', config: { priority: 2 } },
+                    { type: 'action-buttons', config: { priority: 3 } },
                 ]
             },
             responsive: {
                 mobile: {
                     regions: {
-                        main: {
-                            style: { flexDirection: 'column' }
+                        content: {
+                            style: { flexDirection: 'column', gap: '1rem' }
                         },
                         sidebar: {
-                            style: { width: '100%', borderLeft: 'none', borderTop: '1px solid #e2e8f0' }
-                        }
-                    }
-                },
-                tablet: {
-                    regions: {
-                        sidebar: {
-                            style: { width: '320px' }
+                            style: {
+                                width: '100%',
+                                order: '-1'  // Put sidebar first on mobile
+                            }
                         }
                     }
                 }

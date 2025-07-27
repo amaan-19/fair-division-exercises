@@ -1,28 +1,23 @@
 /**
  * Fair Division Dashboard - Core CSS
  *
- * File Location: assets/demos/dashboard/css/dashboard.css
- *
- * Maintains consistency with existing site styling (main.css) while extending
- * for modular dashboard functionality. Uses the same color palette, typography,
- * and component patterns as the rest of the site.
+ * Complete fixed version for full-width dashboard layout
  */
 
-/* ===== DASHBOARD CONTAINER ===== */
+/* ===== DASHBOARD CONTAINER - FULL WIDTH ===== */
 .dashboard-container {
     min-height: calc(100vh - 200px);
     display: flex;
     flex-direction: column;
-    background: #f7fafc; /* Matches body background from main.css */
+    background: #f7fafc;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .dashboard-container.initializing {
     justify-content: center;
     align-items: center;
-}
-
-.dashboard-container.ready {
-    /* Ready state - no specific styling needed */
 }
 
 .dashboard-container.layout-standard {
@@ -33,149 +28,149 @@
     /* Research layout specific styles */
 }
 
-/* ===== LOADING & ERROR STATES ===== */
-.loading-message {
-    text-align: center;
-    padding: 3rem;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.loading-message h2 {
-    font-family: 'Crimson Text', Georgia, serif; /* Matches site headings */
-    font-size: 2.25rem;
-    font-weight: 600;
-    color: #3182ce; /* Primary blue from main.css */
-    margin-bottom: 1rem;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-}
-
-.loading-message p {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    color: #4a5568; /* Secondary text color from main.css */
-    line-height: 1.6;
-}
-
-.error-message {
-    text-align: center;
-    padding: 3rem;
-    background: #fed7d7; /* Light red background */
-    border: 1px solid #fc8181;
-    border-radius: 12px;
-    margin: 2rem;
-}
-
-.error-message h2 {
-    font-family: 'Crimson Text', Georgia, serif;
-    color: #e53e3e;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.error-message p {
-    color: #742a2a;
-    margin-bottom: 1rem;
-}
-
-/* ===== LAYOUT SYSTEM ===== */
+/* ===== LAYOUT WRAPPER - FULL WIDTH ===== */
 .layout-wrapper {
     display: flex;
     flex-direction: column;
     flex: 1;
-    max-width: 1200px; /* Matches .container from main.css */
-    margin: 0 auto;
-    padding: 0 2rem; /* Matches .container padding */
+    width: 100%;
+    margin: 0;
+    padding: 1rem 2rem;
+    min-height: calc(100vh - 100px);
 }
 
-.layout-region {
-    /* Base styles for all layout regions */
-}
-
-/* Standard Layout Regions */
-.region-header {
-    background: white; /* Matches site header */
+/* ===== STANDARD LAYOUT REGIONS ===== */
+.layout-standard .region-header {
+    background: white;
     border-bottom: 1px solid #e2e8f0;
     padding: 1.25rem 0;
     margin-bottom: 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    border-radius: 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    order: 1;
 }
 
-.region-main {
-    display: flex;
-    flex: 1;
-    gap: 2rem;
-    min-height: 600px;
+.layout-standard .region-content {
+    display: flex !important;
+    flex: 1 !important;
+    flex-direction: row;
+    gap: 2rem !important;
+    min-height: 600px !important;
+    order: 2;
 }
 
-.region-visualization {
-    flex: 1;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px; /* Matches component styling from main.css */
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.layout-standard .region-visualization {
+    flex: 1 !important;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    min-height: 500px !important;
     transition: all 0.3s ease;
 }
 
-.region-visualization:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Matches hover effects */
+.layout-standard .region-visualization:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     border-color: #cbd5e0;
 }
 
-.region-sidebar {
-    width: 400px;
+.layout-standard .region-sidebar {
+    width: 400px !important;
+    min-width: 350px !important;
+    max-width: 500px !important;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+}
+
+/* ===== WIDGET CONTAINER ===== */
+.widget-container {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    height: 100%;
 }
 
-/* Research Layout Regions */
-.region-mainLeft {
-    flex: 2;
+/* ===== BASIC WIDGET STYLING ===== */
+.widget {
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.region-mainRight {
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.widget h3 {
+    margin: 0 0 0.5rem 0;
+    color: #3182ce;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
-.region-bottomLeft,
-.region-bottomRight {
-    background: white;
+.widget p {
+    margin: 0.5rem 0;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.widget button {
+    background: #3182ce;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.widget button:hover {
+    background: #2c5aa0;
+}
+
+/* ===== SPECIFIC WIDGET STYLING ===== */
+.algorithm-selector-widget select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    margin-top: 2rem;
+    border-radius: 4px;
 }
 
-.region-bottomLeft {
-    flex: 2;
+.cake-visualization-widget {
+    min-height: 350px;
 }
 
-.region-bottomRight {
-    width: 350px;
+.instructions-widget,
+.player-input-widget,
+.action-buttons-widget {
+    margin-bottom: 1rem;
 }
 
-/* Minimal Layout */
-.region-center {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+.player-input-widget input[type="range"] {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.player-input-widget select {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+.action-buttons-widget button {
+    width: 100%;
+    margin-bottom: 8px;
+    margin-right: 0;
 }
 
 /* ===== WIDGET DROP ZONES ===== */
@@ -185,16 +180,9 @@
 }
 
 .widget-drop-zone.drag-over {
-    background: #ebf8ff; /* Light blue background */
+    background: #ebf8ff;
     border: 2px dashed #3182ce;
     box-shadow: 0 0 0 4px rgba(49, 130, 206, 0.1);
-}
-
-.widget-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    height: 100%;
 }
 
 /* ===== RESIZE HANDLES ===== */
@@ -228,96 +216,83 @@
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .layout-wrapper {
+        padding: 1rem 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
     .layout-wrapper {
-        padding: 0 1rem; /* Reduced padding for mobile */
+        padding: 1rem;
     }
 
-    .region-main {
-        flex-direction: column;
-        gap: 1rem;
+    .layout-standard .region-content {
+        flex-direction: column !important;
+        gap: 1rem !important;
     }
 
-    .region-sidebar {
-        width: 100%;
-        order: -1; /* Put sidebar on top on mobile */
+    .layout-standard .region-sidebar {
+        width: 100% !important;
+        order: -1;
     }
 
-    .region-visualization {
-        min-height: 400px;
-    }
-
-    /* Research layout becomes single column */
-    .region-mainLeft,
-    .region-mainRight {
-        width: 100%;
-    }
-
-    .region-bottomLeft,
-    .region-bottomRight {
-        width: 100%;
-        margin-top: 1rem;
+    .layout-standard .region-visualization {
+        min-height: 300px !important;
     }
 }
 
 @media (max-width: 640px) {
-    .loading-message,
-    .error-message {
-        padding: 2rem 1rem;
-        margin: 1rem;
-    }
-
-    .loading-message h2 {
-        font-size: 1.75rem;
-    }
-
-    .region-header {
+    .layout-standard .region-header {
         padding: 1rem 0;
-        position: relative; /* Remove sticky on small screens */
+        position: relative;
     }
 }
 
-/* ===== BREAKPOINT INDICATORS (Development) ===== */
-.breakpoint-indicator {
-    position: fixed;
-    bottom: 1rem;
-    left: 1rem;
-    background: #2d3748;
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
+/* ===== LOADING & ERROR STATES ===== */
+.loading-message {
+    text-align: center;
+    padding: 3rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.loading-message h2 {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: #3182ce;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.loading-message p {
     font-family: 'Inter', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 500;
-    z-index: 1000;
-    display: none; /* Hidden by default */
+    font-size: 1.1rem;
+    color: #4a5568;
+    line-height: 1.6;
 }
 
-/* Show breakpoint indicator in debug mode */
-.dashboard-container[data-debug="true"] .breakpoint-indicator {
-    display: block;
+.error-message {
+    text-align: center;
+    padding: 3rem;
+    background: #fed7d7;
+    border: 1px solid #fc8181;
+    border-radius: 12px;
+    margin: 2rem;
 }
 
-.breakpoint-indicator::before {
-    content: 'Mobile';
+.error-message h2 {
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #e53e3e;
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
-@media (min-width: 640px) {
-    .breakpoint-indicator::before {
-        content: 'Tablet';
-    }
-}
-
-@media (min-width: 1024px) {
-    .breakpoint-indicator::before {
-        content: 'Desktop';
-    }
-}
-
-@media (min-width: 1280px) {
-    .breakpoint-indicator::before {
-        content: 'Large';
-    }
+.error-message p {
+    color: #742a2a;
+    margin-bottom: 1rem;
 }
 
 /* ===== THEME VARIATIONS ===== */
@@ -327,9 +302,7 @@
 
 [data-theme="dark"] .region-header,
 [data-theme="dark"] .region-visualization,
-[data-theme="dark"] .region-mainLeft,
-[data-theme="dark"] .region-bottomLeft,
-[data-theme="dark"] .region-bottomRight {
+[data-theme="dark"] .widget {
     background: #2d3748;
     border-color: #4a5568;
 }
@@ -343,25 +316,19 @@
 }
 
 /* ===== ACCESSIBILITY ===== */
-.dashboard-container:focus-within {
-    /* Enhanced focus visibility for keyboard navigation */
-}
-
 @media (prefers-reduced-motion: reduce) {
     .layout-region,
     .widget-drop-zone,
-    .resize-handle {
+    .resize-handle,
+    .widget {
         transition: none;
     }
 }
 
-/* High contrast mode adjustments */
 @media (prefers-contrast: more) {
     .region-header,
     .region-visualization,
-    .region-mainLeft,
-    .region-bottomLeft,
-    .region-bottomRight {
+    .widget {
         border-width: 2px;
     }
 
@@ -377,16 +344,239 @@
         box-shadow: none;
     }
 
-    .resize-handle,
-    .breakpoint-indicator {
+    .resize-handle {
         display: none;
     }
 
-    .region-main {
+    .layout-standard .region-content {
         flex-direction: column;
     }
 
-    .region-sidebar {
+    .layout-standard .region-sidebar {
         width: 100%;
     }
+}
+
+/* Add these styles to your dashboard.css to fix responsive widget issues */
+
+/* ===== STABLE WIDGET CONTAINERS ===== */
+.widget-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    min-height: 0 !important; /* Prevent flex items from growing too large */
+}
+
+.widget {
+    flex-shrink: 0 !important; /* Prevent widgets from shrinking */
+    min-height: auto !important;
+}
+
+/* ===== RESPONSIVE LAYOUT TRANSITIONS ===== */
+.layout-region {
+    transition: width 0.3s ease, flex-direction 0.3s ease !important;
+}
+
+/* ===== BREAKPOINT-SPECIFIC FIXES ===== */
+
+/* Desktop (default) */
+@media (min-width: 1025px) {
+    .layout-standard .region-content {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 2rem !important;
+    }
+
+    .layout-standard .region-sidebar {
+        width: 400px !important;
+        min-width: 350px !important;
+        max-width: 500px !important;
+        order: 0 !important;
+    }
+
+    .layout-standard .region-visualization {
+        flex: 1 !important;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .layout-standard .region-content {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 1.5rem !important;
+    }
+
+    .layout-standard .region-sidebar {
+        width: 320px !important;
+        min-width: 280px !important;
+        max-width: 350px !important;
+        order: 0 !important;
+    }
+
+    .layout-standard .region-visualization {
+        flex: 1 !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .layout-standard .region-content {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+
+    .layout-standard .region-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        order: -1 !important; /* Sidebar first on mobile */
+    }
+
+    .layout-standard .region-visualization {
+        width: 100% !important;
+        flex: none !important;
+        min-height: 300px !important;
+        order: 0 !important;
+    }
+}
+
+/* ===== PREVENT WIDGET CONTENT FROM BREAKING ===== */
+.widget h3 {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.widget p {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.algorithm-selector-widget select,
+.player-input-widget input,
+.player-input-widget select {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ===== DEVELOPER TOOLS SPECIFIC FIXES ===== */
+/* These styles specifically address the dev tools issue */
+
+/* Prevent layout breaking when dev tools are opened horizontally */
+@media (min-width: 769px) and (max-height: 600px) {
+    .layout-standard .region-content {
+        min-height: 400px !important;
+    }
+
+    .layout-standard .region-visualization {
+        min-height: 250px !important;
+    }
+}
+
+/* Prevent layout breaking when dev tools are opened vertically */
+@media (max-width: 1200px) and (min-height: 600px) {
+    .layout-standard .region-content {
+        flex-direction: row !important;
+    }
+
+    .layout-standard .region-sidebar {
+        width: 300px !important;
+    }
+}
+
+/* Force stable layout for very narrow windows (dev tools open) */
+@media (max-width: 1000px) and (min-width: 769px) {
+    .layout-standard .region-sidebar {
+        width: 280px !important;
+        min-width: 250px !important;
+    }
+
+    .layout-standard .region-visualization {
+        min-width: 400px !important;
+    }
+}
+
+/* ===== DEBUGGING HELPER ===== */
+/* Add this temporarily to see breakpoint changes */
+.dashboard-container[data-debug="true"]::before {
+    content: "Breakpoint: " attr(class);
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    z-index: 9999;
+    border-radius: 4px;
+}
+
+/* Add this CSS to fix the layout order - the header is appearing at the bottom! */
+
+/* ===== FORCE CORRECT LAYOUT ORDER ===== */
+.layout-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem 2rem !important;
+    min-height: calc(100vh - 100px) !important;
+}
+
+/* ===== FORCE HEADER TO TOP ===== */
+.layout-standard .region-header {
+    order: -1 !important; /* ✅ Force header to appear first */
+    background: white !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 1.25rem 2rem !important;
+    margin-bottom: 2rem !important;
+    border-radius: 0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 80px !important;
+    position: relative !important; /* ✅ Remove any absolute positioning */
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+}
+
+/* ===== FORCE CONTENT TO MIDDLE ===== */
+.layout-standard .region-content {
+    order: 0 !important; /* ✅ Content appears after header */
+    display: flex !important;
+    flex: 1 !important;
+    gap: 2rem !important;
+    min-height: 600px !important;
+    width: 100% !important;
+}
+
+/* ===== VISUALIZATION AND SIDEBAR IN CONTENT ===== */
+.layout-standard .region-visualization {
+    flex: 1 !important;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    min-height: 500px !important;
+}
+
+.layout-standard .region-sidebar {
+    width: 400px !important;
+    min-width: 350px !important;
+    max-width: 500px !important;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
 }

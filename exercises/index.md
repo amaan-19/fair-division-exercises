@@ -38,9 +38,6 @@ permalink: /exercises/
 </div>
 
 <div class="content-block demo-section">
-  <div class="demo-header">
-    <h2>Algorithm Simulator</h2>
-  </div>
 
   <!-- Demo Interface Container -->
   <div class="dashboard-container">
