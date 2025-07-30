@@ -1,18 +1,7 @@
-﻿/* ========================================
-   SECTION 1: FOUNDATION & RESET
-   ======================================== */
-
-/* Styling assistance provided by Claude Sonnet 4 */
+﻿/* Some styling assistance provided by Claude Sonnet 4 */
 
 /* ===== GOOGLE FONTS IMPORT ===== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
-
-/* ===== CSS RESET ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 /* ===== BASE STYLES ===== */
 body {

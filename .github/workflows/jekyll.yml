@@ -1,5 +1,4 @@
 # Jekyll deployment workflow for Fair Division Algorithms platform
-# Optimized for academic platform with MathJax and custom CSS
 name: Deploy Jekyll site to Pages
 
 on:
