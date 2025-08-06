@@ -1,0 +1,90 @@
+<!-- Fair Division Demo System Scripts -->
+
+<!-- Core demo system -->
+<script src="{{ '/assets/demos/unified/core/demo-system.js' | relative_url }}"></script>
+<script src="{{ '/assets/demos/unified/core/demo-controller.js' | relative_url }}"></script>
+
+<!-- Indivisible goods extensions -->
+<script src="{{ '/assets/demos/unified/core/indivisible-goods-extensions.js' | relative_url }}"></script>
+
+<!-- Existing divisible goods algorithms -->
+<script src="{{ '/assets/demos/unified/algorithms/divide-and-choose.js' | relative_url }}"></script>
+<script src="{{ '/assets/demos/unified/algorithms/austins-moving-knife.js' | relative_url }}"></script>
+<script src="{{ '/assets/demos/unified/algorithms/steinhaus-lone-divider.js' | relative_url }}"></script>
+<script src="{{ '/assets/demos/unified/algorithms/selfridge-conway.js' | relative_url }}"></script>
+
+<!-- Indivisible goods algorithms -->
+<script src="{{ '/assets/demos/unified/algorithms/knaster-sealed-bids.js' | relative_url }}"></script>
+<script src="{{ '/assets/demos/unified/algorithms/lucas-method-markers.js' | relative_url }}"></script>
+
+<script>
+    // Initialize enhanced algorithm selector on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load, then enhance the selector
+        setTimeout(() => {
+            enhanceAlgorithmSelector();
+        }, 100);
+    });
+
+    // Enhanced algorithm selector with goods type grouping
+    function enhanceAlgorithmSelector() {
+        const selector = document.getElementById('algorithm-selector');
+        if (!selector) return;
+
+        // Get the demo system instance
+        const demoSystem = window.FairDivisionCore.getInstance();
+        if (!demoSystem) return;
+
+        // Clear existing options
+        selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+        // Group algorithms by goods type
+        const algorithmsByType = {
+            'divisible': [],
+            'discrete-items': [],
+            'linear-arrangement': []
+        };
+
+        // Categorize registered algorithms
+        demoSystem.algorithms.forEach((algorithm, id) => {
+            const goodsType = algorithm.config.goodsType || 'divisible';
+            if (algorithmsByType[goodsType]) {
+                algorithmsByType[goodsType].push({ id, config: algorithm.config });
+            }
+        });
+
+        // Create optgroups
+        Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+            if (algorithms.length > 0) {
+                const optgroup = document.createElement('optgroup');
+
+                // Set label based on goods type
+                switch(type) {
+                    case 'divisible':
+                        optgroup.label = 'Divisible Goods (Continuous)';
+                        break;
+                    case 'discrete-items':
+                        optgroup.label = 'Indivisible Goods (Discrete Items)';
+                        break;
+                    case 'linear-arrangement':
+                        optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                        break;
+                    default:
+                        optgroup.label = type.charAt(0).toUpperCase() + type.slice(1);
+                }
+
+                // Add algorithms to optgroup
+                algorithms.forEach(({ id, config }) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = config.name;
+                    optgroup.appendChild(option);
+                });
+
+                selector.appendChild(optgroup);
+            }
+        });
+
+        console.log('[DEMO] Enhanced algorithm selector with goods type grouping');
+    }
+</script>

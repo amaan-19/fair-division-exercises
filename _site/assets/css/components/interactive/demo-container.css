@@ -1,0 +1,97 @@
+// Unified Demo Container Component
+// Used in: homepage demo, individual algorithm pages
+
+.unified-demo {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid $gray-200;
+  overflow: hidden;
+
+  &__selector {
+    background: $gray-50;
+    padding: $space-6;
+    border-bottom: 1px solid $gray-200;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $space-4;
+
+    @include respond-below('md') {
+      flex-direction: column;
+      align-items: stretch;
+      gap: $space-4;
+    }
+  }
+
+  &__algorithm-info {
+    flex: 1;
+    min-width: 300px;
+
+    h3 {
+      font-size: $text-xl;
+      font-weight: $font-semibold;
+      margin: 0 0 $space-2 0;
+      color: $gray-700;
+    }
+
+    p {
+      color: $gray-600;
+      margin: 0 0 $space-3 0;
+      line-height: 1.5;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: $space-4;
+    align-items: center;
+
+    @include respond-below('md') {
+      justify-content: space-between;
+    }
+  }
+
+  &__dropdown {
+    @include dropdown-style;
+    min-width: 200px;
+  }
+
+  &__mode-toggle {
+    @include mode-toggle-style;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    min-height: 600px;
+
+    @include respond-below('lg') {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+    }
+  }
+
+  &__visualization {
+    padding: $space-6;
+    border-right: 1px solid $gray-200;
+
+    @include respond-below('lg') {
+      border-right: none;
+      border-bottom: 1px solid $gray-200;
+    }
+  }
+
+  &__control-panel {
+    padding: $space-6;
+    background: $gray-50;
+  }
+
+  &__loading {
+    padding: $space-12;
+    text-align: center;
+    color: $gray-500;
+    font-style: italic;
+  }
+}

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fair Division Algorithms: Interactive Learning and Research Platform | Fair Division Algorithms</title>
+
+    <!-- Fixed CSS paths -->
+    
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main-backup.css">
+    
+
+    <!-- Fixed favicon paths -->
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
+
+    <meta name="theme-color" content="#3182ce">
+
+    <!-- MathJax Configuration - MUST come before script load -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Fair Division Algorithms: Interactive Learning and Research Platform | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Fair Division Algorithms: Interactive Learning and Research Platform" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron" />
+<meta property="og:description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron" />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/docs/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/docs/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Fair Division Algorithms: Interactive Learning and Research Platform" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron","headline":"Fair Division Algorithms: Interactive Learning and Research Platform","url":"http://localhost:4000/fair-division-algorithms/docs/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<!-- Site Header -->
+<header class="site-header">
+    <div class="container">
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
+        <nav class="site-nav">
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/analysis/">Analysis</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <h1 id="fair-division-algorithms-interactive-learning-and-research-platform">Fair Division Algorithms: Interactive Learning and Research Platform</h1>
+
+<p>A comprehensive academic educational platform bridging theoretical computer science with hands-on algorithmic exploration. This Jekyll-based research platform provides interactive demonstrations, rigorous mathematical analysis, and real-time computational complexity visualization for fair division algorithms.</p>
+
+<p><strong>🌐 <a href="https://amaan-19.github.io/fair-division-exercises/">View Live Platform</a></strong></p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul>
+  <li><a href="#project-overview">Project Overview</a></li>
+  <li><a href="#quick-start">Quick Start</a></li>
+  <li><a href="#installation--setup">Installation &amp; Setup</a></li>
+  <li><a href="#development-workflow">Development Workflow</a></li>
+  <li><a href="#architecture-overview">Architecture Overview</a></li>
+  <li><a href="#contributing">Contributing</a></li>
+  <li><a href="#educational-resources">Educational Resources</a></li>
+  <li><a href="#academic-context">Academic Context</a></li>
+  <li><a href="#license">License</a></li>
+</ul>
+
+<h2 id="project-overview">Project Overview</h2>
+
+<p>This platform addresses the gap between theoretical fair division concepts and practical algorithmic understanding through comprehensive interactive educational resources that serve researchers, educators, and students in computer science and mathematics.</p>
+
+<h3 id="educational-objectives">Educational Objectives</h3>
+<ul>
+  <li>Bridge theoretical computer science with hands-on algorithmic implementation</li>
+  <li>Demonstrate Robertson-Webb query complexity model in real-time interactive settings</li>
+  <li>Support university-level coursework in algorithmic game theory and mechanism design</li>
+  <li>Provide research-grade educational resources for academic institutions worldwide</li>
+  <li>Enable comparative analysis of fairness properties across algorithm families</li>
+</ul>
+
+<h3 id="key-features">Key Features</h3>
+<ul>
+  <li><strong>Interactive Algorithm Demonstrations</strong>: Real-time simulations with Robertson-Webb query complexity analysis</li>
+  <li><strong>Mathematical Rigor</strong>: Formal proofs, theorem statements, MathJax 3 integration</li>
+  <li><strong>Educational Resources</strong>: Comprehensive glossary, guided exercises, academic bibliography</li>
+  <li><strong>Responsive Design</strong>: Mobile-first approach with SVG-based geometric visualizations</li>
+  <li><strong>Modular Architecture</strong>: Plugin-based algorithm system for easy extensibility</li>
+</ul>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+  <li><strong>Ruby</strong>: Version 3.1 or higher</li>
+  <li><strong>Bundler</strong>: For managing Ruby dependencies</li>
+  <li><strong>Git</strong>: For version control</li>
+  <li><strong>Modern Browser</strong>: Chrome, Firefox, Safari, or Edge (for testing)</li>
+</ul>
+
+<h3 id="local-development-setup">Local Development Setup</h3>
+
+<ol>
+  <li><strong>Clone the repository</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/amaan-19/fair-division-exercises.git
+<span class="nb">cd </span>fair-division-exercises
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Install Ruby dependencies</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Start the development server</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve <span class="nt">--livereload</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Open your browser</strong>
+Navigate to <code class="language-plaintext highlighter-rouge">http://127.0.0.1:4000/fair-division-exercises/</code></li>
+</ol>
+
+<h3 id="verifying-installation">Verifying Installation</h3>
+
+<p>After starting the server, you should see:</p>
+<ul>
+  <li>✅ Main platform loads without errors</li>
+  <li>✅ Interactive demonstrations are functional</li>
+  <li>✅ Mathematical notation renders correctly (MathJax)</li>
+  <li>✅ Responsive design adapts to different screen sizes</li>
+</ul>
+
+<h2 id="installation--setup">Installation &amp; Setup</h2>
+
+<h3 id="system-requirements">System Requirements</h3>
+
+<ul>
+  <li><strong>Operating System</strong>: macOS, Linux, or Windows (with WSL recommended)</li>
+  <li><strong>Ruby</strong>: 3.1+ (managed via rbenv or RVM recommended)</li>
+  <li><strong>Memory</strong>: 4GB RAM minimum for development</li>
+  <li><strong>Storage</strong>: 500MB for complete setup with dependencies</li>
+</ul>
+
+<h3 id="detailed-installation-steps">Detailed Installation Steps</h3>
+
+<h4 id="1-ruby-environment-setup">1. Ruby Environment Setup</h4>
+
+<p><strong>macOS (using Homebrew)</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install rbenv and ruby-build</span>
+brew <span class="nb">install </span>rbenv ruby-build
+
+<span class="c"># Install Ruby 3.1</span>
+rbenv <span class="nb">install </span>3.1.0
+rbenv global 3.1.0
+
+<span class="c"># Add rbenv to shell profile</span>
+<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
+<span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
+<span class="nb">source</span> ~/.zshrc
+</code></pre></div></div>
+
+<h4 id="2-project-setup">2. Project Setup</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clone repository</span>
+git clone https://github.com/amaan-19/fair-division-exercises.git
+<span class="nb">cd </span>fair-division-exercises
+
+<span class="c"># Install bundler</span>
+gem <span class="nb">install </span>bundler
+
+<span class="c"># Install project dependencies</span>
+bundle <span class="nb">install</span>
+
+<span class="c"># Verify installation</span>
+bundle <span class="nb">exec </span>jekyll <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="3-development-environment">3. Development Environment</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Start development server with live reload</span>
+bundle <span class="nb">exec </span>jekyll serve <span class="nt">--livereload</span>
+
+<span class="c"># Production build (for testing)</span>
+<span class="nv">JEKYLL_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>jekyll build
+</code></pre></div></div>
+
+<h3 id="troubleshooting-installation">Troubleshooting Installation</h3>
+
+<p><strong>Common Issues and Solutions</strong></p>
+
+<ol>
+  <li><strong>Ruby Version Conflicts</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Ruby version</span>
+ruby <span class="nt">--version</span>
+
+<span class="c"># Use rbenv to manage versions</span>
+rbenv versions
+rbenv <span class="nb">local </span>3.1.0
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Bundle Install Failures</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clear bundle cache</span>
+bundle clean <span class="nt">--force</span>
+
+<span class="c"># Reinstall dependencies</span>
+<span class="nb">rm </span>Gemfile.lock
+bundle <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Jekyll Build Errors</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clear Jekyll cache</span>
+bundle <span class="nb">exec </span>jekyll clean
+
+<span class="c"># Rebuild with verbose output</span>
+bundle <span class="nb">exec </span>jekyll build <span class="nt">--verbose</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Port Already in Use</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use different port</span>
+bundle <span class="nb">exec </span>jekyll serve <span class="nt">--port</span> 4001
+
+<span class="c"># Or kill existing process</span>
+lsof <span class="nt">-ti</span>:4000 | xargs <span class="nb">kill</span> <span class="nt">-9</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="development-workflow">Development Workflow</h2>
+
+<h3 id="file-structure-overview">File Structure Overview</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fair-division-exercises/
+├── _config.yml                 # Jekyll configuration
+├── Gemfile                     # Ruby dependencies
+├── README.md                   # This file
+├── _data/                      # YAML data files
+├── _includes/                  # Reusable HTML components
+├── _layouts/                   # Page templates
+├── _site/                      # Generated site (ignored)
+├── algorithms/                 # Algorithm documentation pages
+│   ├── divide-and-choose.md
+│   ├── steinhaus-lone-divider.md
+│   └── ...
+├── assets/
+│   ├── css/
+│   │   ├── main.css           # Main stylesheet (2000+ lines)
+│   │   └── components/        # Component-specific styles
+│   ├── js/                    # Core JavaScript modules
+│   ├── demos/                 # Interactive demonstration code
+│   │   ├── unified/           # Unified demo system
+│   │   │   ├── core/          # Core demo framework
+│   │   │   ├── algorithms/    # Algorithm implementations
+│   │   │   └── extensions/    # System extensions
+│   │   └── legacy/            # Legacy demo implementations
+│   └── images/                # Static images and graphics
+├── glossary/                  # Terminology definitions
+├── references/                # Academic bibliography
+├── theory/                    # Theoretical background pages
+└── .github/
+    └── workflows/
+        └── jekyll.yml         # Automated deployment
+</code></pre></div></div>
+
+<h3 id="making-changes">Making Changes</h3>
+
+<h4 id="adding-new-algorithms">Adding New Algorithms</h4>
+
+<ol>
+  <li><strong>Create algorithm documentation page</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch </span>algorithms/new-algorithm.md
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Use standard front matter</strong>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">default</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">New Algorithm Name</span>
+<span class="na">permalink</span><span class="pi">:</span> <span class="s">/algorithms/new-algorithm/</span>
+<span class="nn">---</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Implement algorithm demo</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch </span>assets/demos/unified/algorithms/new-algorithm.js
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Register with demo system</strong>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">FairDivisionCore</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="dl">'</span><span class="s1">new-algorithm</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="c1">// Algorithm configuration</span>
+<span class="p">});</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="modifying-styles">Modifying Styles</h4>
+
+<ol>
+  <li><strong>Component-specific styles</strong>: Edit files in <code class="language-plaintext highlighter-rouge">assets/css/components/</code></li>
+  <li><strong>Global styles</strong>: Modify <code class="language-plaintext highlighter-rouge">assets/css/main.css</code> (be careful, it’s large!)</li>
+  <li><strong>Test responsive design</strong>: Use browser dev tools to test multiple screen sizes</li>
+</ol>
+
+<h4 id="adding-content">Adding Content</h4>
+
+<ol>
+  <li><strong>Theory pages</strong>: Add to <code class="language-plaintext highlighter-rouge">theory/</code> directory</li>
+  <li><strong>Glossary terms</strong>: Edit <code class="language-plaintext highlighter-rouge">glossary/index.md</code></li>
+  <li><strong>References</strong>: Add to <code class="language-plaintext highlighter-rouge">references/index.md</code></li>
+</ol>
+
+<h3 id="testing-your-changes">Testing Your Changes</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Start local server</span>
+bundle <span class="nb">exec </span>jekyll serve <span class="nt">--livereload</span>
+
+<span class="c"># Test on different devices/browsers</span>
+<span class="c"># - Desktop: Chrome, Firefox, Safari</span>
+<span class="c"># - Mobile: iOS Safari, Android Chrome</span>
+<span class="c"># - Accessibility: Screen reader testing</span>
+
+<span class="c"># Validate HTML</span>
+<span class="c"># Use browser dev tools or online validators</span>
+
+<span class="c"># Check mathematical notation</span>
+<span class="c"># Ensure MathJax renders correctly</span>
+</code></pre></div></div>
+
+<h3 id="deployment-process">Deployment Process</h3>
+
+<p>The site uses GitHub Actions for automated deployment:</p>
+
+<ol>
+  <li><strong>Push to main branch</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Description of changes"</span>
+git push origin main
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Automatic deployment</strong>
+    <ul>
+      <li>GitHub Actions runs Jekyll build</li>
+      <li>Site deploys to GitHub Pages</li>
+      <li>Available at: <code class="language-plaintext highlighter-rouge">https://amaan-19.github.io/fair-division-exercises/</code></li>
+    </ul>
+  </li>
+  <li><strong>Monitor deployment</strong>
+    <ul>
+      <li>Check Actions tab in GitHub repository</li>
+      <li>Verify site loads correctly after deployment</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="architecture-overview">Architecture Overview</h2>
+
+<h3 id="technology-stack">Technology Stack</h3>
+
+<ul>
+  <li><strong>Jekyll 4.x</strong>: Static site generator optimized for academic content</li>
+  <li><strong>GitHub Pages</strong>: Reliable deployment platform with version control</li>
+  <li><strong>Custom CSS</strong>: Sophisticated responsive design (2000+ lines)</li>
+  <li><strong>MathJax 3</strong>: Publication-quality mathematical notation rendering</li>
+  <li><strong>Vanilla JavaScript</strong>: Modular interactive demonstrations</li>
+  <li><strong>SVG Graphics</strong>: Dynamic geometric visualizations</li>
+  <li><strong>Responsive Design</strong>: CSS Grid and Flexbox methodologies</li>
+</ul>
+
+<h3 id="core-framework-design">Core Framework Design</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">FairDivisionDemoSystem</span> <span class="p">{</span>
+  <span class="err">├──</span> <span class="nx">StateManager</span>          <span class="c1">// Centralized state management</span>
+  <span class="err">├──</span> <span class="nx">UIController</span>          <span class="c1">// Interface management</span>
+  <span class="err">├──</span> <span class="nx">AnimationEngine</span>       <span class="c1">// Algorithm visualizations</span>
+  <span class="err">├──</span> <span class="nx">CalculationEngine</span>     <span class="c1">// Value computations</span>
+  <span class="err">├──</span> <span class="nx">QueryTracker</span>          <span class="c1">// Robertson-Webb query counting</span>
+  <span class="err">└──</span> <span class="nx">AlgorithmRegistry</span>     <span class="c1">// Plugin system for algorithms</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="algorithm-plugin-system">Algorithm Plugin System</h3>
+
+<p>Each algorithm is implemented as a plugin with standardized API:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">algorithmConfig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Algorithm Name</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">description</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Brief description</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">phases</span><span class="p">:</span> <span class="p">[</span><span class="cm">/* Phase definitions */</span><span class="p">],</span>
+    <span class="na">onInit</span><span class="p">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="cm">/* Initialization */</span> <span class="p">},</span>
+    <span class="na">onPhaseChange</span><span class="p">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="cm">/* Phase transitions */</span> <span class="p">},</span>
+    <span class="na">onUserAction</span><span class="p">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">api</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="cm">/* User interactions */</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">FairDivisionCore</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="dl">'</span><span class="s1">algorithm-id</span><span class="dl">'</span><span class="p">,</span> <span class="nx">algorithmConfig</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="key-components">Key Components</h3>
+
+<ol>
+  <li><strong>Demo System Core</strong> (<code class="language-plaintext highlighter-rouge">assets/demos/unified/core/</code>)
+    <ul>
+      <li>Centralized state management</li>
+      <li>Event-driven architecture</li>
+      <li>Consistent user interface patterns</li>
+    </ul>
+  </li>
+  <li><strong>Algorithm Implementations</strong> (<code class="language-plaintext highlighter-rouge">assets/demos/unified/algorithms/</code>)
+    <ul>
+      <li>Individual algorithm logic</li>
+      <li>Standardized plugin interface</li>
+      <li>Query complexity tracking</li>
+    </ul>
+  </li>
+  <li><strong>Extensions</strong> (<code class="language-plaintext highlighter-rouge">assets/demos/unified/extensions/</code>)
+    <ul>
+      <li>Indivisible goods support</li>
+      <li>Advanced visualization features</li>
+      <li>Accessibility enhancements</li>
+    </ul>
+  </li>
+  <li><strong>Styling System</strong> (<code class="language-plaintext highlighter-rouge">assets/css/</code>)
+    <ul>
+      <li>Component-based organization</li>
+      <li>Responsive design patterns</li>
+      <li>Mathematical notation support</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>We welcome contributions from researchers, educators, and developers! Please see <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for detailed guidelines.</p>
+
+<h3 id="quick-contribution-guide">Quick Contribution Guide</h3>
+
+<ol>
+  <li><strong>Fork the repository</strong></li>
+  <li><strong>Create a feature branch</strong>: <code class="language-plaintext highlighter-rouge">git checkout -b feature/new-algorithm</code></li>
+  <li><strong>Make your changes</strong>: Follow coding standards in CONTRIBUTING.md</li>
+  <li><strong>Test thoroughly</strong>: Ensure all demonstrations work correctly</li>
+  <li><strong>Submit a pull request</strong>: Include detailed description of changes</li>
+</ol>
+
+<h3 id="types-of-contributions">Types of Contributions</h3>
+
+<ul>
+  <li><strong>New Algorithms</strong>: Implement additional fair division algorithms</li>
+  <li><strong>Educational Content</strong>: Improve explanations and theory pages</li>
+  <li><strong>Bug Fixes</strong>: Resolve issues with existing demonstrations</li>
+  <li><strong>Performance Improvements</strong>: Optimize loading times and animations</li>
+  <li><strong>Accessibility</strong>: Enhance support for diverse learning needs</li>
+  <li><strong>Documentation</strong>: Improve setup instructions and code comments</li>
+</ul>
+
+<h2 id="educational-resources">Educational Resources</h2>
+
+<h3 id="for-students">For Students</h3>
+<ul>
+  <li><strong>Interactive Demonstrations</strong>: Hands-on exploration of algorithms</li>
+  <li><strong>Step-by-Step Explanations</strong>: Clear procedural breakdowns</li>
+  <li><strong>Query Complexity Visualization</strong>: Real-time complexity analysis</li>
+  <li><strong>Comparative Analysis</strong>: Side-by-side algorithm comparison</li>
+</ul>
+
+<h3 id="for-educators">For Educators</h3>
+<ul>
+  <li><strong>Curriculum Integration</strong>: Ready-to-use educational materials</li>
+  <li><strong>Assessment Tools</strong>: Guided exercises and learning objectives</li>
+  <li><strong>Academic Standards</strong>: Research-grade mathematical rigor</li>
+  <li><strong>Customizable Content</strong>: Adaptable for different course levels</li>
+</ul>
+
+<h3 id="for-researchers">For Researchers</h3>
+<ul>
+  <li><strong>Implementation Reference</strong>: Production-quality algorithm implementations</li>
+  <li><strong>Complexity Analysis</strong>: Detailed Robertson-Webb query tracking</li>
+  <li><strong>Extensible Framework</strong>: Add new algorithms and analysis tools</li>
+  <li><strong>Academic Bibliography</strong>: Comprehensive reference collection</li>
+</ul>
+
+<h2 id="academic-context">Academic Context</h2>
+
+<h3 id="research-background">Research Background</h3>
+
+<p>This platform is developed as part of ongoing research in algorithmic game theory and fair division at Washington University in St. Louis, under the guidance of Dr. Ron Cytron. The project bridges the gap between theoretical computer science research and practical educational applications.</p>
+
+<h3 id="key-research-areas">Key Research Areas</h3>
+<ul>
+  <li><strong>Fair Division Theory</strong>: Cake-cutting, rent division, matching problems</li>
+  <li><strong>Computational Complexity</strong>: Robertson-Webb query model analysis</li>
+  <li><strong>Algorithmic Game Theory</strong>: Mechanism design and strategic behavior</li>
+  <li><strong>Educational Technology</strong>: Interactive learning for mathematical concepts</li>
+</ul>
+
+<h3 id="academic-usage">Academic Usage</h3>
+
+<p>The platform has been designed for use in:</p>
+<ul>
+  <li><strong>Graduate Courses</strong>: Advanced algorithms, game theory, computational economics</li>
+  <li><strong>Undergraduate Courses</strong>: Discrete mathematics, algorithm design, complexity theory</li>
+  <li><strong>Research Settings</strong>: Algorithm development, complexity analysis, educational research</li>
+  <li><strong>Self-Study</strong>: Independent learning and exploration of fair division concepts</li>
+</ul>
+
+<h3 id="publications-and-references">Publications and References</h3>
+
+<p>For a complete bibliography of sources and related research, see the <a href="references/">References</a> section. Key foundational texts include:</p>
+
+<ul>
+  <li>Brams, S. J., &amp; Taylor, A. D. (1996). <em>Fair Division: From Cake-Cutting to Dispute Resolution</em></li>
+  <li>Robertson, J., &amp; Webb, W. (1998). <em>Cake-Cutting Algorithms: Be Fair if You Can</em></li>
+  <li>Stromquist, W. (1980). How to cut a cake fairly. <em>American Mathematical Monthly</em></li>
+</ul>
+
+<h2 id="license">License</h2>
+
+<p>See the <a href="/fair-division-algorithms/docs/LICENSE">LICENSE</a> file for details.</p>
+
+<h3 id="academic-use">Academic Use</h3>
+
+<p>This platform is freely available for educational and research purposes. If you use this platform in academic work, please consider citing:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Khan, A., &amp; Cytron, R. (2025). Fair Division Algorithms: Interactive Learning Platform.
+Washington University in St. Louis. https://github.com/amaan-19/fair-division-exercises
+</code></pre></div></div>
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<ul>
+  <li><strong>Dr. Ron Cytron</strong>: Academic supervision and theoretical guidance</li>
+  <li><strong>Washington University in St. Louis</strong>: Institutional support</li>
+  <li><strong>Mozilla Educational Initiatives</strong>: Project funding and resources</li>
+</ul>
+
+<hr />
+
+<p><strong>Development Team</strong>: Amaan Khan
+<strong>Academic Supervisor</strong>: Dr. Ron Cytron, Washington University in St. Louis
+<strong>Last Updated</strong>: August 2025</p>
+
+<p>For questions, suggestions, or collaboration opportunities, please open an issue or contact the development team.</p>
+
+    </div>
+</main>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron</p>
+        <p class="footer-credits">Washington University in St. Louis received financial support from Mozilla Responsible Computer Science</p>
+    </div>
+</footer>
+
+<!-- JavaScript Libraries -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Proof Sketches and Interactive Elements -->
+<script>
+    // Initialize collapsible proof sketches after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for MathJax to finish rendering before initializing proof sketches
+        if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(() => {
+                initializeProofSketches();
+            });
+        } else {
+            // Fallback if MathJax isn't loaded
+            setTimeout(initializeProofSketches, 500);
+        }
+    });
+
+    function initializeProofSketches() {
+        // Find all existing proof-sketch divs and convert them
+        const proofSketches = document.querySelectorAll('.proof-sketch');
+
+        proofSketches.forEach(function (proofSketch, index) {
+            // Skip if already initialized
+            if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                return;
+            }
+
+            // Get the current content (preserving MathJax rendering)
+            const originalContent = proofSketch.innerHTML;
+
+            // Create the new structure
+            const proofId = `proof-sketch-${index}`;
+
+            // Create header element
+            const header = document.createElement('div');
+            header.className = 'proof-sketch-header';
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('aria-controls', `${proofId}-content`);
+            header.setAttribute('data-proof-toggle', '');
+
+            header.innerHTML = `
+                    <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
+                    <span class="proof-sketch-toggle">▼</span>
+                `;
+
+            // Create content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'proof-sketch-content';
+            contentWrapper.id = `${proofId}-content`;
+            contentWrapper.setAttribute('role', 'region');
+            contentWrapper.setAttribute('aria-hidden', 'true');
+            contentWrapper.innerHTML = originalContent;
+
+            // Clear the original content and add new structure
+            proofSketch.innerHTML = '';
+            proofSketch.appendChild(header);
+            proofSketch.appendChild(contentWrapper);
+
+            // Mark as initialized
+            proofSketch.classList.add('proof-sketch-initialized');
+
+            // Add click event listener
+            header.addEventListener('click', function () {
+                toggleProofSketch(proofSketch);
+            });
+
+            // Add keyboard support (Enter and Space)
+            header.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleProofSketch(proofSketch);
+                }
+            });
+        });
+    }
+
+    function toggleProofSketch(proofSketch) {
+        const header = proofSketch.querySelector('.proof-sketch-header');
+        const content = proofSketch.querySelector('.proof-sketch-content');
+        const title = proofSketch.querySelector('.proof-sketch-title');
+
+        const isExpanded = proofSketch.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            proofSketch.classList.remove('expanded');
+            header.setAttribute('aria-expanded', 'false');
+            content.setAttribute('aria-hidden', 'true');
+            title.textContent = 'Show Proof';
+
+            // Reset max-height to 0 for smooth collapse
+            content.style.maxHeight = '0px';
+
+            // Reset padding after animation completes
+            setTimeout(() => {
+                if (!proofSketch.classList.contains('expanded')) {
+                    content.style.padding = '0';
+                }
+            }, 400);
+
+        } else {
+            // Expand
+            proofSketch.classList.add('expanded');
+            header.setAttribute('aria-expanded', 'true');
+            content.setAttribute('aria-hidden', 'false');
+            title.textContent = 'Hide Proof';
+
+            // Set padding first
+            content.style.padding = '1rem';
+
+            // Calculate proper max-height based on content (with some buffer)
+            const contentHeight = content.scrollHeight;
+            const bufferHeight = 50; // Add buffer for safety
+            content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+            // Optional: Scroll the proof into view if it's partially hidden
+            setTimeout(() => {
+                const rect = proofSketch.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight) {
+                    proofSketch.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }, 300);
+        }
+    }
+</script>
+</body>
+</html>

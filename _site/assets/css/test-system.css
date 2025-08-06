@@ -1,0 +1,48 @@
+/* =============================================================================
+   TEST SYSTEM CSS - Only New Modular Stylesheets
+   This file ONLY imports our new CSS system for isolated testing
+   ============================================================================= */
+
+/* Step 1.1: Design Tokens */
+@import 'design-system/tokens.css';
+
+/* Step 1.2: Typography System */
+@import 'design-system/typography.css';
+
+/* Future Steps (will uncomment as we build them) */
+/* @import 'design-system/reset.css'; */
+/* @import 'layout/containers.css'; */
+/* @import 'components/navigation/site-header.css'; */
+
+/* =============================================================================
+   MINIMAL LAYOUT FOR TESTING ONLY
+   Just enough layout to test our systems without interference
+   ============================================================================= */
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: var(--content-width-xl, 1200px);
+  margin: 0 auto;
+  padding: 0 var(--space-8, 2rem);
+}
+
+.main-content {
+  min-height: calc(100vh - 200px);
+  padding: var(--space-8, 2rem) 0;
+}
+
+/* Basic responsive grid for testing */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-4, 1rem);
+  }
+
+  .main-content {
+    padding: var(--space-4, 1rem) 0;
+  }
+}

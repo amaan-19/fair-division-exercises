@@ -1,23 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <title>Knaster's Procedure of Sealed Bids | Fair Division Algorithms</title>
 
     <!-- Fixed CSS paths -->
-    {% if page.url == '/test-system/' %}
-    <link rel="stylesheet" href="{{ '/assets/css/test-system.css' | relative_url }}">
-    {% else %}
-    <link rel="stylesheet" href="{{ '/assets/css/main-backup.css' | relative_url }}">
-    {% endif %}
+    
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main-backup.css">
+    
 
     <!-- Fixed favicon paths -->
-    <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg">
-    <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/assets/favicon/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
 
     <meta name="theme-color" content="#3182ce">
 
@@ -38,19 +36,35 @@
         };
     </script>
 
-    {% seo %}
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Knaster’s Procedure of Sealed Bids | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Knaster’s Procedure of Sealed Bids" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron" />
+<meta property="og:description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron" />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/algorithms/knaster-sealed-bids/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/algorithms/knaster-sealed-bids/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Knaster’s Procedure of Sealed Bids" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron","headline":"Knaster’s Procedure of Sealed Bids","url":"http://localhost:4000/fair-division-algorithms/algorithms/knaster-sealed-bids/"}</script>
+<!-- End Jekyll SEO tag -->
+
 </head>
 <body>
 <!-- Site Header -->
 <header class="site-header">
     <div class="container">
-        <a href="{{ site.baseurl }}/" class="site-title">{{ site.title }}</a>
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
         <nav class="site-nav">
-            <a href="{{ site.baseurl }}/theory/">Theory</a>
-            <a href="{{ site.baseurl }}/exercises/">Exercises + Simulator</a>
-            <a href="{{ site.baseurl }}/analysis/">Analysis</a>
-            <a href="{{ site.baseurl }}/glossary/">Glossary</a>
-            <a href="{{ site.baseurl }}/references/">References</a>
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/analysis/">Analysis</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
         </nav>
     </div>
 </header>
@@ -58,15 +72,71 @@
 <!-- Main Content -->
 <main class="main-content">
     <div class="container">
-        {{ content }}
+        <div class="algorithm-page">
+
+  <!-- Algorithm Header Card -->
+  <div class="algorithm-header-card">
+    <div class="algorithm-header-content">
+      <h1 class="algorithm-title">Knaster's Procedure of Sealed Bids</h1>
+      <div class="algorithm-meta">
+        <span class="meta-badge players-badge">N Players</span>
+        <span class="meta-badge type-badge">Discrete Items</span>
+        <span class="meta-badge mechanism-badge">Auction</span>
+        <span class="meta-badge complexity-badge">O(N) Rounds</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <section class="content-block">
+    <h2>Overview</h2>
+    <p>Knaster's sealed bid procedure enables fair division of indivisible goods through a truthful auction mechanism combined with monetary transfers to ensure proportional outcomes.</p>
+  </section>
+
+  <!-- Flowchart -->
+  <div id="enhanced-knaster" data-enhanced-flowchart="knaster-sealed-bids"></div>
+  <div class="animation-controls">
+    <button class="animation-btn primary" onclick="animateAlgorithm('enhanced-knaster', 1000)">▶️ Animate Steps</button>
+    <button class="animation-btn secondary" onclick="resetAlgorithm('enhanced-knaster')">🔄 Reset</button>
+  </div>
+
+  <!-- Fairness Properties -->
+  <section class="content-block">
+    <h2>Fairness Properties</h2>
+
+    <h3>Proportional with Monetary Transfer</h3>
+    <div class="proof-sketch">
+      <p><strong>Formal Statement:</strong> Each player receives utility ≥ $\frac{1}{n}$ of their total valuation when bidding truthfully.</p>
+      
+      <p><strong>Proof Sketch:</strong> If player $i$ bids truthfully ($b_i^j = v_i^j$), their final utility is:</p>
+      <p>$$U_i = \sum_{j \in S_i} v_i^j - \sum_{j \in S_i} b_i^j + \frac{\sum_k payment_k}{n}$$</p>
+      
+      <p>The redistribution mechanism ensures this equals at least $\frac{1}{n} \sum_j v_i^j$.</p>
+    </div>
+
+    <h3>Strategy-Proof</h3>
+    <div class="proof-sketch">
+      <p><strong>Intuition:</strong> Bidding true valuations is a dominant strategy because overbidding risks overpaying, while underbidding risks losing valuable items.</p>
+    </div>
+
+  </section>
+
+  <!-- Navigation -->
+  <footer class="algorithm-navigation">
+    <a href="/fair-division-algorithms/" class="nav-button secondary">← Back to Algorithms</a>
+    <a href="/fair-division-algorithms/algorithms/lucas-method-of-markers/" class="nav-button primary">Next: Lucas' Marker Method →</a>
+  </footer>
+
+</div>
+
     </div>
 </main>
 
 <!-- Site Footer -->
 <footer class="site-footer">
     <div class="container">
-        <h3 class="footer-title">{{ site.title }}</h3>
-        <p class="footer-description">{{ site.description }}</p>
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron</p>
         <p class="footer-credits">Washington University in St. Louis received financial support from Mozilla Responsible Computer Science</p>
     </div>
 </footer>

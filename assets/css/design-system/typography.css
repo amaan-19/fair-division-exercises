@@ -1,0 +1,699 @@
+/* =============================================================================
+   TYPOGRAPHY SYSTEM - Fair Division Exercises
+   Step 1.2: Complete Typography Foundation Using Design Tokens
+   ============================================================================= */
+
+/* ========================================================================
+   GOOGLE FONTS IMPORT
+   ======================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* ========================================================================
+   BASE TYPOGRAPHY SETUP
+   ======================================================================== */
+
+html {
+  font-size: 16px;                          /* Base font size for rem calculations */
+  line-height: var(--leading-normal);
+  -webkit-text-size-adjust: 100%;           /* Prevent iOS font size adjustment */
+  -moz-tab-size: 4;                         /* Firefox tab size */
+  tab-size: 4;                              /* Tab size for other browsers */
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+  background: var(--bg-body);
+  letter-spacing: var(--tracking-tight);
+
+  /* Font rendering improvements */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ========================================================================
+   HEADING HIERARCHY - Academic Typography
+   ======================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+  margin: 0 0 var(--space-4) 0;
+}
+
+/* H1 - Page titles, main headings */
+h1 {
+  font-size: var(--text-5xl);              /* 48px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-6);
+}
+
+/* H2 - Section headings */
+h2 {
+  font-size: var(--text-4xl);              /* 36px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-6);
+}
+
+/* H3 - Subsection headings */
+h3 {
+  font-size: var(--text-3xl);              /* 30px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+/* H4 - Sub-subsection headings */
+h4 {
+  font-size: var(--text-xl);               /* 20px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+/* H5 - Minor headings */
+h5 {
+  font-size: var(--text-lg);               /* 18px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-normal);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+/* H6 - Smallest headings */
+h6 {
+  font-size: var(--text-base);             /* 16px */
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-normal);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+/* ========================================================================
+   BODY TEXT - Optimized for Academic Reading
+   ======================================================================== */
+
+p {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-4) 0;
+}
+
+/* Paragraph spacing - improved readability */
+p + p {
+  margin-top: var(--space-5);
+}
+
+/* Large lead paragraphs */
+.lead {
+  font-size: var(--text-lg);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+  margin-bottom: var(--space-6);
+}
+
+/* Small text */
+.text-small, small {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-muted);
+}
+
+/* ========================================================================
+   TEXT EMPHASIS & FORMATTING
+   ======================================================================== */
+
+/* Strong emphasis */
+strong, b {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+/* Italic emphasis */
+em, i {
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+/* Mark/highlight */
+mark {
+  background: var(--warning-100);
+  color: var(--text-primary);
+  padding: var(--space-0_5) var(--space-1);
+  border-radius: var(--radius-sm);
+}
+
+/* Underline */
+u {
+  text-decoration: underline;
+  text-decoration-color: var(--primary-blue);
+  text-underline-offset: 2px;
+}
+
+/* Strikethrough */
+s, del {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Subscript and superscript */
+sub, sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* ========================================================================
+   LINKS - Academic Style
+   ======================================================================== */
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: var(--transition-colors);
+  border-radius: var(--radius-sm);
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+a:focus {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+/* External links indicator */
+a[href^="http"]:not([href*="localhost"]):not([href*="127.0.0.1"])::after {
+  content: "↗";
+  font-size: var(--text-sm);
+  margin-left: var(--space-1);
+  opacity: 0.7;
+}
+
+/* ========================================================================
+   CODE & MATHEMATICAL CONTENT
+   ======================================================================== */
+
+/* Inline code */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: var(--font-medium);
+  background: var(--gray-100);
+  color: var(--text-primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+}
+
+/* Code blocks */
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  background: var(--gray-900);
+  color: var(--gray-100);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+  border: 1px solid var(--border-medium);
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Keyboard keys */
+kbd {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  background: var(--gray-100);
+  color: var(--text-primary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Mathematical notation styling */
+.math-inline {
+  font-family: var(--font-serif);
+  font-size: var(--math-font-size);
+  color: var(--text-primary);
+  padding: var(--math-inline-padding);
+}
+
+.math-display {
+  font-family: var(--font-serif);
+  font-size: var(--math-font-size);
+  line-height: var(--math-line-height);
+  text-align: center;
+  margin: var(--math-display-margin) 0;
+  padding: var(--math-display-padding);
+  background: var(--math-bg);
+  border: 1px solid var(--math-border);
+  border-radius: var(--math-radius);
+}
+
+/* ========================================================================
+   LISTS - Academic Content
+   ======================================================================== */
+
+ul, ol {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-8);
+}
+
+li {
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+/* Nested lists */
+ul ul, ol ol, ul ol, ol ul {
+  margin: var(--space-2) 0;
+}
+
+/* Custom list markers */
+ul {
+  list-style-type: disc;
+}
+
+ul ul {
+  list-style-type: circle;
+}
+
+ul ul ul {
+  list-style-type: square;
+}
+
+/* Definition lists */
+dl {
+  margin: var(--space-4) 0;
+}
+
+dt {
+  font-family: var(--font-serif);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+  margin-top: var(--space-4);
+}
+
+dt:first-child {
+  margin-top: 0;
+}
+
+dd {
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-left: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+/* ========================================================================
+   BLOCKQUOTES - Academic Citations
+   ======================================================================== */
+
+blockquote {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-style: italic;
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  background: var(--gray-50);
+  border-left: 4px solid var(--primary-blue);
+  padding: var(--space-6) var(--space-8);
+  margin: var(--space-8) 0;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+blockquote p {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin-bottom: var(--space-4);
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Citation attribution */
+blockquote cite {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-style: normal;
+  font-weight: var(--font-medium);
+  color: var(--text-muted);
+  display: block;
+  margin-top: var(--space-4);
+}
+
+blockquote cite::before {
+  content: "— ";
+}
+
+/* ========================================================================
+   UTILITY CLASSES - Typography
+   ======================================================================== */
+
+/* Font sizes */
+.text-xs     { font-size: var(--text-xs) !important; }
+.text-sm     { font-size: var(--text-sm) !important; }
+.text-base   { font-size: var(--text-base) !important; }
+.text-lg     { font-size: var(--text-lg) !important; }
+.text-xl     { font-size: var(--text-xl) !important; }
+.text-2xl    { font-size: var(--text-2xl) !important; }
+.text-3xl    { font-size: var(--text-3xl) !important; }
+.text-4xl    { font-size: var(--text-4xl) !important; }
+.text-5xl    { font-size: var(--text-5xl) !important; }
+.text-6xl    { font-size: var(--text-6xl) !important; }
+
+/* Font weights */
+.font-thin       { font-weight: var(--font-thin) !important; }
+.font-light      { font-weight: var(--font-light) !important; }
+.font-normal     { font-weight: var(--font-normal) !important; }
+.font-medium     { font-weight: var(--font-medium) !important; }
+.font-semibold   { font-weight: var(--font-semibold) !important; }
+.font-bold       { font-weight: var(--font-bold) !important; }
+.font-extrabold  { font-weight: var(--font-extrabold) !important; }
+.font-black      { font-weight: var(--font-black) !important; }
+
+/* Font families */
+.font-serif      { font-family: var(--font-serif) !important; }
+.font-sans       { font-family: var(--font-sans) !important; }
+.font-mono       { font-family: var(--font-mono) !important; }
+
+/* Text colors */
+.text-primary    { color: var(--text-primary) !important; }
+.text-secondary  { color: var(--text-secondary) !important; }
+.text-muted      { color: var(--text-muted) !important; }
+.text-disabled   { color: var(--text-disabled) !important; }
+.text-inverse    { color: var(--text-inverse) !important; }
+.text-accent     { color: var(--text-accent) !important; }
+
+/* Semantic text colors */
+.text-success    { color: var(--success) !important; }
+.text-warning    { color: var(--warning) !important; }
+.text-error      { color: var(--error) !important; }
+.text-info       { color: var(--info) !important; }
+
+/* Line heights */
+.leading-none      { line-height: var(--leading-none) !important; }
+.leading-tight     { line-height: var(--leading-tight) !important; }
+.leading-snug      { line-height: var(--leading-snug) !important; }
+.leading-normal    { line-height: var(--leading-normal) !important; }
+.leading-relaxed   { line-height: var(--leading-relaxed) !important; }
+.leading-loose     { line-height: var(--leading-loose) !important; }
+
+/* Letter spacing */
+.tracking-tighter  { letter-spacing: var(--tracking-tighter) !important; }
+.tracking-tight    { letter-spacing: var(--tracking-tight) !important; }
+.tracking-normal   { letter-spacing: var(--tracking-normal) !important; }
+.tracking-wide     { letter-spacing: var(--tracking-wide) !important; }
+.tracking-wider    { letter-spacing: var(--tracking-wider) !important; }
+.tracking-widest   { letter-spacing: var(--tracking-widest) !important; }
+
+/* Text alignment */
+.text-left       { text-align: left !important; }
+.text-center     { text-align: center !important; }
+.text-right      { text-align: right !important; }
+.text-justify    { text-align: justify !important; }
+
+/* Text decoration */
+.underline       { text-decoration: underline !important; }
+.line-through    { text-decoration: line-through !important; }
+.no-underline    { text-decoration: none !important; }
+
+/* Text transform */
+.uppercase       { text-transform: uppercase !important; }
+.lowercase       { text-transform: lowercase !important; }
+.capitalize      { text-transform: capitalize !important; }
+.normal-case     { text-transform: none !important; }
+
+/* White space */
+.whitespace-normal   { white-space: normal !important; }
+.whitespace-nowrap   { white-space: nowrap !important; }
+.whitespace-pre      { white-space: pre !important; }
+.whitespace-pre-line { white-space: pre-line !important; }
+.whitespace-pre-wrap { white-space: pre-wrap !important; }
+
+/* Text overflow */
+.truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* ========================================================================
+   EDUCATIONAL CONTEXT TYPOGRAPHY
+   ======================================================================== */
+
+/* Algorithm names and technical terms */
+.algorithm-name {
+  font-family: var(--font-serif);
+  font-weight: var(--font-semibold);
+  color: var(--primary-blue);
+  font-style: italic;
+}
+
+/* Mathematical complexity notation */
+.complexity-notation {
+  font-family: var(--font-serif);
+  font-weight: var(--font-medium);
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+/* Theorem and definition labels */
+.theorem-label,
+.definition-label,
+.proof-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
+}
+
+/* Academic references */
+.reference-text {
+  font-family: var(--font-serif);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Step numbers in algorithms */
+.step-number {
+  font-family: var(--font-sans);
+  font-weight: var(--font-bold);
+  color: var(--primary-blue);
+}
+
+/* ========================================================================
+   RESPONSIVE TYPOGRAPHY
+   ======================================================================== */
+
+/* Scale down typography on smaller screens */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+  }
+
+  h2 {
+    font-size: var(--text-3xl);
+  }
+
+  h3 {
+    font-size: var(--text-2xl);
+  }
+
+  blockquote {
+    padding: var(--space-4) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+
+  .lead {
+    font-size: var(--text-base);
+  }
+}
+
+/* Scale up typography on larger screens */
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+
+  .lead {
+    font-size: var(--text-xl);
+  }
+}
+
+/* ========================================================================
+   PRINT STYLES - Academic Papers
+   ======================================================================== */
+
+@media print {
+  * {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+    background: white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    font-family: serif;
+    color: black;
+  }
+
+  h1 { font-size: 24pt; }
+  h2 { font-size: 20pt; }
+  h3 { font-size: 16pt; }
+  h4 { font-size: 14pt; }
+  h5 { font-size: 12pt; }
+  h6 { font-size: 11pt; }
+
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  blockquote {
+    page-break-inside: avoid;
+    border-left: 4pt solid black;
+    background: none;
+  }
+
+  code, pre {
+    font-family: monospace;
+    background: #f5f5f5;
+    border: 1pt solid #ccc;
+  }
+
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+  }
+}
+
+/* ========================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  body {
+    color: black;
+    background: white;
+  }
+
+  a {
+    color: #0000ff;
+    text-decoration: underline;
+  }
+
+  a:visited {
+    color: #551a8b;
+  }
+
+  code {
+    background: #f0f0f0;
+    border: 1px solid #000;
+  }
+}
+
+/* Focus indicators for keyboard navigation */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: inherit;
+}

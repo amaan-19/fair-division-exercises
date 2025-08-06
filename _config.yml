@@ -14,10 +14,21 @@ kramdown:
     preview: true
 highlighter: rouge
 
+# Sass/SCSS Configuration
+sass:
+  sass_dir: assets/css
+  style: compressed
+  load_paths:
+    - assets/css
+    - assets/css/settings
+    - assets/css/tools
+    - assets/css/components
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-sass-converter
 
 exclude:
   - .git/

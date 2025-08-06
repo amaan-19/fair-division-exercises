@@ -1,23 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <title>Robertson-Webb Query Model | Fair Division Algorithms</title>
 
     <!-- Fixed CSS paths -->
-    {% if page.url == '/test-system/' %}
-    <link rel="stylesheet" href="{{ '/assets/css/test-system.css' | relative_url }}">
-    {% else %}
-    <link rel="stylesheet" href="{{ '/assets/css/main-backup.css' | relative_url }}">
-    {% endif %}
+    
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main-backup.css">
+    
 
     <!-- Fixed favicon paths -->
-    <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg">
-    <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/favicon/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/assets/favicon/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
 
     <meta name="theme-color" content="#3182ce">
 
@@ -38,19 +36,35 @@
         };
     </script>
 
-    {% seo %}
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Robertson-Webb Query Model | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Robertson-Webb Query Model" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron" />
+<meta property="og:description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron" />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/robertson-webb-query-model/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/robertson-webb-query-model/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Robertson-Webb Query Model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron","headline":"Robertson-Webb Query Model","url":"http://localhost:4000/fair-division-algorithms/robertson-webb-query-model/"}</script>
+<!-- End Jekyll SEO tag -->
+
 </head>
 <body>
 <!-- Site Header -->
 <header class="site-header">
     <div class="container">
-        <a href="{{ site.baseurl }}/" class="site-title">{{ site.title }}</a>
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
         <nav class="site-nav">
-            <a href="{{ site.baseurl }}/theory/">Theory</a>
-            <a href="{{ site.baseurl }}/exercises/">Exercises + Simulator</a>
-            <a href="{{ site.baseurl }}/analysis/">Analysis</a>
-            <a href="{{ site.baseurl }}/glossary/">Glossary</a>
-            <a href="{{ site.baseurl }}/references/">References</a>
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/analysis/">Analysis</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
         </nav>
     </div>
 </header>
@@ -58,15 +72,83 @@
 <!-- Main Content -->
 <main class="main-content">
     <div class="container">
-        {{ content }}
+        <div class="page-header">
+  <h1 class="page-title">Robertson-Webb Query Model</h1>
+  <p class="page-description">A computational framework for analyzing fair division algorithm complexity</p>
+</div>
+
+<div class="content-block">
+  <h2>Overview</h2>
+  <p>The Robertson-Webb query model provides a theoretical framework for measuring the computational complexity of fair division algorithms. Rather than counting traditional operations, this model measures complexity in terms of queries to players about their preferences.</p>
+</div>
+
+<div class="content-block">
+  <h2>Query Types</h2>
+
+  <div class="properties-grid">
+
+    <div class="property-card">
+      <h3>Cut Queries</h3>
+      <p class="property-description">
+        <strong>Format:</strong> "Cut the cake at position $x$ such that the left piece has value $v$ to you."
+      </p>
+      <p>Used when algorithms need players to make specific cuts based on their valuations.</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Eval Queries</h3>
+      <p class="property-description">
+        <strong>Format:</strong> "What is the value of this piece to you?"
+      </p>
+      <p>Used when algorithms need to determine how players value given pieces.</p>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Applications to Fair Division</h2>
+
+  <h3>Query Complexity Analysis</h3>
+  <p>Different algorithms require different numbers of queries:</p>
+
+  <ul>
+    <li><strong>Divide-and-Choose:</strong> 1 cut query + 1 eval query = 2 total queries</li>
+    <li><strong>Austin's Moving Knife:</strong> Continuous eval queries until stopping condition</li>
+    <li><strong>Steinhaus Lone-Divider:</strong> 2 cut queries + multiple eval queries</li>
+  </ul>
+
+  <h3>Lower Bounds</h3>
+  <p>The model helps establish theoretical limits on algorithm efficiency. For example, any proportional division algorithm for $n$ players requires at least $n-1$ queries.</p>
+
+  <div class="proof-sketch">
+    <p>We use an adversarial argument with a communication complexity reduction. Consider the following problem: given $n-1$ bits, $b_1, b_2, ..., b_{n-1}$, compute their OR. We can reduce this to a proportional division problem as follows:</p>
+    <li></li>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Significance</h2>
+  <p>This framework is crucial because:</p>
+  <ul>
+    <li>It provides a realistic model where players' preferences are private</li>
+    <li>It enables fair comparison between different algorithmic approaches</li>
+    <li>It bridges theoretical computer science and practical mechanism design</li>
+  </ul>
+</div>
+
+<footer class="algorithm-navigation">
+  <a href="/fair-division-algorithms/fairness-properties/" class="nav-button secondary">← Fairness Properties</a>
+  <a href="/fair-division-algorithms/impossibility/" class="nav-button primary">Impossibility →</a>
+</footer>
+
     </div>
 </main>
 
 <!-- Site Footer -->
 <footer class="site-footer">
     <div class="container">
-        <h3 class="footer-title">{{ site.title }}</h3>
-        <p class="footer-description">{{ site.description }}</p>
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron</p>
         <p class="footer-credits">Washington University in St. Louis received financial support from Mozilla Responsible Computer Science</p>
     </div>
 </footer>
