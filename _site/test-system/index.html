@@ -77,393 +77,246 @@
 <p>This page tests each step of the CSS refactoring process using only the new modular stylesheets.</p>
 
 <!-- =============================================================================
-     DESIGN SYSTEM TEST CONTENT
-     This include tests each step as we build the modular CSS system
+     STEP 2.2: CONTENT COMPONENTS TEST
+     Testing hero, page headers, content blocks, and algorithm cards
      ============================================================================= -->
 
-<div class="system-test-container">
+<div class="test-section" data-test="content-components">
+  <h2>📄 Step 2.2: Content Components Test</h2>
+  <p>Testing content components from <code>components/content/</code></p>
 
-  <!-- STEP STATUS TRACKER -->
-  <div class="step-status-tracker">
-    <h2>Refactoring Progress</h2>
-    <div class="steps-grid">
-      <div class="step-item step-complete" data-step="1.1">
-        <span class="step-number">1.1</span>
-        <span class="step-name">Design Tokens</span>
-        <span class="step-status">✅ Complete</span>
+  <!-- Hero Component Test -->
+  <div class="test-subsection">
+    <h3>Hero Component</h3>
+
+    <div class="test-example">
+      <h4>Standard Hero Section:</h4>
+      <div class="hero-section">
+        <h1 class="hero-title">Fair Division Algorithms</h1>
+        <p class="hero-subtitle">Explore interactive demonstrations of algorithms that fairly divide resources among multiple parties using mathematical rigor and computational efficiency.</p>
       </div>
-      <div class="step-item step-complete" data-step="1.2">
-        <span class="step-number">1.2</span>
-        <span class="step-name">Typography</span>
-        <span class="step-status">✅ Complete</span>
+    </div>
+
+    <div class="test-example">
+      <h4>Compact Hero Section:</h4>
+      <div class="hero-section hero-compact">
+        <h1 class="hero-title">Algorithm Analysis</h1>
+        <p class="hero-subtitle">Understanding computational complexity and fairness properties.</p>
       </div>
-      <div class="step-item step-complete" data-step="1.3">
-        <span class="step-number">1.3</span>
-        <span class="step-name">Reset &amp; Base</span>
-        <span class="step-status">✅ Complete</span>
-      </div>
-      <div class="step-item step-complete" data-step="1.4">
-        <span class="step-number">1.4</span>
-        <span class="step-name">Main Entry</span>
-        <span class="step-status">✅ Complete</span>
+    </div>
+
+    <div class="test-example">
+      <h4>Algorithm Hero Section:</h4>
+      <div class="hero-section hero-algorithm">
+        <h1 class="hero-title">Divide and Choose Protocol</h1>
+        <p class="hero-subtitle">A fundamental two-party fair division algorithm with optimal envy-free guarantees.</p>
       </div>
     </div>
   </div>
 
-  <!-- STEP 1.1: DESIGN TOKENS TEST -->
-  <div class="test-section" data-test="tokens">
-    <h2>🎨 Step 1.1: Design Tokens Test</h2>
-    <p>Testing CSS custom properties from <code>design-system/tokens.css</code></p>
+  <!-- Page Header Component Test -->
+  <div class="test-subsection">
+    <h3>Page Header Component</h3>
 
-    <!-- Color Tokens Test -->
-    <div class="test-subsection">
-      <h3>Color Tokens</h3>
-      <div class="color-token-grid">
-        <div class="color-token" style="background: var(--primary-blue); color: white;">
-          <strong>Primary Blue</strong><br />
-          <code>var(--primary-blue)</code>
-        </div>
-        <div class="color-token" style="background: var(--success); color: white;">
-          <strong>Success</strong><br />
-          <code>var(--success)</code>
-        </div>
-        <div class="color-token" style="background: var(--warning); color: white;">
-          <strong>Warning</strong><br />
-          <code>var(--warning)</code>
-        </div>
-        <div class="color-token" style="background: var(--error); color: white;">
-          <strong>Error</strong><br />
-          <code>var(--error)</code>
-        </div>
-      </div>
-
-      <!-- Educational Context Colors -->
-      <h4>Educational Context Colors</h4>
-      <div class="complexity-test">
-        <span style="background: var(--complexity-low-bg); color: var(--complexity-low); padding: var(--space-2) var(--space-4); border-radius: var(--radius); border: 1px solid var(--complexity-low);">
-          Low Complexity - O(1), O(log n)
-        </span>
-        <span style="background: var(--complexity-medium-bg); color: var(--complexity-medium); padding: var(--space-2) var(--space-4); border-radius: var(--radius); border: 1px solid var(--complexity-medium);">
-          Medium Complexity - O(n), O(n log n)
-        </span>
-        <span style="background: var(--complexity-high-bg); color: var(--complexity-high); padding: var(--space-2) var(--space-4); border-radius: var(--radius); border: 1px solid var(--complexity-high);">
-          High Complexity - O(n²), O(2ⁿ)
-        </span>
+    <div class="test-example">
+      <h4>Standard Page Header:</h4>
+      <div class="page-header">
+        <h1 class="page-title">Fair Division Theory</h1>
+        <p class="page-description">Mathematical foundations and algorithmic approaches to equitable resource allocation.</p>
       </div>
     </div>
 
-    <!-- Spacing Tokens Test -->
-    <div class="test-subsection">
-      <h3>Spacing Tokens</h3>
-      <div class="spacing-test">
-        <div style="background: var(--primary-blue-100); padding: var(--space-2); margin-bottom: var(--space-2); border-radius: var(--radius);">
-          Space 2 (8px) - var(--space-2)
-        </div>
-        <div style="background: var(--primary-blue-100); padding: var(--space-4); margin-bottom: var(--space-2); border-radius: var(--radius);">
-          Space 4 (16px) - var(--space-4)
-        </div>
-        <div style="background: var(--primary-blue-100); padding: var(--space-6); margin-bottom: var(--space-2); border-radius: var(--radius);">
-          Space 6 (24px) - var(--space-6)
-        </div>
-        <div style="background: var(--primary-blue-100); padding: var(--space-8); border-radius: var(--radius);">
-          Space 8 (32px) - var(--space-8)
-        </div>
+    <div class="test-example">
+      <h4>Theory Page Header (with accent line):</h4>
+      <div class="page-header page-header-theory">
+        <h1 class="page-title">Computational Complexity</h1>
+        <p class="page-description">Analysis of algorithm efficiency using the Robertson-Webb query model.</p>
+      </div>
+    </div>
+
+    <div class="test-example">
+      <h4>Exercise Page Header:</h4>
+      <div class="page-header page-header-exercise">
+        <h1 class="page-title">Interactive Exercises</h1>
+        <p class="page-description">Hands-on practice with fair division algorithms and problem-solving.</p>
+      </div>
+    </div>
+
+    <div class="test-example">
+      <h4>Compact Page Header:</h4>
+      <div class="page-header page-header-compact">
+        <h1 class="page-title">Quick Reference</h1>
+        <p class="page-description">Essential definitions and concepts.</p>
       </div>
     </div>
   </div>
 
-  <!-- STEP 1.2: TYPOGRAPHY TEST -->
-  <div class="test-section" data-test="typography">
-    <h2>📝 Step 1.2: Typography System Test</h2>
-    <p>Testing typography from <code>design-system/typography.css</code></p>
+  <!-- Content Blocks Component Test -->
+  <div class="test-subsection">
+    <h3>Content Blocks Component</h3>
 
-    <!-- Heading Hierarchy -->
-    <div class="test-subsection">
-      <h3>Heading Hierarchy (Should use Crimson Text serif)</h3>
-      <h1>H1 Heading - Main Page Title (48px)</h1>
-      <h2>H2 Heading - Section Title (36px)</h2>
-      <h3>H3 Heading - Subsection Title (30px)</h3>
-      <h4>H4 Heading - Sub-subsection Title (20px)</h4>
-      <h5>H5 Heading - Minor Title (18px)</h5>
-      <h6>H6 Heading - Smallest Title (16px)</h6>
-    </div>
-
-    <!-- Body Text -->
-    <div class="test-subsection">
-      <h3>Body Text (Should use Inter sans-serif)</h3>
-      <p class="lead">This is lead text - larger and more prominent for introductions and important content. It should be 18px and slightly darker than regular body text.</p>
-      <p>This is regular body text using Inter sans-serif. It should be 16px with comfortable line height for academic reading. The color should be secondary text color from our tokens.</p>
-      <p>Multiple paragraphs should have proper spacing between them. This paragraph demonstrates that spacing.</p>
-      <p><strong>Strong text should be semibold</strong> and <em>italic text should be emphasized</em>. We can also have <a href="#">links that use our primary blue color</a> with hover effects.</p>
-    </div>
-
-    <!-- Educational Typography -->
-    <div class="test-subsection">
-      <h3>Educational Typography Classes</h3>
-      <p>Algorithm Name: <span class="algorithm-name">Divide and Choose Algorithm</span></p>
-      <p>Complexity Notation: <span class="complexity-notation">O(n log n)</span></p>
-      <p><span class="theorem-label">Theorem 1.1</span> - Special academic labeling</p>
-      <p><span class="proof-label">Proof</span> - Proof section labeling</p>
-      <p>Step Number: <span class="step-number">Step 3</span></p>
-    </div>
-
-    <!-- Code and Math -->
-    <div class="test-subsection">
-      <h3>Code and Mathematical Content</h3>
-      <p>Inline code: <code>var(--primary-blue)</code> should have monospace font with background.</p>
-      <p>Mathematical expressions: The complexity is <span class="math-inline">O(n²)</span> for this algorithm.</p>
-      <div class="math-display">∀x ∈ R, ∃y ∈ R : x + y = 0</div>
-      <p>Keyboard shortcuts: Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy.</p>
-    </div>
-
-    <!-- Typography Utilities -->
-    <div class="test-subsection">
-      <h3>Typography Utility Classes</h3>
-      <div class="utility-examples">
-        <p class="text-xs">Extra small text (12px)</p>
-        <p class="text-sm">Small text (14px)</p>
-        <p class="text-base">Base text (16px)</p>
-        <p class="text-lg">Large text (18px)</p>
-        <p class="text-xl">Extra large text (20px)</p>
-        <p class="font-light">Light weight text</p>
-        <p class="font-normal">Normal weight text</p>
-        <p class="font-medium">Medium weight text</p>
-        <p class="font-semibold">Semibold weight text</p>
-        <p class="font-bold">Bold weight text</p>
-        <p class="font-serif">Serif font family (Crimson Text)</p>
-        <p class="font-sans">Sans-serif font family (Inter)</p>
-        <p class="font-mono">Monospace font family</p>
-        <p class="text-primary">Primary text color</p>
-        <p class="text-secondary">Secondary text color</p>
-        <p class="text-muted">Muted text color</p>
-        <p class="text-accent">Accent text color</p>
+    <div class="test-example">
+      <h4>Standard Content Block:</h4>
+      <div class="content-block">
+        <h2>Introduction to Fair Division</h2>
+        <p>Fair division is a fundamental problem in mathematics, economics, and computer science. It addresses how to allocate resources among multiple parties in a way that each party considers fair according to their own valuation.</p>
+        <p>The field combines elements of game theory, algorithm design, and social choice theory to create practical solutions for real-world allocation problems.</p>
       </div>
     </div>
 
-    <!-- Lists and Blockquotes -->
-    <div class="test-subsection">
-      <h3>Lists and Blockquotes</h3>
+    <div class="test-example">
+      <h4>Theory Content Block:</h4>
+      <div class="content-block content-block-theory">
+        <h3>Envy-Free Allocation</h3>
+        <p><strong>Definition:</strong> An allocation is envy-free if no party prefers another party's share to their own.</p>
+        <p>This is one of the most important fairness criteria in fair division theory, ensuring that each participant is satisfied with their allocation relative to others.</p>
+      </div>
+    </div>
 
-      <h4>Unordered List</h4>
-      <ul>
-        <li>First item in the list</li>
-        <li>Second item with longer text to test line height and spacing</li>
-        <li>Third item with nested list:
-          <ul>
-            <li>Nested item one</li>
-            <li>Nested item two</li>
-          </ul>
-        </li>
-      </ul>
+    <div class="test-example">
+      <h4>Algorithm Content Block:</h4>
+      <div class="content-block content-block-algorithm">
+        <h3>Steinhaus Procedure</h3>
+        <p>A three-party fair division algorithm that extends the classical divide-and-choose protocol to multiple participants while maintaining proportionality guarantees.</p>
+        <ul>
+          <li>Guarantees each party receives at least 1/n of their valuation</li>
+          <li>Requires O(n²) Robertson-Webb queries</li>
+          <li>Works for any number of participants</li>
+        </ul>
+      </div>
+    </div>
 
-      <h4>Ordered List</h4>
-      <ol>
-        <li>First step in the algorithm</li>
-        <li>Second step with detailed explanation</li>
-        <li>Final step to complete the process</li>
-      </ol>
-
-      <h4>Definition List</h4>
-      <dl>
-        <dt>Fair Division</dt>
-        <dd>The problem of dividing resources among multiple parties in a way that each party considers fair.</dd>
-        <dt>Envy-Free</dt>
-        <dd>A division where no party prefers another party's allocation to their own.</dd>
-      </dl>
-
-      <h4>Academic Blockquote</h4>
-      <blockquote>
-        <p>The fair division problem is fundamental to economics, political science, and mathematics. It seeks to find allocations that satisfy various fairness criteria while being computationally tractable.</p>
-        <cite>Brams &amp; Taylor, Fair Division: From Cake-Cutting to Dispute Resolution</cite>
-      </blockquote>
+    <div class="test-example">
+      <h4>Exercise Content Block:</h4>
+      <div class="content-block content-block-exercise">
+        <h3>Practice Problem</h3>
+        <p>Try implementing the divide-and-choose protocol with the interactive demo. Pay attention to how the cutting and choosing phases ensure fairness.</p>
+        <p><strong>Challenge:</strong> Can you determine the optimal strategy for both the divider and chooser?</p>
+      </div>
     </div>
   </div>
 
-  <!-- FUTURE STEPS PLACEHOLDERS -->
-  <div class="test-section" data-test="reset" style="opacity: 0.5;">
-    <h2>🔄 Step 1.3: CSS Reset &amp; Base (Pending)</h2>
-    <p><em>This section will test CSS reset and base styles once implemented.</em></p>
-  </div>
+  <!-- Algorithm Cards Component Test -->
+  <div class="test-subsection">
+    <h3>Algorithm Cards Component</h3>
 
-  <div class="test-section" data-test="main-entry" style="opacity: 0.5;">
-    <h2>📁 Step 1.4: Main Entry Point (Pending)</h2>
-    <p><em>This section will test the main CSS entry point once implemented.</em></p>
-  </div>
+    <div class="test-example">
+      <h4>Algorithm Grid Layout:</h4>
+      <div class="algorithm-grid">
 
-  <div class="test-section" data-test="components" style="opacity: 0.5;">
-    <h2>🧩 Phase 2: Components (Future)</h2>
-    <p><em>This section will test extracted components in Phase 2.</em></p>
-  </div>
+        <!-- Standard Algorithm Card -->
+        <div class="algorithm-card">
+          <h3 class="algorithm-title">Divide and Choose</h3>
+          <p class="algorithm-subtitle">Two-Party Protocol</p>
+          <p class="algorithm-description">The classic fair division algorithm where one party divides the resource and the other chooses their preferred portion.</p>
+          <div class="algorithm-meta">
+            <span class="complexity-badge complexity-low">O(1)</span>
+            <span class="meta-badge">Envy-Free</span>
+            <span class="meta-badge">Proportional</span>
+          </div>
+        </div>
 
-  <!-- VALIDATION SUMMARY -->
-  <div class="validation-summary">
-    <h2>🎯 Current Status</h2>
-    <div class="validation-checklist">
-      <div class="validation-item">
-        <input type="checkbox" id="tokens-working" checked="" />
-        <label for="tokens-working">Design tokens are working (colors, spacing, etc.)</label>
-      </div>
-      <div class="validation-item">
-        <input type="checkbox" id="typography-working" checked="" />
-        <label for="typography-working">Typography system is working (fonts, sizes, hierarchy)</label>
-      </div>
-      <div class="validation-item">
-        <input type="checkbox" id="educational-typography" />
-        <label for="educational-typography">Educational typography classes work correctly</label>
-      </div>
-      <div class="validation-item">
-        <input type="checkbox" id="utilities-working" />
-        <label for="utilities-working">Typography utility classes work</label>
-      </div>
-      <div class="validation-item">
-        <input type="checkbox" id="responsive-working" />
-        <label for="responsive-working">Typography scales properly on mobile</label>
+        <!-- Featured Algorithm Card -->
+        <div class="algorithm-card algorithm-card-featured">
+          <h3 class="algorithm-title">Selfridge-Conway</h3>
+          <p class="algorithm-subtitle">Three-Party Protocol</p>
+          <p class="algorithm-description">An elegant three-party algorithm that achieves envy-free allocation through a series of strategic cuts and choices.</p>
+          <div class="algorithm-meta">
+            <span class="complexity-badge complexity-medium">O(n)</span>
+            <span class="meta-badge">Envy-Free</span>
+            <span class="meta-badge">Discrete</span>
+          </div>
+        </div>
+
+        <!-- Compact Algorithm Card -->
+        <div class="algorithm-card algorithm-card-compact">
+          <h3 class="algorithm-title">Austin's Moving Knife</h3>
+          <p class="algorithm-subtitle">Continuous Protocol</p>
+          <p class="algorithm-description">A moving knife procedure that achieves proportional allocation for any number of parties.</p>
+          <div class="algorithm-meta">
+            <span class="complexity-badge complexity-high">O(n²)</span>
+            <span class="meta-badge">Proportional</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="next-steps">
-      <h3>Next Steps</h3>
-      <p><strong>If everything above looks correct:</strong> Ready to proceed to Step 1.3 (CSS Reset &amp; Base)</p>
-      <p><strong>If issues found:</strong> Fix typography system before proceeding</p>
+    <div class="test-example">
+      <h4>Algorithm Properties Grid:</h4>
+      <div class="properties-grid">
+        <div class="property-item">
+          <div class="property-label">Participants</div>
+          <div class="property-value">2</div>
+        </div>
+        <div class="property-item">
+          <div class="property-label">Queries</div>
+          <div class="property-value">O(1)</div>
+        </div>
+        <div class="property-item">
+          <div class="property-label">Fairness</div>
+          <div class="property-value">Envy-Free</div>
+        </div>
+        <div class="property-item">
+          <div class="property-label">Type</div>
+          <div class="property-value">Discrete</div>
+        </div>
+      </div>
     </div>
+
+    <div class="test-example">
+      <h4>Algorithm Statistics:</h4>
+      <div class="algorithm-stats">
+        <div class="stat-item">
+          <span class="stat-value">O(1)</span>
+          <span class="stat-label">Complexity</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Players</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Efficiency</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">1959</span>
+          <span class="stat-label">Discovered</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-example">
+      <h4>Complexity Badge Examples:</h4>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0;">
+        <span class="complexity-badge complexity-low">O(1)</span>
+        <span class="complexity-badge complexity-low">O(log n)</span>
+        <span class="complexity-badge complexity-medium">O(n)</span>
+        <span class="complexity-badge complexity-medium">O(n log n)</span>
+        <span class="complexity-badge complexity-high">O(n²)</span>
+        <span class="complexity-badge complexity-high">O(2ⁿ)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Responsive Design Test -->
+  <div class="test-subsection">
+    <h3>Responsive Design Test</h3>
+    <p><strong>Instructions:</strong> Resize your browser window to test responsive behavior:</p>
+    <ul>
+      <li><strong>Desktop (1200px+):</strong> All components should display at full size</li>
+      <li><strong>Tablet (768px-1199px):</strong> Cards should stack in fewer columns</li>
+      <li><strong>Mobile (480px-767px):</strong> Single column layout, reduced padding</li>
+      <li><strong>Small Mobile (&lt; 480px):</strong> Compact typography and spacing</li>
+    </ul>
   </div>
 
 </div>
 
-<!-- Temporary inline styles for testing layout - will be replaced by proper CSS -->
-<style>
-.system-test-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.step-status-tracker {
-  background: white;
-  border: 2px solid var(--primary-blue, #3182ce);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 3rem;
-}
-
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.step-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  gap: 0.5rem;
-}
-
-.step-complete {
-  background: #d1fae5;
-  border: 1px solid #10b981;
-}
-
-.step-pending {
-  background: #fef3c7;
-  border: 1px solid #f59e0b;
-}
-
-.step-number {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.step-name {
-  font-weight: 500;
-}
-
-.step-status {
-  font-size: 0.9rem;
-}
-
-.test-section {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.test-subsection {
-  margin: 2rem 0;
-  padding: 1rem 0;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.test-subsection:last-child {
-  border-bottom: none;
-}
-
-.color-token-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.color-token {
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.complexity-test {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin: 1rem 0;
-}
-
-.spacing-test {
-  margin: 1rem 0;
-}
-
-.utility-examples p {
-  margin: 0.5rem 0;
-}
-
-.validation-summary {
-  background: #f0f9ff;
-  border: 2px solid #3182ce;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-top: 3rem;
-}
-
-.validation-checklist {
-  margin: 1rem 0;
-}
-
-.validation-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0.5rem 0;
-}
-
-.validation-item input[type="checkbox"] {
-  width: 1.2rem;
-  height: 1.2rem;
-}
-
-.next-steps {
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-</style>
-
+<!-- Section description test -->
+<div class="section-description">
+  This section description demonstrates proper typography and spacing for explanatory text between major content sections. It should be centered and have appropriate margins.
+</div>
 
     </div>
 </main>

@@ -1,0 +1,101 @@
+/* =============================================================================
+   SITE HEADER COMPONENT
+   File: assets/css/components/navigation/site-header.css
+
+   Contains all styling for the main site header including:
+   - Site header container and layout
+   - Site title styling and branding
+   - Header positioning and visual effects
+
+   Dependencies:
+   - design-system/tokens.css (for custom properties)
+
+   Usage:
+   <header class="site-header">
+     <div class="container">
+       <a href="/" class="site-title">Site Name</a>
+       <nav class="site-nav">...</nav>
+     </div>
+   </header>
+   ============================================================================= */
+
+/* ===== SITE HEADER CONTAINER ===== */
+.site-header {
+  /* Layout & positioning */
+  position: sticky;
+  top: 0;
+  z-index: var(--z-0, 100);
+
+  /* Visual styling */
+  background: var(--white);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+
+  /* Spacing */
+  padding: var(--space-5, 1.25rem) 0;
+}
+
+/* Header container layout */
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== SITE TITLE COMPONENT ===== */
+.site-title {
+  /* Typography */
+  font-family: var(--font-serif);
+  font-size: var(--text-xl, 1.75rem);
+  font-weight: var(--font-semibold, 600);
+  letter-spacing: var(--tracking-tight, -0.01em);
+
+  /* Colors */
+  color: var(--primary-blue);
+  text-decoration: none;
+
+  /* Interactions */
+  transition: color var(--transition-colors);
+}
+
+.site-title:hover {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+.site-title:focus {
+  outline: 2px solid var(--input-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet and mobile adjustments */
+@media (max-width: 768px) {
+  .site-header {
+    padding: var(--space-4, 1rem) 0;
+  }
+
+  .site-header .container {
+    flex-direction: column;
+    gap: var(--space-3, 0.75rem);
+    align-items: stretch;
+  }
+
+  .site-title {
+    text-align: center;
+    font-size: var(--text-lg, 1.5rem);
+  }
+}
+
+/* Mobile phone adjustments */
+@media (max-width: 480px) {
+  .site-header {
+    padding: var(--space-3, 0.75rem) 0;
+  }
+
+  .site-title {
+    font-size: var(--text-base, 1.25rem);
+  }
+}

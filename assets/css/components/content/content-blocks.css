@@ -1,0 +1,339 @@
+/* =============================================================================
+   CONTENT BLOCKS COMPONENT
+   File: assets/css/components/content/content-blocks.css
+
+   Contains all styling for general content containers including:
+   - Content block containers and layout
+   - Educational content formatting
+   - Hover effects and interactions
+   - Responsive behavior
+
+   Dependencies:
+   - design-system/tokens.css (for custom properties)
+
+   Usage:
+   <div class="content-block">
+     <h2>Block Title</h2>
+     <p>Block content...</p>
+   </div>
+   ============================================================================= */
+
+/* ===== BASE CONTENT BLOCK ===== */
+.content-block {
+  /* Visual styling */
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl, 12px);
+  box-shadow: var(--shadow-sm);
+
+  /* Spacing */
+  padding: var(--space-10, 2.5rem);
+  margin-bottom: var(--space-8, 2rem);
+
+  /* Interactions */
+  transition: var(--transition-all);
+}
+
+.content-block:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ===== CONTENT BLOCK VARIANTS ===== */
+
+/* Compact content block */
+.content-block.content-block-compact {
+  padding: var(--space-6, 1.5rem);
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+/* Large content block */
+.content-block.content-block-large {
+  padding: var(--space-12, 3rem);
+  margin-bottom: var(--space-10, 2.5rem);
+}
+
+/* Flat content block (no hover effects) */
+.content-block.content-block-flat {
+  box-shadow: none;
+  transition: none;
+}
+
+.content-block-flat:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===== EDUCATIONAL CONTENT VARIANTS ===== */
+
+/* Theory content blocks */
+.content-block.content-block-theory {
+  background: var(--definition-bg);
+  border-color: var(--definition-border);
+}
+
+.content-block-theory:hover {
+  border-color: var(--definition-border);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.1);
+}
+
+/* Algorithm content blocks */
+.content-block.content-block-algorithm {
+  background: var(--theorem-bg);
+  border-color: var(--theorem-border);
+}
+
+.content-block-algorithm:hover {
+  border-color: var(--theorem-border);
+  box-shadow: 0 8px 25px rgba(49, 130, 206, 0.1);
+}
+
+/* Exercise content blocks */
+.content-block.content-block-exercise {
+  background: var(--success-50);
+  border-color: var(--success);
+}
+
+.content-block-exercise:hover {
+  border-color: var(--success);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.1);
+}
+
+/* Analysis content blocks */
+.content-block.content-block-analysis {
+  background: var(--warning-50);
+  border-color: var(--warning);
+}
+
+.content-block-analysis:hover {
+  border-color: var(--warning);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.1);
+}
+
+/* Reference content blocks */
+.content-block.content-block-references {
+  background: var(--gray-50);
+  border-color: var(--border-medium);
+}
+
+.content-block-references:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 8px 25px rgba(107, 114, 128, 0.1);
+}
+
+/* ===== CONTENT BLOCK SECTIONS ===== */
+
+/* Section descriptions */
+.section-description {
+  /* Layout */
+  text-align: center;
+  max-width: var(--content-width-md, 600px);
+  margin: 0 auto var(--space-12, 3rem) auto;
+
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--text-base, 1rem);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed, 1.6);
+}
+
+/* ===== SPECIALIZED CONTENT BLOCKS ===== */
+
+/* Algorithm carousel container */
+.algorithms-section {
+  position: relative;
+  margin: var(--space-8, 2rem) 0;
+}
+
+.algorithms-section h2 {
+  text-align: center;
+  margin-bottom: var(--space-4, 1rem);
+  color: var(--text-primary);
+}
+
+.algorithm-carousel {
+  position: relative;
+  overflow: hidden;
+  margin: var(--space-8, 2rem) 0;
+}
+
+.algorithm-track {
+  display: flex;
+  gap: var(--space-6, 1.5rem);
+  padding: var(--space-4, 1rem);
+}
+
+/* ===== CONTENT BLOCK TYPOGRAPHY ===== */
+
+/* Headings within content blocks */
+.content-block h1,
+.content-block h2,
+.content-block h3,
+.content-block h4,
+.content-block h5,
+.content-block h6 {
+  color: var(--text-primary);
+  margin-top: 0;
+}
+
+.content-block h1:first-child,
+.content-block h2:first-child,
+.content-block h3:first-child {
+  margin-top: 0;
+}
+
+/* Paragraphs within content blocks */
+.content-block p {
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.content-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists within content blocks */
+.content-block ul,
+.content-block ol {
+  margin: var(--space-4, 1rem) 0;
+  padding-left: var(--space-8, 2rem);
+}
+
+.content-block li {
+  margin-bottom: var(--space-2, 0.5rem);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+}
+
+/* Links within content blocks */
+.content-block a {
+  color: var(--link-color);
+  font-weight: var(--font-medium);
+  transition: var(--transition-colors);
+}
+
+.content-block a:hover {
+  color: var(--link-hover);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+  .content-block {
+    padding: var(--space-8, 2rem);
+    margin-bottom: var(--space-6, 1.5rem);
+  }
+
+  .content-block-compact {
+    padding: var(--space-4, 1rem);
+    margin-bottom: var(--space-4, 1rem);
+  }
+
+  .content-block-large {
+    padding: var(--space-8, 2rem);
+    margin-bottom: var(--space-8, 2rem);
+  }
+
+  .section-description {
+    margin-bottom: var(--space-8, 2rem);
+  }
+
+  .algorithm-track {
+    gap: var(--space-4, 1rem);
+    padding: var(--space-2, 0.5rem);
+  }
+}
+
+/* Mobile phone adjustments */
+@media (max-width: 480px) {
+  .content-block {
+    padding: var(--space-6, 1.5rem);
+    margin-bottom: var(--space-4, 1rem);
+    border-radius: var(--radius-lg, 8px);
+  }
+
+  .content-block-compact {
+    padding: var(--space-3, 0.75rem);
+  }
+
+  .content-block-large {
+    padding: var(--space-6, 1.5rem);
+  }
+
+  .section-description {
+    margin-bottom: var(--space-6, 1.5rem);
+    font-size: var(--text-sm, 0.9rem);
+  }
+
+  .algorithm-track {
+    gap: var(--space-2, 0.5rem);
+    padding: var(--space-1, 0.25rem);
+  }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+
+/* Focus management for interactive content blocks */
+.content-block:focus-within {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* Ensure sufficient color contrast */
+@media (prefers-contrast: more) {
+  .content-block {
+    background: var(--bg-surface);
+    border: 2px solid var(--text-primary);
+  }
+
+  .content-block-theory,
+  .content-block-algorithm,
+  .content-block-exercise,
+  .content-block-analysis,
+  .content-block-references {
+    background: var(--bg-surface);
+    border-color: var(--text-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .content-block {
+    transition: none;
+  }
+
+  .content-block:hover {
+    transform: none;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .content-block {
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-light);
+    box-shadow: none;
+    padding: var(--space-4, 1rem);
+    margin-bottom: var(--space-4, 1rem);
+    break-inside: avoid;
+  }
+
+  .content-block:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .algorithms-section {
+    margin: var(--space-4, 1rem) 0;
+  }
+
+  .algorithm-carousel {
+    overflow: visible;
+  }
+
+  .algorithm-track {
+    flex-direction: column;
+    gap: var(--space-2, 0.5rem);
+  }
+}

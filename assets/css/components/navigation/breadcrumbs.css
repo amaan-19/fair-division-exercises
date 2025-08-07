@@ -1,0 +1,139 @@
+/* =============================================================================
+   BREADCRUMBS COMPONENT
+   File: assets/css/components/navigation/breadcrumbs.css
+
+   Contains all styling for breadcrumb navigation including:
+   - Breadcrumb container and layout
+   - Link styling and separators
+   - Current page indicators
+   - Educational context indicators
+
+   Dependencies:
+   - design-system/tokens.css (for custom properties)
+
+   Usage:
+   <nav class="breadcrumb" aria-label="Breadcrumb">
+     <a href="/">Home</a>
+     <span class="breadcrumb-separator">›</span>
+     <a href="/theory/">Theory</a>
+     <span class="breadcrumb-separator">›</span>
+     <span class="breadcrumb-current" aria-current="page">Algorithm</span>
+   </nav>
+   ============================================================================= */
+
+/* ===== BREADCRUMB CONTAINER ===== */
+.breadcrumb {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2, 0.5rem);
+
+  /* Spacing */
+  margin-bottom: var(--space-8, 2rem);
+  padding: var(--space-2, 0.5rem) 0;
+
+  /* Typography */
+  font-size: var(--text-sm, 0.9rem);
+  font-family: var(--font-sans);
+
+  /* Visual */
+  color: var(--text-muted);
+}
+
+/* ===== BREADCRUMB LINKS ===== */
+.breadcrumb a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: var(--font-medium, 500);
+  transition: color var(--transition-colors);
+}
+
+.breadcrumb a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.breadcrumb a:focus {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== BREADCRUMB SEPARATORS ===== */
+.breadcrumb-separator {
+  color: var(--primary-light);
+  font-weight: var(--font-normal);
+  user-select: none;
+  margin: 0 var(--space-1, 0.25rem);
+}
+
+/* Alternative separator using CSS pseudo-elements */
+.breadcrumb a:not(:last-child)::after {
+  content: "›";
+  color: var(--primary-light);
+  margin-left: var(--space-2, 0.5rem);
+  margin-right: var(--space-1, 0.25rem);
+  user-select: none;
+}
+
+/* ===== CURRENT PAGE INDICATOR ===== */
+.breadcrumb-current,
+.breadcrumb [aria-current="page"] {
+  color: var(--primary-blue);
+  font-weight: var(--font-semibold, 600);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .breadcrumb {
+    font-size: var(--text-xs, 0.85rem);
+    margin-bottom: var(--space-6, 1.5rem);
+    gap: var(--space-1, 0.25rem);
+  }
+
+  .breadcrumb-separator,
+  .breadcrumb a:not(:last-child)::after {
+    margin: 0 var(--space-1, 0.25rem);
+  }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+
+/* Screen reader improvements */
+.breadcrumb {
+  /* Ensure proper semantic structure */
+  list-style: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .breadcrumb a {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-separator {
+    font-weight: var(--font-bold);
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .breadcrumb {
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+  }
+
+  .breadcrumb a {
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .breadcrumb a::after {
+    content: " (" attr(href) ")";
+    font-size: var(--text-2xs);
+  }
+}

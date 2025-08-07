@@ -155,6 +155,7 @@
   --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
 
   /* Font sizes - Academic typography scale */
+  --text-2xs: 0.625rem;    /* 10px */
   --text-xs: 0.75rem;      /* 12px - Small labels, captions */
   --text-sm: 0.875rem;     /* 14px - Small text, metadata */
   --text-base: 1rem;       /* 16px - Base body text */

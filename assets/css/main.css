@@ -50,14 +50,10 @@
 @import 'design-system/reset.css';
 
 /* =============================================================================
-   2. LAYOUT SYSTEMS
+   2. LAYOUT
    ============================================================================= */
 
-/*
 @import 'layout/containers.css';
-@import 'layout/grid.css';
-@import 'layout/flexbox.css';
-*/
 
 /* =============================================================================
    3. COMPONENTS
@@ -65,20 +61,20 @@
 
 /* Navigation Components */
 
-/*
+
 @import 'components/navigation/site-header.css';
 @import 'components/navigation/site-nav.css';
 @import 'components/navigation/breadcrumbs.css';
-*/
+
 
 /* Content Components */
 
-/*
+
 @import 'components/content/hero.css';
 @import 'components/content/page-header.css';
 @import 'components/content/content-blocks.css';
 @import 'components/content/algorithm-cards.css';
-*/
+
 
 /* Interactive Components */
 

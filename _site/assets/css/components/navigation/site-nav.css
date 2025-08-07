@@ -1,0 +1,120 @@
+/* =============================================================================
+   SITE NAVIGATION COMPONENT
+   File: assets/css/components/navigation/site-nav.css
+
+   Contains all styling for the main site navigation including:
+   - Navigation container and layout
+   - Navigation links and hover states
+   - Active state indicators
+   - Mobile navigation patterns
+
+   Dependencies:
+   - design-system/tokens.css (for custom properties)
+
+   Usage:
+   <nav class="site-nav">
+     <a href="/theory/">Theory</a>
+     <a href="/exercises/" class="active">Exercises</a>
+     <a href="/analysis/">Analysis</a>
+   </nav>
+   ============================================================================= */
+
+/* ===== SITE NAVIGATION CONTAINER ===== */
+.site-nav {
+  display: flex;
+  gap: var(--space-6, 1.5rem);
+  align-items: center;
+}
+
+/* ===== NAVIGATION LINKS ===== */
+.site-nav a {
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--text-sm, 0.95rem);
+  font-weight: var(--font-medium, 500);
+  letter-spacing: var(--tracking-tight, -0.01em);
+
+  /* Colors */
+  color: var(--bg-muted);
+  text-decoration: none;
+
+  /* Layout & spacing */
+  padding: var(--btn-padding-y, 0.625rem) var(--btn-padding-x, 1rem);
+  border-radius: var(--radius-md, 6px);
+
+  /* Interactions */
+  transition: all var(--transition-none);
+}
+
+/* ===== NAVIGATION LINK STATES ===== */
+
+/* Hover state */
+.site-nav a:hover {
+  color: var(--primary-blue);
+  background: var(--primary-light);
+  text-decoration: none;
+}
+
+/* Active state */
+.site-nav a.active,
+.site-nav a[aria-current="page"] {
+  color: var(--primary-blue);
+  background: var(--primary-light);
+  font-weight: var(--font-semibold, 600);
+}
+
+/* Focus state for accessibility */
+.site-nav a:focus {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+  .site-nav {
+    width: 100%;
+    justify-content: center;
+    gap: var(--space-4, 1rem);
+    flex-wrap: wrap;
+  }
+
+  .site-nav a {
+    padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+    font-size: var(--text-xs, 0.9rem);
+  }
+}
+
+/* Mobile phone adjustments */
+@media (max-width: 480px) {
+  .site-nav {
+    flex-direction: column;
+    gap: var(--space-2, 0.5rem);
+  }
+
+  .site-nav a {
+    width: 100%;
+    text-align: center;
+    padding: var(--space-3, 0.75rem);
+    font-size: var(--text-sm, 0.95rem);
+  }
+}
+
+/* ===== ENHANCED ACCESSIBILITY ===== */
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .site-nav a:hover,
+  .site-nav a.active {
+    background: var(--text-primary);
+    color: var(--white);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .site-nav a {
+    transition: none;
+  }
+}
