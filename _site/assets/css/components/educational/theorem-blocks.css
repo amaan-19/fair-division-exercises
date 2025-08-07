@@ -1,0 +1,201 @@
+/* Educational Theorem Blocks - Mathematical Content Formatting */
+
+/* Base Theorem Block */
+.theorem-block {
+  background-color: var(--theorem-bg);
+  border: 1px solid var(--theorem-border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin: var(--space-6) 0;
+  position: relative;
+}
+
+.theorem-block::before {
+  content: attr(data-type);
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-4);
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.theorem-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: var(--space-4) 0 var(--space-3) 0;
+  padding-top: var(--space-1); /* Account for label */
+}
+
+.theorem-content {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.theorem-content p {
+  margin: var(--space-3) 0;
+}
+
+.theorem-content p:first-child {
+  margin-top: 0;
+}
+
+.theorem-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Theorem Variants */
+.theorem-block.definition {
+  background-color: var(--definition-bg);
+  border-color: var(--definition-border);
+  border-left-color: var(--success);
+}
+
+.theorem-block.definition::before {
+  background-color: var(--success);
+}
+
+.theorem-block.lemma {
+  background-color: var(--info-light);
+  border-color: var(--info);
+  border-left-color: var(--info);
+}
+
+.theorem-block.lemma::before {
+  background-color: var(--info);
+}
+
+.theorem-block.corollary {
+  background-color: var(--warning-50);
+  border-color: var(--warning-100);
+  border-left-color: var(--warning);
+}
+
+.theorem-block.corollary::before {
+  background-color: var(--warning);
+}
+
+/* Proof Blocks */
+.proof-block {
+  background-color: var(--proof-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  margin: var(--space-4) 0;
+  overflow: hidden;
+}
+
+.proof-header {
+  background-color: var(--bg-muted);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-colors);
+}
+
+.proof-header:hover {
+  background-color: var(--bg-elevated);
+}
+
+.proof-header:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.proof-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.proof-toggle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  transition: var(--transition-transform);
+}
+
+.proof-block.expanded .proof-toggle {
+  transform: rotate(180deg);
+}
+
+.proof-content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-300) var(--ease-out),
+              padding var(--duration-300) var(--ease-out);
+}
+
+.proof-block.expanded .proof-content {
+  padding: var(--space-4);
+  max-height: 1000px; /* Large enough for most proofs */
+}
+
+.proof-content p {
+  margin: var(--space-3) 0;
+  line-height: var(--leading-relaxed);
+}
+
+.proof-content p:first-child {
+  margin-top: 0;
+}
+
+.proof-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mathematical Notation Support */
+.theorem-block .math,
+.proof-block .math {
+  margin: var(--space-2) 0;
+}
+
+.theorem-block .math-display,
+.proof-block .math-display {
+  margin: var(--space-4) 0;
+  text-align: center;
+}
+
+/* QED Symbol */
+.proof-end {
+  text-align: right;
+  margin-top: var(--space-3);
+}
+
+.proof-end::after {
+  content: '∎';
+  font-weight: var(--font-bold);
+  color: var(--text-secondary);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .theorem-block {
+    padding: var(--space-4);
+    margin: var(--space-4) 0;
+  }
+
+  .theorem-block::before {
+    top: var(--space-2);
+    left: var(--space-3);
+  }
+
+  .theorem-title {
+    font-size: var(--text-base);
+    margin-top: var(--space-3);
+  }
+}

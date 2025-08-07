@@ -77,246 +77,322 @@
 <p>This page tests each step of the CSS refactoring process using only the new modular stylesheets.</p>
 
 <!-- =============================================================================
-     STEP 2.2: CONTENT COMPONENTS TEST
-     Testing hero, page headers, content blocks, and algorithm cards
+     STEP 2.4 EDUCATIONAL COMPONENTS TEST - Focused on New Components Only
      ============================================================================= -->
 
-<div class="test-section" data-test="content-components">
-  <h2>📄 Step 2.2: Content Components Test</h2>
-  <p>Testing content components from <code>components/content/</code></p>
-
-  <!-- Hero Component Test -->
-  <div class="test-subsection">
-    <h3>Hero Component</h3>
-
-    <div class="test-example">
-      <h4>Standard Hero Section:</h4>
-      <div class="hero-section">
-        <h1 class="hero-title">Fair Division Algorithms</h1>
-        <p class="hero-subtitle">Explore interactive demonstrations of algorithms that fairly divide resources among multiple parties using mathematical rigor and computational efficiency.</p>
-      </div>
+<!-- Updated Status Tracker -->
+<div class="step-status-tracker">
+  <h2>Phase 2 Progress - Component Extraction</h2>
+  <div class="steps-grid">
+    <div class="step-item step-complete" data-step="2.1">
+      <span class="step-number">2.1</span>
+      <span class="step-name">Navigation</span>
+      <span class="step-status">✅ Complete</span>
     </div>
-
-    <div class="test-example">
-      <h4>Compact Hero Section:</h4>
-      <div class="hero-section hero-compact">
-        <h1 class="hero-title">Algorithm Analysis</h1>
-        <p class="hero-subtitle">Understanding computational complexity and fairness properties.</p>
-      </div>
+    <div class="step-item step-complete" data-step="2.2">
+      <span class="step-number">2.2</span>
+      <span class="step-name">Content</span>
+      <span class="step-status">✅ Complete</span>
     </div>
-
-    <div class="test-example">
-      <h4>Algorithm Hero Section:</h4>
-      <div class="hero-section hero-algorithm">
-        <h1 class="hero-title">Divide and Choose Protocol</h1>
-        <p class="hero-subtitle">A fundamental two-party fair division algorithm with optimal envy-free guarantees.</p>
-      </div>
+    <div class="step-item step-complete" data-step="2.3">
+      <span class="step-number">2.3</span>
+      <span class="step-name">Interactive</span>
+      <span class="step-status">✅ Complete</span>
+    </div>
+    <div class="step-item step-current" data-step="2.4">
+      <span class="step-number">2.4</span>
+      <span class="step-name">Educational</span>
+      <span class="step-status">🔄 Testing</span>
     </div>
   </div>
-
-  <!-- Page Header Component Test -->
-  <div class="test-subsection">
-    <h3>Page Header Component</h3>
-
-    <div class="test-example">
-      <h4>Standard Page Header:</h4>
-      <div class="page-header">
-        <h1 class="page-title">Fair Division Theory</h1>
-        <p class="page-description">Mathematical foundations and algorithmic approaches to equitable resource allocation.</p>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Theory Page Header (with accent line):</h4>
-      <div class="page-header page-header-theory">
-        <h1 class="page-title">Computational Complexity</h1>
-        <p class="page-description">Analysis of algorithm efficiency using the Robertson-Webb query model.</p>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Exercise Page Header:</h4>
-      <div class="page-header page-header-exercise">
-        <h1 class="page-title">Interactive Exercises</h1>
-        <p class="page-description">Hands-on practice with fair division algorithms and problem-solving.</p>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Compact Page Header:</h4>
-      <div class="page-header page-header-compact">
-        <h1 class="page-title">Quick Reference</h1>
-        <p class="page-description">Essential definitions and concepts.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Content Blocks Component Test -->
-  <div class="test-subsection">
-    <h3>Content Blocks Component</h3>
-
-    <div class="test-example">
-      <h4>Standard Content Block:</h4>
-      <div class="content-block">
-        <h2>Introduction to Fair Division</h2>
-        <p>Fair division is a fundamental problem in mathematics, economics, and computer science. It addresses how to allocate resources among multiple parties in a way that each party considers fair according to their own valuation.</p>
-        <p>The field combines elements of game theory, algorithm design, and social choice theory to create practical solutions for real-world allocation problems.</p>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Theory Content Block:</h4>
-      <div class="content-block content-block-theory">
-        <h3>Envy-Free Allocation</h3>
-        <p><strong>Definition:</strong> An allocation is envy-free if no party prefers another party's share to their own.</p>
-        <p>This is one of the most important fairness criteria in fair division theory, ensuring that each participant is satisfied with their allocation relative to others.</p>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Algorithm Content Block:</h4>
-      <div class="content-block content-block-algorithm">
-        <h3>Steinhaus Procedure</h3>
-        <p>A three-party fair division algorithm that extends the classical divide-and-choose protocol to multiple participants while maintaining proportionality guarantees.</p>
-        <ul>
-          <li>Guarantees each party receives at least 1/n of their valuation</li>
-          <li>Requires O(n²) Robertson-Webb queries</li>
-          <li>Works for any number of participants</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Exercise Content Block:</h4>
-      <div class="content-block content-block-exercise">
-        <h3>Practice Problem</h3>
-        <p>Try implementing the divide-and-choose protocol with the interactive demo. Pay attention to how the cutting and choosing phases ensure fairness.</p>
-        <p><strong>Challenge:</strong> Can you determine the optimal strategy for both the divider and chooser?</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Algorithm Cards Component Test -->
-  <div class="test-subsection">
-    <h3>Algorithm Cards Component</h3>
-
-    <div class="test-example">
-      <h4>Algorithm Grid Layout:</h4>
-      <div class="algorithm-grid">
-
-        <!-- Standard Algorithm Card -->
-        <div class="algorithm-card">
-          <h3 class="algorithm-title">Divide and Choose</h3>
-          <p class="algorithm-subtitle">Two-Party Protocol</p>
-          <p class="algorithm-description">The classic fair division algorithm where one party divides the resource and the other chooses their preferred portion.</p>
-          <div class="algorithm-meta">
-            <span class="complexity-badge complexity-low">O(1)</span>
-            <span class="meta-badge">Envy-Free</span>
-            <span class="meta-badge">Proportional</span>
-          </div>
-        </div>
-
-        <!-- Featured Algorithm Card -->
-        <div class="algorithm-card algorithm-card-featured">
-          <h3 class="algorithm-title">Selfridge-Conway</h3>
-          <p class="algorithm-subtitle">Three-Party Protocol</p>
-          <p class="algorithm-description">An elegant three-party algorithm that achieves envy-free allocation through a series of strategic cuts and choices.</p>
-          <div class="algorithm-meta">
-            <span class="complexity-badge complexity-medium">O(n)</span>
-            <span class="meta-badge">Envy-Free</span>
-            <span class="meta-badge">Discrete</span>
-          </div>
-        </div>
-
-        <!-- Compact Algorithm Card -->
-        <div class="algorithm-card algorithm-card-compact">
-          <h3 class="algorithm-title">Austin's Moving Knife</h3>
-          <p class="algorithm-subtitle">Continuous Protocol</p>
-          <p class="algorithm-description">A moving knife procedure that achieves proportional allocation for any number of parties.</p>
-          <div class="algorithm-meta">
-            <span class="complexity-badge complexity-high">O(n²)</span>
-            <span class="meta-badge">Proportional</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Algorithm Properties Grid:</h4>
-      <div class="properties-grid">
-        <div class="property-item">
-          <div class="property-label">Participants</div>
-          <div class="property-value">2</div>
-        </div>
-        <div class="property-item">
-          <div class="property-label">Queries</div>
-          <div class="property-value">O(1)</div>
-        </div>
-        <div class="property-item">
-          <div class="property-label">Fairness</div>
-          <div class="property-value">Envy-Free</div>
-        </div>
-        <div class="property-item">
-          <div class="property-label">Type</div>
-          <div class="property-value">Discrete</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Algorithm Statistics:</h4>
-      <div class="algorithm-stats">
-        <div class="stat-item">
-          <span class="stat-value">O(1)</span>
-          <span class="stat-label">Complexity</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">2</span>
-          <span class="stat-label">Players</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">100%</span>
-          <span class="stat-label">Efficiency</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">1959</span>
-          <span class="stat-label">Discovered</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="test-example">
-      <h4>Complexity Badge Examples:</h4>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0;">
-        <span class="complexity-badge complexity-low">O(1)</span>
-        <span class="complexity-badge complexity-low">O(log n)</span>
-        <span class="complexity-badge complexity-medium">O(n)</span>
-        <span class="complexity-badge complexity-medium">O(n log n)</span>
-        <span class="complexity-badge complexity-high">O(n²)</span>
-        <span class="complexity-badge complexity-high">O(2ⁿ)</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Responsive Design Test -->
-  <div class="test-subsection">
-    <h3>Responsive Design Test</h3>
-    <p><strong>Instructions:</strong> Resize your browser window to test responsive behavior:</p>
-    <ul>
-      <li><strong>Desktop (1200px+):</strong> All components should display at full size</li>
-      <li><strong>Tablet (768px-1199px):</strong> Cards should stack in fewer columns</li>
-      <li><strong>Mobile (480px-767px):</strong> Single column layout, reduced padding</li>
-      <li><strong>Small Mobile (&lt; 480px):</strong> Compact typography and spacing</li>
-    </ul>
-  </div>
-
 </div>
 
-<!-- Section description test -->
-<div class="section-description">
-  This section description demonstrates proper typography and spacing for explanatory text between major content sections. It should be centered and have appropriate margins.
+<!-- STEP 2.4: EDUCATIONAL COMPONENTS TEST -->
+<div class="test-section" data-test="educational">
+  <h2>🎓 Step 2.4: Educational Components Test</h2>
+  <p>Testing the four new educational component files from <code>components/educational/</code></p>
+
+  <!-- Theorem Blocks Test -->
+  <div class="test-subsection">
+    <h3>1. Theorem Blocks (theorem-blocks.css)</h3>
+
+    <!-- Basic Theorem -->
+    <div class="theorem-block" data-type="Theorem">
+      <h4 class="theorem-title">Envy-Free Existence Theorem</h4>
+      <div class="theorem-content">
+        <p>For any fair division problem with <em>n</em> players and a continuous divisible resource, an envy-free allocation always exists.</p>
+      </div>
+    </div>
+
+    <!-- Definition Block -->
+    <div class="theorem-block definition" data-type="Definition">
+      <h4 class="theorem-title">Robertson-Webb Query Model</h4>
+      <div class="theorem-content">
+        <p><strong>Cut(i, x):</strong> Ask player <em>i</em> to cut at position <em>x</em></p>
+        <p><strong>Eval(i, X):</strong> Ask player <em>i</em> to evaluate piece <em>X</em></p>
+      </div>
+    </div>
+
+    <!-- Collapsible Proof -->
+    <div class="proof-block">
+      <div class="proof-header" tabindex="0" role="button" aria-expanded="false" onclick="toggleProof(this)">
+        <h5 class="proof-title">Show Proof</h5>
+        <span class="proof-toggle">▼</span>
+      </div>
+      <div class="proof-content">
+        <p>We prove by construction using the Selfridge-Conway algorithm...</p>
+        <div class="proof-end"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complexity Badges Test -->
+  <div class="test-subsection">
+    <h3>2. Complexity Badges (complexity-badges.css)</h3>
+
+    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin: var(--space-3) 0;">
+      <span class="complexity-badge low">O(n)</span>
+      <span class="complexity-badge medium">O(n log n)</span>
+      <span class="complexity-badge high">O(n²)</span>
+    </div>
+
+    <div class="query-badge">
+      <span class="query-badge-label">RW Queries:</span>
+      <span class="query-badge-count">42</span>
+    </div>
+
+    <div class="complexity-comparison" style="margin: var(--space-3) 0;">
+      <div class="complexity-algorithm">Austin's Moving Knife</div>
+      <div class="complexity-bar-container">
+        <div class="complexity-bar" style="width: 30%; background: var(--complexity-low);"></div>
+      </div>
+      <div class="complexity-value">O(n)</div>
+    </div>
+  </div>
+
+  <!-- Step Indicators Test -->
+  <div class="test-subsection">
+    <h3>3. Step Indicators (step-indicators.css)</h3>
+
+    <div class="step-indicator">
+      <h4 class="step-indicator-title">Algorithm Walkthrough</h4>
+
+      <div class="step-progress">
+        <div class="step-progress-fill" style="width: 50%;"></div>
+        <div class="step-node completed">1</div>
+        <div class="step-node completed">2</div>
+        <div class="step-node current">3</div>
+        <div class="step-node pending">4</div>
+      </div>
+
+      <div class="step-content active">
+        <h5 class="step-content-title">Step 3: Execute Algorithm</h5>
+        <p class="step-content-description">Move the knife and evaluate player preferences...</p>
+      </div>
+
+      <div class="step-actions">
+        <button class="step-action-btn">← Previous</button>
+        <button class="step-action-btn primary">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proof Sketches Test -->
+  <div class="test-subsection">
+    <h3>4. Proof Sketches (proof-sketches.css)</h3>
+
+    <div class="proof-sketch">
+      <div class="proof-sketch-header" tabindex="0" role="button" aria-expanded="false" onclick="toggleProofSketch(this)">
+        <h4 class="proof-sketch-title">
+          Correctness of Selfridge-Conway
+          <span class="proof-complexity simple">Simple</span>
+        </h4>
+        <span class="proof-sketch-toggle">▼</span>
+      </div>
+
+      <div class="proof-sketch-content">
+        <div class="proof-step">
+          <h5 class="proof-step-title">Initial Setup</h5>
+          <p class="proof-step-content">Player 1 divides cake into three equal pieces...</p>
+        </div>
+
+        <div class="proof-insight">
+          <p class="proof-insight-content">Key insight: Trimming ensures fairness without envy.</p>
+        </div>
+
+        <div class="proof-conclusion">
+          <p class="proof-conclusion-text">Therefore, the algorithm produces an envy-free allocation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- VALIDATION CHECKLIST -->
+<div class="validation-summary">
+  <h2>🔍 Step 2.4 Validation Checklist</h2>
+
+  <div class="validation-checklist">
+    <div class="validation-item">
+      <input type="checkbox" id="check-theorem-styling" />
+      <label for="check-theorem-styling">Theorem blocks show proper academic styling with colored labels</label>
+    </div>
+    <div class="validation-item">
+      <input type="checkbox" id="check-proof-collapse" />
+      <label for="check-proof-collapse">Proof blocks expand/collapse on click with smooth animation</label>
+    </div>
+    <div class="validation-item">
+      <input type="checkbox" id="check-complexity-colors" />
+      <label for="check-complexity-colors">Complexity badges show correct colors (green/yellow/red)</label>
+    </div>
+    <div class="validation-item">
+      <input type="checkbox" id="check-step-progress" />
+      <label for="check-step-progress">Step indicators show completed/current/pending states</label>
+    </div>
+    <div class="validation-item">
+      <input type="checkbox" id="check-proof-sketch-expand" />
+      <label for="check-proof-sketch-expand">Proof sketches expand with numbered steps and QED symbol</label>
+    </div>
+    <div class="validation-item">
+      <input type="checkbox" id="check-educational-tokens" />
+      <label for="check-educational-tokens">All components use design tokens (no hardcoded values)</label>
+    </div>
+  </div>
+
+  <div class="next-steps">
+    <h3>✅ After Validation:</h3>
+    <ol>
+      <li>Import 4 educational CSS files in <code>main.css</code></li>
+      <li>Test on actual algorithm pages</li>
+      <li><strong>🎉 Phase 2 Complete!</strong> Move to Phase 3: Utility Systems</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+// Minimal interactive functionality for testing
+function toggleProof(header) {
+  const proofBlock = header.closest('.proof-block');
+  const content = proofBlock.querySelector('.proof-content');
+  const toggle = header.querySelector('.proof-toggle');
+  const isExpanded = proofBlock.classList.contains('expanded');
+
+  if (isExpanded) {
+    proofBlock.classList.remove('expanded');
+    header.setAttribute('aria-expanded', 'false');
+    toggle.textContent = '▼';
+  } else {
+    proofBlock.classList.add('expanded');
+    header.setAttribute('aria-expanded', 'true');
+    toggle.textContent = '▲';
+  }
+}
+
+function toggleProofSketch(header) {
+  const proofSketch = header.closest('.proof-sketch');
+  const toggle = header.querySelector('.proof-sketch-toggle');
+  const isExpanded = proofSketch.classList.contains('expanded');
+
+  if (isExpanded) {
+    proofSketch.classList.remove('expanded');
+    header.setAttribute('aria-expanded', 'false');
+    toggle.textContent = '▼';
+  } else {
+    proofSketch.classList.add('expanded');
+    header.setAttribute('aria-expanded', 'true');
+    toggle.textContent = '▲';
+  }
+}
+</script>
+
+<style>
+/* Minimal styling for test page - inherits from main system */
+.system-test-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+}
+
+.step-status-tracker {
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-light, #e5e7eb);
+  border-radius: var(--radius-lg, 12px);
+  padding: var(--space-6, 1.5rem);
+  margin-bottom: var(--space-8, 2rem);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3, 0.75rem);
+  margin-top: var(--space-4, 1rem);
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3, 0.75rem);
+  border-radius: var(--radius, 8px);
+  text-align: center;
+  border: 1px solid var(--border-light, #e5e7eb);
+}
+
+.step-item.step-complete {
+  background: var(--success-50, #f0fdf4);
+  border-color: var(--success-100, #dcfce7);
+}
+
+.step-item.step-current {
+  background: var(--info-light, #eff6ff);
+  border-color: var(--info, #dbeafe);
+}
+
+.test-section {
+  background: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-light, #e5e7eb);
+  border-radius: var(--radius-lg, 12px);
+  padding: var(--space-6, 1.5rem);
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+.test-subsection {
+  margin: var(--space-5, 1.25rem) 0;
+  padding: var(--space-4, 1rem) 0;
+  border-bottom: 1px solid var(--border-light, #e5e7eb);
+}
+
+.test-subsection:last-child {
+  border-bottom: none;
+}
+
+.validation-summary {
+  background: var(--info-light, #eff6ff);
+  border: 2px solid var(--info, #dbeafe);
+  border-radius: var(--radius-lg, 12px);
+  padding: var(--space-6, 1.5rem);
+  margin-top: var(--space-8, 2rem);
+}
+
+.validation-checklist {
+  margin: var(--space-4, 1rem) 0;
+}
+
+.validation-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+  margin: var(--space-2, 0.5rem) 0;
+}
+
+.next-steps {
+  background: var(--bg-surface, #ffffff);
+  padding: var(--space-4, 1rem);
+  border-radius: var(--radius, 8px);
+  margin-top: var(--space-4, 1rem);
+}
+</style>
+
 
     </div>
 </main>

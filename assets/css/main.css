@@ -78,21 +78,21 @@
 
 /* Interactive Components */
 
-/*
+
 @import 'components/interactive/demo-container.css';
 @import 'components/interactive/algorithm-selector.css';
 @import 'components/interactive/visualization-panel.css';
 @import 'components/interactive/control-panel.css';
-*/
+
 
 /* Educational Components */
 
-/*
+
 @import 'components/educational/theorem-blocks.css';
 @import 'components/educational/complexity-badges.css';
 @import 'components/educational/step-indicators.css';
 @import 'components/educational/proof-sketches.css';
-*/
+
 
 /* Academic Components */
 

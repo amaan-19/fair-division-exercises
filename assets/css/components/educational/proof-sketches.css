@@ -1,0 +1,281 @@
+/* Educational Proof Sketches - Collapsible Mathematical Proofs */
+
+/* Base Proof Sketch */
+.proof-sketch {
+  background-color: var(--proof-bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  margin: var(--space-5) 0;
+  overflow: hidden;
+  transition: var(--transition-all);
+}
+
+.proof-sketch:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Proof Sketch Header */
+.proof-sketch-header {
+  background-color: var(--bg-muted);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-colors);
+  position: relative;
+}
+
+.proof-sketch-header:hover {
+  background-color: var(--bg-elevated);
+}
+
+.proof-sketch-header:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+  background-color: var(--bg-elevated);
+}
+
+.proof-sketch-header::before {
+  content: 'Proof Sketch';
+  position: absolute;
+  top: -8px;
+  left: var(--space-3);
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  padding: var(--space-0_5) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.proof-sketch-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.proof-sketch-toggle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  transition: var(--transition-transform);
+  user-select: none;
+}
+
+.proof-sketch.expanded .proof-sketch-toggle {
+  transform: rotate(180deg);
+}
+
+/* Proof Sketch Content */
+.proof-sketch-content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-300) var(--ease-out),
+              padding var(--duration-300) var(--ease-out);
+}
+
+.proof-sketch.expanded .proof-sketch-content {
+  padding: var(--space-4);
+  max-height: 2000px; /* Large enough for complex proofs */
+}
+
+/* Proof Steps */
+.proof-step {
+  margin: var(--space-3) 0;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--border-light);
+  position: relative;
+}
+
+.proof-step::before {
+  content: counter(proof-step);
+  counter-increment: proof-step;
+  position: absolute;
+  left: -10px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--bg-surface);
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--primary);
+}
+
+.proof-sketch-content {
+  counter-reset: proof-step;
+}
+
+.proof-step-title {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-sm);
+}
+
+.proof-step-content {
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+/* Mathematical Expressions */
+.proof-sketch .math-inline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.proof-sketch .math-block {
+  background-color: var(--bg-surface);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  margin: var(--space-2) 0;
+  font-family: var(--font-serif);
+  text-align: center;
+  border: 1px solid var(--border-light);
+}
+
+/* Proof Insights */
+.proof-insight {
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin: var(--space-3) 0;
+  position: relative;
+}
+
+.proof-insight::before {
+  content: '💡';
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-3);
+  font-size: var(--text-base);
+}
+
+.proof-insight-content {
+  margin-left: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  font-style: italic;
+}
+
+/* Proof Conclusion */
+.proof-conclusion {
+  background-color: var(--success-50);
+  border: 1px solid var(--success-100);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin: var(--space-4) 0 var(--space-2) 0;
+  text-align: center;
+}
+
+.proof-conclusion-text {
+  font-weight: var(--font-semibold);
+  color: var(--success-700);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.proof-conclusion::after {
+  content: '∎';
+  display: block;
+  font-size: var(--text-lg);
+  color: var(--success-600);
+  margin-top: var(--space-1);
+}
+
+/* Proof Complexity Indicator */
+.proof-complexity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.proof-complexity.simple {
+  border-color: var(--complexity-low);
+  color: var(--complexity-low);
+}
+
+.proof-complexity.moderate {
+  border-color: var(--complexity-medium);
+  color: var(--complexity-medium);
+}
+
+.proof-complexity.advanced {
+  border-color: var(--complexity-high);
+  color: var(--complexity-high);
+}
+
+/* Animation for Smooth Expansion */
+.proof-sketch.expanding .proof-sketch-content {
+  overflow: visible;
+}
+
+/* Interactive Features */
+.proof-step:hover {
+  border-left-color: var(--primary);
+}
+
+.proof-step:hover::before {
+  background-color: var(--primary);
+  color: var(--text-inverse);
+}
+
+/* Accessibility */
+.proof-sketch-header[aria-expanded="true"] .proof-sketch-title {
+  color: var(--primary);
+}
+
+.proof-sketch-header:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .proof-sketch-header {
+    padding: var(--space-3);
+  }
+
+  .proof-sketch.expanded .proof-sketch-content {
+    padding: var(--space-3);
+  }
+
+  .proof-step {
+    padding-left: var(--space-3);
+  }
+
+  .proof-step::before {
+    left: -8px;
+    width: 16px;
+    height: 16px;
+    font-size: var(--text-xs);
+  }
+
+  .proof-insight-content {
+    margin-left: var(--space-4);
+  }
+}

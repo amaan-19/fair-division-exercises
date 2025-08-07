@@ -28,16 +28,20 @@
 @import 'components/content/content-blocks.css';
 @import 'components/content/algorithm-cards.css';
 
+/* ===== INTERACTIVE COMPONENTS */
+
+@import 'components/interactive/demo-container.css';
+@import 'components/interactive/algorithm-selector.css';
+@import 'components/interactive/visualization-panel.css';
+@import 'components/interactive/control-panel.css';
+
+/* ===== EDUCATIONAL COMPONENTS */
+@import 'components/educational/theorem-blocks.css';
+@import 'components/educational/complexity-badges.css';
+@import 'components/educational/proof-sketches.css';
+@import 'components/educational/step-indicators.css';
+
 /* ===== FUTURE COMPONENTS (will uncomment as we build them) ===== */
-
-/* Interactive Components */
-/* @import 'components/interactive/demo-container.css'; */
-/* @import 'components/interactive/algorithm-selector.css'; */
-/* @import 'components/interactive/visualization-panel.css'; */
-
-/* Educational Components */
-/* @import 'components/educational/theorem-blocks.css'; */
-/* @import 'components/educational/complexity-badges.css'; */
 
 /* UI Components */
 /* @import 'components/ui/buttons.css'; */
