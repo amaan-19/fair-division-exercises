@@ -301,4 +301,4 @@ title: Fair Division Algorithms
   </div>
 </div>
 
-<script src="assets/js/card-carousel.js"></script>
+<script src="assets/js/utils/card-carousel.js"></script>
