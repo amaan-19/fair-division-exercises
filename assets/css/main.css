@@ -87,7 +87,6 @@
 
 /* Educational Components */
 
-
 @import 'components/educational/theorem-blocks.css';
 @import 'components/educational/complexity-badges.css';
 @import 'components/educational/step-indicators.css';
@@ -102,28 +101,8 @@
 @import 'components/academic/citation-tools.css';
 */
 
-/* UI Components */
-
-/*
-@import 'components/ui/buttons.css';
-@import 'components/ui/badges.css';
-@import 'components/ui/modals.css';
-@import 'components/ui/tooltips.css';
-*/
-
 /* =============================================================================
-   4. UTILITIES
-   ============================================================================= */
-
-/*
-@import 'utilities/spacing.css';
-@import 'utilities/colors.css';
-@import 'utilities/typography.css';
-@import 'utilities/display.css';
-*/
-
-/* =============================================================================
-   5. PAGE-SPECIFIC STYLES
+   4. PAGE-SPECIFIC STYLES
    ============================================================================= */
 
 /*
