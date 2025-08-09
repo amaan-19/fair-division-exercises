@@ -5,18 +5,19 @@ title: Fair Division Algorithms
 
 <div class="page-header" style="padding: 0"></div>
 
-<div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center;">
+<div class="column-grid">
+  <div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
+  <h3>New Here?</h3>
+  <p>This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
+  </div>
+  <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center; vertical-align: middle">
   <p style="margin: 0; color: #6c757d;">
-    This site is actively being developed. Some content may be incomplete/incorrect. New algorithms, features, and citations are added regularly.
+    This site is currently between development cycles. Some content may be incomplete.
   </p>
   <p style="margin: 0; color: #6c757d; padding-top: 1rem;">
-    <a href="https://github.com/amaan-19/fair-division-exercises" target="_blank" style="color: #3182ce;">View development progress on GitHub →</a>
+    <a href="https://github.com/amaan-19/fair-division-exercises" target="_blank" style="color: #3182ce;">GitHub</a>
   </p>
-</div>
-
-<div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
-  <h2>New Here?</h2>
-  <p>This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
+  </div>
 </div>
 
 <div class="algorithms-section">
@@ -24,7 +25,7 @@ title: Fair Division Algorithms
   <div class="carousel-section">
     <div class="carousel-section-header">
       <h2>Divisible Resources</h2>
-      <p>Algorithms for resources that can be cut and divided continuously, like cake or land</p>
+      <h4>Algorithms for resources that can be cut and divided continuously, like cake or land</h4>
     </div>
 
     <div class="algorithm-carousel" id="divisible-carousel">

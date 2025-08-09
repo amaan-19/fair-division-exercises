@@ -1,0 +1,40 @@
+/* ===== FOOTER ===== */
+.site-footer {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 3rem 0 2rem 0;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.footer-title {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+}
+
+.footer-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #cbd5e0;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.footer-credits {
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 0.5rem;
+    color: #a0aec0;
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+    .footer-credits:last-child {
+        margin-bottom: 0;
+    }

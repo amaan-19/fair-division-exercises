@@ -1,0 +1,31 @@
+/* ===== SITE HEADER ===== */
+.site-header {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.25rem 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+    .site-header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+/* ===== SITE TITLE ===== */
+.site-title {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #3182ce;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+
+    .site-title:hover {
+        color: #2c5282;
+        text-decoration: none;
+    }

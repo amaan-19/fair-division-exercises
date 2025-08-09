@@ -1,0 +1,99 @@
+/* ===== BADGES ===== */
+.meta-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Inter', sans-serif;
+}
+
+    .meta-badge.players-badge {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .meta-badge.type-badge {
+        background: #f3e8ff;
+        color: #6b21a8;
+    }
+
+    .meta-badge.property {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+/* Smaller badge variants */
+.complexity-badge,
+.players-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Inter', sans-serif;
+}
+
+.complexity-badge {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.players-badge {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+/* ===== PROPERTY TAGS ===== */
+.property-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.property-tag {
+    background: #e6fffa;
+    color: #234e52;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== REFERENCE BADGES ===== */
+.type-badge {
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-family: 'Inter', sans-serif;
+}
+
+    .type-badge.book {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .type-badge.paper {
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+
+.year-badge {
+    background: #f0f4f7;
+    color: #4a5568;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}

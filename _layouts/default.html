@@ -6,11 +6,7 @@
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
 
     <!-- Fixed CSS paths -->
-    {% if page.url == '/test-system/' %}
-    <link rel="stylesheet" href="{{ '/assets/css/test-system.css' | relative_url }}">
-    {% else %}
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-    {% endif %}
 
     <!-- Fixed favicon paths -->
     <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg">
@@ -67,7 +63,6 @@
     <div class="container">
         <h3 class="footer-title">{{ site.title }}</h3>
         <p class="footer-description">{{ site.description }}</p>
-        <p class="footer-credits">Washington University in St. Louis received financial support from Mozilla Responsible Computer Science</p>
     </div>
 </footer>
 

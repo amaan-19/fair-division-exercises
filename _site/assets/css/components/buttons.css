@@ -1,0 +1,80 @@
+/* ===== BUTTONS ===== */
+.button {
+    background: #3182ce;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+}
+
+    .button:hover {
+        background: #2c5282;
+        transform: translateY(-1px);
+        color: white;
+        text-decoration: none;
+    }
+
+    .button:disabled {
+        background: #a0aec0;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .button.secondary {
+        background: white;
+        color: #3182ce;
+        border: 1px solid #3182ce;
+    }
+
+        .button.secondary:hover {
+            background: #ebf8ff;
+            color: #3182ce;
+        }
+
+/* ===== NAV BUTTONS ===== */
+.nav-button {
+    background: #3182ce;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+}
+
+    .nav-button:hover {
+        background: #2c5282;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-button.secondary {
+        background: white;
+        color: #3182ce;
+        border: 1px solid #3182ce;
+    }
+
+        .nav-button.secondary:hover {
+            background: #ebf8ff;
+            text-decoration: none;
+        }
+
+    .nav-button.disabled {
+        background: #f7fafc;
+        color: #a0aec0;
+        cursor: not-allowed;
+        border: 1px solid #e2e8f0;
+    }

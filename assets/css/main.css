@@ -1,151 +1,36 @@
-/* =============================================================================
+/*
    MAIN CSS ENTRY POINT
-   Step 1.4 of CSS Refactoring Plan
    File: assets/css/main.css
 
    This file imports all modular CSS systems in the correct order.
-   Replaces the old monolithic main.css with organized imports.
-   ============================================================================= */
-
-/* =============================================================================
-   IMPORT ORDER EXPLANATION
-
-   1. Design System Foundation
-      - Tokens must come first (defines all CSS custom properties)
-      - Typography sets up font system
-      - Reset normalizes browser defaults
-
-   2. Layout Systems
-      - Containers, grid, flexbox utilities
-
-   3. Components (in dependency order)
-      - Navigation (used site-wide)
-      - Content blocks (general content)
-      - Interactive demos (algorithm-specific)
-      - Educational components (academic features)
-      - Academic components (references, citations)
-      - UI components (buttons, badges, etc.)
-
-   4. Utilities (can override component styles)
-      - Spacing, colors, typography, display utilities
-
-   5. Page-Specific Styles
-      - Homepage, algorithms, theory, references
-
-   6. Legacy Compatibility (temporary)
-      - Any remaining styles from old main.css
-   ============================================================================= */
-
-/* =============================================================================
-   1. DESIGN SYSTEM FOUNDATION
-   ============================================================================= */
-
-/* CSS Custom Properties - Must come first */
-@import 'design-system/tokens.css';
-
-/* Typography System */
-@import 'design-system/typography.css';
-
-/* CSS Reset & Base Styles */
-@import 'design-system/reset.css';
-
-/* =============================================================================
-   2. LAYOUT
-   ============================================================================= */
-
-@import 'layout/containers.css';
-
-/* =============================================================================
-   3. COMPONENTS
-   ============================================================================= */
-
-/* Navigation Components */
-
-
-@import 'components/navigation/site-header.css';
-@import 'components/navigation/site-nav.css';
-@import 'components/navigation/breadcrumbs.css';
-
-
-/* Content Components */
-
-
-@import 'components/content/hero.css';
-@import 'components/content/page-header.css';
-@import 'components/content/content-blocks.css';
-@import 'components/content/algorithm-cards.css';
-
-
-/* Interactive Components */
-
-
-@import 'components/interactive/demo-container.css';
-@import 'components/interactive/algorithm-selector.css';
-@import 'components/interactive/visualization-panel.css';
-@import 'components/interactive/control-panel.css';
-
-
-/* Educational Components */
-
-@import 'components/educational/theorem-blocks.css';
-@import 'components/educational/complexity-badges.css';
-@import 'components/educational/step-indicators.css';
-@import 'components/educational/proof-sketches.css';
-
-
-/* Academic Components */
-
-/*
-@import 'components/academic/reference-cards.css';
-@import 'components/academic/glossary-terms.css';
-@import 'components/academic/citation-tools.css';
 */
 
-/* =============================================================================
-   4. PAGE-SPECIFIC STYLES
-   ============================================================================= */
+/* Base Styles */
+@import 'base/base.css';
+@import 'base/footer.css';
+@import 'base/layout.css';
+@import 'base/nav.css';
+@import 'base/page-headers.css';
+@import 'base/responsiveness.css';
+@import 'base/typography.css';
 
-/*
-@import 'pages/homepage.css';
-@import 'pages/algorithms.css';
-@import 'pages/theory.css';
-@import 'pages/references.css';
-*/
+/* Components Styles */
+@import 'components/badges.css';
+@import 'components/buttons.css';
+@import 'components/proof-sketches.css';
+@import 'components/queries.css';
+@import 'components/query-panel.css';
+@import 'components/indivisible-goods.css';
 
-/* =============================================================================
-   6. LEGACY COMPATIBILITY (TEMPORARY)
+@import 'components/flowcharts/flowchart.css';
+@import 'components/flowcharts/flowchart-enhanced.css';
 
-   NOTE: This section is for any styles from the old main.css that haven't
-   been migrated yet. As we complete each phase of the refactoring, we'll
-   remove imports from here and organize them into the appropriate sections.
-
-   Goal: This section should be empty when refactoring is complete.
-   ============================================================================= */
-
-/* Uncomment as needed during migration: */
-@import 'main-backup.css';
-
-/* =============================================================================
-   DEV NOTES FOR FUTURE PHASES
-
-   Phase 2 (Weeks 2-3): Component Extraction
-   - Extract each component from old main.css
-   - Convert to use design tokens
-   - Test each component in isolation
-   - Update this file to import new component files
-
-   Phase 3 (Week 4): Utilities & Layout
-   - Create utility classes using design tokens
-   - Build responsive grid system
-   - Add flexbox utilities
-
-   Phase 4 (Week 5): Page-Specific Styles
-   - Extract page-specific styles
-   - Ensure clean separation of concerns
-
-   Phase 5 (Week 6): Cleanup & Optimization
-   - Remove all legacy imports
-   - Optimize import order for performance
-   - Minify for production
-   - Complete documentation
-   ============================================================================= */
+/* Section Styles */
+@import 'sections/algorithm-carousel.css';
+@import 'sections/algorithm-page.css';
+@import 'sections/content-blocks.css';
+@import 'sections/demo.css';
+@import 'sections/glossary.css';
+@import 'sections/hero.css';
+@import 'sections/references.css';
+@import 'sections/theory.css';
