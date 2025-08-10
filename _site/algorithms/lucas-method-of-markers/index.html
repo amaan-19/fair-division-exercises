@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas' Method of Markers | Fair Division Algorithms</title>
+
+    <!-- Fixed CSS paths -->
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main.css">
+
+    <!-- Fixed favicon paths -->
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
+
+    <meta name="theme-color" content="#3182ce">
+
+    <!-- MathJax Configuration - MUST come before script load -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Lucas’ Method of Markers | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Lucas’ Method of Markers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/algorithms/lucas-method-of-markers/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/algorithms/lucas-method-of-markers/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Lucas’ Method of Markers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Lucas’ Method of Markers","url":"http://localhost:4000/fair-division-algorithms/algorithms/lucas-method-of-markers/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<!-- Site Header -->
+<header class="site-header">
+    <div class="container">
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
+        <nav class="site-nav">
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <div class="algorithm-page">
+
+  <!-- Algorithm Header Card -->
+  <div class="algorithm-header-card">
+    <div class="algorithm-header-content">
+      <h1 class="algorithm-title">Lucas' Method of Markers</h1>
+      <div class="algorithm-meta">
+        <span class="meta-badge players-badge">N Players</span>
+        <span class="meta-badge type-badge">Linear Arrangement</span>
+        <span class="meta-badge mechanism-badge">Marker Placement</span>
+        <span class="meta-badge complexity-badge">O(N²) Operations</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <section class="content-block">
+    <h2>Overview</h2>
+    <p>Developed by William F. Lucas in the 1990s, the Method of Markers provides a fair division procedure for goods that can be arranged in a linear fashion. This applies to both continuous resources (like a gold chain to be cut) and collections of discrete indivisible items (like books arranged on a shelf). The algorithm builds on ideas from the Last-Diminisher procedure but adapts them for indivisible or semi-divisible goods.</p>
+
+    <p>Each player places markers to indicate segments they would accept as fair, with the algorithm ensuring everyone receives a proportional share according to their own valuation.</p>
+  </section>
+
+  <div id="enhanced-lucas" data-enhanced-flowchart="lucas-method-markers"></div>
+  <div class="animation-controls">
+    <button class="animation-btn primary" onclick="animateAlgorithm('enhanced-lucas', 1000)">▶️ Animate Steps</button>
+    <button class="animation-btn secondary" onclick="resetAlgorithm('enhanced-lucas')">🔄 Reset</button>
+  </div>
+
+  <!-- Mathematical Framework -->
+  <section class="content-block">
+    <h2>Mathematical Framework</h2>
+
+    <p><strong>Formal Setup:</strong> Let $G$ be the set of goods arranged linearly, and let $v_i: \mathcal{P}(G) \rightarrow \mathbb{R}_+$ be player $i$'s valuation function where $\mathcal{P}(G)$ represents all possible subsets (segments) of $G$.</p>
+
+    <p><strong>Marker Constraint:</strong> For each player $i$, their markers $m_i^1 &lt; m_i^2 &lt; \ldots &lt; m_i^{n-1}$ must satisfy:
+    $$v_i(\text{segment}_j) \geq \frac{v_i(G)}{n} \text{ for all segments } j \in \{1, 2, \ldots, n\}$$</p>
+
+    <p><strong>Allocation Function:</strong> The algorithm produces allocation $A = (A_1, A_2, \ldots, A_n)$ where $A_i$ is the segment received by player $i$.</p>
+  </section>
+
+  <!-- Fairness Properties -->
+  <section class="content-block">
+    <h2>Fairness Properties</h2>
+
+    <h3>Proportionality</h3>
+    <p>Every player receives at least their proportional share according to their own valuation.</p>
+    <div class="proof-sketch">
+      <div class="proof-sketch-header" onclick="toggleProof('proportionality-proof')">
+        <span><strong>Formal Statement:</strong> $\forall i, v_i(A_i) \geq \frac{v_i(G)}{n}$</span>
+        <span class="proof-toggle">▼</span>
+      </div>
+      <div id="proportionality-proof" class="proof-sketch-content">
+        <p><strong>Proof:</strong> By the marker placement constraint, each player values every segment they create as worth at least $\frac{1}{n}$ of the total.</p>
+        
+        <p>When player $i$ is selected in any round, they receive a segment that:</p>
+        <ul>
+          <li>Ends at one of their own markers, and</li>
+          <li>Contains at least one complete segment they originally marked</li>
+        </ul>
+        
+        <p>Since player $i$ valued this segment as $\geq \frac{v_i(G)}{n}$ when placing markers, and they may receive additional goods beyond their marker, we have $v_i(A_i) \geq \frac{v_i(G)}{n}$.</p>
+      </div>
+    </div>
+
+    <h3>Strategy-Proofness</h3>
+    <p>Truth-telling when placing markers is a dominant strategy.</p>
+    <div class="proof-sketch">
+      <div class="proof-sketch-header" onclick="toggleProof('strategy-proof')">
+        <span><strong>Intuition:</strong> Misreporting preferences cannot improve outcomes</span>
+        <span class="proof-toggle">▼</span>
+      </div>
+      <div id="strategy-proof" class="proof-content">
+        <p>Players cannot benefit from placing markers dishonestly:</p>
+        <ul>
+          <li><strong>Over-claiming:</strong> Placing markers to claim segments worth less than $\frac{1}{n}$ risks receiving an inadequate allocation</li>
+          <li><strong>Under-claiming:</strong> Being overly conservative may result in receiving less desirable segments</li>
+          <li><strong>Optimal strategy:</strong> Place markers to create segments of exactly equal value $\frac{v_i(G)}{n}$</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Remainder Efficiency</h3>
+    <p>The algorithm may leave surplus goods that are distributed to the remaining players, improving overall efficiency.</p>
+  </section>
+
+  <!-- Navigation -->
+  <footer class="algorithm-navigation">
+    <a href="/fair-division-algorithms/algorithms/knaster-sealed-bids/" class="nav-button secondary">← Knaster's Sealed Bids</a>
+    <a href="/fair-division-algorithms/" class="nav-button primary">To Algorithms →</a>
+  </footer>
+
+</div>
+
+
+    </div>
+</main>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
+    </div>
+</footer>
+
+<!-- Import MathJax for LaTex Support -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Import scripts -->
+<!-- Fair Division Demo System Scripts -->
+
+<!-- Core demo system -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-system.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-controller.js"></script>
+
+<!-- Indivisible goods extensions -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/indivisible-goods-extensions.js"></script>
+
+<!-- Existing divisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/divide-and-choose.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/austins-moving-knife.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/steinhaus-lone-divider.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/selfridge-conway.js"></script>
+
+<!-- Indivisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/knaster-sealed-bids.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/lucas-method-markers.js"></script>
+
+<!-- Flowchart System -->
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-template-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/container-growth-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/query-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-state-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-animator.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-enhanced.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/data/algorithm-data.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/flowchart-factory.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/global-functions.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/initialization.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/exports.js"></script>
+
+<script src=""></script>
+<script src=""></script>
+
+<script>
+    // Initialize enhanced algorithm selector on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load, then enhance the selector
+        setTimeout(() => {
+            enhanceAlgorithmSelector();
+        }, 100);
+    });
+
+    // Enhanced algorithm selector with goods type grouping
+    function enhanceAlgorithmSelector() {
+        const selector = document.getElementById('algorithm-selector');
+        if (!selector) return;
+
+        // Get the demo system instance
+        const demoSystem = window.FairDivisionCore.getInstance();
+        if (!demoSystem) return;
+
+        // Clear existing options
+        selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+        // Group algorithms by goods type
+        const algorithmsByType = {
+            'divisible': [],
+            'discrete-items': [],
+            'linear-arrangement': []
+        };
+
+        // Categorize registered algorithms
+        demoSystem.algorithms.forEach((algorithm, id) => {
+            const goodsType = algorithm.config.goodsType || 'divisible';
+            if (algorithmsByType[goodsType]) {
+                algorithmsByType[goodsType].push({ id, config: algorithm.config });
+            }
+        });
+
+        // Create optgroups
+        Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+            if (algorithms.length > 0) {
+                const optgroup = document.createElement('optgroup');
+
+                // Set label based on goods type
+                switch(type) {
+                    case 'divisible':
+                        optgroup.label = 'Divisible Goods (Continuous)';
+                        break;
+                    case 'discrete-items':
+                        optgroup.label = 'Indivisible Goods (Discrete Items)';
+                        break;
+                    case 'linear-arrangement':
+                        optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                        break;
+                    default:
+                        optgroup.label = type.charAt(0).toUpperCase() + type.slice(1);
+                }
+
+                // Add algorithms to optgroup
+                algorithms.forEach(({ id, config }) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = config.name;
+                    optgroup.appendChild(option);
+                });
+
+                selector.appendChild(optgroup);
+            }
+        });
+
+        console.log('[DEMO] Enhanced algorithm selector with goods type grouping');
+    }
+</script>
+
+<!-- Proof Sketches and Interactive Elements -->
+<script>
+    // Initialize collapsible proof sketches after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for MathJax to finish rendering before initializing proof sketches
+        if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(() => {
+                initializeProofSketches();
+            });
+        } else {
+            // Fallback if MathJax isn't loaded
+            setTimeout(initializeProofSketches, 500);
+        }
+    });
+
+    function initializeProofSketches() {
+        // Find all existing proof-sketch divs and convert them
+        const proofSketches = document.querySelectorAll('.proof-sketch');
+
+        proofSketches.forEach(function (proofSketch, index) {
+            // Skip if already initialized
+            if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                return;
+            }
+
+            // Get the current content (preserving MathJax rendering)
+            const originalContent = proofSketch.innerHTML;
+
+            // Create the new structure
+            const proofId = `proof-sketch-${index}`;
+
+            // Create header element
+            const header = document.createElement('div');
+            header.className = 'proof-sketch-header';
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('aria-controls', `${proofId}-content`);
+            header.setAttribute('data-proof-toggle', '');
+
+            header.innerHTML = `
+                    <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
+                    <span class="proof-sketch-toggle">▼</span>
+                `;
+
+            // Create content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'proof-sketch-content';
+            contentWrapper.id = `${proofId}-content`;
+            contentWrapper.setAttribute('role', 'region');
+            contentWrapper.setAttribute('aria-hidden', 'true');
+            contentWrapper.innerHTML = originalContent;
+
+            // Clear the original content and add new structure
+            proofSketch.innerHTML = '';
+            proofSketch.appendChild(header);
+            proofSketch.appendChild(contentWrapper);
+
+            // Mark as initialized
+            proofSketch.classList.add('proof-sketch-initialized');
+
+            // Add click event listener
+            header.addEventListener('click', function () {
+                toggleProofSketch(proofSketch);
+            });
+
+            // Add keyboard support (Enter and Space)
+            header.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleProofSketch(proofSketch);
+                }
+            });
+        });
+    }
+
+    function toggleProofSketch(proofSketch) {
+        const header = proofSketch.querySelector('.proof-sketch-header');
+        const content = proofSketch.querySelector('.proof-sketch-content');
+        const title = proofSketch.querySelector('.proof-sketch-title');
+
+        const isExpanded = proofSketch.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            proofSketch.classList.remove('expanded');
+            header.setAttribute('aria-expanded', 'false');
+            content.setAttribute('aria-hidden', 'true');
+            title.textContent = 'Show Proof';
+
+            // Reset max-height to 0 for smooth collapse
+            content.style.maxHeight = '0px';
+
+            // Reset padding after animation completes
+            setTimeout(() => {
+                if (!proofSketch.classList.contains('expanded')) {
+                    content.style.padding = '0';
+                }
+            }, 400);
+
+        } else {
+            // Expand
+            proofSketch.classList.add('expanded');
+            header.setAttribute('aria-expanded', 'true');
+            content.setAttribute('aria-hidden', 'false');
+            title.textContent = 'Hide Proof';
+
+            // Set padding first
+            content.style.padding = '1rem';
+
+            // Calculate proper max-height based on content (with some buffer)
+            const contentHeight = content.scrollHeight;
+            const bufferHeight = 50; // Add buffer for safety
+            content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+            // Optional: Scroll the proof into view if it's partially hidden
+            setTimeout(() => {
+                const rect = proofSketch.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight) {
+                    proofSketch.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }, 300);
+        }
+    }
+</script>
+</body>
+</html>

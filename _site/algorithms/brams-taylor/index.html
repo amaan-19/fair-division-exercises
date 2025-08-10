@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brams-Taylor Procedure | Fair Division Algorithms</title>
+
+    <!-- Fixed CSS paths -->
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main.css">
+
+    <!-- Fixed favicon paths -->
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
+
+    <meta name="theme-color" content="#3182ce">
+
+    <!-- MathJax Configuration - MUST come before script load -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Brams-Taylor Procedure | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Brams-Taylor Procedure" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/algorithms/brams-taylor/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/algorithms/brams-taylor/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Brams-Taylor Procedure" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Brams-Taylor Procedure","url":"http://localhost:4000/fair-division-algorithms/algorithms/brams-taylor/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<!-- Site Header -->
+<header class="site-header">
+    <div class="container">
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
+        <nav class="site-nav">
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        
+
+    </div>
+</main>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
+    </div>
+</footer>
+
+<!-- Import MathJax for LaTex Support -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Import scripts -->
+<!-- Fair Division Demo System Scripts -->
+
+<!-- Core demo system -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-system.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-controller.js"></script>
+
+<!-- Indivisible goods extensions -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/indivisible-goods-extensions.js"></script>
+
+<!-- Existing divisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/divide-and-choose.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/austins-moving-knife.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/steinhaus-lone-divider.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/selfridge-conway.js"></script>
+
+<!-- Indivisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/knaster-sealed-bids.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/lucas-method-markers.js"></script>
+
+<!-- Flowchart System -->
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-template-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/container-growth-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/query-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-state-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-animator.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-enhanced.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/data/algorithm-data.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/flowchart-factory.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/global-functions.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/initialization.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/exports.js"></script>
+
+<script src=""></script>
+<script src=""></script>
+
+<script>
+    // Initialize enhanced algorithm selector on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load, then enhance the selector
+        setTimeout(() => {
+            enhanceAlgorithmSelector();
+        }, 100);
+    });
+
+    // Enhanced algorithm selector with goods type grouping
+    function enhanceAlgorithmSelector() {
+        const selector = document.getElementById('algorithm-selector');
+        if (!selector) return;
+
+        // Get the demo system instance
+        const demoSystem = window.FairDivisionCore.getInstance();
+        if (!demoSystem) return;
+
+        // Clear existing options
+        selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+        // Group algorithms by goods type
+        const algorithmsByType = {
+            'divisible': [],
+            'discrete-items': [],
+            'linear-arrangement': []
+        };
+
+        // Categorize registered algorithms
+        demoSystem.algorithms.forEach((algorithm, id) => {
+            const goodsType = algorithm.config.goodsType || 'divisible';
+            if (algorithmsByType[goodsType]) {
+                algorithmsByType[goodsType].push({ id, config: algorithm.config });
+            }
+        });
+
+        // Create optgroups
+        Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+            if (algorithms.length > 0) {
+                const optgroup = document.createElement('optgroup');
+
+                // Set label based on goods type
+                switch(type) {
+                    case 'divisible':
+                        optgroup.label = 'Divisible Goods (Continuous)';
+                        break;
+                    case 'discrete-items':
+                        optgroup.label = 'Indivisible Goods (Discrete Items)';
+                        break;
+                    case 'linear-arrangement':
+                        optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                        break;
+                    default:
+                        optgroup.label = type.charAt(0).toUpperCase() + type.slice(1);
+                }
+
+                // Add algorithms to optgroup
+                algorithms.forEach(({ id, config }) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = config.name;
+                    optgroup.appendChild(option);
+                });
+
+                selector.appendChild(optgroup);
+            }
+        });
+
+        console.log('[DEMO] Enhanced algorithm selector with goods type grouping');
+    }
+</script>
+
+<!-- Proof Sketches and Interactive Elements -->
+<script>
+    // Initialize collapsible proof sketches after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for MathJax to finish rendering before initializing proof sketches
+        if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(() => {
+                initializeProofSketches();
+            });
+        } else {
+            // Fallback if MathJax isn't loaded
+            setTimeout(initializeProofSketches, 500);
+        }
+    });
+
+    function initializeProofSketches() {
+        // Find all existing proof-sketch divs and convert them
+        const proofSketches = document.querySelectorAll('.proof-sketch');
+
+        proofSketches.forEach(function (proofSketch, index) {
+            // Skip if already initialized
+            if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                return;
+            }
+
+            // Get the current content (preserving MathJax rendering)
+            const originalContent = proofSketch.innerHTML;
+
+            // Create the new structure
+            const proofId = `proof-sketch-${index}`;
+
+            // Create header element
+            const header = document.createElement('div');
+            header.className = 'proof-sketch-header';
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('aria-controls', `${proofId}-content`);
+            header.setAttribute('data-proof-toggle', '');
+
+            header.innerHTML = `
+                    <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
+                    <span class="proof-sketch-toggle">▼</span>
+                `;
+
+            // Create content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'proof-sketch-content';
+            contentWrapper.id = `${proofId}-content`;
+            contentWrapper.setAttribute('role', 'region');
+            contentWrapper.setAttribute('aria-hidden', 'true');
+            contentWrapper.innerHTML = originalContent;
+
+            // Clear the original content and add new structure
+            proofSketch.innerHTML = '';
+            proofSketch.appendChild(header);
+            proofSketch.appendChild(contentWrapper);
+
+            // Mark as initialized
+            proofSketch.classList.add('proof-sketch-initialized');
+
+            // Add click event listener
+            header.addEventListener('click', function () {
+                toggleProofSketch(proofSketch);
+            });
+
+            // Add keyboard support (Enter and Space)
+            header.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleProofSketch(proofSketch);
+                }
+            });
+        });
+    }
+
+    function toggleProofSketch(proofSketch) {
+        const header = proofSketch.querySelector('.proof-sketch-header');
+        const content = proofSketch.querySelector('.proof-sketch-content');
+        const title = proofSketch.querySelector('.proof-sketch-title');
+
+        const isExpanded = proofSketch.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            proofSketch.classList.remove('expanded');
+            header.setAttribute('aria-expanded', 'false');
+            content.setAttribute('aria-hidden', 'true');
+            title.textContent = 'Show Proof';
+
+            // Reset max-height to 0 for smooth collapse
+            content.style.maxHeight = '0px';
+
+            // Reset padding after animation completes
+            setTimeout(() => {
+                if (!proofSketch.classList.contains('expanded')) {
+                    content.style.padding = '0';
+                }
+            }, 400);
+
+        } else {
+            // Expand
+            proofSketch.classList.add('expanded');
+            header.setAttribute('aria-expanded', 'true');
+            content.setAttribute('aria-hidden', 'false');
+            title.textContent = 'Hide Proof';
+
+            // Set padding first
+            content.style.padding = '1rem';
+
+            // Calculate proper max-height based on content (with some buffer)
+            const contentHeight = content.scrollHeight;
+            const bufferHeight = 50; // Add buffer for safety
+            content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+            // Optional: Scroll the proof into view if it's partially hidden
+            setTimeout(() => {
+                const rect = proofSketch.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight) {
+                    proofSketch.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }, 300);
+        }
+    }
+</script>
+</body>
+</html>

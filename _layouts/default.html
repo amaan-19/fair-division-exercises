@@ -6,8 +6,7 @@
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
 
     <!-- Fixed CSS paths -->
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/indivisible-goods.css">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
     <!-- Fixed favicon paths -->
     <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/favicon/favicon.svg">
@@ -45,7 +44,6 @@
         <nav class="site-nav">
             <a href="{{ site.baseurl }}/theory/">Theory</a>
             <a href="{{ site.baseurl }}/exercises/">Exercises + Simulator</a>
-            <a href="{{ site.baseurl }}/analysis/">Analysis</a>
             <a href="{{ site.baseurl }}/glossary/">Glossary</a>
             <a href="{{ site.baseurl }}/references/">References</a>
         </nav>
@@ -64,13 +62,14 @@
     <div class="container">
         <h3 class="footer-title">{{ site.title }}</h3>
         <p class="footer-description">{{ site.description }}</p>
-        <p class="footer-credits">Washington University in St. Louis received financial support from Mozilla Responsible Computer Science</p>
     </div>
 </footer>
 
-<!-- JavaScript Libraries -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<!-- Import MathJax for LaTex Support -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Import scripts -->
+{% include scripts.html %}
 
 <!-- Proof Sketches and Interactive Elements -->
 <script>

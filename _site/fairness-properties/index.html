@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fairness Properties Framework | Fair Division Algorithms</title>
+
+    <!-- Fixed CSS paths -->
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main.css">
+
+    <!-- Fixed favicon paths -->
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
+
+    <meta name="theme-color" content="#3182ce">
+
+    <!-- MathJax Configuration - MUST come before script load -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Fairness Properties Framework | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Fairness Properties Framework" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/fairness-properties/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/fairness-properties/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Fairness Properties Framework" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Fairness Properties Framework","url":"http://localhost:4000/fair-division-algorithms/fairness-properties/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<!-- Site Header -->
+<header class="site-header">
+    <div class="container">
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
+        <nav class="site-nav">
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <div class="page-header">
+  <h1 class="page-title">Fairness Properties Framework</h1>
+  <p class="page-description">Mathematical foundations and comparative analysis of fairness criteria in algorithmic resource allocation</p>
+</div>
+
+<div class="content-block">
+  <h2>Overview</h2>
+  <p>Fair division algorithms are evaluated against rigorous mathematical criteria that formalize our intuitive notions of fairness. This framework provides the theoretical foundation for comparing algorithms and understanding the trade-offs between different fairness guarantees.</p>
+  <p>Each property represents a different way to answer the fundamental question: <em>"What makes a division fair?"</em> Some properties focus on individual satisfaction, others on relative comparisons, and still others on strategic considerations.</p>
+</div>
+
+<div class="content-block">
+  <h2>Core Fairness Properties</h2>
+  <div class="properties-grid">
+
+    <div class="property-card">
+      <h3>Proportionality</h3>
+      <div class="property-meta">
+        <span class="meta-badge property">Individual Rationality</span>
+        <span class="meta-badge property">Minimum Guarantee</span>
+      </div>
+
+      <p class="property-description">
+        <strong>Intuition:</strong> Each player receives at least their "fair share" according to their own valuation.
+      </p>
+
+      <p><strong>Formal Definition:</strong> For $n$ players, player $i$ receives at least $\frac{1}{n}$ of their subjective valuation:</p>
+
+      $$v_i(\text{piece}_i) \geq \frac{v_i(\text{total})}{n}$$
+
+      <div class="proof-sketch">
+        <p><strong>Why This Matters:</strong> Proportionality ensures no player leaves feeling they received less than their "due." It's often considered the minimum acceptable fairness criterion.</p>
+        <p><strong>Limitations:</strong> Players might still prefer others' allocations even when receiving proportional shares. A player could receive exactly $\frac{1}{n}$ while another receives $\frac{n-1}{n}$.</p>
+      </div>
+
+      <p><strong>Algorithm Examples:</strong> Divide-and-Choose, Steinhaus Lone-Divider, Banach-Knaster</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Envy-Freeness</h3>
+      <div class="property-meta">
+        <span class="meta-badge property">Preference Satisfaction</span>
+        <span class="meta-badge property">Relative Fairness</span>
+      </div>
+
+      <p class="property-description">
+        <strong>Intuition:</strong> No player would prefer to trade their allocation for someone else's.
+      </p>
+
+      <p><strong>Formal Definition:</strong> For all players $i$ and $j$:</p>
+
+      $$v_i(\text{piece}_i) \geq v_i(\text{piece}_j)$$
+
+      <div class="proof-sketch">
+        <p><strong>Relationship to Proportionality:</strong> Envy-freeness implies proportionality. If player $i$ doesn't envy anyone, and there are $n$ players total, then $v_i(\text{piece}_i) \geq v_i(\text{piece}_j)$ for all $j$. Since the pieces partition the whole cake: $\sum_{j=1}^n v_i(\text{piece}_j) = v_i(\text{total})$. Therefore: $n \cdot v_i(\text{piece}_i) \geq \sum_{j=1}^n v_i(\text{piece}_j) = v_i(\text{total})$, which gives us $v_i(\text{piece}_i) \geq \frac{v_i(\text{total})}{n}$.</p>
+        <p><strong>Converse Not True:</strong> Proportionality doesn't imply envy-freeness. Consider: Player 1 values pieces A and B equally at 50 each, receives A. Player 2 receives piece B but Player 1 values B at 60 and A at 40. Player 1 is proportional (≥50) but envious.</p>
+      </div>
+
+      <p><strong>Algorithm Examples:</strong> Divide-and-Choose, Austin's Moving Knife, Selfridge-Conway</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Equitability</h3>
+      <div class="property-meta">
+        <span class="meta-badge property">Equal Satisfaction</span>
+        <span class="meta-badge property">Interpersonal Comparison</span>
+      </div>
+
+      <p class="property-description">
+        <strong>Intuition:</strong> All players are equally satisfied with their allocations.
+      </p>
+    
+      <p><strong>Formal Definition:</strong> All players value their received pieces equally:</p>
+
+      $$v_1(\text{piece}_1) = v_2(\text{piece}_2) = \cdots = v_n(\text{piece}_n)$$
+
+      <div class="proof-sketch">
+        <p><strong>Philosophical Challenge:</strong> Equitability requires comparing utility across different people, which raises deep questions about interpersonal utility comparison. Can we meaningfully say that Alice's satisfaction of "75 points" equals Bob's satisfaction of "75 points"?</p>
+    
+        <p><strong>Practical Implementation:</strong> Most algorithms assume utilities are measured on comparable scales (e.g., both players' total valuations sum to 100), making equitability operationally meaningful.</p>
+        
+        <p><strong>Relationship to Other Properties:</strong> Equitability neither implies nor is implied by envy-freeness. Players can be equally satisfied but still envy each other if they value others' pieces higher than their own.</p>
+      </div>
+
+      <p><strong>Algorithm Examples:</strong> Austin's Moving Knife, Adjusted Winner</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Strategy-Proofness</h3>
+      <div class="property-meta">
+        <span class="meta-badge property">Incentive Compatibility</span>
+        <span class="meta-badge property">Mechanism Design</span>
+      </div>
+
+      <p class="property-description">
+        <strong>Intuition:</strong> Players cannot benefit by misrepresenting their true preferences.
+      </p>
+    
+      <p><strong>Formal Definition:</strong> Truth-telling is a dominant strategy. For any player $i$, any false valuation $v_i'$, and any valuations $v_{-i}$ of other players:</p>
+
+      $$u_i(\text{outcome}(v_i, v_{-i})) \geq u_i(\text{outcome}(v_i', v_{-i}))$$
+
+      <div class="proof-sketch">
+        <p><strong>Implementation Challenge:</strong> Many fairness properties become much harder to achieve when players might lie about their preferences. Strategy-proofness ensures the algorithm works correctly even with strategic players.</p>
+    
+        <p><strong>Revelation Principle:</strong> For any mechanism, there exists an equivalent strategy-proof mechanism that yields the same outcomes. This justifies focusing on strategy-proof algorithms.</p>
+        
+        <p><strong>Example of Non-Strategy-Proof Mechanism:</strong> "Highest bidder wins" auction isn't strategy-proof because players benefit from underbidding. In contrast, second-price auctions are strategy-proof.</p>
+      </div>
+
+      <p><strong>Algorithm Examples:</strong> Austin's Moving Knife</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Exactness</h3>
+      <div class="property-meta">
+        <span class="meta-badge property">Precise Equality</span>
+        <span class="meta-badge property">Strong Fairness</span>
+      </div>
+    
+      <p class="property-description">
+        <strong>Intuition:</strong> The division achieves perfect mathematical equality rather than just inequality bounds.
+      </p>
+    
+      <p><strong>Formal Definition:</strong> Players receive exactly their proportional share:</p>
+
+      $$v_i(\text{piece}_i) = \frac{v_i(\text{total})}{n} \text{ for all players } i$$
+
+      <div class="proof-sketch">
+        <p><strong>Discrete vs. Continuous:</strong> Exact divisions typically require continuous procedures. Discrete algorithms can only approximate exactness to within their precision limits.</p>
+    
+        <p><strong>Existence Theory:</strong> The Intermediate Value Theorem guarantees that exact divisions exist for continuous valuation functions. For any player's continuous valuation $v_i$ on interval $[0,1]$, there exists a cut position $x^*$ such that $v_i([0,x^*]) = \frac{v_i([0,1])}{2}$.</p>
+        
+        <p><strong>Computational Complexity:</strong> Exact algorithms often require infinite precision, making them theoretically elegant but practically challenging to implement.</p>
+      </div>
+    
+      <p><strong>Algorithm Examples:</strong> Austin's Moving Knife, Continuous Moving Knife procedures</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Pareto Efficiency</h3>
+      <div class="property-meta">
+        <span class="meta-badge property">Social Optimality</span>
+        <span class="meta-badge property">No Waste</span>
+      </div>
+    
+      <p class="property-description">
+        <strong>Intuition:</strong> No alternative allocation could make someone better off without making someone else worse off.
+      </p>
+
+      <p><strong>Formal Definition:</strong> An allocation is Pareto efficient if there exists no other allocation where:</p>
+
+      $$v_i(\text{piece}_i') \geq v_i(\text{piece}_i) \text{ for all } i \text{ and } v_j(\text{piece}_j') &gt; v_j(\text{piece}_j) \text{ for some } j$$
+    
+      <div class="proof-sketch">
+        <p><strong>Tension with Other Properties:</strong> Pareto efficiency can conflict with fairness properties. The allocation "Player 1 gets everything" is Pareto efficient but violates proportionality and envy-freeness.</p>
+    
+        <p><strong>Implementation Difficulty:</strong> Many simple fair division algorithms are not Pareto efficient. For example, Divide-and-Choose might create allocations where both players could be made better off through trades.</p>
+        
+        <p><strong>Social Choice Implications:</strong> The Second Fundamental Theorem of Welfare Economics suggests that any Pareto efficient allocation can be achieved through market mechanisms, but this requires initial endowments and may not preserve fairness.</p>
+      </div>
+
+      <p><strong>Note:</strong> Most classical fair division algorithms do not guarantee Pareto efficiency, representing an important area for algorithmic improvement.</p>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Property Relationships</h2>
+  <h3>Hierarchy of Fairness</h3>
+  <p>Understanding how these properties relate helps in algorithm design and evaluation:</p>
+  <div class="relationship-diagram">
+
+    <div class="relationship-item">
+      <h4>Envy-Free ⟹ Proportional</h4>
+      <p>Every envy-free allocation is proportional, but proportional allocations may still have envy.</p>
+    </div>
+
+    <div class="relationship-item">
+      <h4>Exact ⟹ Proportional</h4>
+      <p>Exact equality automatically satisfies proportionality requirements.</p>
+    </div>
+    
+    <div class="relationship-item">
+      <h4>Equitable ⊄ Envy-Free</h4>
+      <p>Players can be equally satisfied but still prefer others' allocations.</p>
+    </div>
+
+    <div class="relationship-item">
+      <h4>Strategy-Proof ⊥ Others</h4>
+      <p>Strategy-proofness is largely independent of outcome-based fairness properties.</p>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Interactive Exploration</h2>
+  <p>Use our algorithm simulator to explore how different procedures achieve these fairness properties:</p>
+  <div class="exploration-grid">
+
+    <div class="exploration-item">
+      <h4>Proportionality Testing</h4>
+      <p>Create scenarios where players have very different valuations and observe how algorithms ensure each receives ≥1/n share.</p>
+      <a href="/fair-division-algorithms/" class="algorithm-link">Try with Steinhaus →</a>
+    </div>
+
+    <div class="exploration-item">
+      <h4>Envy Analysis</h4>
+      <p>Design preference patterns that might create envy and see how envy-free algorithms prevent it.</p>
+      <a href="/fair-division-algorithms/" class="algorithm-link">Try with Divide-and-Choose →</a>
+    </div>
+
+    <div class="exploration-item">
+      <h4>Exactness vs. Approximation</h4>
+      <p>Compare discrete and continuous procedures to understand the precision trade-offs.</p>
+      <a href="/fair-division-algorithms/" class="algorithm-link">Try Austin's Procedure →</a>
+    </div>
+  </div>
+</div>
+
+<footer class="algorithm-navigation">
+  <a href="/fair-division-algorithms/foundations/" class="nav-button secondary">← Mathematical Foundations</a>
+  <a href="/fair-division-algorithms/robertson-webb-query-model/" class="nav-button primary">Robertson-Webb Model →</a>
+</footer>
+
+    </div>
+</main>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
+    </div>
+</footer>
+
+<!-- Import MathJax for LaTex Support -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Import scripts -->
+<!-- Fair Division Demo System Scripts -->
+
+<!-- Core demo system -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-system.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-controller.js"></script>
+
+<!-- Indivisible goods extensions -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/indivisible-goods-extensions.js"></script>
+
+<!-- Existing divisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/divide-and-choose.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/austins-moving-knife.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/steinhaus-lone-divider.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/selfridge-conway.js"></script>
+
+<!-- Indivisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/knaster-sealed-bids.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/lucas-method-markers.js"></script>
+
+<!-- Flowchart System -->
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-template-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/container-growth-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/query-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-state-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-animator.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-enhanced.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/data/algorithm-data.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/flowchart-factory.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/global-functions.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/initialization.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/exports.js"></script>
+
+<script src=""></script>
+<script src=""></script>
+
+<script>
+    // Initialize enhanced algorithm selector on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load, then enhance the selector
+        setTimeout(() => {
+            enhanceAlgorithmSelector();
+        }, 100);
+    });
+
+    // Enhanced algorithm selector with goods type grouping
+    function enhanceAlgorithmSelector() {
+        const selector = document.getElementById('algorithm-selector');
+        if (!selector) return;
+
+        // Get the demo system instance
+        const demoSystem = window.FairDivisionCore.getInstance();
+        if (!demoSystem) return;
+
+        // Clear existing options
+        selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+        // Group algorithms by goods type
+        const algorithmsByType = {
+            'divisible': [],
+            'discrete-items': [],
+            'linear-arrangement': []
+        };
+
+        // Categorize registered algorithms
+        demoSystem.algorithms.forEach((algorithm, id) => {
+            const goodsType = algorithm.config.goodsType || 'divisible';
+            if (algorithmsByType[goodsType]) {
+                algorithmsByType[goodsType].push({ id, config: algorithm.config });
+            }
+        });
+
+        // Create optgroups
+        Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+            if (algorithms.length > 0) {
+                const optgroup = document.createElement('optgroup');
+
+                // Set label based on goods type
+                switch(type) {
+                    case 'divisible':
+                        optgroup.label = 'Divisible Goods (Continuous)';
+                        break;
+                    case 'discrete-items':
+                        optgroup.label = 'Indivisible Goods (Discrete Items)';
+                        break;
+                    case 'linear-arrangement':
+                        optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                        break;
+                    default:
+                        optgroup.label = type.charAt(0).toUpperCase() + type.slice(1);
+                }
+
+                // Add algorithms to optgroup
+                algorithms.forEach(({ id, config }) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = config.name;
+                    optgroup.appendChild(option);
+                });
+
+                selector.appendChild(optgroup);
+            }
+        });
+
+        console.log('[DEMO] Enhanced algorithm selector with goods type grouping');
+    }
+</script>
+
+<!-- Proof Sketches and Interactive Elements -->
+<script>
+    // Initialize collapsible proof sketches after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for MathJax to finish rendering before initializing proof sketches
+        if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(() => {
+                initializeProofSketches();
+            });
+        } else {
+            // Fallback if MathJax isn't loaded
+            setTimeout(initializeProofSketches, 500);
+        }
+    });
+
+    function initializeProofSketches() {
+        // Find all existing proof-sketch divs and convert them
+        const proofSketches = document.querySelectorAll('.proof-sketch');
+
+        proofSketches.forEach(function (proofSketch, index) {
+            // Skip if already initialized
+            if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                return;
+            }
+
+            // Get the current content (preserving MathJax rendering)
+            const originalContent = proofSketch.innerHTML;
+
+            // Create the new structure
+            const proofId = `proof-sketch-${index}`;
+
+            // Create header element
+            const header = document.createElement('div');
+            header.className = 'proof-sketch-header';
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('aria-controls', `${proofId}-content`);
+            header.setAttribute('data-proof-toggle', '');
+
+            header.innerHTML = `
+                    <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
+                    <span class="proof-sketch-toggle">▼</span>
+                `;
+
+            // Create content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'proof-sketch-content';
+            contentWrapper.id = `${proofId}-content`;
+            contentWrapper.setAttribute('role', 'region');
+            contentWrapper.setAttribute('aria-hidden', 'true');
+            contentWrapper.innerHTML = originalContent;
+
+            // Clear the original content and add new structure
+            proofSketch.innerHTML = '';
+            proofSketch.appendChild(header);
+            proofSketch.appendChild(contentWrapper);
+
+            // Mark as initialized
+            proofSketch.classList.add('proof-sketch-initialized');
+
+            // Add click event listener
+            header.addEventListener('click', function () {
+                toggleProofSketch(proofSketch);
+            });
+
+            // Add keyboard support (Enter and Space)
+            header.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleProofSketch(proofSketch);
+                }
+            });
+        });
+    }
+
+    function toggleProofSketch(proofSketch) {
+        const header = proofSketch.querySelector('.proof-sketch-header');
+        const content = proofSketch.querySelector('.proof-sketch-content');
+        const title = proofSketch.querySelector('.proof-sketch-title');
+
+        const isExpanded = proofSketch.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            proofSketch.classList.remove('expanded');
+            header.setAttribute('aria-expanded', 'false');
+            content.setAttribute('aria-hidden', 'true');
+            title.textContent = 'Show Proof';
+
+            // Reset max-height to 0 for smooth collapse
+            content.style.maxHeight = '0px';
+
+            // Reset padding after animation completes
+            setTimeout(() => {
+                if (!proofSketch.classList.contains('expanded')) {
+                    content.style.padding = '0';
+                }
+            }, 400);
+
+        } else {
+            // Expand
+            proofSketch.classList.add('expanded');
+            header.setAttribute('aria-expanded', 'true');
+            content.setAttribute('aria-hidden', 'false');
+            title.textContent = 'Hide Proof';
+
+            // Set padding first
+            content.style.padding = '1rem';
+
+            // Calculate proper max-height based on content (with some buffer)
+            const contentHeight = content.scrollHeight;
+            const bufferHeight = 50; // Add buffer for safety
+            content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+            // Optional: Scroll the proof into view if it's partially hidden
+            setTimeout(() => {
+                const rect = proofSketch.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight) {
+                    proofSketch.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }, 300);
+        }
+    }
+</script>
+</body>
+</html>

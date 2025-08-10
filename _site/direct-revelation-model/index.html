@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Revelation Model | Fair Division Algorithms</title>
+
+    <!-- Fixed CSS paths -->
+    <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main.css">
+
+    <!-- Fixed favicon paths -->
+    <link rel="icon" type="image/svg+xml" href="/fair-division-algorithms/assets/favicon/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/fair-division-algorithms/assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fair-division-algorithms/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fair-division-algorithms/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fair-division-algorithms/assets/favicon/apple-touch-icon.png">
+
+    <meta name="theme-color" content="#3182ce">
+
+    <!-- MathJax Configuration - MUST come before script load -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Direct Revelation Model | Fair Division Algorithms</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Direct Revelation Model" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/direct-revelation-model/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/direct-revelation-model/" />
+<meta property="og:site_name" content="Fair Division Algorithms" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Direct Revelation Model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Direct Revelation Model","url":"http://localhost:4000/fair-division-algorithms/direct-revelation-model/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+<!-- Site Header -->
+<header class="site-header">
+    <div class="container">
+        <a href="/fair-division-algorithms/" class="site-title">Fair Division Algorithms</a>
+        <nav class="site-nav">
+            <a href="/fair-division-algorithms/theory/">Theory</a>
+            <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
+            <a href="/fair-division-algorithms/glossary/">Glossary</a>
+            <a href="/fair-division-algorithms/references/">References</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <div class="page-header">
+  <h1 class="page-title">Direct Revelation Model</h1>
+  <p class="page-description">Complete preference revelation for computationally efficient fair division</p>
+</div>
+
+<div class="content-block">
+  <h2>Overview</h2>
+  <p>The direct revelation model represents a fundamentally different approach to fair division computation. Instead of iterative queries or continuous monitoring, players reveal their entire valuation function to a central mechanism at once. This complete information enables the mechanism to compute optimal allocations using powerful algorithmic techniques.</p>
+
+  <p>This model makes sense only when valuations can be represented succinctly—for example, when they are piecewise-uniform, piecewise-constant, or piecewise-linear. The key trade-off is between the communication complexity of describing valuations and the computational efficiency gained from having complete information.</p>
+</div>
+
+<div class="content-block">
+  <h2>Valuation Representations</h2>
+
+  <div class="properties-grid">
+
+    <div class="property-card">
+      <h3>Piecewise-Uniform</h3>
+      <p class="property-description">
+        Value density is constant across the entire cake
+      </p>
+      <ul>
+        <li><strong>Representation:</strong> Single number (density)</li>
+        <li><strong>Size:</strong> O(1) bits</li>
+        <li><strong>Example:</strong> v([a,b]) = b - a</li>
+      </ul>
+      <p>Simplest case, equivalent to cutting a homogeneous resource</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Piecewise-Constant</h3>
+      <p class="property-description">
+        Cake divided into regions with uniform value density
+      </p>
+      <ul>
+        <li><strong>Representation:</strong> List of (interval, density) pairs</li>
+        <li><strong>Size:</strong> O(k log n) bits for k pieces</li>
+        <li><strong>Example:</strong> [(0, 0.3, 2), (0.3, 0.7, 1), (0.7, 1, 3)]</li>
+      </ul>
+      <p>Models preferences with discrete valuable regions</p>
+    </div>
+
+    <div class="property-card">
+      <h3>Piecewise-Linear</h3>
+      <p class="property-description">
+        Value density changes linearly within regions
+      </p>
+      <ul>
+        <li><strong>Representation:</strong> Vertices of the density function</li>
+        <li><strong>Size:</strong> O(k log n) bits for k vertices</li>
+        <li><strong>Example:</strong> Polygon with k corners</li>
+      </ul>
+      <p>Captures smooth preference transitions</p>
+    </div>
+
+  </div>
+
+  <h3>General Additive Valuations</h3>
+  <p>For arbitrary valuations, direct revelation may require:</p>
+  <ul>
+    <li><strong>Infinite precision:</strong> For truly continuous functions</li>
+    <li><strong>Exponential size:</strong> For complex non-structured preferences</li>
+    <li><strong>Approximation:</strong> ε-nets or sampling approaches</li>
+  </ul>
+</div>
+
+<div class="content-block">
+  <h2>Algorithmic Approaches</h2>
+
+  <h3>Linear Programming Formulation</h3>
+
+  <div class="proof-sketch">
+    <p><strong>Envy-Free Allocation via LP:</strong></p>
+    <pre>
+    Variables: x_ij = fraction of piece j allocated to player i
+
+    Maximize: Σ_i satisfaction_i
+
+    Subject to:
+      Allocation constraints:
+        Σ_i x_ij = 1 for all j     (each piece fully allocated)
+        x_ij ≥ 0 for all i,j        (non-negative allocations)
+
+      Envy-freeness constraints:
+        v_i(allocation_i) ≥ v_i(allocation_j) for all i,j
+
+      Where v_i is the complete revealed valuation of player i
+    </pre>
+    <p><strong>Complexity:</strong> Polynomial in the representation size when valuations are piecewise-linear</p>
+  </div>
+
+  <h3>Market-Based Algorithms</h3>
+
+  <p>With complete valuations, we can simulate market mechanisms:</p>
+
+  <ol>
+    <li><strong>Competitive Equilibrium:</strong> Find prices where supply equals demand</li>
+    <li><strong>Fisher Market:</strong> Allocate budgets and compute market-clearing prices</li>
+    <li><strong>Consensus Halving:</strong> Use the polynomial-time algorithm for PPA-complete problems</li>
+  </ol>
+
+  <h3>Complexity Results</h3>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Problem</th>
+        <th>Valuation Type</th>
+        <th>Complexity</th>
+        <th>Algorithm</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Proportional</td>
+        <td>Piecewise-constant</td>
+        <td>O(n²k)</td>
+        <td>Greedy allocation</td>
+      </tr>
+      <tr>
+        <td>Envy-free</td>
+        <td>Piecewise-linear</td>
+        <td>O(n³k²)</td>
+        <td>Linear programming</td>
+      </tr>
+      <tr>
+        <td>Max-min fair</td>
+        <td>Piecewise-constant</td>
+        <td>O(n²k log k)</td>
+        <td>Binary search + LP</td>
+      </tr>
+      <tr>
+        <td>Nash welfare</td>
+        <td>Piecewise-linear</td>
+        <td>O(n³k³)</td>
+        <td>Convex programming</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="content-block">
+  <h2>Strategic Considerations</h2>
+
+  <h3>The Revelation Principle</h3>
+
+  <div class="theorem-box">
+    <p><strong>Theorem (Revelation Principle):</strong> Any mechanism that can be implemented with arbitrary strategies has an equivalent direct revelation mechanism where truth-telling is a dominant strategy.</p>
+
+    <p><strong>Implication:</strong> We can focus on designing truthful direct mechanisms without loss of generality.</p>
+  </div>
+
+  <h3>Incentive Compatibility Challenges</h3>
+
+  <p>However, achieving strategy-proofness with fairness is difficult:</p>
+
+  <ul>
+    <li><strong>Impossibility:</strong> No deterministic, envy-free, strategy-proof mechanism for n ≥ 3</li>
+    <li><strong>Trade-offs:</strong> Must sacrifice either fairness or truthfulness</li>
+    <li><strong>Randomization:</strong> Can help but introduces ex-post unfairness</li>
+  </ul>
+
+  <div class="warning-box">
+    <p><strong>Key Challenge:</strong> Players may misrepresent their valuations to gain advantage. Example: Claiming higher value for pieces others want less.</p>
+  </div>
+
+  <h3>Mechanisms with Good Incentives</h3>
+
+  <div class="properties-grid">
+    <div class="property-card">
+      <h3>Serial Dictatorship</h3>
+      <ul>
+        <li>Strategy-proof</li>
+        <li>Not envy-free</li>
+        <li>Simple to implement</li>
+      </ul>
+    </div>
+
+    <div class="property-card">
+      <h3>Random Priority</h3>
+      <ul>
+        <li>Strategy-proof in expectation</li>
+        <li>Ex-ante fair</li>
+        <li>May have ex-post envy</li>
+      </ul>
+    </div>
+
+    <div class="property-card">
+      <h3>Probabilistic Serial</h3>
+      <ul>
+        <li>Weak strategy-proofness</li>
+        <li>Envy-free in expectation</li>
+        <li>Efficient computation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Advantages and Limitations</h2>
+
+  <h3>Advantages</h3>
+  <ul>
+    <li><strong>Computational power:</strong> Can use sophisticated optimization algorithms</li>
+    <li><strong>Global optimization:</strong> Find best overall allocation, not just local improvements</li>
+    <li><strong>Multiple objectives:</strong> Can optimize for various fairness criteria simultaneously</li>
+    <li><strong>Clean analysis:</strong> Well-understood complexity for structured valuations</li>
+    <li><strong>Parallelizable:</strong> Central computation can use parallel algorithms</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul>
+    <li><strong>Communication complexity:</strong> May require exponential bits for general valuations</li>
+    <li><strong>Privacy concerns:</strong> Players must reveal complete preferences</li>
+    <li><strong>Cognitive burden:</strong> Players must articulate entire valuation function</li>
+    <li><strong>Strategic manipulation:</strong> Full information enables sophisticated gaming</li>
+    <li><strong>Representation limits:</strong> Real preferences may not fit structured forms</li>
+  </ul>
+</div>
+
+<div class="content-block">
+  <h2>Applications and Extensions</h2>
+
+  <h3>Multi-Dimensional Resources</h3>
+
+  <p>Direct revelation naturally extends to complex resources:</p>
+
+  <div class="implementation-grid">
+    <div class="implementation-item">
+      <h4>Land Division</h4>
+      <p>2D plots with geometric constraints</p>
+      <p>Representation: Polygonal regions</p>
+    </div>
+
+    <div class="implementation-item">
+      <h4>Time Scheduling</h4>
+      <p>Calendar slots with preferences</p>
+      <p>Representation: Utility matrices</p>
+    </div>
+
+    <div class="implementation-item">
+      <h4>Cloud Resources</h4>
+      <p>CPU, memory, storage bundles</p>
+      <p>Representation: Linear utilities</p>
+    </div>
+
+    <div class="implementation-item">
+      <h4>Inheritance Division</h4>
+      <p>Discrete items with valuations</p>
+      <p>Representation: Item-value lists</p>
+    </div>
+  </div>
+
+  <h3>Online and Dynamic Settings</h3>
+
+  <ul>
+    <li><strong>Online arrival:</strong> Players reveal valuations as they arrive</li>
+    <li><strong>Dynamic preferences:</strong> Update allocations as valuations change</li>
+    <li><strong>Partial revelation:</strong> Iteratively request more detail where needed</li>
+  </ul>
+</div>
+
+<div class="content-block">
+  <h2>Computational Tools and Techniques</h2>
+
+  <h3>Optimization Methods</h3>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Technique</th>
+        <th>Application</th>
+        <th>Complexity</th>
+        <th>Quality Guarantee</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Linear Programming</td>
+        <td>Envy-free allocation</td>
+        <td>Polynomial</td>
+        <td>Exact (if feasible)</td>
+      </tr>
+      <tr>
+        <td>Convex Optimization</td>
+        <td>Nash welfare maximization</td>
+        <td>Polynomial</td>
+        <td>Global optimum</td>
+      </tr>
+      <tr>
+        <td>Integer Programming</td>
+        <td>Discrete items</td>
+        <td>NP-hard</td>
+        <td>Optimal (exponential time)</td>
+      </tr>
+      <tr>
+        <td>Approximation Algorithms</td>
+        <td>Large-scale problems</td>
+        <td>Polynomial</td>
+        <td>(1+ε)-approximation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Implementation Example</h3>
+
+  <div class="proof-sketch">
+    <p><strong>Python Implementation for Piecewise-Constant Valuations:</strong></p>
+    <pre>
+    class PiecewiseConstantValuation:
+        def __init__(self, pieces):
+            # pieces = [(start, end, density), ...]
+            self.pieces = pieces
+
+        def value(self, start, end):
+            total = 0
+            for p_start, p_end, density in self.pieces:
+                overlap_start = max(start, p_start)
+                overlap_end = min(end, p_end)
+                if overlap_start &lt; overlap_end:
+                    total += density * (overlap_end - overlap_start)
+            return total
+
+    def find_envy_free_allocation(valuations):
+        n = len(valuations)
+        # Set up linear program
+        # ... (LP formulation)
+        return solve_lp(constraints, objective)
+    </pre>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Relationship to Other Models</h2>
+
+  <h3>Model Comparisons</h3>
+
+  <ul>
+    <li><strong>vs Robertson-Webb:</strong> Trades query efficiency for communication complexity</li>
+    <li><strong>vs Moving-Knife:</strong> Discrete computation vs continuous procedures</li>
+    <li><strong>vs Simultaneous Reports:</strong> Complete vs partial information revelation</li>
+  </ul>
+
+  <div class="theorem-box">
+    <p><strong>Observation:</strong> Any Robertson-Webb algorithm with q queries can be simulated in the direct revelation model, but may require valuations of size 2^q in worst case.</p>
+  </div>
+
+  <h3>Hybrid Approaches</h3>
+
+  <p>Combining direct revelation with other models:</p>
+
+  <ul>
+    <li><strong>Elicitation + Direct:</strong> Query to learn structure, then direct revelation</li>
+    <li><strong>Partial Direct:</strong> Reveal constraints, compute with queries for details</li>
+    <li><strong>Verification:</strong> Direct revelation with spot-checking via queries</li>
+  </ul>
+</div>
+
+<div class="content-block">
+  <h2>Future Directions</h2>
+
+  <h3>Research Frontiers</h3>
+  <ul>
+    <li><strong>Machine learning:</strong> Learning valuation functions from examples</li>
+    <li><strong>Differential privacy:</strong> Protecting individual preferences while computing fair allocations</li>
+    <li><strong>Blockchain implementation:</strong> Decentralized direct revelation mechanisms</li>
+    <li><strong>Behavioral models:</strong> Incorporating psychological factors in preference representation</li>
+  </ul>
+
+  <h3>Open Problems</h3>
+  <ul>
+    <li>Characterize the communication complexity of fair division for different valuation classes</li>
+    <li>Design mechanisms that incentivize approximate truth-telling</li>
+    <li>Develop compact representations for complex real-world preferences</li>
+  </ul>
+</div>
+
+<footer class="algorithm-navigation">
+  <a href="/fair-division-algorithms/moving-knife-model/" class="nav-button secondary">← Moving-Knife Model</a>
+  <a href="/fair-division-algorithms/simultaneous-queries-model/" class="nav-button primary">Simultaneous Reports →</a>
+</footer>
+
+    </div>
+</main>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <h3 class="footer-title">Fair Division Algorithms</h3>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
+    </div>
+</footer>
+
+<!-- Import MathJax for LaTex Support -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Import scripts -->
+<!-- Fair Division Demo System Scripts -->
+
+<!-- Core demo system -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-system.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-controller.js"></script>
+
+<!-- Indivisible goods extensions -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/indivisible-goods-extensions.js"></script>
+
+<!-- Existing divisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/divide-and-choose.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/austins-moving-knife.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/steinhaus-lone-divider.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/selfridge-conway.js"></script>
+
+<!-- Indivisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/knaster-sealed-bids.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/lucas-method-markers.js"></script>
+
+<!-- Flowchart System -->
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-template-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/container-growth-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/query-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-state-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-animator.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-enhanced.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/data/algorithm-data.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/flowchart-factory.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/global-functions.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/initialization.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/exports.js"></script>
+
+<script src=""></script>
+<script src=""></script>
+
+<script>
+    // Initialize enhanced algorithm selector on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load, then enhance the selector
+        setTimeout(() => {
+            enhanceAlgorithmSelector();
+        }, 100);
+    });
+
+    // Enhanced algorithm selector with goods type grouping
+    function enhanceAlgorithmSelector() {
+        const selector = document.getElementById('algorithm-selector');
+        if (!selector) return;
+
+        // Get the demo system instance
+        const demoSystem = window.FairDivisionCore.getInstance();
+        if (!demoSystem) return;
+
+        // Clear existing options
+        selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+        // Group algorithms by goods type
+        const algorithmsByType = {
+            'divisible': [],
+            'discrete-items': [],
+            'linear-arrangement': []
+        };
+
+        // Categorize registered algorithms
+        demoSystem.algorithms.forEach((algorithm, id) => {
+            const goodsType = algorithm.config.goodsType || 'divisible';
+            if (algorithmsByType[goodsType]) {
+                algorithmsByType[goodsType].push({ id, config: algorithm.config });
+            }
+        });
+
+        // Create optgroups
+        Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+            if (algorithms.length > 0) {
+                const optgroup = document.createElement('optgroup');
+
+                // Set label based on goods type
+                switch(type) {
+                    case 'divisible':
+                        optgroup.label = 'Divisible Goods (Continuous)';
+                        break;
+                    case 'discrete-items':
+                        optgroup.label = 'Indivisible Goods (Discrete Items)';
+                        break;
+                    case 'linear-arrangement':
+                        optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                        break;
+                    default:
+                        optgroup.label = type.charAt(0).toUpperCase() + type.slice(1);
+                }
+
+                // Add algorithms to optgroup
+                algorithms.forEach(({ id, config }) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = config.name;
+                    optgroup.appendChild(option);
+                });
+
+                selector.appendChild(optgroup);
+            }
+        });
+
+        console.log('[DEMO] Enhanced algorithm selector with goods type grouping');
+    }
+</script>
+
+<!-- Proof Sketches and Interactive Elements -->
+<script>
+    // Initialize collapsible proof sketches after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for MathJax to finish rendering before initializing proof sketches
+        if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(() => {
+                initializeProofSketches();
+            });
+        } else {
+            // Fallback if MathJax isn't loaded
+            setTimeout(initializeProofSketches, 500);
+        }
+    });
+
+    function initializeProofSketches() {
+        // Find all existing proof-sketch divs and convert them
+        const proofSketches = document.querySelectorAll('.proof-sketch');
+
+        proofSketches.forEach(function (proofSketch, index) {
+            // Skip if already initialized
+            if (proofSketch.classList.contains('proof-sketch-initialized')) {
+                return;
+            }
+
+            // Get the current content (preserving MathJax rendering)
+            const originalContent = proofSketch.innerHTML;
+
+            // Create the new structure
+            const proofId = `proof-sketch-${index}`;
+
+            // Create header element
+            const header = document.createElement('div');
+            header.className = 'proof-sketch-header';
+            header.setAttribute('role', 'button');
+            header.setAttribute('tabindex', '0');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('aria-controls', `${proofId}-content`);
+            header.setAttribute('data-proof-toggle', '');
+
+            header.innerHTML = `
+                    <span class="proof-sketch-title">Take a minute to think about why! Click here to see a proof.</span>
+                    <span class="proof-sketch-toggle">▼</span>
+                `;
+
+            // Create content wrapper
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'proof-sketch-content';
+            contentWrapper.id = `${proofId}-content`;
+            contentWrapper.setAttribute('role', 'region');
+            contentWrapper.setAttribute('aria-hidden', 'true');
+            contentWrapper.innerHTML = originalContent;
+
+            // Clear the original content and add new structure
+            proofSketch.innerHTML = '';
+            proofSketch.appendChild(header);
+            proofSketch.appendChild(contentWrapper);
+
+            // Mark as initialized
+            proofSketch.classList.add('proof-sketch-initialized');
+
+            // Add click event listener
+            header.addEventListener('click', function () {
+                toggleProofSketch(proofSketch);
+            });
+
+            // Add keyboard support (Enter and Space)
+            header.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleProofSketch(proofSketch);
+                }
+            });
+        });
+    }
+
+    function toggleProofSketch(proofSketch) {
+        const header = proofSketch.querySelector('.proof-sketch-header');
+        const content = proofSketch.querySelector('.proof-sketch-content');
+        const title = proofSketch.querySelector('.proof-sketch-title');
+
+        const isExpanded = proofSketch.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            proofSketch.classList.remove('expanded');
+            header.setAttribute('aria-expanded', 'false');
+            content.setAttribute('aria-hidden', 'true');
+            title.textContent = 'Show Proof';
+
+            // Reset max-height to 0 for smooth collapse
+            content.style.maxHeight = '0px';
+
+            // Reset padding after animation completes
+            setTimeout(() => {
+                if (!proofSketch.classList.contains('expanded')) {
+                    content.style.padding = '0';
+                }
+            }, 400);
+
+        } else {
+            // Expand
+            proofSketch.classList.add('expanded');
+            header.setAttribute('aria-expanded', 'true');
+            content.setAttribute('aria-hidden', 'false');
+            title.textContent = 'Hide Proof';
+
+            // Set padding first
+            content.style.padding = '1rem';
+
+            // Calculate proper max-height based on content (with some buffer)
+            const contentHeight = content.scrollHeight;
+            const bufferHeight = 50; // Add buffer for safety
+            content.style.maxHeight = (contentHeight + bufferHeight) + 'px';
+
+            // Optional: Scroll the proof into view if it's partially hidden
+            setTimeout(() => {
+                const rect = proofSketch.getBoundingClientRect();
+                if (rect.bottom > window.innerHeight) {
+                    proofSketch.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }, 300);
+        }
+    }
+</script>
+</body>
+</html>

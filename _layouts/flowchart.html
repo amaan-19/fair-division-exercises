@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flowchart Template</title>
+</head>
+<body>
+
+<!-- Simplified container - JavaScript handles all content -->
+<div class="flowchart-container" id="flowchart-id">
+  <!-- Content is dynamically inserted here by JavaScript -->
+</div>
+
+<!-- Animation controls -->
+<div class="flowchart-controls">
+  <button class="btn-primary" onclick=animateAlgorithm(document.getElementById("flowchart-id"))>
+    ▶️ Animate Steps
+  </button>
+  <button class="btn-secondary" onclick="resetAlgorithm('divide-choose-demo')">
+    🔄 Reset
+  </button>
+</div>
+
+<!-- Load modular system  -->
+<script src="{{ '/assets/js/flowcharts/core/flowchart-template-manager.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/core/container-growth-manager.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/core/query-manager.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/core/flowchart-state-manager.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/core/flowchart-animator.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/core/flowchart-enhanced.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/data/algorithm-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/utils/flowchart-factory.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/utils/global-functions.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/utils/initialization.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/flowcharts/utils/exports.js' | relative_url }}"></script>
+
+</body>
+</html>

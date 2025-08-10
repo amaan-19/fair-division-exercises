@@ -1,0 +1,26 @@
+/* ===== PAGE HEADERS ===== */
+.page-header {
+    text-align: center;
+    margin: 2rem 0 0 0;
+    padding: 2rem 0;
+}
+
+.page-title {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 2.75rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.page-description {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}

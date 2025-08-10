@@ -1,0 +1,236 @@
+/* ===== ALGORITHM CAROUSEL - SIMPLE & CLEAN ===== */
+
+.section-description {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ===== CAROUSEL SECTION STRUCTURE ===== */
+.carousel-section {
+    margin: 4rem 0;
+}
+
+.carousel-section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.carousel-section-header h2 {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 0.5rem 0;
+}
+
+.carousel-section-header p {
+    color: #4a5568;
+    font-size: 1.1rem;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ===== MAIN CAROUSEL CONTAINER ===== */
+.algorithm-carousel {
+    position: relative;
+    margin: 2rem 0;
+    padding: 0; /* Remove padding - no nav buttons on sides */
+    overflow: hidden;
+}
+
+.algorithm-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* ===== ALGORITHM CARDS ===== */
+.algorithm-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto; /* Don't grow or shrink */
+    margin-right: 2rem; /* Simple gap between cards */
+    min-height: 420px;
+    width: calc((100% - 4rem) / 3); /* Three cards with 2rem gaps */
+}
+
+.algorithm-card:last-child {
+    margin-right: 0; /* No margin on last card */
+}
+
+.algorithm-card:hover:not(.coming-soon) {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e0;
+}
+
+.algorithm-card.coming-soon {
+    opacity: 0.6;
+    background: #f8f9fa;
+}
+
+/* ===== CARD CONTENT ===== */
+.algorithm-header {
+    text-align: center;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.algorithm-title {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 1rem 0;
+    line-height: 1.3;
+}
+
+.algorithm-meta {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.algorithm-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.algorithm-description {
+    color: #4a5568;
+    line-height: 1.6;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.algorithm-properties {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.algorithm-properties h4 {
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    color: #2d3748;
+    font-family: 'Inter', sans-serif;
+}
+
+.algorithm-footer {
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e2e8f0;
+    margin-top: auto;
+    text-align: center;
+}
+
+/* ===== NAVIGATION BUTTONS (IN CONTROLS) ===== */
+.carousel-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1.25rem;
+    color: #4a5568;
+    font-weight: bold;
+}
+
+.carousel-btn:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #2d3748;
+}
+
+.carousel-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ===== CAROUSEL CONTROLS (BELOW CAROUSEL) ===== */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 2rem 0 0 0;
+    padding: 1rem 0;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cbd5e0;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.carousel-dot.active {
+    background: #3182ce;
+    transform: scale(1.25);
+}
+
+.carousel-dot:hover {
+    background: #a0aec0;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .algorithm-card {
+        width: calc((100% - 2rem) / 2); /* Two cards */
+    }
+}
+
+@media (max-width: 768px) {
+    .algorithm-carousel {
+        padding: 0;
+        overflow: visible;
+    }
+
+    .algorithm-track {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        transform: none !important;
+    }
+
+    .algorithm-card {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .carousel-controls {
+        display: none;
+    }
+}

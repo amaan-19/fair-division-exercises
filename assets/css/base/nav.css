@@ -1,0 +1,45 @@
+/* ===== NAVIGATION ===== */
+.site-nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+    .site-nav a {
+        font-family: 'Inter', sans-serif;
+        color: #718096;
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding: 0.625rem 1rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        letter-spacing: -0.01em;
+    }
+
+        .site-nav a:hover,
+        .site-nav a.active {
+            color: #3182ce;
+            background: #ebf8ff;
+            text-decoration: none;
+        }
+
+
+/* ===== BREADCRUMBS ===== */
+.breadcrumb {
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+    .breadcrumb a {
+        color: #3182ce;
+        text-decoration: none;
+    }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+.algorithm-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
