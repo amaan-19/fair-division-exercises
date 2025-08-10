@@ -67,7 +67,10 @@
 <loc>http://localhost:4000/fair-division-algorithms/exercises/</loc>
 </url>
 <url>
-<loc>http://localhost:4000/fair-division-algorithms/assets/</loc>
+<loc>http://localhost:4000/fair-division-algorithms/assets/css/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/fair-division-algorithms/assets/js/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/fair-division-algorithms/assets/js/interactive-dashboard/</loc>

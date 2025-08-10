@@ -20,5 +20,5 @@ permalink: /exercises/
 
 <footer class="algorithm-navigation">
   <a href="{{ '/theory/' | relative_url }}" class="nav-button secondary">← Theory</a>
-  <a href="{{ '/analysis/' | relative_url }}" class="nav-button primary">Analysis →</a>
+  <a href="{{ '/glossary/' | relative_url }}" class="nav-button primary">Glossary →</a>
 </footer>
