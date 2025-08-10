@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finite Protocol Impossibility | Fair Division Algorithms</title>
+    <title>Models of Computation | Fair Division Algorithms</title>
 
     <!-- Fixed CSS paths -->
     <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main.css">
@@ -35,20 +35,20 @@
     </script>
 
     <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Finite Protocol Impossibility | Fair Division Algorithms</title>
+<title>Models of Computation | Fair Division Algorithms</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Finite Protocol Impossibility" />
+<meta property="og:title" content="Models of Computation" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
 <meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
-<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/impossibility/" />
-<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/impossibility/" />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/overview/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/overview/" />
 <meta property="og:site_name" content="Fair Division Algorithms" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Finite Protocol Impossibility" />
+<meta property="twitter:title" content="Models of Computation" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Finite Protocol Impossibility","url":"http://localhost:4000/fair-division-algorithms/impossibility/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Models of Computation","url":"http://localhost:4000/fair-division-algorithms/overview/"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -70,137 +70,212 @@
 <main class="main-content">
     <div class="container">
         <div class="page-header">
-  <h1 class="page-title">Finite Protocol Impossibility</h1>
-  <p class="page-description">Why some fair division problems fundamentally require infinite procedures</p>
+  <h1 class="page-title">Models of Computation for Cake-Cutting</h1>
+  <p class="page-description">Frameworks for analyzing algorithmic complexity in fair division</p>
 </div>
 
 <div class="content-block">
-  <h2>The Central Question</h2>
-  <p>While envy-free divisions always exist in theory, a fundamental question in computational fair division is: <em>Can we always find them using finite procedures?</em></p>
-  <p>Walter Stromquist's 2008 result provides a definitive answer: <strong>No</strong>. Some fair division problems are inherently beyond the reach of any finite algorithm, no matter how clever or how many steps it's allowed to take.</p>
+  <h2>Overview</h2>
+  <p>Reasoning about the run-time complexity of fair division algorithms requires a model of computation. Each model captures different aspects of the information revelation process and leads to different complexity measures. Understanding these models is essential for comparing algorithms and establishing theoretical bounds.</p>
 </div>
 
 <div class="content-block">
-  <h2>Stromquist's Impossibility Theorem</h2>
+  <h2>Four Fundamental Models</h2>
 
-  <div class="theorem-box">
-    <h3>Theorem (Stromquist, 2008)</h3>
-    <p><strong>Statement:</strong> No finite protocol can guarantee an envy-free division of a cake among three or more players, where each player receives a single connected piece.</p>
+  <div class="properties-grid">
 
-    <p><strong>Significance:</strong> This result shows that the gap between existence (we know envy-free divisions exist) and computation (we can't always find them efficiently) is fundamental, not just a limitation of current techniques.</p>
+    <div class="property-card">
+      <h3><a href="/fair-division-algorithms/robertson-webb-query-model/">Robertson-Webb Query Model</a></h3>
+      <p class="property-description">
+        The standard model for discrete cake-cutting algorithms using two query types.
+      </p>
+      <ul>
+        <li><strong>Cut Query:</strong> "Mark a piece of cake with a given value"</li>
+        <li><strong>Eval Query:</strong> "Evaluate a given piece of cake"</li>
+      </ul>
+      <p><strong>Complexity Measure:</strong> Number of queries required</p>
+      <p><strong>Best For:</strong> Discrete protocols, lower bound proofs</p>
+    </div>
+
+    <div class="property-card">
+      <h3><a href="/fair-division-algorithms/moving-knife-model/">Moving-Knives Model</a></h3>
+      <p class="property-description">
+        Continuous procedures where knives move until players signal satisfaction.
+      </p>
+      <ul>
+        <li>Continuous knife movement over the cake</li>
+        <li>Players shout "stop" at critical moments</li>
+      </ul>
+      <p><strong>Complexity Measure:</strong> Number of knife movements and stops</p>
+      <p><strong>Best For:</strong> Exact fair division, envy-free procedures</p>
+    </div>
+
+    <div class="property-card">
+      <h3><a href="/fair-division-algorithms/direct-revelation-model/">Direct Revelation Model</a></h3>
+      <p class="property-description">
+        Players reveal their entire valuation function to the mechanism.
+      </p>
+      <ul>
+        <li>Complete preference revelation upfront</li>
+        <li>Works for succinctly representable valuations</li>
+      </ul>
+      <p><strong>Complexity Measure:</strong> Representation size of valuations</p>
+      <p><strong>Best For:</strong> Piecewise-uniform, piecewise-constant, or piecewise-linear valuations</p>
+    </div>
+
+    <div class="property-card">
+      <h3><a href="/fair-division-algorithms/simultaneous-queries-model/">Simultaneous Reports Model</a></h3>
+      <p class="property-description">
+        Players simultaneously submit discretized valuation reports.
+      </p>
+      <ul>
+        <li>Agents report sequences of cut-points</li>
+        <li>Values of pieces between cut-points</li>
+      </ul>
+      <p><strong>Complexity Measure:</strong> Number of cut-points required</p>
+      <p><strong>Best For:</strong> Protocol design, approximation algorithms</p>
+    </div>
+
   </div>
+</div>
 
-<h3>The Proof Strategy: "Moving Target"</h3>
-  <p>Stromquist's proof uses an elegant adversarial argument that makes any finite algorithm "chase its own tail":</p>
+<div class="content-block">
+  <h2>Model Comparison</h2>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Information Revelation</th>
+        <th>Complexity Metric</th>
+        <th>Typical Bounds</th>
+        <th>Key Algorithms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Robertson-Webb</strong></td>
+        <td>Incremental queries</td>
+        <td>Query count</td>
+        <td>O(n log n) for proportional</td>
+        <td>Divide-and-Choose, Even-Paz</td>
+      </tr>
+      <tr>
+        <td><strong>Moving-Knives</strong></td>
+        <td>Continuous monitoring</td>
+        <td>Knife movements</td>
+        <td>Often unbounded</td>
+        <td>Austin, Stromquist</td>
+      </tr>
+      <tr>
+        <td><strong>Direct Revelation</strong></td>
+        <td>Complete upfront</td>
+        <td>Representation size</td>
+        <td>O(n) for piecewise-linear</td>
+        <td>Linear programming methods</td>
+      </tr>
+      <tr>
+        <td><strong>Simultaneous Reports</strong></td>
+        <td>Discretized batch</td>
+        <td>Discretization points</td>
+        <td>O(n²) for ε-approximation</td>
+        <td>Approximation protocols</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="content-block">
+  <h2>Choosing the Right Model</h2>
+
+  <h3>Key Considerations</h3>
+
+  <div class="consideration-grid">
+    <div class="consideration-item">
+      <h4>1. Valuation Function Complexity</h4>
+      <p>Simple valuations (piecewise-constant) may benefit from direct revelation, while complex valuations require query-based approaches.</p>
+    </div>
+
+    <div class="consideration-item">
+      <h4>2. Exactness Requirements</h4>
+      <p>Moving-knife procedures achieve exact fairness but at the cost of continuous computation. Query models often trade exactness for finite complexity.</p>
+    </div>
+
+    <div class="consideration-item">
+      <h4>3. Strategic Considerations</h4>
+      <p>Robertson-Webb queries reveal minimal information, supporting strategy-proof mechanisms. Direct revelation requires careful incentive design.</p>
+    </div>
+
+    <div class="consideration-item">
+      <h4>4. Implementation Feasibility</h4>
+      <p>Query models translate naturally to interactive protocols. Moving-knife procedures are often theoretical, requiring discretization for implementation.</p>
+    </div>
+  </div>
+</div>
+
+<div class="content-block">
+  <h2>Theoretical Implications</h2>
+
+  <h3>Lower Bounds Across Models</h3>
+  <p>Different models yield different lower bounds for the same problem:</p>
+
+  <ul>
+    <li><strong>Proportional division for n players:</strong>
+      <ul>
+        <li>Robertson-Webb: Ω(n log n) queries</li>
+        <li>Direct Revelation: Ω(n) communication complexity</li>
+        <li>Moving-Knives: Can be achieved with bounded movements</li>
+      </ul>
+    </li>
+    <li><strong>Envy-free division for n players:</strong>
+      <ul>
+        <li>Robertson-Webb: No finite bound known for n ≥ 4</li>
+        <li>Moving-Knives: Finite procedures exist (Stromquist, Barbanel-Brams)</li>
+        <li>Simultaneous Reports: Approximation possible with O(n³/ε) cut-points</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Model Relationships</h3>
+  <p>These models are not independent but form a hierarchy of expressiveness:</p>
 
   <div class="proof-sketch">
-    <p><strong>Step 1 - Rigid Measure Systems:</strong> Construct special preference profiles where there is exactly one pair of cuts that produces an envy-free division. Think of this as a "combination lock" where only one specific combination works.</p>
+    <p><strong>Theorem:</strong> Any algorithm in the Robertson-Webb model can be simulated in the direct revelation model with at most exponential blow-up in complexity.</p>
 
-    <p><strong>Step 2 - The Moving Target:</strong> Start with any such rigid system requiring cuts at positions $x$ and $y$. Run the finite protocol step-by-step, observing what positions it queries.</p>
-    
-    <p><strong>Step 3 - Evasive Modification:</strong> Whenever the protocol gets close to the correct positions $x$ and $y$, modify the preferences to a new rigid system with different required positions $x'$ and $y'$. Crucially, this modification preserves all the information the algorithm has gathered so far.</p>
-    
-    <p><strong>Step 4 - Infinite Chase:</strong> The algorithm keeps adjusting its strategy based on new information, but the "target" keeps moving just out of reach. Since the algorithm can only make finitely many queries, it will eventually terminate without finding the (now different) correct cuts.</p>
-    
-    <p><strong>Mathematical Rigor:</strong> The successive modifications converge to a valid preference system for which the protocol genuinely fails to find an envy-free division.</p>
-  </div>
-
-<h3>Why This Works: The Intuition</h3>
-  <div class="concept-box">
-    <h4>Guessing Real Numbers</h4>
-    <p>Finding exact cuts in a rigid system is like being asked to guess arbitrary real numbers. Even if you're told "higher" or "lower" after each guess, you can't hit an exact target in finitely many tries.</p>
-
-    <p><strong>Key Insight:</strong> The algorithm can only probe finitely many specific positions, but the space of possible correct answers is uncountably infinite. There's always "room" to move the target to a position the algorithm hasn't checked.</p>
+    <p><strong>Intuition:</strong> The direct revelation model can simulate query responses by computing them from the full valuation function. However, this may require exponentially many bits to represent arbitrary valuations that could be queried efficiently.</p>
   </div>
 </div>
 
 <div class="content-block">
-  <h2>What This Means for Algorithm Design</h2>
+  <h2>Practical Applications</h2>
 
-<h3>Fundamental Limitations</h3>
-  <div class="implications-grid">
-    <div class="implication-item">
-      <h4>No Perfect Finite Solution</h4>
-      <p>Any practical fair division algorithm must either accept approximations or risk never terminating.</p>
-    </div>
-    <div class="implication-item">
-      <h4>Existence ≠ Computation</h4>
-      <p>Just because we can prove something exists doesn't mean we can efficiently compute it.</p>
-    </div>
-    <div class="implication-item">
-      <h4>Precision vs. Practicality</h4>
-      <p>Perfect fairness may require infinite precision that real-world systems cannot provide.</p>
-    </div>
-  </div>
+  <h3>Interactive Implementations</h3>
+  <p>For educational demonstrations and practical systems:</p>
 
-<h3>Escape Routes</h3>
-  <p>Despite this impossibility, researchers have found several ways to make progress:</p>
-
-  <div class="approach-grid">
-    <div class="approach-item">
-      <h4>Approximation Algorithms</h4>
-      <p>Accept "ε-envy-free" allocations that are within ε of perfect fairness. Often achievable with $O(\log(1/ε))$ queries.</p>
-    </div>
-    <div class="approach-item">
-      <h4>Continuous Procedures</h4>
-      <p>Use moving-knife algorithms that achieve exact fairness but may require infinite time (like Austin's Moving Knife).</p>
-    </div>
-    <div class="approach-item">
-      <h4>Relaxed Constraints</h4>
-      <p>Allow disconnected pieces or additional cuts. The Selfridge-Conway procedure achieves exact 3-player envy-freeness with up to 5 cuts.</p>
-    </div>
-    <div class="approach-item">
-      <h4>Restricted Preferences</h4>
-      <p>Assume specific preference structures that avoid the pathological cases used in impossibility proofs.</p>
-    </div>
-  </div>
-</div>
-
-<div class="content-block">
-  <h2>Broader Implications</h2>
-
-<h3>Computational Complexity</h3>
-  <p>Stromquist's result exemplifies a broader phenomenon in theoretical computer science:</p>
   <ul>
-    <li><strong>Decision vs. Search:</strong> Knowing that a solution exists (decision) can be much easier than finding it (search)</li>
-    <li><strong>Continuous vs. Discrete:</strong> Problems involving real numbers often have fundamental computational barriers</li>
-    <li><strong>Approximation Theory:</strong> When exact solutions are impossible, understanding approximation quality becomes crucial</li>
+    <li><strong>Robertson-Webb queries</strong> map directly to user interface elements (sliders, evaluation displays)</li>
+    <li><strong>Moving-knife simulations</strong> require discretization into time steps</li>
+    <li><strong>Direct revelation</strong> works well when preferences can be specified via simple parameters</li>
+    <li><strong>Simultaneous reports</strong> enable batch processing and parallel computation</li>
   </ul>
 
-<h3>Philosophy of Fairness</h3>
-  <p>This result also raises deeper questions about fairness in practice:</p>
-  <ul>
-    <li>Is approximate fairness "fair enough" for real applications?</li>
-    <li>Should we prioritize theoretical guarantees or practical implementability?</li>
-    <li>How do we balance competing values of precision, efficiency, and simplicity?</li>
-  </ul>
-</div>
+  <h3>Real-World Constraints</h3>
+  <p>Each model makes different assumptions about practical feasibility:</p>
 
-<div class="content-block">
-  <h2>Connection to Other Impossibilities</h2>
-  <p>Stromquist's result is part of a broader landscape of impossibility results in algorithmic game theory:</p>
-
-  <div class="connection-grid">
-    <div class="connection-item">
-      <h4>Arrow's Impossibility Theorem</h4>
-      <p>No voting system can satisfy all reasonable fairness criteria simultaneously.</p>
-    </div>
-    <div class="connection-item">
-      <h4>Gibbard-Satterthwaite Theorem</h4>
-      <p>No non-dictatorial voting mechanism is both strategy-proof and onto.</p>
-    </div>
-    <div class="connection-item">
-      <h4>Myerson-Satterthwaite Theorem</h4>
-      <p>Efficient bilateral trade is impossible with private information and budget balance.</p>
-    </div>
+  <div class="warning-box">
+    <p><strong>Important:</strong> While moving-knife procedures provide elegant theoretical solutions, they often cannot be directly implemented due to:</p>
+    <ul>
+      <li>Requirement for truly continuous time</li>
+      <li>Perfect synchronization between players</li>
+      <li>Infinite precision in measurements</li>
+    </ul>
+    <p>Practical implementations typically discretize these procedures, introducing approximation errors that must be carefully analyzed.</p>
   </div>
-
-  <p>These results collectively show that perfect solutions are often impossible in strategic and computational settings, leading to a rich theory of approximation and mechanism design.</p>
 </div>
 
 <footer class="algorithm-navigation">
-  <a href="/fair-division-algorithms/robertson-webb-query-model/" class="nav-button secondary">← Robertson-Webb Model</a>
-  <a href="/fair-division-algorithms/tradeoffs/" class="nav-button primary">Property Trade-offs →</a>
+  <a href="/fair-division-algorithms/theory/" class="nav-button secondary">← Theory Overview</a>
+  <a href="/fair-division-algorithms/robertson-webb-query-model/" class="nav-button primary">Robertson-Webb Model →</a>
 </footer>
 
     </div>

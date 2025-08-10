@@ -158,9 +158,116 @@
     </div>
 </footer>
 
-<!-- JavaScript Libraries -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<!-- Import MathJax for LaTex Support -->
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Import scripts -->
+<!-- Fair Division Demo System Scripts -->
+
+<!-- Core demo system -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-system.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/demo-controller.js"></script>
+
+<!-- Indivisible goods extensions -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/core/indivisible-goods-extensions.js"></script>
+
+<!-- Existing divisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/divide-and-choose.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/austins-moving-knife.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/steinhaus-lone-divider.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/divisible/selfridge-conway.js"></script>
+
+<!-- Indivisible goods algorithms -->
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/knaster-sealed-bids.js"></script>
+<script src="/fair-division-algorithms/assets/js/interactive-dashboard/algorithms/indivisible/lucas-method-markers.js"></script>
+
+<!-- Flowchart System -->
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-template-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/container-growth-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/query-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-state-manager.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-animator.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/core/flowchart-enhanced.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/data/algorithm-data.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/flowchart-factory.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/global-functions.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/initialization.js"></script>
+<script src="/fair-division-algorithms/assets/js/flowcharts/utils/exports.js"></script>
+
+<script src=""></script>
+<script src=""></script>
+
+<script>
+    // Initialize enhanced algorithm selector on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for all scripts to load, then enhance the selector
+        setTimeout(() => {
+            enhanceAlgorithmSelector();
+        }, 100);
+    });
+
+    // Enhanced algorithm selector with goods type grouping
+    function enhanceAlgorithmSelector() {
+        const selector = document.getElementById('algorithm-selector');
+        if (!selector) return;
+
+        // Get the demo system instance
+        const demoSystem = window.FairDivisionCore.getInstance();
+        if (!demoSystem) return;
+
+        // Clear existing options
+        selector.innerHTML = '<option value="">Select an algorithm...</option>';
+
+        // Group algorithms by goods type
+        const algorithmsByType = {
+            'divisible': [],
+            'discrete-items': [],
+            'linear-arrangement': []
+        };
+
+        // Categorize registered algorithms
+        demoSystem.algorithms.forEach((algorithm, id) => {
+            const goodsType = algorithm.config.goodsType || 'divisible';
+            if (algorithmsByType[goodsType]) {
+                algorithmsByType[goodsType].push({ id, config: algorithm.config });
+            }
+        });
+
+        // Create optgroups
+        Object.entries(algorithmsByType).forEach(([type, algorithms]) => {
+            if (algorithms.length > 0) {
+                const optgroup = document.createElement('optgroup');
+
+                // Set label based on goods type
+                switch(type) {
+                    case 'divisible':
+                        optgroup.label = 'Divisible Goods (Continuous)';
+                        break;
+                    case 'discrete-items':
+                        optgroup.label = 'Indivisible Goods (Discrete Items)';
+                        break;
+                    case 'linear-arrangement':
+                        optgroup.label = 'Indivisible Goods (Linear Arrangement)';
+                        break;
+                    default:
+                        optgroup.label = type.charAt(0).toUpperCase() + type.slice(1);
+                }
+
+                // Add algorithms to optgroup
+                algorithms.forEach(({ id, config }) => {
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = config.name;
+                    optgroup.appendChild(option);
+                });
+
+                selector.appendChild(optgroup);
+            }
+        });
+
+        console.log('[DEMO] Enhanced algorithm selector with goods type grouping');
+    }
+</script>
 
 <!-- Proof Sketches and Interactive Elements -->
 <script>

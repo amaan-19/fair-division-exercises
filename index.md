@@ -8,7 +8,7 @@ title: Fair Division Algorithms
 <div class="column-grid">
   <div class="content-block" style="background: #e8f4fd; border: 2px solid #3182ce;">
   <h3>New Here?</h3>
-  <p>This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
+  <p>This platform explores the ubiquitous problem of dividing resources fairly. Browse the collection of algorithms below, study fair division <a href="{{ '/theory/' | relative_url }}">theory</a>, or use the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator</a> to try running the procedures yourself!</p>
   </div>
   <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center; vertical-align: middle">
   <p style="margin: 0; color: #6c757d; padding-top: 2.5rem;">
