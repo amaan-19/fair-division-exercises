@@ -38,3 +38,8 @@
         .breadcrumb a:hover {
             text-decoration: underline;
         }
+
+.algorithm-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

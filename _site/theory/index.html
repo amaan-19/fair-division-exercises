@@ -39,8 +39,8 @@
 <meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="Theory" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science." />
-<meta property="og:description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science." />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
 <link rel="canonical" href="http://localhost:4000/fair-division-algorithms/theory/" />
 <meta property="og:url" content="http://localhost:4000/fair-division-algorithms/theory/" />
 <meta property="og:site_name" content="Fair Division Algorithms" />
@@ -48,7 +48,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Theory" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science.","headline":"Theory","url":"http://localhost:4000/fair-division-algorithms/theory/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Theory","url":"http://localhost:4000/fair-division-algorithms/theory/"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -60,7 +60,6 @@
         <nav class="site-nav">
             <a href="/fair-division-algorithms/theory/">Theory</a>
             <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
-            <a href="/fair-division-algorithms/analysis/">Analysis</a>
             <a href="/fair-division-algorithms/glossary/">Glossary</a>
             <a href="/fair-division-algorithms/references/">References</a>
         </nav>
@@ -75,23 +74,18 @@
   <p class="page-description">Mathematical foundations, computational complexity, and theoretical limits in algorithmic fair division</p>
 </div>
 
-<!-- Learning Pathways Introduction -->
-<div class="theory-intro">
-  <h2>📚 Learning Pathways</h2>
-  <p>Choose your path through fair division theory based on your background and interests. Each pathway provides a structured progression through related concepts, building from fundamentals to advanced topics.</p>
-</div>
-
 <!-- Pathways Grid using existing question-block styling -->
 <div class="theory-questions">
 
   <!-- Foundations Track -->
   <div class="question-block">
-    <h3>🎯 Foundations Track</h3>
+    <h3>Foundations Track</h3>
     <p>Build mathematical literacy for fair division theory</p>
     <div class="question-links">
       <a href="/fair-division-algorithms/foundations/">1. Mathematical Foundations</a>
       <a href="/fair-division-algorithms/fairness-properties/">2. Fairness Properties</a>
       <a href="/fair-division-algorithms/existence-theory/" class="coming-soon">3. Existence Theory</a>
+      <a href="/fair-division-algorithms/impossibility/">4. Impossibility Results</a>
     </div>
     <p style="margin-top: 1rem; font-size: 0.85rem; color: #718096;">
       <strong>Prerequisites:</strong> Basic calculus and set theory<br />
@@ -101,7 +95,7 @@
 
   <!-- Computational Track -->
   <div class="question-block">
-    <h3>⚡ Computational Track</h3>
+    <h3>Computational Track</h3>
     <p>Understand algorithmic complexity and implementation</p>
     <div class="question-links">
       <a href="/fair-division-algorithms/robertson-webb-query-model/">1. Robertson-Webb Model</a>
@@ -112,132 +106,6 @@
       <strong>Prerequisites:</strong> Foundations Track recommended<br />
       <strong>Key Concepts:</strong> Query complexity, cut/eval queries, upper/lower bounds
     </p>
-  </div>
-
-  <!-- Limits & Impossibility Track -->
-  <div class="question-block">
-    <h3>🚫 Limits &amp; Trade-offs Track</h3>
-    <p>Master fundamental limitations and impossibility results</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/impossibility/">1. Impossibility Results</a>
-      <a href="/fair-division-algorithms/tradeoffs/">2. Property Trade-offs</a>
-      <a href="/fair-division-algorithms/approximation-theory/" class="coming-soon">3. Approximation Theory</a>
-    </div>
-    <p style="margin-top: 1rem; font-size: 0.85rem; color: #718096;">
-      <strong>Prerequisites:</strong> Computational Track recommended<br />
-      <strong>Key Concepts:</strong> Stromquist's theorem, strategy-proofness vs efficiency, ε-fairness
-    </p>
-  </div>
-
-  <!-- Strategic & Applied Track -->
-  <div class="question-block">
-    <h3>🎮 Strategic &amp; Applied Track</h3>
-    <p>Apply theory to real-world scenarios with strategic agents</p>
-    <div class="question-links coming-soon">
-      <a href="/fair-division-algorithms/mechanism-design/" class="coming-soon">1. Mechanism Design</a>
-      <a href="/fair-division-algorithms/extensions/" class="coming-soon">2. Extensions &amp; Applications</a>
-      <a href="/fair-division-algorithms/research-frontiers/" class="coming-soon">3. Research Frontiers</a>
-    </div>
-    <p style="margin-top: 1rem; font-size: 0.85rem; color: #718096;">
-      <strong>Prerequisites:</strong> Foundations Track + one advanced track<br />
-      <strong>Key Concepts:</strong> Incentive compatibility, indivisible goods, online algorithms
-    </p>
-  </div>
-
-</div>
-
-<!-- Theory-Practice Connection -->
-<div class="theory-intro">
-  <h2>🔗 Theory Meets Practice</h2>
-  <p>See how theoretical concepts power the algorithms in our interactive demonstrations. Each concept below links directly to working implementations you can explore and experiment with.</p>
-</div>
-
-<div class="theory-questions">
-
-  <div class="question-block">
-    <h3>Query Complexity in Action</h3>
-    <p>Watch real-time query counting as algorithms interact with player preferences</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/exercises/">Interactive Demos</a>
-      <a href="/fair-division-algorithms/analysis/">Complexity Comparison</a>
-    </div>
-  </div>
-
-  <div class="question-block">
-    <h3>Mathematical Foundations Applied</h3>
-    <p>See how the Intermediate Value Theorem enables exact cut-finding in continuous algorithms</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/algorithms/austins-moving-knife/">Austin's Moving Knife</a>
-      <a href="/fair-division-algorithms/algorithms/stromquist/">Stromquist Protocol</a>
-    </div>
-  </div>
-
-  <div class="question-block">
-    <h3>Fairness Properties Comparison</h3>
-    <p>Compare how different algorithms achieve proportionality vs envy-freeness</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/algorithms/divide-and-choose/">Divide-and-Choose</a>
-      <a href="/fair-division-algorithms/algorithms/selfridge-conway/">Selfridge-Conway</a>
-    </div>
-  </div>
-
-  <div class="question-block">
-    <h3>Impossibility Results</h3>
-    <p>Understand why some combinations of fairness properties can never be achieved together</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/impossibility/">Stromquist's Impossibility</a>
-      <a href="/fair-division-algorithms/tradeoffs/">Strategy-Proofness vs Efficiency</a>
-    </div>
-  </div>
-
-</div>
-
-<!-- Quick Reference Section -->
-<div class="theory-intro">
-  <h2>📖 Quick Reference</h2>
-  <p>Essential results and concepts for quick lookup during your exploration of the algorithms and exercises.</p>
-</div>
-
-<div class="theory-questions">
-
-  <div class="question-block">
-    <h3>Key Theorems &amp; Results</h3>
-    <p>Fundamental theoretical results that shape fair division theory</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/impossibility/">Stromquist's Impossibility (2008)</a>
-      <a href="/fair-division-algorithms/existence-theory/" class="coming-soon">Proportional Division Existence</a>
-      <a href="/fair-division-algorithms/tradeoffs/">Strategy-Proofness vs Efficiency</a>
-    </div>
-  </div>
-
-  <div class="question-block">
-    <h3>Complexity Bounds</h3>
-    <p>Query complexity results for different fairness properties</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/complexity-analysis/" class="coming-soon">2-player: Θ(2) queries</a>
-      <a href="/fair-division-algorithms/complexity-analysis/" class="coming-soon">n-player proportional: Θ(n)</a>
-      <a href="/fair-division-algorithms/impossibility/">n-player envy-free: No finite bound</a>
-    </div>
-  </div>
-
-  <div class="question-block">
-    <h3>Essential Concepts</h3>
-    <p>Core definitions and mathematical tools you'll encounter throughout</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/foundations/">Valuation Functions</a>
-      <a href="/fair-division-algorithms/robertson-webb-query-model/">Robertson-Webb Queries</a>
-      <a href="/fair-division-algorithms/fairness-properties/">Fairness Properties</a>
-    </div>
-  </div>
-
-  <div class="question-block">
-    <h3>Mathematical Tools</h3>
-    <p>Key mathematical techniques used in proofs and algorithm design</p>
-    <div class="question-links">
-      <a href="/fair-division-algorithms/foundations/">Intermediate Value Theorem</a>
-      <a href="/fair-division-algorithms/existence-theory/" class="coming-soon">Fixed-Point Theorems</a>
-      <a href="/fair-division-algorithms/impossibility/">Adversarial Arguments</a>
-    </div>
   </div>
 
 </div>
@@ -255,7 +123,7 @@
 <footer class="site-footer">
     <div class="container">
         <h3 class="footer-title">Fair Division Algorithms</h3>
-        <p class="footer-description">Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science.</p>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
     </div>
 </footer>
 

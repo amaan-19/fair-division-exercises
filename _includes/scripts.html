@@ -1,21 +1,34 @@
 <!-- Fair Division Demo System Scripts -->
 
 <!-- Core demo system -->
-<script src="{{ '/assets/demos/unified/core/demo-system.js' | relative_url }}"></script>
-<script src="{{ '/assets/demos/unified/core/demo-controller.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/core/demo-system.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/core/demo-controller.js' | relative_url }}"></script>
 
 <!-- Indivisible goods extensions -->
-<script src="{{ '/assets/demos/unified/core/indivisible-goods-extensions.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/core/indivisible-goods-extensions.js' | relative_url }}"></script>
 
 <!-- Existing divisible goods algorithms -->
-<script src="{{ '/assets/demos/unified/algorithms/divide-and-choose.js' | relative_url }}"></script>
-<script src="{{ '/assets/demos/unified/algorithms/austins-moving-knife.js' | relative_url }}"></script>
-<script src="{{ '/assets/demos/unified/algorithms/steinhaus-lone-divider.js' | relative_url }}"></script>
-<script src="{{ '/assets/demos/unified/algorithms/selfridge-conway.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/algorithms/divisible/divide-and-choose.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/algorithms/divisible/austins-moving-knife.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/algorithms/divisible/steinhaus-lone-divider.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/algorithms/divisible/selfridge-conway.js' | relative_url }}"></script>
 
 <!-- Indivisible goods algorithms -->
-<script src="{{ '/assets/demos/unified/algorithms/knaster-sealed-bids.js' | relative_url }}"></script>
-<script src="{{ '/assets/demos/unified/algorithms/lucas-method-markers.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/algorithms/indivisible/knaster-sealed-bids.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/interactive-dashboard/algorithms/indivisible/lucas-method-markers.js' | relative_url }}"></script>
+
+<!-- Flowchart System -->
+<script src="{{ '/assets/js/flowcharts/core/flowchart-template-manager.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/core/container-growth-manager.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/core/query-manager.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/core/flowchart-state-manager.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/core/flowchart-animator.js' | relativue_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/core/flowchart-enhanced.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/data/algorithm-data.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/utils/flowchart-factory.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/utils/global-functions.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/utils/initialization.js' | relative_url }}"></script>
+<script src="{{ 'assets/js/flowcharts/utils/exports.js' | relative_url }}"></script>
 
 <script>
     // Initialize enhanced algorithm selector on page load

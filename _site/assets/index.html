@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algorithm Complexity Comparison | Fair Division Algorithms</title>
+    <title>assets | Fair Division Algorithms</title>
 
     <!-- Fixed CSS paths -->
     <link rel="stylesheet" href="/fair-division-algorithms/assets/css/main.css">
@@ -35,20 +35,20 @@
     </script>
 
     <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Algorithm Complexity Comparison | Fair Division Algorithms</title>
+<title>assets | Fair Division Algorithms</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Algorithm Complexity Comparison" />
+<meta property="og:title" content="assets" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science." />
-<meta property="og:description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science." />
-<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/analysis/" />
-<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/analysis/" />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<link rel="canonical" href="http://localhost:4000/fair-division-algorithms/assets/" />
+<meta property="og:url" content="http://localhost:4000/fair-division-algorithms/assets/" />
 <meta property="og:site_name" content="Fair Division Algorithms" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Algorithm Complexity Comparison" />
+<meta property="twitter:title" content="assets" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science.","headline":"Algorithm Complexity Comparison","url":"http://localhost:4000/fair-division-algorithms/analysis/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"assets","url":"http://localhost:4000/fair-division-algorithms/assets/"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -60,7 +60,6 @@
         <nav class="site-nav">
             <a href="/fair-division-algorithms/theory/">Theory</a>
             <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
-            <a href="/fair-division-algorithms/analysis/">Analysis</a>
             <a href="/fair-division-algorithms/glossary/">Glossary</a>
             <a href="/fair-division-algorithms/references/">References</a>
         </nav>
@@ -70,144 +69,9 @@
 <!-- Main Content -->
 <main class="main-content">
     <div class="container">
-        <div class="page-header">
-  <h1 class="page-title">Query Complexity Analysis</h1>
-  <p class="page-description">Comparing fair division algorithms through the Robertson-Webb lens</p>
-</div>
+        <h1 id="assets">assets</h1>
 
-<div class="content-block">
-  <h2>Complexity Comparison Table</h2>
-
-  <div class="comparison-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Algorithm</th>
-          <th style="text-align: center">Players</th>
-          <th style="text-align: center">Cut Queries</th>
-          <th style="text-align: center">Eval Queries</th>
-          <th style="text-align: center">Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><a href="/pages/algorithms/divide-and-choose/">Divide-and-Choose</a></td>
-          <td style="text-align: center">2</td>
-          <td style="text-align: center">1</td>
-          <td style="text-align: center">1</td>
-          <td style="text-align: center"><strong>2</strong></td>
-        </tr>
-        <tr>
-          <td><a href="/pages/algorithms/austins-moving-knife/">Austin's Moving Knife*</a></td>
-          <td style="text-align: center">2</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center"><strong>∞</strong></td>
-        </tr>
-        <tr>
-          <td><a href="/pages/algorithms/steinhaus-lone-divider/">Steinhaus Lone-Divider</a></td>
-          <td style="text-align: center">3</td>
-          <td style="text-align: center">2-3</td>
-          <td style="text-align: center">6-7</td>
-          <td style="text-align: center"><strong>8-10</strong></td>
-        </tr>
-        <tr>
-          <td><a href="/pages/algorithms/selfridge-conway/">Selfridge-Conway</a></td>
-          <td style="text-align: center">3</td>
-          <td style="text-align: center">2-5</td>
-          <td style="text-align: center">5-12</td>
-          <td style="text-align: center"><strong>7-17</strong></td>
-        </tr>
-        <tr>
-          <td><a href="/pages/algorithms/stromquist/">Stromquist Moving Knife*</a></td>
-          <td style="text-align: center">3</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center"><strong>∞</strong></td>
-        </tr>
-        <tr>
-          <td><a href="/pages/algorithms/banach-knaster-last-diminisher/">Banach-Knaster Last-Diminisher</a></td>
-          <td style="text-align: center">N</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center"><strong>O(N²)</strong></td>
-        </tr>
-        <tr>
-          <td><a href="/pages/algorithms/brams-taylor/">Brams-Taylor</a></td>
-          <td style="text-align: center">N</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center">-</td>
-          <td style="text-align: center"><strong>$\Omega$(N)</strong></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <p><em>*Continuous algorithms require infinitesimal queries</em></p>
-</div>
-
-<div class="content-block">
-  <h2>Key Insights</h2>
-
-<h3>Discrete vs. Continuous Procedures</h3>
-  <p>The Robertson-Webb model reveals a fundamental trade-off between query efficiency and algorithmic properties:</p>
-
-  <ul>
-    <li><strong>Discrete algorithms</strong> (like Divide-and-Choose) use finite queries but may sacrifice exactness</li>
-    <li><strong>Continuous algorithms</strong> (like Austin's Moving Knife) achieve stronger properties but require infinite query complexity</li>
-  </ul>
-
-<h3>Lower Bounds</h3>
-  <p>Theoretical results from the Robertson-Webb framework:</p>
-  <ul>
-    <li>Any proportional 2-player algorithm requires ≥ 2 queries</li>
-    <li>Any envy-free n-player algorithm requires ≥ n queries</li>
-    <li>Exact division generally requires continuous procedures</li>
-  </ul>
-</div>
-
-<footer class="algorithm-navigation">
-  <a href="/fair-division-algorithms/exercises/" class="nav-button secondary">← Exercises + Simulator</a>
-  <a href="/fair-division-algorithms/glossary/" class="nav-button primary">Glossary →</a>
-</footer>
-
-<style>
-.comparison-table {
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-
-.comparison-table table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.comparison-table th,
-.comparison-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.comparison-table th {
-  background: #f8f9fa;
-  font-weight: 600;
-  color: #2d3748;
-}
-
-.comparison-table tr:last-child td {
-  border-bottom: none;
-}
-
-.comparison-table tr:hover {
-  background: #f8f9fa;
-}
-</style>
-
+<p>This directory contains all assets for the platform: css, favicon, and js.</p>
 
     </div>
 </main>
@@ -216,7 +80,7 @@
 <footer class="site-footer">
     <div class="container">
         <h3 class="footer-title">Fair Division Algorithms</h3>
-        <p class="footer-description">Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science.</p>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
     </div>
 </footer>
 

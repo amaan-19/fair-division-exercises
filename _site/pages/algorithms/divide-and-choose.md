@@ -7,16 +7,13 @@ permalink: /algorithms/divide-and-choose/
 <div class="algorithm-page">
 
   <!-- Algorithm Header Card -->
-  <div class="algorithm-header-card">
-    <div class="algorithm-header-content">
-      <h1 class="algorithm-title">Divide-and-Choose</h1>
+
+      <h1>Divide-and-Choose</h1>
       <div class="algorithm-meta">
         <span class="meta-badge players-badge">2 Players</span>
         <span class="meta-badge type-badge">Discrete</span>
         <span class="meta-badge complexity-badge">2 RW Queries</span>
       </div>
-    </div>
-  </div>
 
   <!-- Overview -->
   <section class="content-block">

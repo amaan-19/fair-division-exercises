@@ -39,8 +39,8 @@
 <meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="Mathematical Foundations" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science." />
-<meta property="og:description" content="Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science." />
+<meta name="description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
+<meta property="og:description" content="An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project." />
 <link rel="canonical" href="http://localhost:4000/fair-division-algorithms/foundations/" />
 <meta property="og:url" content="http://localhost:4000/fair-division-algorithms/foundations/" />
 <meta property="og:site_name" content="Fair Division Algorithms" />
@@ -48,7 +48,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Mathematical Foundations" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science.","headline":"Mathematical Foundations","url":"http://localhost:4000/fair-division-algorithms/foundations/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron. Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.","headline":"Mathematical Foundations","url":"http://localhost:4000/fair-division-algorithms/foundations/"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -60,7 +60,6 @@
         <nav class="site-nav">
             <a href="/fair-division-algorithms/theory/">Theory</a>
             <a href="/fair-division-algorithms/exercises/">Exercises + Simulator</a>
-            <a href="/fair-division-algorithms/analysis/">Analysis</a>
             <a href="/fair-division-algorithms/glossary/">Glossary</a>
             <a href="/fair-division-algorithms/references/">References</a>
         </nav>
@@ -82,12 +81,9 @@
 </div>
 
 <div class="content-block">
-  <h2>Formal Problem Definition</h2>
-  <h3>The Cake-Cutting Model</h3>
-  <p>We model divisible resources using measure-theoretic foundations:</p>
+  <h2>The Cake-Cutting Model</h2>
   
-<div class="definition-box">
-    <h4>Definition: Cake-Cutting Instance</h4>
+  <div class="definition-box">
     <p>A cake-cutting problem consists of:</p>
     <ul>
       <li><strong>Resource Space:</strong> $X = [0,1]$ (the "cake")</li>
@@ -133,7 +129,6 @@
 </div>
 <div class="content-block">
   <h2>Existence Theory</h2>
-  <h3>Fundamental Existence Results</h3>
   <p>Mathematical analysis provides powerful existence guarantees before we consider algorithmic construction:</p>
   <div class="theorem-box">
     <h4>Theorem (Proportional Division Existence)</h4>
@@ -150,15 +145,6 @@
       <p><strong>Historical Significance:</strong> This result, proved by Stromquist (1980), was a major breakthrough showing that envy-freeness is always achievable in principle.</p>
       <p><strong>Proof Strategy:</strong> Uses measure-theoretic arguments and the intermediate value theorem. The proof constructs sequences of "trimming" operations that converge to an envy-free allocation.</p>
       <p><strong>Algorithmic Gap:</strong> Like proportional existence, this proof doesn't immediately yield efficient algorithms. Finding constructive procedures remains challenging.</p>
-    </div>
-  </div>
-  <h3>Impossibility and Limitation Results</h3>
-  <div class="theorem-box">
-    <h4>Theorem (Discrete Envy-Free Impossibility)</h4>
-    <p><strong>Statement:</strong> There exist continuous valuation functions for which no envy-free allocation can be achieved using finitely many cuts.</p>
-    <div class="proof-sketch">
-      <p><strong>Implication:</strong> Some fairness properties fundamentally require infinite precision. This creates a gap between theoretical existence and practical implementation.</p>
-      <p><strong>Resolution:</strong> Algorithms can approximate envy-freeness arbitrarily closely, or use continuous procedures that theoretically require infinite time.</p>
     </div>
   </div>
 </div>
@@ -289,7 +275,7 @@
 <footer class="site-footer">
     <div class="container">
         <h3 class="footer-title">Fair Division Algorithms</h3>
-        <p class="footer-description">Interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science.</p>
+        <p class="footer-description">An interactive educational platform developed by Amaan Khan and Dr. Ron Cytron.  Washington University in St. Louis received financial support from Mozilla Responsible Computer Science for this project.</p>
     </div>
 </footer>
 

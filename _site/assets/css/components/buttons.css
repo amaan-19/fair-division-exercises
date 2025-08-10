@@ -51,6 +51,7 @@
     transition: all 0.3s ease;
     display: inline-block;
     font-family: 'Inter', sans-serif;
+    width: fit-content;
 }
 
     .nav-button:hover {
@@ -59,6 +60,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         color: white;
         text-decoration: none;
+    }
+
+    .nav-button.primary {
+        justify-self: right;
     }
 
     .nav-button.secondary {

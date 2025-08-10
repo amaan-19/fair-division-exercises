@@ -11,11 +11,11 @@ title: Fair Division Algorithms
   <p>This platform teaches algorithms for fairly dividing resources. Browse the collection of algorithms below, study <a href="{{ '/theory/' | relative_url }}">fair division theory</a>, or engage deeply with guided, interactive exercises in the <a href="{{ '/exercises/' | relative_url }}">algorithm simulator!</a></p>
   </div>
   <div class="content-block" style="background: #f8f9fa; border: 1px solid #dee2e6; text-align: center; vertical-align: middle">
-  <p style="margin: 0; color: #6c757d;">
+  <p style="margin: 0; color: #6c757d; padding-top: 2.5rem;">
     This site is currently between development cycles. Some content may be incomplete.
   </p>
   <p style="margin: 0; color: #6c757d; padding-top: 1rem;">
-    <a href="https://github.com/amaan-19/fair-division-exercises" target="_blank" style="color: #3182ce;">GitHub</a>
+    <a href="https://github.com/amaan-19/fair-division-exercises" target="_blank" style="color: #3182ce;">View on GitHub</a>
   </p>
   </div>
 </div>
@@ -223,7 +223,7 @@ title: Fair Division Algorithms
   <div class="carousel-section">
     <div class="carousel-section-header">
       <h2>Indivisible Resources</h2>
-      <p> Algorithms for discrete items that cannot be divided, like houses or artwork</p>
+      <h4> Algorithms for discrete items that cannot be divided, like houses or artwork</h4>
     </div>
 
     <div class="algorithm-carousel" id="indivisible-carousel">
