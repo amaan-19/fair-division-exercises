@@ -6,16 +6,12 @@ permalink: /algorithms/banach-knaster-last-diminisher/
 
 <div class="algorithm-page">
 
-  <!-- Algorithm Header Card -->
-  <div class="algorithm-header-card">
-    <div class="algorithm-header-content">
-      <h1 class="algorithm-title">Banach-Knaster Last-Diminisher</h1>
-      <div class="algorithm-meta">
-        <span class="meta-badge players-badge">N Players</span>
-        <span class="meta-badge type-badge">Discrete</span>
-        <span class="meta-badge complexity-badge">$O(n^2)$ RW Queries</span>
-      </div>
-    </div>
+  <!-- Algorithm Header -->
+  <h1>Banach-Knaster Last-Diminisher</h1>
+  <div class="algorithm-meta">
+    <span class="meta-badge players-badge">N Players</span>
+    <span class="meta-badge type-badge">Discrete</span>
+    <span class="meta-badge complexity-badge">$O(n^2)$ RW Queries</span>
   </div>
 
   <!-- Overview -->

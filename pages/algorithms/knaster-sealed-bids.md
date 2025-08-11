@@ -7,16 +7,12 @@ permalink: /algorithms/knaster-sealed-bids/
 <div class="algorithm-page">
 
   <!-- Algorithm Header Card -->
-  <div class="algorithm-header-card">
-    <div class="algorithm-header-content">
-      <h1 class="algorithm-title">Knaster's Procedure of Sealed Bids</h1>
-      <div class="algorithm-meta">
-        <span class="meta-badge players-badge">N Players</span>
-        <span class="meta-badge type-badge">Discrete Items</span>
-        <span class="meta-badge mechanism-badge">Auction</span>
-        <span class="meta-badge complexity-badge">O(N) Rounds</span>
-      </div>
-    </div>
+  <h1>Knaster's Procedure of Sealed Bids</h1>
+  <div class="algorithm-meta">
+    <span class="meta-badge players-badge">N Players</span>
+    <span class="meta-badge type-badge">Discrete Items</span>
+    <span class="meta-badge mechanism-badge">Auction</span>
+    <span class="meta-badge complexity-badge">O(N) Rounds</span>
   </div>
 
   <!-- Overview -->

@@ -42,6 +42,10 @@
     font-size: 0.95rem; /* Slightly smaller text */
 }
 
+.topics-grid {
+    display: flex;
+}
+
 /* ===== QUESTION LINKS - ADJUSTED FOR SMALLER CARDS ===== */
 .question-links {
     display: flex;

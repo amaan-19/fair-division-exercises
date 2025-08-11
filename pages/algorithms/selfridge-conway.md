@@ -6,16 +6,12 @@ permalink: /algorithms/selfridge-conway/
 
 <div class="algorithm-page">
 
-  <!-- Algorithm Header Card -->
-  <div class="algorithm-header-card">
-    <div class="algorithm-header-content">
-      <h1 class="algorithm-title">Selfridge-Conway Procedure</h1>
-      <div class="algorithm-meta">
-        <span class="meta-badge players-badge">3 Players</span>
-        <span class="meta-badge type-badge">Discrete</span>
-        <span class="meta-badge complexity-badge">7-17 RW Queries</span>
-      </div>
-    </div>
+  <!-- Algorithm Header -->
+  <h1>Selfridge-Conway Procedure</h1>
+  <div class="algorithm-meta">
+    <span class="meta-badge players-badge">3 Players</span>
+    <span class="meta-badge type-badge">Discrete</span>
+    <span class="meta-badge complexity-badge">7-17 RW Queries</span>
   </div>
 
   <!-- Overview -->
@@ -79,7 +75,7 @@ permalink: /algorithms/selfridge-conway/
   <!-- Navigation -->
   <footer class="algorithm-navigation">
     <a href="{{ '/algorithms/steinhaus-lone-divider/' | relative_url }}" class="nav-button secondary">← Back to Steinhaus</a>
-    <a href="{{ '/algorithms/banach-knaster-last-diminisher/' | relative_url }}" class="nav-button primary">Next: Stromquist →</a>
+    <a href="{{ '/algorithms/stromquist-moving-knife/' | relative_url }}" class="nav-button primary">Next: Stromquist →</a>
   </footer>
 
 </div>
